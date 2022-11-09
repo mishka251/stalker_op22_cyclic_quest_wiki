@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+interface IGameItem{
+    game_id: string;
+    verbose_name: string;
+}
+
+class Item extends IGameItem
+class Weapon extends Item
+class Ammo extends Item
+class Addon extends Item
+class Artifact extends Item
+class Armor extends Item
+class MonsterPart extends Item
+class Another extends Item
+
+class Character extends IGameItem{
+    place: Location
+    name: string
+}
+
+class Location{
+name: string
+}
+
+class Quest{
+    asker: Character
+    target: QuestTarget
+    payments: QuestPayment[]
+    stage: int
+}
+class QuestTarget{
+    item: Item
+    count: int
+}
+class QuestPayment{
+    item: Item
+    count: int
+    quest: Quest
+}
+
+Quest::asker <-- Character
+Quest::target <-- QuestTarget
+Quest::payments <-- QuestPayment
+Character::place <-- Location
+
+@enduml
