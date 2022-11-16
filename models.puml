@@ -7,7 +7,9 @@ interface IGameItem{
     verbose_name: string;
 }
 
-class Item extends IGameItem
+class Item extends IGameItem{
+unique: boolean
+}
 class Weapon extends Item
 class Ammo extends Item
 class Addon extends Item
@@ -30,11 +32,34 @@ class Quest{
     target: QuestTarget
     payments: QuestPayment[]
     stage: int
+    once: boolean
+
+    getType() -> QuestType
 }
-class QuestTarget{
-    item: Item
+
+enum QuestType{}
+
+abstract  class QuestTarget{
     count: int
 }
+
+class ItemQuestTarget extends QuestTarget{
+    item: Item
+    type: QuestType
+}
+
+class KillQuestTarget extends QuestTarget{
+    stalker: Stalker
+}
+
+class DestroyBaseQuestTarget extends QuestTarget{
+    base: StalkersBase;
+}
+
+class ProtectBaseQuestTarget extends QuestTarget{
+    base: StalkersBase;
+}
+
 class QuestPayment{
     item: Item
     count: int
@@ -45,5 +70,46 @@ Quest::asker <-- Character
 Quest::target <-- QuestTarget
 Quest::payments <-- QuestPayment
 Character::place <-- Location
+
+abstract class ItemObtaining{
+    item: Item
+}
+
+class CiclicQuestItemObtaining extends ItemObtaining{
+    quest: Quest
+    is_random(): boolean
+}
+
+class StoryQuestItemObtaining extends ItemObtaining{
+    quest: StoryQuest
+}
+
+class TradeItemObtaining  extends ItemObtaining{
+    trader: Character
+    price: int
+    count: int
+    probability: Decimal
+}
+
+TradeItemObtaining::trader <-- Character
+
+class StoryQuest{
+    name: string
+    asker: Character
+}
+
+ItemObtaining::item <-- Item
+CiclicQuestItemObtaining::quest <-- Quest
+StoryQuest::asker <-- Character
+
+class FromNpcItemObtaining extends ItemObtaining{
+    npc_groups: NpcGroup[]
+    locations: Location[]
+}
+
+class TresuareItemObtaining extends ItemObtaining{
+    npcLevel: NpcLevel
+}
+
 
 @enduml
