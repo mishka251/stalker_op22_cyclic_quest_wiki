@@ -4,7 +4,11 @@
 
 interface IGameItem{
     game_id: string;
-    verbose_name: string;
+    verbose_name_rus: string;
+    verbose_name_eng: string;
+    verbose_name_ukr: string;
+    verbose_name_pln: string;
+    cost: decimal;
 }
 
 class Item extends IGameItem{
@@ -45,7 +49,15 @@ abstract  class QuestTarget{
 
 class ItemQuestTarget extends QuestTarget{
     item: Item
-    type: QuestType
+    count: int;
+}
+
+class WeaponQuestTarget extends ItemQuestTarget{
+    state: ItemState
+}
+
+class ArtefactQuestTarget extends ItemQuestTarget{
+
 }
 
 class KillQuestTarget extends QuestTarget{
