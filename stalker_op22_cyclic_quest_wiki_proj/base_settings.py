@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'stalker_op22_cyclic_quest_wiki',
+    'game_parser',
 ]
 
 MIDDLEWARE = [
@@ -119,3 +120,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+OP22_GAME_DATA_PATH = Path()
