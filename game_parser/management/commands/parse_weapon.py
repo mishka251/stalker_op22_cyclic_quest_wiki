@@ -34,7 +34,7 @@ class Command(BaseCommand):
         return base_path / 'config' / 'weapons'
 
     _excluded_files = {
-        base_path / 'config' / 'weapons'/'ammo.ltx',
+        base_path / 'config' / 'weapons' / 'ammo.ltx',
         base_path / 'config' / 'weapons' / 'arsenal.ltx',
         base_path / 'config' / 'weapons' / 'explosive.ltx',
         base_path / 'config' / 'weapons' / 'grenade.ltx',
@@ -44,6 +44,45 @@ class Command(BaseCommand):
         base_path / 'config' / 'weapons' / 'weapons.ltx',
     }
 
+    _excluded_keys__bolts = {
+        'bolt',
+        'gilza',
+        'bolt_m1',
+        'bolt_m2',
+    }
+
+    _excluded_keys__stationary_guns = {
+        'mounted_weapon',
+        'stationary_mgun',
+        'stationary_turret',
+        'stationary_gauss_turret',
+        'turret_mgun',
+        'turret_mgun_immunities',
+        'turret_army',
+        'turret_nato',
+        '30_mm_mgun',
+    }
+
+    _excluded_keys__soulcube = {
+        'soulcube_a',
+        'soulcube_0',
+        'soulcube_1',
+        'soulcube_2',
+        'soulcube_3',
+        'soulcube_4',
+        'soulcube_5',
+        'bleeding_heal',
+    }
+
+    _excluded_other = {
+        'fake_grenades_base',
+        'delayed_action_fuse',
+        'bomba_babah',
+        'bullet_manager',
+        'tracers_color_table',
+    }
+
+    _excluded_keys = _excluded_keys__bolts | _excluded_keys__stationary_guns | _excluded_keys__soulcube| _excluded_other
 
     def get_files_from_dir(self, path: Path) -> list[Path]:
         files = []
@@ -69,7 +108,6 @@ class Command(BaseCommand):
         Knife.objects.all().delete()
         Weapon.objects.all().delete()
         GrenadeLauncher.objects.all().delete()
-
 
         known_bases = {
             'WP_AK74': {
@@ -160,7 +198,6 @@ class Command(BaseCommand):
                 'model_type': ModelTypes.GRENADE,
             },
 
-
             'G_RGD5': {
                 'model_type': ModelTypes.GRENADE,
             },
@@ -177,7 +214,7 @@ class Command(BaseCommand):
                 'model_type': ModelTypes.UNKNOWN,
             },
 
-            'O_PHYS_S':{
+            'O_PHYS_S': {
                 'model_type': ModelTypes.UNKNOWN,
             },
 
@@ -200,12 +237,12 @@ class Command(BaseCommand):
             parser = LtxParser(file, known_bases)
             results = parser.get_parsed_blocks()
 
-            known_bases|=results
+            known_bases |= results
 
             quest_blocks = {
                 k: v
                 for k, v in results.items()
-                if 'hud' not in k # and k not in self.addons_in_wpn_files and k not in self.ammo_in_wpn_files
+                if 'hud' not in k and k not in self._excluded_keys and 'immunities' not in k
             }
             # print(quest_blocks)
             new_models = []
@@ -220,7 +257,7 @@ class Command(BaseCommand):
 
             for ammo in new_models:
                 ammo.save()
-            print(f'processed {index+1}/{len(files)} {file}')
+            print(f'processed {index + 1}/{len(files)} {file}')
             print()
             print()
             print()

@@ -25,7 +25,7 @@ class LtxParser:
     def _parse(self):
         self._parsed_blocks = {}
         raw_blocks = {}
-        blocks_bases: dict[str, tuple[str,...]] = {}
+        blocks_bases: dict[str, tuple[str, ...]] = {}
         current_block_header = None
         with open(self._path, 'r', encoding=self._encoding) as file:
             for line in file.readlines():
@@ -33,7 +33,7 @@ class LtxParser:
                 if not line:
                     continue
                 if self._line_is_include(line):
-                    self._parsed_blocks|=self._parse_include(line)
+                    self._parsed_blocks |= self._parse_include(line)
                     continue
                 if self._is_block_start_line(line):
                     current_block_header, bases = self._get_block_caption(line)
@@ -43,11 +43,16 @@ class LtxParser:
                 raw_blocks[current_block_header].append(line)
 
         for block_code, block_lines in raw_blocks.items():
-            self._parsed_blocks[block_code] = {}
-            self._parsed_blocks[block_code] |= self._get_bases(blocks_bases[block_code])
-            self._parsed_blocks[block_code] |= self._parse_block_lines(block_lines, block_code)
+            block_lines = self._parse_block_lines(block_lines, block_code)
+            if isinstance(block_lines, list):
+                self._parsed_blocks[block_code] = block_lines
+            else:
+                self._parsed_blocks[block_code] = {}
+                self._parsed_blocks[block_code] |= self._get_bases(blocks_bases[block_code])
+                self._parsed_blocks[block_code] |= block_lines
             if not self._parsed_blocks[block_code]:
                 raise ValueError(f"empty block {block_code=}")
+
     def _line_is_include(self, line: str) -> bool:
         return line.startswith('#include')
 
@@ -55,7 +60,7 @@ class LtxParser:
         pattern = re.compile(r'#include "(?P<file_path>.*)"')
         file_path = pattern.match(line).groupdict()['file_path']
         current_dir = self._path.parent
-        file_path = current_dir/file_path
+        file_path = current_dir / file_path
 
         nested_bases = {
             **self._known_extends,
@@ -65,7 +70,7 @@ class LtxParser:
         nested_parsed = LtxParser(file_path, nested_bases)
         return nested_parsed.get_parsed_blocks()
 
-    def _get_bases(self, bases: tuple[str,...]) -> dict:
+    def _get_bases(self, bases: tuple[str, ...]) -> dict:
         merged_bases = dict()
         for base in bases:
             if base in self._parsed_blocks:
@@ -89,7 +94,7 @@ class LtxParser:
     def _get_block_caption(self, line: str) -> tuple[str, tuple[str, ...]]:
         end_index = line.index(self.BLOCK_CAPTION_END)
         caption = line[1:end_index]
-        bases_str = line[end_index+2:len(line)]
+        bases_str = line[end_index + 2:len(line)]
         if not bases_str:
             bases = tuple()
         else:

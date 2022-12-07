@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.ltx_parser import LtxParser
-from game_parser.models import CyclicQuest
+from game_parser.models import CyclicQuest, QuestRandomReward
 
 
 class Command(BaseCommand):
@@ -15,6 +15,9 @@ class Command(BaseCommand):
     _not_quest_keys = {
         'map_locations',
         'vendor',
+    }
+
+    _random_rewards_keys = {
         'random_0',
         'random_1',
         'random_2',
@@ -23,12 +26,13 @@ class Command(BaseCommand):
         'random_5',
         'random_6',
         'random_7',
-        'random_8'
+        'random_8',
     }
 
     @atomic
     def handle(self, **options):
         CyclicQuest.objects.all().delete()
+        QuestRandomReward.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())
         results = parser.get_parsed_blocks()
@@ -39,34 +43,18 @@ class Command(BaseCommand):
             if k not in self._not_quest_keys
         }
 
-        # print(quest_blocks)
-        new_models = []
-        existing_models = []
         for quest_name, quest_data in quest_blocks.items():
-            model, _new = self._model_from_dict(quest_name, quest_data)
-            if _new:
-                new_models.append(model)
+            if quest_name in self._random_rewards_keys:
+                model = self._create_random_reward(quest_name, quest_data)
             else:
-                existing_models.append(model)
-        CyclicQuest.objects.bulk_create(new_models, batch_size=1_000)
-        CyclicQuest.objects.bulk_update(existing_models, batch_size=1_000, fields =[
-            'prior',
-            'type',
-            'target_str',
-            'reward_item_string',
-            'reward_info_string',
-            'random_rewards_string',
-        ])
+                model = self._model_from_dict(quest_name, quest_data)
+            model.save()
 
-    def _model_from_dict(self, name: str, data: dict[str, str]) -> tuple[CyclicQuest, bool]:
-        _new = False
+    def _model_from_dict(self, name: str, data: dict[str, str]) -> CyclicQuest:
         game_code = name
         giver_code = name[:3]
 
-        quest = CyclicQuest.objects.filter(game_code=game_code, giver_code_local=giver_code).first()
-        if quest is None:
-            _new = True
-            quest = CyclicQuest(game_code=game_code, giver_code_local=giver_code)
+        quest = CyclicQuest(game_code=game_code, giver_code_local=giver_code)
 
         quest.prior = data.pop('prior') if 'prior' in data else 0
         quest.type = data.pop('type')
@@ -101,4 +89,8 @@ class Command(BaseCommand):
             quest.reward_dialog_str = data.pop('reward_dialog')
         if data:
             print('unused_data', data)
-        return quest, _new
+        return quest
+
+    def _create_random_reward(self, name: str, data: list[str]) -> QuestRandomReward:
+        possible_items_str = ';'.join(data)
+        return QuestRandomReward(name=name, possible_items_str=possible_items_str)
