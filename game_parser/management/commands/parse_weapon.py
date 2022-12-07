@@ -8,7 +8,7 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.ltx_parser import LtxParser
-from game_parser.models import (Weapon, Ammo, Addon,Knife, Explosive, Grenade, GrenadeLauncher)
+from game_parser.models import (Weapon, Ammo, Addon, Knife, Explosive, Grenade, GrenadeLauncher, Scope, Silencer)
 from game_parser.models.items.base_item import BaseItem
 
 base_path = settings.OP22_GAME_DATA_PATH
@@ -24,6 +24,8 @@ class ModelTypes(Enum):
     EXPLOSIVE = 'explosive'
     GRENADE_LAUNCHER = 'grenade_launcher'
     FAKE = 'fake'
+    SILENCER = 'silencer'
+    SCOPE = 'scope'
 
 
 class Command(BaseCommand):
@@ -128,10 +130,10 @@ class Command(BaseCommand):
                 'model_type': ModelTypes.UNKNOWN,
             },
             'WP_SCOPE': {
-                'model_type': ModelTypes.ADDON,
+                'model_type': ModelTypes.SCOPE,
             },
             'W_SILENC': {
-                'model_type': ModelTypes.ADDON,
+                'model_type': ModelTypes.SILENCER,
             },
             'W_GLAUNC': {
                 'model_type': ModelTypes.GRENADE_LAUNCHER,
@@ -240,8 +242,6 @@ class Command(BaseCommand):
         data.pop('inv_grid_x', None)
         data.pop('inv_grid_y', None)
 
-
-
         if model_type == ModelTypes.WEAPON:
             return self._weapon_from_dict(name, data)
         if model_type == ModelTypes.AMMO:
@@ -256,6 +256,10 @@ class Command(BaseCommand):
             return self._explosive_from_dict(name, data)
         if model_type == ModelTypes.GRENADE_LAUNCHER:
             return self._grenade_launcher_from_dict(name, data)
+        if model_type == ModelTypes.SILENCER:
+            return self._silencer_from_dict(name, data)
+        if model_type == ModelTypes.SCOPE:
+            return self._scope_from_dict(name, data)
         if model_type == ModelTypes.FAKE:
             return None
         raise ValueError(f"UNKNOWN {model_type=}")
@@ -364,5 +368,31 @@ class Command(BaseCommand):
             inv_name_short=data.pop('inv_name_short', None),
             inv_weight=Decimal(data.pop('inv_weight')),
             ammo_class_str=data.pop('ammo_class', None),
+        )
+        return ammo
+
+    def _scope_from_dict(self, name: str, data: dict[str, str]) -> Scope:
+
+        ammo = Scope(
+            name=name,
+            visual_str=data.pop('visual'),
+            description_code=data.pop('description', ""),
+            cost=int(data.pop('cost')),
+            inv_name=data.pop('inv_name'),
+            inv_name_short=data.pop('inv_name_short', None),
+            inv_weight=Decimal(data.pop('inv_weight')),
+        )
+        return ammo
+
+    def _silencer_from_dict(self, name: str, data: dict[str, str]) -> Silencer:
+
+        ammo = Silencer(
+            name=name,
+            visual_str=data.pop('visual'),
+            description_code=data.pop('description', ""),
+            cost=int(data.pop('cost')),
+            inv_name=data.pop('inv_name'),
+            inv_name_short=data.pop('inv_name_short', None),
+            inv_weight=Decimal(data.pop('inv_weight')),
         )
         return ammo

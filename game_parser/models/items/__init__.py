@@ -5,3 +5,5 @@ from .explosive import Explosive
 from .grenade import Grenade
 from .knife import Knife
 from .grenade_launcher import GrenadeLauncher
+from .scope import Scope
+from .silencer import Silencer

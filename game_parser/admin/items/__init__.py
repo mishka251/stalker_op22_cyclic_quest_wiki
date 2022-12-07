@@ -5,3 +5,5 @@ from .grenade import GrenadeAdmin
 from .grenade_launcher import GrenadeLauncherAdmin
 from .knife import KnifeAdmin
 from .weapon import WeaponAdmin
+from .scope import ScopeAdmin
+from .silencer import SilencerAdmin

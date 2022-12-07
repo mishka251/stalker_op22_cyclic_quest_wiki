@@ -4,6 +4,10 @@ from game_parser.models.items.base_item import BaseItem
 
 
 class Weapon(BaseItem):
+    class Meta:
+        verbose_name = 'Оружие'
+        verbose_name_plural = 'Оружие'
+
     type = 'Weapon'
     ef_main_weapon_type = models.CharField(max_length=10, null=True)
     ef_weapon_type = models.CharField(max_length=10, null=True)
