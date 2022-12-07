@@ -1,0 +1,9 @@
+from django.db import models
+
+from game_parser.models.items.addon import Addon
+
+
+class GrenadeLauncher(Addon):
+    type = 'GrenadeLauncher'
+
+    ammo_class_str = models.CharField(max_length=255, null=True, verbose_name='Боеприпас')

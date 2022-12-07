@@ -1,12 +1,6 @@
-import codecs
-import concurrent.futures
-import glob
-import os
-from pathlib import Path
-from django.db.transaction import atomic
-from django.core.management.base import BaseCommand, CommandError
-from django.core.management.utils import find_command, is_ignored_path, popen_wrapper
 from django.conf import settings
+from django.core.management.base import BaseCommand
+from django.db.transaction import atomic
 
 from game_parser.ltx_parser import LtxParser
 from game_parser.models import CyclicQuest
