@@ -13,5 +13,10 @@ class BaseItem(models.Model):
     cheat_item = models.BooleanField(default=False)
     quest_item = models.BooleanField(default=False, verbose_name='Квестовый предмет')
 
+    inv_grid_width = models.PositiveIntegerField(null=True, verbose_name='Ширина иконки')
+    inv_grid_height = models.PositiveIntegerField(null=True, verbose_name='Высота иконки')
+    inv_grid_x = models.PositiveIntegerField(null=True, verbose_name='Отступ по длине иконки в большом файле')
+    inv_grid_y = models.PositiveIntegerField(null=True, verbose_name='Отступ по высоте иконки в большом файле')
+
     def __str__(self):
         return self.name

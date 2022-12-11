@@ -12,20 +12,20 @@
 
 Примерная структура `gamedata`
 
-* Квесты(ЦЗ) - `config/misc/cycle_task.ltx`
-* Оружие - почти вся папка `config/weapons` (файлы с префиксом w)
-* Гранаты - `config/weapons/grenade.ltx`
-* Патроны -  `config/weapons/ammo.ltx`
-* Обвесы - папка `config/weapons/arsenal_mod/addons`
-* Артефакты:
+* [x] Квесты(ЦЗ) - `config/misc/cycle_task.ltx`
+* [x] Оружие - почти вся папка `config/weapons` (файлы с префиксом w)
+* [x] Гранаты - `config/weapons/grenade.ltx`
+* [x] Патроны -  `config/weapons/ammo.ltx`
+* [x] Обвесы - папка `config/weapons/arsenal_mod/addons`
+* [ ] Артефакты:
    * `config/misc/artefacts.ltx`
    * `config/misc/artefacts_amkzp.ltx`
    * `config/misc/embrions.ltx`
   
-* Медицина - `config/misc/items.ltx`
-* Части мутантов - `config/misc/monster_items.ltx`
-* Броня - `config/misc/outfit.ltx`
-* Прочее :
+* [ ] Медицина - `config/misc/items.ltx`
+* [x] Части мутантов - `config/misc/monster_items.ltx`
+* [ ] Броня - `config/misc/outfit.ltx`
+* [ ] Прочее :
    * `config/misc/arc.ltx`
    * `config/misc/arhara_items.ltx`
    * `config/misc/devices.ltx`
@@ -50,7 +50,16 @@
 
 * Торговцы `config/trade`
 
-
+* [ ] Переводы папка `config/text/*.xml`
+   * `arsenal_mod.xml`
+   * `artefacts.xml`
+   * `cycle_task.xml`
+   * `devices.xml`
+   * `items.xml`
+   * `outfit.xml`
+   * `questman.xml`
+   * `sak_strings.xml`
+   * `weapons.xml`
 
 
 

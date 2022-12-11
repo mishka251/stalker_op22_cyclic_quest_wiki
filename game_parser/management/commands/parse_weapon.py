@@ -1,4 +1,4 @@
-from decimal import Decimal
+import logging
 from enum import Enum
 from pathlib import Path
 from typing import Optional
@@ -7,11 +7,14 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.ltx_parser import LtxParser
+from game_parser.logic.ltx_parser import LtxParser
+from game_parser.logic.model_resources.base_item import WeaponResource, BaseItemResource, AmmoResource, GrenadeResource, \
+    KnifeResource, ExplosiveResource, GrenadeLauncherResource, SilencerResource, ScopeResource
 from game_parser.models import (Weapon, Ammo, Addon, Knife, Explosive, Grenade, GrenadeLauncher, Scope, Silencer)
 from game_parser.models.items.base_item import BaseItem
 
 base_path = settings.OP22_GAME_DATA_PATH
+logger = logging.getLogger(__name__)
 
 
 class ModelTypes(Enum):
@@ -82,7 +85,43 @@ class Command(BaseCommand):
         'tracers_color_table',
     }
 
-    _excluded_keys = _excluded_keys__bolts | _excluded_keys__stationary_guns | _excluded_keys__soulcube| _excluded_other
+    _excluded_fake = {
+        'wpn_fake_missile',
+        'wpn_fake_missile1',
+        'wpn_fake_missile_fly',
+        'wpn_fake_missile2',
+        'wpn_fake_drob',
+        'wpn_fake_missile28',
+        'wpn_fake_missile82',
+        'wpn_fake_missile_25he',
+        'wpn_fake_missile_25sg',
+        'wpn_fake_missile_25fb',
+        'wpn_fake_missile_25sn',
+        'grenade_f1_fake',
+        'grenade_rgd5_fake',
+        'grenade_flash_fake',
+        'grenade_f1_test',
+        'grenade_rgd5_test',
+        'grenade_flash_test',
+        'gl_test_shell',
+
+        'gl_test_shell_ammo_m209',
+        'gl_fake_missile',
+        'gl_fake_missile_ammo_m209',
+        'gl_test_shell',
+        'gl_test_shell_ammo_m209',
+
+        'grenade_gd-05_fake',
+        'grenade_gd-05_test',
+        'gl_test_shell_ammo_vog-25',
+        'gl_test_shell_ammo_vog-25',
+        'gl_test_shell_ammo_vog-25p',
+        'gl_test_shell_ammo_vog-25p',
+        'gl_fake_missile_ammo_vog-25',
+        'gl_fake_missile_ammo_vog-25p',
+    }
+
+    _excluded_keys = _excluded_keys__bolts | _excluded_keys__stationary_guns | _excluded_keys__soulcube | _excluded_other | _excluded_fake
 
     def get_files_from_dir(self, path: Path) -> list[Path]:
         files = []
@@ -227,209 +266,58 @@ class Command(BaseCommand):
             },
             # 'ammo_igl': {},
         }
-        files = {
-            base_path / 'config' / 'weapons' / 'weapons.ltx',
+        file = base_path / 'config' / 'weapons' / 'weapons.ltx'
+
+        parser = LtxParser(file, known_bases)
+        results = parser.get_parsed_blocks()
+
+        known_bases |= results
+
+        quest_blocks = {
+            k: v
+            for k, v in results.items()
+            if 'hud' not in k and k not in self._excluded_keys and 'immunities' not in k
         }
-        # print(*files, sep='\n')
-        for index, file in enumerate(files):
-            # print(f'process {index+1}/{len(files)} {file}')
-            # print()
-            parser = LtxParser(file, known_bases)
-            results = parser.get_parsed_blocks()
+        for quest_name, quest_data in quest_blocks.items():
+            # print(f'{quest_name=}')
+            maybe_instance = self._parse_data_to_model(quest_name, quest_data)
+            if maybe_instance is None:
+                logger.warning(f'Нет объекта для  {quest_name=}')
+                continue
+            instance, resource = maybe_instance
+            if quest_data:
+                logger.warning(f'Для секции {quest_name=} ({resource}) не использованы данные {quest_data}')
 
-            known_bases |= results
-
-            quest_blocks = {
-                k: v
-                for k, v in results.items()
-                if 'hud' not in k and k not in self._excluded_keys and 'immunities' not in k
-            }
-            # print(quest_blocks)
-            new_models = []
-            for quest_name, quest_data in quest_blocks.items():
-                # print(f'{quest_name=}')
-                model = self._parse_data_to_model(quest_name, quest_data)
-
-                if model is not None:
-                    # if quest_data:
-                    #     print('unused_data', quest_data)
-                    new_models.append(model)
-
-            for ammo in new_models:
-                ammo.save()
-            print(f'processed {index + 1}/{len(files)} {file}')
-            print()
-            print()
-            print()
-
-    def _parse_data_to_model(self, name: str, data: dict[str, str]) -> Optional[BaseItem]:
+    def _parse_data_to_model(self, name: str, data: dict[str, str]) -> Optional[tuple[BaseItem, BaseItemResource]]:
         model_type: ModelTypes = data.pop('model_type', None)
         if not model_type:
-            print(f'ERROR: no model_type, {name=}')
+            logger.warning(f'ERROR: no model_type, {name=}')
             return None
-        if model_type == ModelTypes.UNKNOWN:
-            print(f'WARN: no model_type.UNKNOWN, {name=}')
+        if model_type in {ModelTypes.UNKNOWN, ModelTypes.FAKE}:
+            logger.warning(f'WARN: no model_type.UNKNOWN, {name=}')
             return None
 
         if data.get('fake', False):
             return None
 
-        data.pop('inv_grid_width', None)
-        data.pop('inv_grid_height', None)
-        data.pop('inv_grid_x', None)
-        data.pop('inv_grid_y', None)
+        resource = self._get_resource(model_type)
+        return resource.create_instance_from_data(name, data), resource
 
+    def _get_resource(self, model_type: ModelTypes) -> BaseItemResource:
         if model_type == ModelTypes.WEAPON:
-            return self._weapon_from_dict(name, data)
+            return WeaponResource()
         if model_type == ModelTypes.AMMO:
-            return self._ammo_from_dict(name, data)
-        if model_type == ModelTypes.ADDON:
-            return self._addon_from_dict(name, data)
+            return AmmoResource()
         if model_type == ModelTypes.GRENADE:
-            return self._grenade_from_dict(name, data)
+            return GrenadeResource()
         if model_type == ModelTypes.KNIFE:
-            return self._knife_from_dict(name, data)
+            return KnifeResource()
         if model_type == ModelTypes.EXPLOSIVE:
-            return self._explosive_from_dict(name, data)
+            return ExplosiveResource()
         if model_type == ModelTypes.GRENADE_LAUNCHER:
-            return self._grenade_launcher_from_dict(name, data)
+            return GrenadeLauncherResource()
         if model_type == ModelTypes.SILENCER:
-            return self._silencer_from_dict(name, data)
+            return SilencerResource()
         if model_type == ModelTypes.SCOPE:
-            return self._scope_from_dict(name, data)
-        if model_type == ModelTypes.FAKE:
-            return None
+            return ScopeResource()
         raise ValueError(f"UNKNOWN {model_type=}")
-
-    def _weapon_from_dict(self, name: str, data: dict[str, str]) -> Weapon:
-
-        ammo = Weapon(
-            name=name,
-            visual_str=data.pop('visual'),
-            description_code=data.pop('description'),
-            cost=int(data.pop('cost')),
-            inv_name=data.pop('inv_name', None),
-            inv_name_short=data.pop('inv_name_short', None),
-            inv_weight=Decimal(data.pop('inv_weight')),
-
-            ef_main_weapon_type=data.pop('ef_main_weapon_type', None),
-            ef_weapon_type=data.pop('ef_weapon_type', None),
-            weapon_class=data.pop('weapon_class', None),
-            ammo_mag_size=data.pop('ammo_mag_size'),
-            fire_modes_str=data.pop('fire_modes', None),
-            ammo_class_str=data.pop('ammo_class'),
-            grenade_class_str=data.pop('grenade_class', None),
-            rpm=int(data.pop('rpm')),
-            scope_status_str=data.pop('scope_status'),
-            silencer_status_str=data.pop('silencer_status'),
-            grenade_launcher_status=data.pop('grenade_launcher_status'),
-            scope_name=data.pop('scope_name', None),
-            silencer_name=data.pop('silencer_name', None),
-            grenade_launcher_name=data.pop('grenade_launcher_name', None),
-        )
-        return ammo
-
-    def _ammo_from_dict(self, name: str, data: dict[str, str]) -> Ammo:
-
-        ammo = Ammo(
-            name=name,
-            visual_str=data.pop('visual'),
-            description_code=data.pop('description'),
-            cost=int(data.pop('cost')),
-            inv_name=data.pop('inv_name'),
-            inv_name_short=data.pop('inv_name_short'),
-            inv_weight=Decimal(data.pop('inv_weight')),
-        )
-        return ammo
-
-    def _addon_from_dict(self, name: str, data: dict[str, str]) -> Addon:
-
-        ammo = Addon(
-            name=name,
-            visual_str=data.pop('visual'),
-            description_code=data.pop('description'),
-            cost=int(data.pop('cost')),
-            inv_name=data.pop('inv_name'),
-            inv_name_short=data.pop('inv_name_short', None),
-            inv_weight=Decimal(data.pop('inv_weight')),
-        )
-        return ammo
-
-    def _grenade_from_dict(self, name: str, data: dict[str, str]) -> Grenade:
-
-        ammo = Grenade(
-            name=name,
-            visual_str=data.pop('visual'),
-            description_code=data.pop('description', ""),
-            cost=int(data.pop('cost')),
-            inv_name=data.pop('inv_name', None),
-            inv_name_short=data.pop('inv_name_short', None),
-            inv_weight=Decimal(data.pop('inv_weight')),
-        )
-        return ammo
-
-    def _knife_from_dict(self, name: str, data: dict[str, str]) -> Knife:
-
-        ammo = Knife(
-            name=name,
-            visual_str=data.pop('visual'),
-            description_code=data.pop('description'),
-            cost=int(data.pop('cost')),
-            inv_name=data.pop('inv_name'),
-            inv_name_short=data.pop('inv_name_short'),
-            inv_weight=Decimal(data.pop('inv_weight')),
-        )
-        return ammo
-
-    def _explosive_from_dict(self, name: str, data: dict[str, str]) -> Explosive:
-
-        ammo = Explosive(
-            name=name,
-            visual_str=data.pop('visual'),
-            description_code=data.pop('description', ""),
-            cost=int(data.pop('cost')),
-            inv_name=data.pop('inv_name'),
-            inv_name_short=data.pop('inv_name_short', None),
-            inv_weight=Decimal(data.pop('inv_weight')),
-        )
-        return ammo
-
-    def _grenade_launcher_from_dict(self, name: str, data: dict[str, str]) -> GrenadeLauncher:
-
-        ammo = GrenadeLauncher(
-            name=name,
-            visual_str=data.pop('visual'),
-            description_code=data.pop('description'),
-            cost=int(data.pop('cost')),
-            inv_name=data.pop('inv_name'),
-            inv_name_short=data.pop('inv_name_short', None),
-            inv_weight=Decimal(data.pop('inv_weight')),
-            ammo_class_str=data.pop('ammo_class', None),
-        )
-        return ammo
-
-    def _scope_from_dict(self, name: str, data: dict[str, str]) -> Scope:
-
-        ammo = Scope(
-            name=name,
-            visual_str=data.pop('visual'),
-            description_code=data.pop('description', ""),
-            cost=int(data.pop('cost')),
-            inv_name=data.pop('inv_name'),
-            inv_name_short=data.pop('inv_name_short', None),
-            inv_weight=Decimal(data.pop('inv_weight')),
-        )
-        return ammo
-
-    def _silencer_from_dict(self, name: str, data: dict[str, str]) -> Silencer:
-
-        ammo = Silencer(
-            name=name,
-            visual_str=data.pop('visual'),
-            description_code=data.pop('description', ""),
-            cost=int(data.pop('cost')),
-            inv_name=data.pop('inv_name'),
-            inv_name_short=data.pop('inv_name_short', None),
-            inv_weight=Decimal(data.pop('inv_weight')),
-        )
-        return ammo

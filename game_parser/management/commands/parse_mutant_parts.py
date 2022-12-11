@@ -1,11 +1,14 @@
-from decimal import Decimal
+import logging
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.ltx_parser import LtxParser
+from game_parser.logic.ltx_parser import LtxParser
+from game_parser.logic.model_resources.base_item import MonsterPartResource
 from game_parser.models import MonsterPart
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -35,22 +38,10 @@ class Command(BaseCommand):
             if k not in self._exclude_keys
         }
 
-        for quest_name, quest_data in quest_blocks.items():
-            print(quest_name)
-            model = self._mutant_part_from_dict(quest_name, quest_data)
-            if quest_data:
-                print('unused data', quest_data)
-            model.save()
+        resource = MonsterPartResource()
 
-    def _mutant_part_from_dict(self, name: str, data: dict[str, str]) -> MonsterPart:
-        ammo = MonsterPart(
-            name=name,
-            visual_str=data.pop('visual'),
-            description_code=data.pop('description'),
-            cost=int(data.pop('cost')),
-            inv_name=data.pop('inv_name'),
-            inv_name_short=data.pop('inv_name_short', None),
-            inv_weight=Decimal(data.pop('inv_weight')),
-            quest_item=data.pop('quest_item', 'false') == 'true',
-        )
-        return ammo
+        for quest_name, quest_data in quest_blocks.items():
+            # print(quest_name)
+            item = resource.create_instance_from_data(quest_name, quest_data)
+            if quest_data:
+                logger.warning(f'unused data {quest_data} in {quest_name}')

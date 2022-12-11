@@ -24,3 +24,7 @@ class Weapon(BaseItem):
     scope_name = models.CharField(max_length=255, verbose_name='Название прицела', null=True)
     silencer_name = models.CharField(max_length=255, verbose_name='Название глушителя', null=True)
     grenade_launcher_name = models.CharField(max_length=255, verbose_name='Название ГП', null=True)
+    ammo_limit = models.PositiveIntegerField(verbose_name='???', null=True)
+    ammo_elapsed = models.PositiveIntegerField(verbose_name='???', null=True)
+    ammo_current = models.IntegerField(null=True)
+    slot = models.IntegerField(null=True)
