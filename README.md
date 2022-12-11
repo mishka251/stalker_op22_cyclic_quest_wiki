@@ -24,7 +24,7 @@
   
 * [ ] Медицина - `config/misc/items.ltx`
 * [x] Части мутантов - `config/misc/monster_items.ltx`
-* [ ] Броня - `config/misc/outfit.ltx`
+* [x] Броня - `config/misc/outfit.ltx`
 * [ ] Прочее :
    * `config/misc/arc.ltx`
    * `config/misc/arhara_items.ltx`

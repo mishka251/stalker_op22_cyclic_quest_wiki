@@ -1,7 +1,7 @@
 from game_parser.logic.model_resources.base_resource import BaseModelResource, CharField, IntegerField, DecimalField, \
     SECTION_NAME, BooleanField
 from game_parser.models import Silencer, Scope, GrenadeLauncher, Explosive, Knife, Grenade, Addon, Ammo, Weapon, \
-    MonsterPart
+    MonsterPart, Outfit
 from game_parser.models.items.base_item import BaseItem
 
 
@@ -497,4 +497,46 @@ class MonsterPartResource(BaseItemResource):
         *BaseItemResource._exclude_fields,
         'monster_part',
         'belt',
+    }
+
+
+class OutfitResource(BaseItemResource):
+    _model_cls = Outfit
+
+    _fields = [
+        *BaseItemResource._fields,
+        DecimalField('burn_protection'),
+        DecimalField('strike_protection'),
+        DecimalField('shock_protection'),
+        DecimalField('wound_protection'),
+        DecimalField('radiation_protection'),
+        DecimalField('telepatic_protection'),
+        DecimalField('chemical_burn_protection'),
+        DecimalField('explosion_protection'),
+        DecimalField('fire_wound_protection'),
+    ]
+
+    _exclude_fields = {
+        *BaseItemResource._exclude_fields,
+        'immunities_sect',
+        'actor_visual',
+        'npc_visual',
+        'full_icon_name',
+        'bleeding_restore_speed',
+        'power_loss',
+        'bones_koeff_protection',
+        'class',
+        'additional_inventory_weight',
+        'additional_inventory_weight2',
+        'script_binding',
+        'batteries',
+        'discharge_moving',
+        'discharge_sprint',
+        'discharge_jump',
+        'snd_cant_sprint',
+        'snd_cant_jump',
+        'power_restore_speed',
+        'health_restore_speed',
+        'satiety_restore_speed',
+
     }
