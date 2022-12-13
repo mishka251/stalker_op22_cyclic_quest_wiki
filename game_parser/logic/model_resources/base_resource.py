@@ -95,7 +95,7 @@ class BaseModelResource:
             field.fill_instance(instance, value)
 
     def create_instance_from_data(self, section_name: str, data: dict[str, Any]):
-        data[SECTION_NAME] = section_name,
+        data[SECTION_NAME] = section_name
         instance = self._init_instance()
         self._apply_data(data, instance)
         self._save_instance(instance)
