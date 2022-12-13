@@ -1,7 +1,8 @@
 from game_parser.logic.model_resources.base_resource import BaseModelResource, CharField, IntegerField, DecimalField, \
     SECTION_NAME, BooleanField
 from game_parser.models import Silencer, Scope, GrenadeLauncher, Explosive, Knife, Grenade, Addon, Ammo, Weapon, \
-    MonsterPart, Outfit
+    MonsterPart, Outfit, Artefact
+from game_parser.models.items.artefact import TrueArtefact, CapsAnom, MonsterEmbrion
 from game_parser.models.items.base_item import BaseItem
 
 
@@ -539,4 +540,82 @@ class OutfitResource(BaseItemResource):
         'health_restore_speed',
         'satiety_restore_speed',
 
+    }
+
+
+class BaseArtefactResource(BaseItemResource):
+    _model_cls = Artefact
+    _exclude_fields = {
+        *BaseItemResource._exclude_fields,
+        'jump_height',
+        'particles',
+        'lights_enabled',
+        'trail_light_color',
+        'trail_light_range',
+    }
+
+class TrueArtefactResource(BaseArtefactResource):
+    _model_cls = TrueArtefact
+    _exclude_fields = {
+        *BaseArtefactResource._exclude_fields,
+        'allow_inertion',
+        'artefact_activation_seq',
+        'script_binding',
+        'slot',
+        'belt',
+        'position',
+        'attach_angle_offset',
+        'attach_position_offset',
+        'attach_bone_name',
+        'hud',
+        'can_take',
+        'particles_bone',
+        'default_to_ruck'
+    }
+
+    _fields = [
+        *BaseArtefactResource._fields,
+        DecimalField('inventory_radiation', required=False),
+        DecimalField('health_restore_speed', required=False),
+        DecimalField('burn_immunity', required=False),
+        DecimalField('strike_immunity', required=False),
+        DecimalField('shock_immunity', required=False),
+        DecimalField('wound_immunity', required=False),
+        DecimalField('radiation_immunity', required=False),
+        DecimalField('telepatic_immunity', required=False),
+        DecimalField('chemical_burn_immunity', required=False),
+        DecimalField('explosion_immunity', required=False),
+        DecimalField('fire_wound_immunity', required=False),
+        DecimalField('power_restore_speed', required=False),
+        DecimalField('additional_weight', required=False),
+        DecimalField('radiation_restore_speed', required=False),
+        DecimalField('bleeding_restore_speed', required=False),
+        DecimalField('psy_health_restore_speed', required=False),
+        DecimalField('satiety_restore_speed', required=False),
+        DecimalField('jump_speed_delta', required=False),
+    ]
+
+
+class CapsAnomResource(BaseArtefactResource):
+    _model_cls = CapsAnom
+    _exclude_fields = {
+        *BaseArtefactResource._exclude_fields,
+        'caps_anom',
+        'slot',
+        'belt',
+        'artefact_activation_seq',
+        'hud',
+        'npc_put_in_slot',
+    }
+
+class MonsterEmbrionResource(BaseArtefactResource):
+    _model_cls = MonsterEmbrion
+    _exclude_fields = {
+        *BaseArtefactResource._exclude_fields,
+        'cocoon',
+        'slot',
+        'belt',
+        'artefact_activation_seq',
+        'hud',
+        'npc_put_in_slot',
     }

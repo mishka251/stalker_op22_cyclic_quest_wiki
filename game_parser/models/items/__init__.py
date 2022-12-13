@@ -9,3 +9,4 @@ from .scope import Scope
 from .silencer import Silencer
 from .monster_part import MonsterPart
 from .outfit import Outfit
+from .artefact import Artefact

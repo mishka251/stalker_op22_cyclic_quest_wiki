@@ -17,7 +17,7 @@
 * [x] Гранаты - `config/weapons/grenade.ltx`
 * [x] Патроны -  `config/weapons/ammo.ltx`
 * [x] Обвесы - папка `config/weapons/arsenal_mod/addons`
-* [ ] Артефакты:
+* [x] Артефакты:
    * `config/misc/artefacts.ltx`
    * `config/misc/artefacts_amkzp.ltx`
    * `config/misc/embrions.ltx`
