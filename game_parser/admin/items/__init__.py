@@ -8,3 +8,7 @@ from .weapon import WeaponAdmin
 from .scope import ScopeAdmin
 from .silencer import SilencerAdmin
 from .monster_part import MonsterPartAdmin
+from .outfit import OutfitAdmin
+from .caps_anom import CapsAnomAdmin
+from .monster_cocoon import MonsterEmbrionAdmin
+from .true_artefact import TrueArtefactAdmin
