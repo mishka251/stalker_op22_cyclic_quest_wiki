@@ -104,9 +104,7 @@ class LtxParser:
     def _parse_block_lines(self, lines: list[str], name: str) -> LtxBlock:
         if not lines:
             return {}
-        cnt = lines[0].count('=')
-        if any([l.count('=') != cnt for l in lines[1:]]):
-            raise ValueError(f'Кол-во знаков "=" отличается в блоке {name=}')
+        cnt = max([line.count('=') for line in lines])
         if cnt == 0:
             return lines
         elif cnt == 1:
@@ -114,5 +112,9 @@ class LtxParser:
         raise ValueError(f'Не должно быть больше 1 =, {name=}')
 
     def _parse_line_key_value(self, line: str) -> tuple[str, str]:
-        (key, value) = line.split('=')
-        return key.strip(), value.strip()
+        if '=' in line:
+            (key, value) = map(lambda s: s.strip(), line.split('='))
+        else:
+            key = line.strip()
+            value = None
+        return key, value

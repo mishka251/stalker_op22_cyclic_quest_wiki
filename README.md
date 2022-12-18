@@ -5,7 +5,7 @@
 ## Примерные планы
 
 1. Приблизительная структура моделей
-2. Парсер `damedata` ltx -> python class(без связей) -> django model(со связями)
+2. Парсер `gamedata` ltx -> python class(без связей) -> django model(со связями)
 3. API + фронт
 4. публикация
 
@@ -36,19 +36,19 @@
 
 
 Заметки
-* тайники 
+* [ ] тайники 
    * `config/misc/ph_box_generic.ltx`
    * `config/misc/ph_box_items_by_communities.ltx`
    * `config/misc/ph_box_items_by_levels.ltx`
    * `config/misc/ph_box_items_count.ltx`
    * `config/misc/treasure.ltx`
 
-* Предметы у убитых сталкеров
+* [ ] Предметы у убитых сталкеров
    *  `config/misc/death_manager/by_communities.ltx`
    *  `config/misc/death_manager/by_levels.ltx`
    * `config/misc/death_manager/generic.ltx`
 
-* Торговцы `config/trade`
+* [x] Торговцы `config/trade`
 
 * [ ] Переводы папка `config/text/*.xml`
    * `arsenal_mod.xml`
