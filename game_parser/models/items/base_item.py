@@ -1,5 +1,7 @@
 from django.db import models
 
+from game_parser.models.translation import Translation
+
 
 class BaseItem(models.Model):
     visual_str = models.CharField(max_length=255, verbose_name='Название иконки?')
@@ -17,6 +19,9 @@ class BaseItem(models.Model):
     inv_grid_height = models.PositiveIntegerField(null=True, verbose_name='Высота иконки')
     inv_grid_x = models.PositiveIntegerField(null=True, verbose_name='Отступ по длине иконки в большом файле')
     inv_grid_y = models.PositiveIntegerField(null=True, verbose_name='Отступ по высоте иконки в большом файле')
+
+    name_translation = models.ForeignKey(Translation, on_delete=models.SET_NULL, null=True, verbose_name='Перевод названия', related_name='+')
+    description_translation = models.ForeignKey(Translation, on_delete=models.SET_NULL, null=True, verbose_name='Перевод описания', related_name='+')
 
     def __str__(self):
         return self.name
