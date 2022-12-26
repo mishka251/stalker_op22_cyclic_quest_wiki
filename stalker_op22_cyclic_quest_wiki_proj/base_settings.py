@@ -126,7 +126,7 @@ LOGGING = {
             # 'datefmt' : "%d/%b/%Y %H:%M:%S"
         },
         'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'format': '{levelname} {asctime} {module} {message}',
             'style': '{',
         },
         'simple': {
@@ -141,8 +141,8 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'INFO',
-            'filters': ['require_debug_true'],
+            'level': 'DEBUG',
+            # 'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
@@ -168,7 +168,7 @@ LOGGING = {
         },
         'game_parser': {
             'handlers': ['console', 'logfile'],
-            'level': 'INFO',
+            'level': 'DEBUG',
         },
         'stalker_op22_cyclic_quest_wiki': {
             'handlers': ['console', 'logfile'],
@@ -176,3 +176,6 @@ LOGGING = {
         }
     }
 }
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'

@@ -50,7 +50,7 @@
 
 * [x] Торговцы `config/trade`
 
-* [ ] Переводы папка `config/text/*.xml`
+* [x] Переводы папка `config/text/*.xml`
    * `arsenal_mod.xml`
    * `artefacts.xml`
    * `cycle_task.xml`
@@ -61,7 +61,7 @@
    * `sak_strings.xml`
    * `weapons.xml`
 
-
+* [x] Иконки `textures/ui/ui_icon_equipment.dds`
 
 
 

@@ -23,5 +23,7 @@ class BaseItem(models.Model):
     name_translation = models.ForeignKey(Translation, on_delete=models.SET_NULL, null=True, verbose_name='Перевод названия', related_name='+')
     description_translation = models.ForeignKey(Translation, on_delete=models.SET_NULL, null=True, verbose_name='Перевод описания', related_name='+')
 
+    inv_icon = models.ImageField(null=True, verbose_name='Иконка в инвентаре', upload_to='item_icons/')
+
     def __str__(self):
         return self.name
