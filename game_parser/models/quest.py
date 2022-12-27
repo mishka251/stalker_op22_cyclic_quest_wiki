@@ -1,6 +1,7 @@
 from django.db import models
 
 from game_parser.models.character import Character
+from game_parser.models.items.base_item import BaseItem
 
 
 class QuestKinds(models.TextChoices):
@@ -42,4 +43,4 @@ class CyclicQuest(models.Model):
     defend_target_str = models.CharField(max_length=255, null=True, verbose_name='Цель. Защита(?)')
     reward_relation_str = models.CharField(max_length=255, null=True, verbose_name='Награда. Репутация/отношения')
 
-
+    target_item = models.ForeignKey(BaseItem, null=True, on_delete=models.SET_NULL, verbose_name='Целевой предмет')

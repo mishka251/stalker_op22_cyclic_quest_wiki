@@ -7,7 +7,7 @@ class BaseItem(models.Model):
     visual_str = models.CharField(max_length=255, verbose_name='Название иконки?')
     description_code = models.CharField(max_length=255, verbose_name='Код названия(ссылка на переводы)')
     cost = models.PositiveIntegerField(verbose_name='Базовая цена')
-    name = models.CharField(max_length=255, verbose_name='Название(код в игре)')
+    name = models.CharField(max_length=255, verbose_name='Название(код в игре)', unique=True)
 
     inv_name = models.CharField(max_length=255, verbose_name='Название в инвентаре?', null=True)
     inv_name_short = models.CharField(max_length=255, verbose_name='Название в инвентаре(сокращенное)?', null=True)
