@@ -22,10 +22,10 @@
    * `config/misc/artefacts_amkzp.ltx`
    * `config/misc/embrions.ltx`
   
-* [ ] Медицина - `config/misc/items.ltx`
+* [x] Медицина - `config/misc/items.ltx`
 * [x] Части мутантов - `config/misc/monster_items.ltx`
 * [x] Броня - `config/misc/outfit.ltx`
-* [ ] Прочее :
+* [x] Прочее :
    * `config/misc/arc.ltx`
    * `config/misc/arhara_items.ltx`
    * `config/misc/devices.ltx`

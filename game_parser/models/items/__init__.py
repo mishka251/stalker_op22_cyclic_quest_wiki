@@ -10,3 +10,4 @@ from .silencer import Silencer
 from .monster_part import MonsterPart
 from .outfit import Outfit
 from .artefact import Artefact, TrueArtefact, MonsterEmbrion, CapsAnom
+from .other import Other

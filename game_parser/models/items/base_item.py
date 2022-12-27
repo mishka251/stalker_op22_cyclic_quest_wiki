@@ -11,7 +11,7 @@ class BaseItem(models.Model):
 
     inv_name = models.CharField(max_length=255, verbose_name='Название в инвентаре?', null=True)
     inv_name_short = models.CharField(max_length=255, verbose_name='Название в инвентаре(сокращенное)?', null=True)
-    inv_weight = models.DecimalField(verbose_name='Вес', decimal_places=3, max_digits=6)
+    inv_weight = models.DecimalField(verbose_name='Вес', decimal_places=3, max_digits=12)
     cheat_item = models.BooleanField(default=False)
     quest_item = models.BooleanField(default=False, verbose_name='Квестовый предмет')
 

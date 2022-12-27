@@ -27,13 +27,15 @@ class LtxParser:
         raw_blocks = {}
         blocks_bases: dict[str, tuple[str, ...]] = {}
         current_block_header = None
+        includes_to_parse = []
         with open(self._path, 'r', encoding=self._encoding) as file:
             for line in file.readlines():
                 line = self._preprocess_line(line)
                 if not line:
                     continue
                 if self._line_is_include(line):
-                    self._parsed_blocks |= self._parse_include(line)
+                    # self._parsed_blocks |= self._parse_include(line)
+                    includes_to_parse.append(line)
                     continue
                 if self._is_block_start_line(line):
                     current_block_header, bases = self._get_block_caption(line)
@@ -50,8 +52,11 @@ class LtxParser:
                 self._parsed_blocks[block_code] = {}
                 self._parsed_blocks[block_code] |= self._get_bases(blocks_bases[block_code])
                 self._parsed_blocks[block_code] |= block_lines
-            if not self._parsed_blocks[block_code]:
-                raise ValueError(f"empty block {block_code=}")
+            # if not self._parsed_blocks[block_code]:
+            #     raise ValueError(f"empty block {block_code=}")
+
+        for include in includes_to_parse:
+            self._parsed_blocks |= self._parse_include(include)
 
     def _line_is_include(self, line: str) -> bool:
         return line.startswith('#include')

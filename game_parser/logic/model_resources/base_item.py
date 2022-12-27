@@ -1,7 +1,7 @@
 from game_parser.logic.model_resources.base_resource import BaseModelResource, CharField, IntegerField, DecimalField, \
     SECTION_NAME, BooleanField
 from game_parser.models import Silencer, Scope, GrenadeLauncher, Explosive, Knife, Grenade, Addon, Ammo, Weapon, \
-    MonsterPart, Outfit, Artefact
+    MonsterPart, Outfit, Artefact, Other
 from game_parser.models.items.artefact import TrueArtefact, CapsAnom, MonsterEmbrion
 from game_parser.models.items.base_item import BaseItem
 
@@ -619,3 +619,8 @@ class MonsterEmbrionResource(BaseArtefactResource):
         'hud',
         'npc_put_in_slot',
     }
+
+
+class OtherResource(BaseItemResource):
+    _model_cls = Other
+
