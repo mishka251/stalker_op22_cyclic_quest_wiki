@@ -8,10 +8,10 @@ class Trader(Character):
         verbose_name_plural = 'Торговцы'
 
 
-
 class BaseTrade(models.Model):
     class Meta:
         verbose_name = 'Торговля'
+
     trader = models.ForeignKey(Trader, on_delete=models.SET_NULL, null=True, verbose_name='Торговец')
     name = models.CharField(max_length=120, verbose_name='Название секции')
     condition = models.CharField(max_length=250, verbose_name='Условие', null=True)
@@ -23,7 +23,6 @@ class BaseTrade(models.Model):
 class Buy(BaseTrade):
     class Meta:
         verbose_name = 'Покупка'
-
 
 
 class Sell(BaseTrade):
@@ -55,6 +54,7 @@ class ItemInSell(ItemInTradeBase):
     class Meta:
         verbose_name = 'Предмет в продаже'
         verbose_name_plural = 'Предметы в продаже'
+
     trade = models.ForeignKey(Sell, on_delete=models.CASCADE, null=False, verbose_name='Торговля')
     probability = models.DecimalField(max_digits=5, decimal_places=2, null=False, verbose_name='Вероятность')
     count = models.IntegerField(null=False, verbose_name='Кол-во предметов')
