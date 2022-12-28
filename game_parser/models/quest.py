@@ -43,4 +43,5 @@ class CyclicQuest(models.Model):
     defend_target_str = models.CharField(max_length=255, null=True, verbose_name='Цель. Защита(?)')
     reward_relation_str = models.CharField(max_length=255, null=True, verbose_name='Награда. Репутация/отношения')
 
-    target_item = models.ForeignKey(BaseItem, null=True, on_delete=models.SET_NULL, verbose_name='Целевой предмет')
+    target_item = models.ForeignKey(BaseItem, null=True, on_delete=models.SET_NULL, verbose_name='Целевой предмет', related_name='quests_when_needed')
+    reward_items = models.ManyToManyField(BaseItem, related_name='quests_when_giving')

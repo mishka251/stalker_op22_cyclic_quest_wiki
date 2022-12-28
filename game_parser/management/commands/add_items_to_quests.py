@@ -24,7 +24,23 @@ class Command(BaseCommand):
             print(f'{index+1}/{count}')
             quest.target_item = BaseItem.objects.filter(name=quest.target_str).first()
             quest.save()
+        print('Стадия 2 - M2M')
+        unfounded_rewards = set()
+        for index, quest in enumerate(CyclicQuest.objects.filter(type__in=quests_with_items)):
+            print(f'{index + 1}/{count}')
+            if quest.reward_item_string is None:
+                continue
+            rewards_names = set(map(lambda s: s.strip(), quest.reward_item_string.split(',')))
+            rewards_items = BaseItem.objects.filter(name__in=rewards_names)
 
-        unfounded_targets = set(CyclicQuest.objects.filter(target_item__isnull=True, type__in=quests_with_items).values_list('target_str', flat=True))
+            unfounded = set(rewards_items.values_list('name', flat=True)) - set(rewards_names)
+            unfounded_rewards |= unfounded
+            quest.reward_items.set(rewards_items)
+
+        unfounded_targets = set(
+            CyclicQuest.objects
+            .filter(target_item__isnull=True, type__in=quests_with_items)
+            .values_list('target_str', flat=True)
+        )
         print(f'{unfounded_targets=}')
-
+        print(f'{unfounded_rewards=}')
