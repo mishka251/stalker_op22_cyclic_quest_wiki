@@ -6,11 +6,8 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.logic.model_resources.base_item import MonsterPartResource, OutfitResource, BaseItemResource, \
-    MonsterEmbrionResource, CapsAnomResource, TrueArtefactResource
 from game_parser.logic.model_resources.location import LocationResource
-from game_parser.models import MonsterPart, Outfit
-from game_parser.models.items.artefact import MonsterEmbrion, TrueArtefact, CapsAnom
+from game_parser.models import Location
 
 logger = logging.getLogger(__name__)
 
@@ -27,9 +24,7 @@ class Command(BaseCommand):
 
     @atomic
     def handle(self, **options):
-        TrueArtefact.objects.all().delete()
-        MonsterEmbrion.objects.all().delete()
-        CapsAnom.objects.all().delete()
+        Location.objects.all().delete()
 
         known_bases = {
         }
