@@ -112,13 +112,13 @@ class LtxParser:
         cnt = max([line.count('=') for line in lines])
         if cnt == 0:
             return lines
-        elif cnt == 1:
+        elif cnt >= 1:
             return dict(self._parse_line_key_value(l) for l in lines)
-        raise ValueError(f'Не должно быть больше 1 =, {name=}')
+        # raise ValueError(f'Не должно быть больше 1 =, {name=}')
 
     def _parse_line_key_value(self, line: str) -> tuple[str, str]:
         if '=' in line:
-            (key, value) = map(lambda s: s.strip(), line.split('='))
+            (key, value) = map(lambda s: s.strip(), line.split('=', 1))
         else:
             key = line.strip()
             value = None
