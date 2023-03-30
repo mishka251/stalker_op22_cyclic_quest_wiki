@@ -7,3 +7,4 @@ from .item_reward import ItemReward
 
 from .task import *
 from .storyline_character import *
+from .infoportion import *
