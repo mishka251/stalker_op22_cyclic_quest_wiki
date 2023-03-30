@@ -6,3 +6,4 @@ from .trade import *
 from .translation import *
 from .location import *
 from .treasure import *
+from .game_story import *

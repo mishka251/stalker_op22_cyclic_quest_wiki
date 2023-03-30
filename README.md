@@ -98,3 +98,12 @@
 
 Все Локации - `config/game_levels.ltx`
 Игровая карта - `config/game_maps_single.ltx`
+
+
+Парсинг сюжетных квестов
+
+Диалоги
+* `config/gameplay/dialogss*.xml`
+* `<action>` - название скрипта из файла в `scripts`
+* По скриптам можно пройтись и увидеть что дают(по именам функций)
+* 
