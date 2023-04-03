@@ -127,10 +127,10 @@ class Command(BaseCommand):
         inv_grid_width = width
         inv_grid_height = height
 
-        left = inv_grid_x * self.IMAGE_PART_WIDTH
-        top = inv_grid_y * self.IMAGE_PART_HEIGHT
-        right = (inv_grid_x + inv_grid_width) * self.IMAGE_PART_WIDTH
-        bottom = (inv_grid_y + inv_grid_height) * self.IMAGE_PART_HEIGHT
+        left = inv_grid_x# * self.IMAGE_PART_WIDTH
+        top = inv_grid_y #* self.IMAGE_PART_HEIGHT
+        right = (inv_grid_x + inv_grid_width)# * self.IMAGE_PART_WIDTH
+        bottom = (inv_grid_y + inv_grid_height) #* self.IMAGE_PART_HEIGHT
 
         return (left, top, right, bottom)
 

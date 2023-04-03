@@ -166,6 +166,7 @@ class Command(BaseCommand):
         StorylineCharacter.objects.create(
             game_id=character_id,
             name=name,
+            name_raw=name,
             comments=';'.join(comments),
             icon_raw=icon_raw,
             community_default_raw=community_raw,

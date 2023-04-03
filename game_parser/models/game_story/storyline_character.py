@@ -5,10 +5,13 @@ class Community(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=512, null=True)
 
+
 class Icon(models.Model):
-    id = models.CharField(max_length=10, primary_key=True)
-    name = models.CharField(max_length=512, null=True)
-    icon = models.ImageField(null=True)
+    name = models.CharField(max_length=512, null=False)
+    icon = models.ImageField(null=False)
+
+    def __str__(self):
+        return f'{self.name}'
 
 class StorylineCharacter(Character):
     game_id = models.CharField(max_length=256)
@@ -44,3 +47,9 @@ class StorylineCharacter(Character):
     terrain_sect_raw = models.TextField(null=True)
     bio_raw = models.TextField(null=True)
     team_raw = models.TextField(null=True)
+
+    @property
+    def get_name(self) -> str:
+        if self.name_translation:
+            return self.name_translation.rus
+        return self.name_raw
