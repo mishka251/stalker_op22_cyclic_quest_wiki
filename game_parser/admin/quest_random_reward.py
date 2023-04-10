@@ -5,4 +5,6 @@ from game_parser.models import QuestRandomReward
 
 @register(QuestRandomReward)
 class QuestRandomRewardAdmin(ModelAdmin):
-    pass
+    filter_horizontal = [
+        'possible_items',
+    ]

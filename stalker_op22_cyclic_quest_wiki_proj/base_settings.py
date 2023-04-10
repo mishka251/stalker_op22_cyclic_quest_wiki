@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'stalker_op22_cyclic_quest_wiki',
     'game_parser',
+    'polymorphic',
 ]
 
 MIDDLEWARE = [

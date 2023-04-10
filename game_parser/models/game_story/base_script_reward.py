@@ -1,7 +1,10 @@
 from django.db import models
 
 from .script_function import ScriptFunction
-class BaseScriptReward(models.Model):
+from polymorphic.models import PolymorphicModel
+
+
+class BaseScriptReward(PolymorphicModel):
     class Meta:
         ...
 

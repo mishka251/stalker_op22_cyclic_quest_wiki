@@ -14,4 +14,7 @@ class InfoPortion(models.Model):
     task = models.ForeignKey(GameTask, null=True, on_delete=models.SET_NULL)
 
     actions_raw = models.TextField(null=True)
+    actions = models.ManyToManyField('ScriptFunction', related_name='starts_infoportions', verbose_name='Функции,запускаемые инфопоршнем')
 
+    def __str__(self):
+        return self.game_id

@@ -26,4 +26,8 @@ class BaseItem(models.Model):
     inv_icon = models.ImageField(null=True, verbose_name='Иконка в инвентаре', upload_to='item_icons/')
 
     def __str__(self):
+        if self.name_translation:
+            return self.name_translation.rus
+        if self.description_translation:
+            return self.description_translation.rus
         return self.name

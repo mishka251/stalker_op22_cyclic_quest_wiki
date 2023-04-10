@@ -22,3 +22,18 @@ class SpawnReward(BaseScriptReward):
 
     xyz_raw = models.CharField(max_length=512, null=False) # спавн сложнее, сохраним всю строку
     raw_target = models.CharField(max_length=512, null=True) # спавн сложнее, сохраним всю строку
+
+    @property
+    def get_coords(self):
+        if self.x and self.y and self.z:
+            return f'{self.x} {self.y} {self.z}'
+        return self.xyz_raw
+
+    @property
+    def get_item(self) -> str:
+        if self.item:
+            return str(self.item)
+        return self.raw_maybe_item
+
+    def __str__(self):
+        return f'Спавн {self.get_item} в {self.get_coords}'

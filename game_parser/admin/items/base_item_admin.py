@@ -1,9 +1,65 @@
 from typing import Optional
 
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, register, display, TabularInline
 from django.utils.safestring import mark_safe
 
+from game_parser.models import ItemReward, SpawnReward, CyclicQuest, ItemInSell, ItemInBuy
 from game_parser.models.items.base_item import BaseItem
+from game_parser.utils.admin_utils.icon_view import icon_view
+from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
+
+
+class ItemQuestRewardInlineAdmin(ReadOnlyNestedTable):
+    model = ItemReward
+    verbose_name = 'Функция с выдачей предмета'
+    verbose_name_plural = 'Функции с выдачей предмета'
+
+    exclude = (
+        'raw_item',
+        'raw_count',
+    )
+
+
+class ItemQuestSpawnRewardInlineAdmin(ReadOnlyNestedTable):
+    model = SpawnReward
+    verbose_name = 'Функция со спавном предмета'
+    verbose_name_plural = 'Функции со спавном предмета'
+    exclude = (
+        'raw_maybe_item',
+        'x',
+        'y',
+        'z',
+        'raw_level_vertex',
+        'raw_game_vertex_id',
+        'level_vertex',
+        'game_vertex_id',
+        'xyz_raw',
+        'raw_target',
+    )
+
+
+class CyclicQuestRewardInline(ReadOnlyNestedTable):
+    model = CyclicQuest.reward_items.through
+    verbose_name = 'Цикличка, где получаем как награду'
+    verbose_name_plural = 'Циклички, где получаем как награду'
+
+
+class CyclicQuestTargetInline(ReadOnlyNestedTable):
+    model = CyclicQuest
+    verbose_name = 'Цикличка, где требуется'
+    verbose_name_plural = 'Циклички, где требуется'
+
+
+class TradingWhereSell(ReadOnlyNestedTable):
+    model = ItemInSell
+    verbose_name = 'Можно купить'
+    verbose_name_plural = 'Можно купить'
+
+
+class TradingWhereBuy(ReadOnlyNestedTable):
+    model = ItemInBuy
+    verbose_name = 'Можно продать'
+    verbose_name_plural = 'Можно продать'
 
 
 @register(BaseItem)
@@ -19,6 +75,19 @@ class BaseItemAdmin(ModelAdmin):
         'name',
     ]
 
+    inlines = [
+        ItemQuestRewardInlineAdmin,
+        ItemQuestSpawnRewardInlineAdmin,
+        CyclicQuestRewardInline,
+        CyclicQuestTargetInline,
+        TradingWhereSell,
+        TradingWhereBuy,
+    ]
+
+    autocomplete_fields = [
+        'name_translation',
+        'description_translation',
+    ]
 
     @display(description='Название', ordering='name_translation__rus')
     def name_translation_rus(self, obj: BaseItem) -> str:
@@ -34,6 +103,4 @@ class BaseItemAdmin(ModelAdmin):
 
     @display(description='Иконка', )
     def inv_icon_view(self, obj: BaseItem) -> Optional[str]:
-        if not obj.inv_icon:
-            return None
-        return mark_safe(f'<img src="{obj.inv_icon.url}" alt="{obj.inv_icon.name}">')
+        return icon_view(obj.inv_icon)
