@@ -7,12 +7,10 @@ from game_parser.models.game_story.dialog import DialogPhrase
 class DialogPhraseInlineAdmin(TabularInline):
     model = DialogPhrase
     show_change_link = True
-    list_display = [
-        # '__str__',
+    fields = [
         'local_id',
-        # 'text_id_raw',
-        # 'text',
-        'get_text',
+        'text_id_raw',
+        'text',
     ]
 
     def has_add_permission(self, request, obj):
@@ -24,10 +22,6 @@ class DialogPhraseInlineAdmin(TabularInline):
     def has_delete_permission(self, request, obj=None):
         return False
 
-    @display()
-    def get_text(self, phrase: DialogPhrase):
-        return phrase.get_text
-
 
 @register(Dialog)
 class DialogAdmin(ModelAdmin):
@@ -37,16 +31,16 @@ class DialogAdmin(ModelAdmin):
         'game_id',
     ]
 
-    filter_horizontal = [
+    search_fields = [
+        'game_id',
+    ]
+
+    autocomplete_fields = [
         'has_info',
         'dont_has_info',
         'give_info',
         'precondition',
         'init_func',
-    ]
-
-    search_fields = [
-        'game_id',
     ]
 
 

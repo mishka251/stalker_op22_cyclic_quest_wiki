@@ -13,6 +13,8 @@ class GameTaskAdmin(ModelAdmin):
         'title_view',
     )
 
+    search_fields = ['game_id']
+
     @display(description='Имя')
     def title_view(self, character: GameTask) -> str:
         return character.get_title
