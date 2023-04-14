@@ -3,7 +3,8 @@ from typing import Optional
 from django.contrib.admin import ModelAdmin, register, display, TabularInline
 from django.utils.safestring import mark_safe
 
-from game_parser.models import ItemReward, SpawnReward, CyclicQuest, ItemInSell, ItemInBuy, QuestRandomReward
+from game_parser.models import ItemReward, SpawnReward, CyclicQuest, ItemInSell, ItemInBuy, QuestRandomReward, \
+    ItemInTreasure
 from game_parser.models.items.base_item import BaseItem
 from game_parser.models.quest import CyclicQuestItemReward
 from game_parser.utils.admin_utils.icon_view import icon_view
@@ -69,6 +70,10 @@ class RandomReward(ReadOnlyNestedTable):
     verbose_name_plural = 'В случайных наградах'
 
 
+class TreasureItemsAdmin(ReadOnlyNestedTable):
+    model = ItemInTreasure
+
+
 @register(BaseItem)
 class BaseItemAdmin(ModelAdmin):
     list_display = (
@@ -90,6 +95,7 @@ class BaseItemAdmin(ModelAdmin):
         TradingWhereSell,
         TradingWhereBuy,
         RandomReward,
+        TreasureItemsAdmin,
     ]
 
     autocomplete_fields = [

@@ -2,7 +2,12 @@ from typing import Optional
 
 from django.contrib.admin import ModelAdmin, register, display
 
-from game_parser.models import Treasure
+from game_parser.models import Treasure, ItemInTreasure
+from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
+
+
+class TreasureItemsAdmin(ReadOnlyNestedTable):
+    model = ItemInTreasure
 
 
 @register(Treasure)
@@ -18,6 +23,15 @@ class TreasureAdmin(ModelAdmin):
         'description_view',
         'custom_name_view',
     )
+
+    autocomplete_fields = [
+        'custom_name_translation',
+        'description_translation',
+    ]
+
+    inlines = [
+        TreasureItemsAdmin,
+    ]
 
     @display(description='Описание', ordering='description_translation__rus')
     def description_view(self, treasure: Treasure) -> str:
