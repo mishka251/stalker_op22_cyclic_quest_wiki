@@ -58,3 +58,6 @@ class StorylineCharacter(Character):
         if self.name_raw == StorylineCharacter.NPC_RANDOM_NAME:
             return 'Случайное имя'
         return self.name_raw
+
+    def __str__(self):
+        return f'NPC {self.get_name}'

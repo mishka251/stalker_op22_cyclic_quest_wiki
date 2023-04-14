@@ -6,3 +6,4 @@ from .locations import *
 from .treasures import *
 from .game_story import *
 from .translation import *
+from .game_story_ids import *

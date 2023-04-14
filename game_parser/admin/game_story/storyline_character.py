@@ -26,6 +26,7 @@ class StorylineCharacterAdmin(ModelAdmin):
         'icon_view',
         'name_view',
     )
+    search_fields = ['name']
 
     @display(description='Имя')
     def name_view(self, character: StorylineCharacter) -> str:
