@@ -3,8 +3,9 @@ from typing import Optional
 from django.contrib.admin import ModelAdmin, register, display, TabularInline
 from django.utils.safestring import mark_safe
 
-from game_parser.models import ItemReward, SpawnReward, CyclicQuest, ItemInSell, ItemInBuy
+from game_parser.models import ItemReward, SpawnReward, CyclicQuest, ItemInSell, ItemInBuy, QuestRandomReward
 from game_parser.models.items.base_item import BaseItem
+from game_parser.models.quest import CyclicQuestItemReward
 from game_parser.utils.admin_utils.icon_view import icon_view
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
@@ -39,7 +40,7 @@ class ItemQuestSpawnRewardInlineAdmin(ReadOnlyNestedTable):
 
 
 class CyclicQuestRewardInline(ReadOnlyNestedTable):
-    model = CyclicQuest.reward_items.through
+    model = CyclicQuestItemReward
     verbose_name = 'Цикличка, где получаем как награду'
     verbose_name_plural = 'Циклички, где получаем как награду'
 
@@ -62,6 +63,12 @@ class TradingWhereBuy(ReadOnlyNestedTable):
     verbose_name_plural = 'Можно продать'
 
 
+class RandomReward(ReadOnlyNestedTable):
+    model = QuestRandomReward.possible_items.through
+    verbose_name = 'Случайная награда'
+    verbose_name_plural = 'В случайных наградах'
+
+
 @register(BaseItem)
 class BaseItemAdmin(ModelAdmin):
     list_display = (
@@ -82,6 +89,7 @@ class BaseItemAdmin(ModelAdmin):
         CyclicQuestTargetInline,
         TradingWhereSell,
         TradingWhereBuy,
+        RandomReward,
     ]
 
     autocomplete_fields = [

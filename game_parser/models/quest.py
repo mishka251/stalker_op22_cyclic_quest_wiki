@@ -23,7 +23,7 @@ class CyclicQuest(models.Model):
     game_code = models.CharField(null=False, max_length=255, verbose_name='Игровой код в файле')
     giver_code_local = models.CharField(null=True, max_length=255, verbose_name='Код квестодателя(локальный)')
     giver_code_global = models.CharField(null=True, max_length=255, verbose_name='Код квестодателя(глобальный)')
-    reward_item_string = models.CharField(null=True, max_length=255, verbose_name='Награда. Предметы(-ы)')
+    reward_item_string = models.TextField(null=True, verbose_name='Награда. Предметы(-ы)')
     reward_info_string = models.CharField(null=True, max_length=255, verbose_name='Награда. Информация')
     random_rewards_string = models.CharField(null=True, max_length=255, verbose_name='Награда. Случайная')
     prior = models.IntegerField(default=0,null=False, verbose_name=' Типа очередность задания')
@@ -44,4 +44,19 @@ class CyclicQuest(models.Model):
     reward_relation_str = models.CharField(max_length=255, null=True, verbose_name='Награда. Репутация/отношения')
 
     target_item = models.ForeignKey(BaseItem, null=True, on_delete=models.SET_NULL, verbose_name='Целевой предмет', related_name='quests_when_needed')
-    reward_items = models.ManyToManyField(BaseItem, related_name='quests_when_giving')
+    # reward_items = models.ManyToManyField(BaseItem, related_name='quests_when_giving')
+
+
+class CyclicQuestItemReward(models.Model):
+    class Meta:
+        unique_together = [
+            ('item', 'quest'),
+            ('raw_item', 'quest'),
+        ]
+        verbose_name = 'Предмет в награду за ЦЗ'
+        verbose_name_plural = 'Предметы в наградах за ЦЗ'
+
+    item = models.ForeignKey(BaseItem, null=True, on_delete=models.SET_NULL, verbose_name='Целевой предмет', related_name='cyclic_quests_when_needed')
+    raw_item = models.CharField(max_length=255, null=False)
+    quest = models.ForeignKey(CyclicQuest, null=False, on_delete=models.CASCADE, verbose_name='Предмет', related_name='item_rewards')
+    count = models.IntegerField(default=1, null=False)

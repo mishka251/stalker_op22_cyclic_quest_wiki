@@ -5,9 +5,9 @@ from game_parser.models.game_story.storyline_character import Icon
 
 
 class GameTask(models.Model):
-    game_id = models.CharField(max_length=256, unique=True)
-    title_id_raw = models.CharField(max_length=256)
-    title = models.ForeignKey(Translation, null=True, on_delete=models.SET_NULL)
+    game_id = models.CharField(max_length=256, unique=True, verbose_name='Игровой id')
+    title_id_raw = models.CharField(max_length=256, verbose_name='Сырое название')
+    title = models.ForeignKey(Translation, null=True, on_delete=models.SET_NULL, verbose_name='Заголовок(перевод)')
     prio = models.IntegerField(null=True)
 
     @property
@@ -21,14 +21,14 @@ class GameTask(models.Model):
 
 
 class TaskObjective(models.Model):
-    task = models.ForeignKey(GameTask, on_delete=models.CASCADE)
-    text_id_raw = models.CharField(max_length=256, null=True)
-    text = models.ForeignKey(Translation, null=True, on_delete=models.SET_NULL, related_name='+')
+    task = models.ForeignKey(GameTask, on_delete=models.CASCADE, verbose_name='Задание')
+    text_id_raw = models.CharField(max_length=256, null=True, verbose_name='Сырой текст')
+    text = models.ForeignKey(Translation, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Текст(перевод)')
 
-    icon_raw = models.CharField(max_length=512, null=True)
-    icon = models.ForeignKey(Icon, null=True, on_delete=models.SET_NULL, related_name='+')
+    icon_raw = models.CharField(max_length=512, null=True, verbose_name='Название иконки')
+    icon = models.ForeignKey(Icon, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Иконка')
 
-    article_id_raw = models.CharField(max_length=256, null=True)
+    article_id_raw = models.CharField(max_length=256, null=True, verbose_name='Статья(энциклопедия)')
     # article = models.ForeignKey(Translation, null=True, on_delete=models.SET_NULL, related_name='+')
 
     function_complete_raw = models.TextField(null=True)

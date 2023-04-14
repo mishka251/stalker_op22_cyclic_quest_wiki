@@ -5,6 +5,6 @@ from game_parser.models import QuestRandomReward
 
 @register(QuestRandomReward)
 class QuestRandomRewardAdmin(ModelAdmin):
-    filter_horizontal = [
+    autocomplete_fields = [
         'possible_items',
     ]
