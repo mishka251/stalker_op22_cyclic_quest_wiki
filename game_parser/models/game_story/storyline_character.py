@@ -41,13 +41,15 @@ class StorylineCharacter(Character):
 
     crouch_type_raw = models.CharField(max_length=128, null=True)
     snd_config_raw = models.CharField(max_length=128, null=True)
-    money_min_raw=models.CharField(max_length=12, null=True)
-    money_max_raw=models.CharField(max_length=12, null=True)
-    money_inf_raw=models.CharField(max_length=12, null=True)
+    money_min_raw = models.CharField(max_length=12, null=True)
+    money_max_raw = models.CharField(max_length=12, null=True)
+    money_inf_raw = models.CharField(max_length=12, null=True)
 
     terrain_sect_raw = models.TextField(null=True)
     bio_raw = models.TextField(null=True)
     team_raw = models.TextField(null=True)
+
+    dialogs = models.ManyToManyField('Dialog')
 
     NPC_RANDOM_NAME = 'GENERATE_NAME_stalker'
 

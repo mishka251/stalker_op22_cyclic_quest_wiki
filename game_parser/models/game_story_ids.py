@@ -10,3 +10,5 @@ class GameStoryId(models.Model):
     treasure = models.ForeignKey(null=True, to='Treasure', on_delete=models.SET_NULL)
     character = models.ForeignKey(null=True, to='StorylineCharacter', on_delete=models.SET_NULL)
 
+    def __str__(self):
+        return f'{self.story_id}'

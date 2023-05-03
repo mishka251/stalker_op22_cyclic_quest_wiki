@@ -25,17 +25,10 @@ class Command(BaseCommand):
         parser = LtxParser(self.get_file_path())
         results = parser.get_parsed_blocks()
 
-        blocks = {
-            k: v
-            for k, v in results.items()
-        }
-
-        block: dict[str, str] = blocks['story_ids']
-        # print(block)
+        block: dict[str, str] = results['story_ids']
         for game_id_raw, section_name_raw in block.items():
             game_id = int(game_id_raw)
             section_name = section_name_raw.strip('"')
-            # print(game_id, section_name)
             GameStoryId.objects.create(
                 story_id=game_id,
                 section_name=section_name,

@@ -29,7 +29,7 @@ class CyclicQuest(models.Model):
     prior = models.IntegerField(default=0,null=False, verbose_name=' Типа очередность задания')
     target_str = models.CharField(null=True, max_length=255, verbose_name='Цель задания')
 
-    giver = models.ForeignKey(Character, null=True, on_delete=models.SET_NULL, max_length=255, verbose_name='Персонаж квестодатель')
+    # giver = models.ForeignKey(Character, null=True, on_delete=models.SET_NULL, max_length=255, verbose_name='Персонаж квестодатель')
 
     once = models.BooleanField(default=False, verbose_name='Одноразовый ли квест')
     condlist_str = models.CharField(max_length=1_000, null=True, verbose_name='Условия для возможности получения задания')
@@ -45,6 +45,20 @@ class CyclicQuest(models.Model):
 
     target_item = models.ForeignKey(BaseItem, null=True, on_delete=models.SET_NULL, verbose_name='Целевой предмет', related_name='quests_when_needed')
     # reward_items = models.ManyToManyField(BaseItem, related_name='quests_when_giving')
+    vendor = models.ForeignKey('CycleTaskVendor', null=True, on_delete=models.SET_NULL, verbose_name='Персонаж квестодатель')
+
+    @property
+    def get_vendor_character(self):
+        vendor = self.vendor
+        game_id = vendor.game_story_id if vendor else None
+        character = game_id.character if game_id else None
+        return character
+
+    def __str__(self):
+        kind_caption = dict(QuestKinds.choices)[self.type]
+        target = self.target_item or self.target_str
+        return f'{kind_caption} {target} для {self.get_vendor_character}'
+
 
 
 class CyclicQuestItemReward(models.Model):
