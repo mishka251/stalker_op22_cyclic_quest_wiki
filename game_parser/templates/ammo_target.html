@@ -1,0 +1,14 @@
+<div>
+    <div class="d-flex flex-row">
+        <div class="d-flex flex-column justify-content-center">
+            <div>{{ target.items_count }} пачек </div>
+            <div>({{ target.ammo_count }} патронов)</div>
+        </div>
+        <div class="d-flex flex-column">
+            <img src="{{ target.item.item_icon_path }}">
+            <div class="d-flex flex-row">
+                <div>{{ target.item.item_label }}("{{ target.item.item_id }}")</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,10 @@
 from django.db import models
+from polymorphic.models import PolymorphicModel
 
 from game_parser.models.translation import Translation
 
 
-class BaseItem(models.Model):
+class BaseItem(PolymorphicModel):
     visual_str = models.CharField(max_length=255, verbose_name='Название иконки?')
     description_code = models.CharField(max_length=255, verbose_name='Код названия(ссылка на переводы)')
     cost = models.PositiveIntegerField(verbose_name='Базовая цена')
