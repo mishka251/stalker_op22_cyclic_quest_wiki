@@ -7,7 +7,7 @@ from game_parser.models.items.base_item import BaseItem
 class QuestKinds(models.TextChoices):
     eliminate_lager = ('eliminate_lager',  'Уничтожить лагерь')
     chain = 'chain', 'Цепочка'
-    kill_stalker = 'kill_stalker', 'Убить'
+    kill_stalker = 'kill_stalker', 'Убить сталкера'
     monster_part = 'monster_part', 'Часть мутанта'
     artefact = 'artefact', 'Принести артефакт'
     find_item = 'find_item', 'Принести предмет'

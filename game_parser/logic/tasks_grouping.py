@@ -11,6 +11,8 @@ class ItemInfo:
     item_id: str
     item_label: str
     item_icon_path: Optional[str]
+    icon_w: Optional[int]
+    icon_h: Optional[int]
 
 
 
@@ -84,13 +86,14 @@ def collect_info() -> list[CharacterQuests]:
         try:
             vendor_name = vendor.game_story_id.character.name_translation.rus
         except Exception as e:
-            vendor_name = vendor_id
+            vendor_name = "<Неизвестный>"
 
         # print(vendor_name, len(vendor_tasks))
 
         quest_group_by_type = {}
 
-        for task_kind, _vendor_kind_tasks in groupby(vendor_tasks, key=lambda task: task.type):
+        for _task_kind, _vendor_kind_tasks in groupby(vendor_tasks, key=lambda task: task.type):
+            task_kind = QuestKinds[_task_kind]
             vendor_kind_tasks = list(sorted(_vendor_kind_tasks, key=lambda task: task.prior))
             # print(f"    {task_kind}   {len(list(vendor_kind_tasks))}")
             tasks_by_prior = {}
@@ -144,6 +147,8 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
             item_id=target_item.inv_name,
             item_label=target_item.name_translation.rus if target_item.name_translation else target_item.inv_name,
             item_icon_path=target_item.inv_icon.url if target_item.inv_icon else None,
+            icon_h=target_item.inv_icon.height if target_item.inv_icon else None,
+            icon_w=target_item.inv_icon.width if target_item.inv_icon else None,
         )
         target_count = db_task.target_count or 1
         if isinstance(target_item, Ammo):
@@ -167,6 +172,8 @@ def parse_item_reward(reward: CyclicQuestItemReward) -> TaskReward:
         item_id=reward.item.inv_name,
         item_label=reward.item.name_translation.rus if reward.item.name_translation else reward.item.inv_name,
         item_icon_path=reward.item.inv_icon.url if reward.item.inv_icon else None,
+        icon_h=reward.item.inv_icon.height if reward.item.inv_icon else None,
+        icon_w=reward.item.inv_icon.width if reward.item.inv_icon else None,
     )
     if isinstance(reward.item, Ammo):
         return TaskAmmoReward(
