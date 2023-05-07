@@ -16,6 +16,9 @@
         .mh-100vh {
             max-height: 100vh;
         }
+        .min-width-500px{
+            min-width: 500px;
+        }
     </style>
 
     <script>
@@ -45,7 +48,7 @@
 <div class="page d-flex flex-row">
     <div
             id="main"
-            class="main-content col-9 d-flex container-fluid flex-column overflow-auto mh-100vh"
+            class="main-content col-10 d-flex container-fluid flex-column overflow-auto mh-100vh"
             data-bs-spy="scroll" data-bs-target="#page-menu" data-bs-offset="0"
     >
         {% for vendor_task_info in vendors_quests %}
@@ -90,7 +93,7 @@
             </div>
         {% endfor %}
     </div>
-    <div id="page-menu" class="page-menu col-3 overflow-auto mh-100vh">
+    <div id="page-menu" class="page-menu col-2 overflow-auto mh-100vh">
         <nav id="navbar-example2" class="navbar navbar-light bg-light px-3">
             <a class="navbar-brand" href="#">Панель навигации</a>
             <ul class="nav nav-pills w-100">

@@ -1,5 +1,5 @@
 from game_parser.logic.tasks_grouping import CharacterQuests, TaskReward, TaskMoneyReward, TaskAmmoReward, \
-    TaskItemReward, AmmoTarget, LagerTarget, StalkerTarget, QuestItemTarget
+    TaskItemReward, AmmoTarget, LagerTarget, StalkerTarget, QuestItemTarget, QuestItemWithStateTarget
 from django.template.loader import render_to_string
 from django.template import Library
 from django.template.defaultfilters import stringfilter
@@ -34,8 +34,25 @@ def render_reward(reward: TaskReward):
 @register.simple_tag
 def render_target(target: TaskReward):
     template_name = None
+    context = {
+        'target': target
+    }
     if isinstance(target, AmmoTarget):
         template_name = 'ammo_target.html'
+    elif isinstance(target, QuestItemWithStateTarget):
+
+        context['before_width'] = int(target.state.min)
+        context['target_width'] = int(target.state.max-target.state.min)
+        context['after_width'] = int(100 - target.state.max)
+        target_cond_str = None
+        if target.state.min >= 90:
+            target_cond_str = "Новый"
+        elif target.state.max <= 50:
+            target_cond_str = "Сломанный"
+        context["target_cond_str"] = target_cond_str
+
+
+        template_name = 'item_with_state_target.html'
     elif isinstance(target, QuestItemTarget):
         template_name = 'item_target.html'
     elif isinstance(target, LagerTarget):
@@ -44,7 +61,5 @@ def render_target(target: TaskReward):
         template_name = 'stalker_target.html'
     else:
         raise NotImplementedError(f'{target.__class__}')
-    context = {
-        'target': target
-    }
+
     return render_to_string(template_name, context)

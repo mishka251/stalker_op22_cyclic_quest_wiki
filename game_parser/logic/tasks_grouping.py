@@ -1,8 +1,8 @@
 import dataclasses
 from itertools import groupby
-from typing import Optional
+from typing import Optional, NamedTuple
 
-from game_parser.models import Ammo
+from game_parser.models import Ammo, Weapon, Silencer, Outfit
 from game_parser.models.quest import QuestKinds, CyclicQuest, CyclicQuestItemReward
 
 
@@ -27,6 +27,16 @@ class QuestItemTarget(QuestTarget):
     items_count: int
 
 
+class ItemState(NamedTuple):
+    min: float
+    max: float
+
+
+@dataclasses.dataclass
+class QuestItemWithStateTarget(QuestItemTarget):
+    state: ItemState
+
+
 @dataclasses.dataclass
 class AmmoTarget(QuestItemTarget):
     ammo_count: int
@@ -36,6 +46,7 @@ class AmmoTarget(QuestItemTarget):
 class LagerTarget(QuestTarget):
     game_id: str
 
+
 @dataclasses.dataclass
 class StalkerTarget(QuestTarget):
     game_id: str
@@ -44,6 +55,7 @@ class StalkerTarget(QuestTarget):
 @dataclasses.dataclass
 class TaskReward:
     pass
+
 
 @dataclasses.dataclass
 class TaskMoneyReward(TaskReward):
@@ -55,9 +67,11 @@ class TaskItemReward(TaskReward):
     item: ItemInfo
     items_count: int
 
+
 @dataclasses.dataclass
 class TaskAmmoReward(TaskItemReward):
     ammo_count: int
+
 
 @dataclasses.dataclass
 class Quest:
@@ -143,6 +157,11 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
 
     if db_task.type in items_types:
         target_item = db_task.target_item.get_real_instance()
+        target_cond_str: Optional[str] = db_task.target_cond_str
+        items_with_condition = (Weapon, Outfit, Silencer)
+        if target_cond_str is None and isinstance(target_item, items_with_condition):
+            target_cond_str = "50"
+
         item_info = ItemInfo(
             item_id=target_item.inv_name,
             item_label=target_item.name_translation.rus if target_item.name_translation else target_item.inv_name,
@@ -151,6 +170,19 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
             icon_w=target_item.inv_icon.width if target_item.inv_icon else None,
         )
         target_count = db_task.target_count or 1
+
+        if target_cond_str is not None:
+            if "," in target_cond_str:
+                min_str, max_str = target_cond_str.split(',')
+                state = ItemState(float(min_str.strip()), float(max_str.strip()))
+            else:
+                state = ItemState(float(target_cond_str.strip()), 100)
+            return QuestItemWithStateTarget(
+                item=item_info,
+                items_count=target_count,
+                state=state,
+            )
+
         if isinstance(target_item, Ammo):
 
             return AmmoTarget(
