@@ -69,6 +69,18 @@ class TaskItemReward(TaskReward):
 
 
 @dataclasses.dataclass
+class TreasureReward(TaskReward):
+    pass
+
+
+@dataclasses.dataclass
+class TaskRandomReward(TaskReward):
+    count: int
+    reward_name: str
+    reward_id: str
+
+
+@dataclasses.dataclass
 class TaskAmmoReward(TaskItemReward):
     ammo_count: int
 
@@ -131,6 +143,17 @@ def parse_task(db_task: CyclicQuest) -> Quest:
     ]
     if db_task.reward_money is not None:
         rewards.append(TaskMoneyReward(db_task.reward_money))
+
+    if db_task.reward_treasure:
+        rewards.append(TreasureReward())
+
+    for random_reward in db_task.random_rewards.all():
+        reward = TaskRandomReward(
+            count=random_reward.count,
+            reward_name=random_reward.reward.caption,
+            reward_id=random_reward.reward.name,
+        )
+        rewards.append(reward)
 
     return Quest(target, rewards)
 

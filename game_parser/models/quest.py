@@ -46,7 +46,7 @@ class CyclicQuest(models.Model):
     target_item = models.ForeignKey(BaseItem, null=True, on_delete=models.SET_NULL, verbose_name='Целевой предмет', related_name='quests_when_needed')
     # reward_items = models.ManyToManyField(BaseItem, related_name='quests_when_giving')
     vendor = models.ForeignKey('CycleTaskVendor', null=True, on_delete=models.SET_NULL, verbose_name='Персонаж квестодатель')
-    random_rewards = models.ManyToManyField('QuestRandomReward', verbose_name='Рандомные награды', related_name='quests', through='QuestRandomRewardThrough')
+    # random_rewards = models.ManyToManyField('QuestRandomReward', verbose_name='Рандомные награды', related_name='quests', through='QuestRandomRewardThrough')
 
     @property
     def get_vendor_character(self):
@@ -84,6 +84,6 @@ class QuestRandomRewardThrough(models.Model):
             ('reward', 'quest'),
         ]
 
-    quest = models.ForeignKey(CyclicQuest, on_delete=models.CASCADE, null=False, verbose_name='ЦЗ')
-    reward = models.ForeignKey('QuestRandomReward', on_delete=models.CASCADE, null=False, verbose_name='Тип награды')
+    quest = models.ForeignKey(CyclicQuest, on_delete=models.CASCADE, null=False, verbose_name='ЦЗ', related_name='random_rewards')
+    reward = models.ForeignKey('QuestRandomReward', on_delete=models.CASCADE, null=False, verbose_name='Тип награды', related_name='quests')
     count = models.IntegerField(default=1, null=False, verbose_name='Кол-во')

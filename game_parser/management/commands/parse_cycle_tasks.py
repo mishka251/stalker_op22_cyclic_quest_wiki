@@ -78,9 +78,9 @@ class Command(BaseCommand):
         if 'condlist' in data:
             quest.condlist_str = data.pop('condlist')
         if 'hide_reward' in data:
-            quest.once = (data.pop('hide_reward') == 'true')
+            quest.hide_reward = (data.pop('hide_reward') == 'true')
         if 'reward_treasure' in data:
-            quest.once = (data.pop('reward_treasure') == 'true')
+            quest.reward_treasure = (data.pop('reward_treasure') == 'true')
         if 'reward_relation' in data:
             quest.reward_relation_str = data.pop('reward_relation')
         if 'defend_target' in data:

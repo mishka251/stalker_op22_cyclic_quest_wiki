@@ -15,9 +15,9 @@ class Command(BaseCommand):
     @atomic
     def handle(self, **options):
         count = CyclicQuest.objects.count()
+        QuestRandomRewardThrough.objects.all().delete()
         for index, quest in enumerate(CyclicQuest.objects.all()):
             if not quest.random_rewards_string:
-                quest.random_rewards.clear()
                 continue
 
             parts = [item.strip() for item in quest.random_rewards_string.split(',')]

@@ -21,7 +21,6 @@ class CyclicQuestRandomRewardInline(ReadOnlyNestedTable):
 class QuestAdmin(ModelAdmin):
     autocomplete_fields = [
         'target_item',
-        'random_rewards',
     ]
 
     inlines = [
@@ -32,6 +31,12 @@ class QuestAdmin(ModelAdmin):
     search_fields = [
         "type",
         "game_code",
+        "giver_code_local",
+        "giver_code_global",
+    ]
+
+    list_filter = [
+        "type",
         "giver_code_local",
         "giver_code_global",
     ]

@@ -1,5 +1,6 @@
 from game_parser.logic.tasks_grouping import CharacterQuests, TaskReward, TaskMoneyReward, TaskAmmoReward, \
-    TaskItemReward, AmmoTarget, LagerTarget, StalkerTarget, QuestItemTarget, QuestItemWithStateTarget
+    TaskItemReward, AmmoTarget, LagerTarget, StalkerTarget, QuestItemTarget, QuestItemWithStateTarget, TreasureReward, \
+    TaskRandomReward
 from django.template.loader import render_to_string
 from django.template import Library
 from django.template.defaultfilters import stringfilter
@@ -23,6 +24,10 @@ def render_reward(reward: TaskReward):
         template_name = 'ammo_reward.html'
     elif isinstance(reward, TaskItemReward):
         template_name = 'item_reward.html'
+    elif isinstance(reward, TreasureReward):
+        template_name = 'treasure_reward.html'
+    elif isinstance(reward, TaskRandomReward):
+        template_name = 'random_reward.html'
     else:
         raise NotImplementedError(f'{reward.__class__}')
     context = {
