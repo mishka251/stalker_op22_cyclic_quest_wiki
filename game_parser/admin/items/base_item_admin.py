@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Optional
 
 from django.contrib.admin import ModelAdmin, register, display, TabularInline
@@ -57,11 +58,47 @@ class TradingWhereSell(ReadOnlyNestedTable):
     verbose_name = 'Можно купить'
     verbose_name_plural = 'Можно купить'
 
+    readonly_fields = [
+        "price_from",
+        "price_to",
+    ]
+
+    ordering = [
+        "min_price_modifier",
+        "max_price_modifier",
+    ]
+
+    @display(description="Цена(ОТ)", ordering="min_price_modifier")
+    def price_from(self, trade: ItemInSell) -> Decimal:
+        return trade.item.cost*trade.min_price_modifier
+
+    @display(description="Цена(ДО)", ordering="max_price_modifier")
+    def price_to(self, trade: ItemInSell) -> Decimal:
+        return trade.item.cost*trade.max_price_modifier
+
 
 class TradingWhereBuy(ReadOnlyNestedTable):
     model = ItemInBuy
     verbose_name = 'Можно продать'
     verbose_name_plural = 'Можно продать'
+
+    readonly_fields = [
+        "price_from",
+        "price_to",
+    ]
+
+    ordering = [
+        "-min_price_modifier",
+        "-max_price_modifier",
+    ]
+
+    @display(description="Цена(ОТ)", ordering="min_price_modifier")
+    def price_from(self, trade: ItemInSell) -> Decimal:
+        return trade.item.cost*trade.min_price_modifier
+
+    @display(description="Цена(ДО)", ordering="max_price_modifier")
+    def price_to(self, trade: ItemInSell) -> Decimal:
+        return trade.item.cost*trade.max_price_modifier
 
 
 class RandomReward(ReadOnlyNestedTable):
