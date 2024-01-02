@@ -93,11 +93,11 @@ class TradingWhereBuy(ReadOnlyNestedTable):
     ]
 
     @display(description="Цена(ОТ)", ordering="min_price_modifier")
-    def price_from(self, trade: ItemInSell) -> Decimal:
+    def price_from(self, trade: ItemInBuy) -> Decimal:
         return trade.item.cost*trade.min_price_modifier
 
     @display(description="Цена(ДО)", ordering="max_price_modifier")
-    def price_to(self, trade: ItemInSell) -> Decimal:
+    def price_to(self, trade: ItemInBuy) -> Decimal:
         return trade.item.cost*trade.max_price_modifier
 
 
