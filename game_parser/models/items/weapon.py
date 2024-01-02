@@ -28,3 +28,8 @@ class Weapon(BaseItem):
     ammo_elapsed = models.PositiveIntegerField(verbose_name='???', null=True)
     ammo_current = models.IntegerField(null=True)
     slot = models.IntegerField(null=True)
+
+    scope = models.ForeignKey("Scope", on_delete=models.SET_NULL, null=True, verbose_name="Прицел")
+    silencer = models.ForeignKey("Silencer", on_delete=models.SET_NULL, null=True, verbose_name="Глушитель")
+    grenade_launcher = models.ForeignKey("GrenadeLauncher", on_delete=models.SET_NULL, null=True, verbose_name="Подствольник")
+    ammo = models.ManyToManyField("Ammo", verbose_name="Патроны")
