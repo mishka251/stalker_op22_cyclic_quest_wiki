@@ -2,10 +2,18 @@ from django.db import models
 from game_parser.models import Character
 
 
-class Trader(Character):
+class Trader(models.Model):
     class Meta:
-        verbose_name = 'Торговец'
-        verbose_name_plural = 'Торговцы'
+        verbose_name = 'Профиль торговли'
+        verbose_name_plural = 'Профили торговли'
+
+    game_code = models.CharField(null=False, max_length=255)
+    name = models.CharField(null=True, max_length=255)
+    source_file = models.CharField(null=True, max_length=255)
+
+    def __str__(self):
+        return f'Профиль торговли {self.game_code} {self.name}'
+
 
 
 class BaseTrade(models.Model):
@@ -18,6 +26,8 @@ class BaseTrade(models.Model):
 
     def __str__(self):
         return f'{self.name} у {self.trader}'
+
+
 
 
 class Buy(BaseTrade):

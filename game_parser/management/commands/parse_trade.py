@@ -36,6 +36,16 @@ class Command(BaseCommand):
     #     'trader'
     # }
 
+    # @atomic
+    # def handle(self, **options):
+    #     for file in self.get_files_paths():
+    #
+    #         print(f'start {file}')
+    #         trader_name = file.name[:-4]
+    #         trader = Trader.objects.get(game_code=trader_name)
+    #         trader.source_file = (file.relative_to(self.get_files_dir_path()))
+    #         trader.save()
+
     @atomic
     def handle(self, **options):
         Trader.objects.all().delete()

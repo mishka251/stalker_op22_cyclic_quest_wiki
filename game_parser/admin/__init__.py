@@ -8,3 +8,4 @@ from .game_story import *
 from .translation import *
 from .game_story_ids import *
 from .cycle_tasks_vendors import *
+from .spawn_item import *

@@ -68,7 +68,7 @@ class DialogPhraseAdmin(ModelAdmin):
 
     search_fields = [
         'local_id',
-        'dialog',
+        'dialog__game_id',
     ]
 
     @display()
