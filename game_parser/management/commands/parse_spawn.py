@@ -41,7 +41,7 @@ class Command(BaseCommand):
         results = parser.get_parsed_blocks()
 
         alife_files = results["alife"]
-        level_files = alife_files["source_files"].split(",")
+        level_files = alife_files["source_files"].split(",\n")
         print(level_files)
         spawn_items = []
         for level_file_name in level_files:

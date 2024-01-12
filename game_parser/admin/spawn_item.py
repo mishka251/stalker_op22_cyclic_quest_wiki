@@ -7,6 +7,8 @@ from game_parser.models import SpawnItem, NpcLogicConfig
 class SpawnItemAdmin(ModelAdmin):
     autocomplete_fields = [
         "item",
+        "character_profile",
+        "npc_logic",
     ]
 
     search_fields = [
@@ -43,3 +45,6 @@ class NpcLogicConfigAdmin(ModelAdmin):
         "trade_file_name",
     ]
 
+    autocomplete_fields = [
+        "trade_config",
+    ]

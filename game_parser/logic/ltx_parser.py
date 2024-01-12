@@ -9,23 +9,22 @@ MULTILINE_BLOCK_START = "<<END"
 MULTILINE_BLOCK_END = "END"
 
 
-class LtxParser:
-    _encoding = "cp1251"
+class BaseLtxParser:
     _parsed_blocks: LtxParserResults = None
     _known_extends: LtxParserResults = None
 
     BLOCK_CAPTION_START = "["
     BLOCK_CAPTION_END = "]"
 
-    def __init__(self, file_path: Path, known_extends: LtxParserResults = None):
+    def __init__(self, file_path: Path, lines_generator,  known_extends: LtxParserResults = None):
         self._path = file_path
         self._known_extends = known_extends or {}
-        self._parse()
+        self._parse(lines_generator)
 
     def get_parsed_blocks(self) -> LtxParserResults:
         return self._parsed_blocks
 
-    def _parse(self):
+    def _parse(self, lines_generator):
         self._parsed_blocks = {}
         raw_blocks = {}
         blocks_bases: dict[str, tuple[str, ...]] = {}
@@ -33,41 +32,40 @@ class LtxParser:
         includes_to_parse = []
         # in_multiline_content = False
         current_multiline_block = None
-        with open(self._path, encoding=self._encoding) as file:
-            for line in file.readlines():
-                line = self._preprocess_line(line)
-                if current_multiline_block is None:
-                    if not line:
-                        continue
-                    if self._line_is_include(line):
-                        # self._parsed_blocks |= self._parse_include(line)
-                        includes_to_parse.append(line)
-                        continue
-                    if self._is_block_start_line(line):
-                        current_block_header, bases = self._get_block_caption(line)
-                        raw_blocks[current_block_header] = []
-                        blocks_bases[current_block_header] = bases
-                        continue
-                if line.endswith(MULTILINE_BLOCK_START):
-                    if current_multiline_block is not None:
-                        raise ValueError("Nested multiline block")
-                    else:
-                        current_multiline_block = line
-                        continue
+        for line in lines_generator:
+            line = self._preprocess_line(line)
+            if current_multiline_block is None:
+                if not line:
+                    continue
+                if self._line_is_include(line):
+                    # self._parsed_blocks |= self._parse_include(line)
+                    includes_to_parse.append(line)
+                    continue
+                if self._is_block_start_line(line):
+                    current_block_header, bases = self._get_block_caption(line)
+                    raw_blocks[current_block_header] = []
+                    blocks_bases[current_block_header] = bases
+                    continue
+            if line.endswith(MULTILINE_BLOCK_START):
+                if current_multiline_block is not None:
+                    raise ValueError("Nested multiline block")
                 else:
-                    if current_multiline_block:
-                        current_multiline_block += line
-                        if line.strip() == MULTILINE_BLOCK_END:
-                            key, value = current_multiline_block.split("=", 1)
-                            value = value.strip()
-                            value = value[len(MULTILINE_BLOCK_START):]
-                            value = value[:-len(MULTILINE_BLOCK_END)]
-                            current_multiline_block = f"{key}= {value}"
-                            raw_blocks[current_block_header].append(current_multiline_block)
-                            current_multiline_block = None
+                    current_multiline_block = line
+                    continue
+            else:
+                if current_multiline_block:
+                    current_multiline_block += "\n"+line
+                    if line.strip() == MULTILINE_BLOCK_END:
+                        key, value = current_multiline_block.split("=", 1)
+                        value = value.strip()
+                        value = value[len(MULTILINE_BLOCK_START):]
+                        value = value[:-len(MULTILINE_BLOCK_END)]
+                        current_multiline_block = f"{key}= {value}"
+                        raw_blocks[current_block_header].append(current_multiline_block)
+                        current_multiline_block = None
 
-                        continue
-                raw_blocks[current_block_header].append(line)
+                    continue
+            raw_blocks[current_block_header].append(line)
 
         for block_code, block_lines in raw_blocks.items():
             block_lines = self._parse_block_lines(block_lines, block_code)
@@ -145,3 +143,27 @@ class LtxParser:
             key = line.strip()
             value = None
         return key, value
+
+
+class LtxParser(BaseLtxParser):
+    _encoding = "cp1251"
+
+    def __init__(self, file_path: Path, known_extends: LtxParserResults = None):
+        self._path = file_path
+
+        with open(self._path, encoding=self._encoding) as file:
+            lines = file.readlines()
+            super().__init__(file_path, lines, known_extends)
+
+class TextLtxParser(BaseLtxParser):
+    _encoding = "cp1251"
+
+    def __init__(self, file_path: Path, content: str, known_extends: LtxParserResults = None):
+        self._path = file_path
+
+        lines = content.split("\n")
+        try:
+            super().__init__(file_path, lines, known_extends)
+        except Exception as ex:
+            print(f"Ошибка парсинга {content}")
+            raise ex

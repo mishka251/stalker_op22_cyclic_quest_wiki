@@ -43,7 +43,7 @@ class Command(BaseCommand):
     #         print(f'start {file}')
     #         trader_name = file.name[:-4]
     #         trader = Trader.objects.get(game_code=trader_name)
-    #         trader.source_file = (file.relative_to(self.get_files_dir_path()))
+    #         trader.source_file = (file.relative_to(self.get_files_dir_path().parent))
     #         trader.save()
 
     @atomic

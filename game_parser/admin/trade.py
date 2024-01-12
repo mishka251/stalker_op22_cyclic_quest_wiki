@@ -8,7 +8,11 @@ from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTa
 
 @register(Trader)
 class TraderAdmin(ModelAdmin):
-    pass
+    search_fields = [
+        "game_code",
+        "name",
+        "source_file",
+    ]
 
 
 class ItemInByline(ReadOnlyNestedTable):
