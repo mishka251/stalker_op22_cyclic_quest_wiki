@@ -9,6 +9,8 @@ class SpawnItem(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
     position_raw = models.CharField(max_length=300, verbose_name="Координаты(строка)")
     spawn_id = models.PositiveBigIntegerField(verbose_name="ID", unique=True)
+    story_id = models.PositiveBigIntegerField(verbose_name="story_id", unique=True, null=True)
+    spawn_story_id = models.PositiveBigIntegerField(verbose_name="spawn_story_id", unique=True, null=True)
     game_vertex_id = models.PositiveBigIntegerField(verbose_name="vertexID")
     location_txt = models.CharField(max_length=255, verbose_name="локация")
     custom_data = models.TextField(null=True)

@@ -106,4 +106,20 @@
 * `config/gameplay/dialogss*.xml`
 * `<action>` - название скрипта из файла в `scripts`
 * По скриптам можно пройтись и увидеть что дают(по именам функций)
-* 
+
+
+
+
+
+
+TODO
+
+Распасить скрипты со спавном НПС, чтобы понять найти связь story_id и секции для динамически спавнящихся квестодателей
+
+Например, Пропер 70 и Обитель зла:
+story_id `19907`, `19903`, `19909`
+Спавнятся в `scripts/snp.script` `scripts/snp.script:1164` `spawn_bunker_jupiter`
+Секции `proper70_jupiter`, `resident_evil_jupiter`, `anna_jupiter`
+
+Далее надо найти эти секции в `config/creatures/spawn_sections_snp.ltx` и распарсить из них `character_profile`
+

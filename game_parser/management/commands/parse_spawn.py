@@ -64,4 +64,6 @@ class Command(BaseCommand):
             location_txt=level_file_name,
             custom_data = section.get("custom_data", None),
             character_profile_str=section.get("character_profile"),
+            story_id=section.get("story_id", None),
+            spawn_story_id=section.get("spawn_story_id", None),
         )
