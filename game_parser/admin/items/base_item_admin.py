@@ -5,7 +5,7 @@ from django.contrib.admin import ModelAdmin, register, display, TabularInline
 from django.utils.safestring import mark_safe
 
 from game_parser.models import ItemReward, SpawnReward, CyclicQuest, ItemInSell, ItemInBuy, QuestRandomReward, \
-    ItemInTreasure
+    ItemInTreasure, SpawnItem
 from game_parser.models.items.base_item import BaseItem
 from game_parser.models.quest import CyclicQuestItemReward
 from game_parser.utils.admin_utils.icon_view import icon_view
@@ -111,6 +111,10 @@ class TreasureItemsAdmin(ReadOnlyNestedTable):
     model = ItemInTreasure
 
 
+class SpawnInline(ReadOnlyNestedTable):
+    model = SpawnItem
+
+
 @register(BaseItem)
 class BaseItemAdmin(ModelAdmin):
     list_display = (
@@ -133,6 +137,7 @@ class BaseItemAdmin(ModelAdmin):
         TradingWhereBuy,
         RandomReward,
         TreasureItemsAdmin,
+        SpawnInline,
     ]
 
     autocomplete_fields = [
