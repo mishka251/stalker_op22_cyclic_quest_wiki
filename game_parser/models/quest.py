@@ -48,6 +48,10 @@ class CyclicQuest(models.Model):
     vendor = models.ForeignKey('CycleTaskVendor', null=True, on_delete=models.SET_NULL, verbose_name='Персонаж квестодатель')
     # random_rewards = models.ManyToManyField('QuestRandomReward', verbose_name='Рандомные награды', related_name='quests', through='QuestRandomRewardThrough')
 
+    target_stalker = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Сталкер цель", related_name="+")
+    target_camp_to_destroy = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Лагерь нужно уничтожить", related_name="+")
+    target_camp_to_defeat = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Лагерь нужно защитить", related_name="+")
+
     @property
     def get_vendor_character(self):
         vendor = self.vendor

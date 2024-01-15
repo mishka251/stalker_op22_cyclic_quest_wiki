@@ -21,6 +21,9 @@ class CyclicQuestRandomRewardInline(ReadOnlyNestedTable):
 class QuestAdmin(ModelAdmin):
     autocomplete_fields = [
         'target_item',
+        'target_stalker',
+        'target_camp_to_destroy',
+        'target_camp_to_defeat',
     ]
 
     inlines = [
