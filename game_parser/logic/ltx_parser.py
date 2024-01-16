@@ -100,13 +100,17 @@ class BaseLtxParser:
 
     def _get_bases(self, bases: tuple[str, ...]) -> dict:
         merged_bases = {}
-        for base in bases:
-            if base in self._parsed_blocks:
-                merged_bases |= self._parsed_blocks[base]
-            elif base in self._known_extends:
-                merged_bases |= self._known_extends[base]
-            else:
-                raise ValueError(f"Unknown {base=}")
+        try:
+            for base in bases:
+                if base in self._parsed_blocks:
+                    merged_bases |= self._parsed_blocks[base]
+                elif base in self._known_extends:
+                    merged_bases |= self._known_extends[base]
+                else:
+                    raise ValueError(f"Unknown {base=}")
+        except Exception as e:
+            print(f"Error while get_bases {merged_bases=}, {bases=}, {[self._parsed_blocks[base] for base in bases]=}")
+            raise e
         return merged_bases
 
     def _preprocess_line(self, line: str) -> str:
@@ -114,6 +118,8 @@ class BaseLtxParser:
         line = line.split(comment_start)[0]
         comment_start_v2 = r"//"
         line = line.split(comment_start_v2)[0]
+        comment_start_v3 = r"--"
+        line = line.split(comment_start_v3)[0]
         return line.strip()
 
     def _is_block_start_line(self, line: str) -> bool:

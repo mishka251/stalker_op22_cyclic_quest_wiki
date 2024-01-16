@@ -27,7 +27,7 @@ class CycleTaskVendor(models.Model):
         game_story_id = self.game_story_id
         if not game_story_id:
             return None
-        return game_story_id.character
+        return game_story_id.get_stalker_profile()
 
     def _get_spawn_section_npc_profile(self) -> "Optional[StorylineCharacter]":
         spawn_section = self.get_spawn_section()

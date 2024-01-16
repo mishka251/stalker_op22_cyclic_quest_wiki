@@ -17,6 +17,8 @@ class GameStoryIdAdmin(ModelAdmin):
         '__str__',
         'story_id',
         'section_name',
+        'spawn_section',
+        'spawn_section_custom',
     )
 
     autocomplete_fields = [

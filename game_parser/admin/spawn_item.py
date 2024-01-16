@@ -1,6 +1,6 @@
 from django.contrib.admin import ModelAdmin, register
 
-from game_parser.models import SpawnItem, NpcLogicConfig
+from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem
 
 
 @register(SpawnItem)
@@ -48,3 +48,27 @@ class NpcLogicConfigAdmin(ModelAdmin):
     autocomplete_fields = [
         "trade_config",
     ]
+
+
+@register(CustomSpawnItem)
+class CustomSpawnItemAdmin(ModelAdmin):
+    autocomplete_fields = [
+        "item",
+        "character_profile",
+        "npc_logic",
+    ]
+
+    search_fields = [
+        "section_name",
+        "name",
+    ]
+
+    list_display = [
+        "name",
+        "section_name",
+    ]
+
+    list_filter = [
+        "section_name",
+    ]
+
