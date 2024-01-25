@@ -15,11 +15,11 @@ class SpawnItem(models.Model):
     location_txt = models.CharField(max_length=255, verbose_name="локация")
     custom_data = models.TextField(null=True)
 
-    item = models.ForeignKey("BaseItem", on_delete=models.SET_NULL, null=True, verbose_name="Предмет")
-    character_profile_str = models.CharField(max_length=255, verbose_name="Профиль сталкера", null=True)
-    character_profile = models.ForeignKey("StorylineCharacter", on_delete=models.SET_NULL, null=True, verbose_name="Профиль НПС")
-    npc_logic = models.ForeignKey("NpcLogicConfig", on_delete=models.SET_NULL, null=True, verbose_name="Конфиг логики НПС")
-    location = models.ForeignKey("Location", on_delete=models.SET_NULL, null=True)
+    item = models.ForeignKey("BaseItem", on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Предмет")
+    character_profile_str = models.CharField(max_length=255, verbose_name="Профиль сталкера", blank=True, null=True)
+    character_profile = models.ForeignKey("StorylineCharacter", on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Профиль НПС")
+    npc_logic = models.ForeignKey("NpcLogicConfig", on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Конфиг логики НПС")
+    location = models.ForeignKey("Location", on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} ({self.section_name})"

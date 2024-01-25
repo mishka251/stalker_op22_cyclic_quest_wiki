@@ -106,11 +106,11 @@ class CharacterQuests:
 def collect_info() -> list[CharacterQuests]:
     all_tasks = list(CyclicQuest.objects.all().order_by('vendor'))
     result = []
-    for vendor, _vendor_tasks in groupby(all_tasks, lambda task: task.vendor):
+    for vendor, _vendor_tasks in groupby(all_tasks, lambda task: task.get_vendor_character):
         vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
-        vendor_id = vendor.game_story_id_raw
+        vendor_id = vendor.game_id
         try:
-            vendor_name = vendor.game_story_id.character.name_translation.rus
+            vendor_name = vendor.name_translation.rus
         except Exception as e:
             vendor_name = "<Неизвестный>"
 

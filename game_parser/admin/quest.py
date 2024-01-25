@@ -1,4 +1,4 @@
-from django.contrib.admin import ModelAdmin, register
+from django.contrib.admin import ModelAdmin, register, display
 
 from game_parser.models import CyclicQuest
 from game_parser.models.quest import CyclicQuestItemReward, QuestRandomRewardThrough
@@ -43,6 +43,16 @@ class QuestAdmin(ModelAdmin):
         "giver_code_local",
         "giver_code_global",
     ]
+
+    list_display = [
+        "__str__",
+        "type",
+        "get_vendor_character",
+    ]
+
+    @display(description="Квестодатель")
+    def get_vendor_character(self, obj: CyclicQuest):
+        return obj.get_vendor_character
 
 
 @register(QuestRandomRewardThrough)

@@ -6,11 +6,11 @@ class GameStoryId(models.Model):
     story_id = models.PositiveSmallIntegerField(null=False, verbose_name='game id')
     section_name = models.CharField(null=False, max_length=255, verbose_name='Название секции')
 
-    item = models.ForeignKey(null=True, to='BaseItem', on_delete=models.SET_NULL)
-    treasure = models.ForeignKey(null=True, to='Treasure', on_delete=models.SET_NULL)
-    character = models.ForeignKey(null=True, to='StorylineCharacter', on_delete=models.SET_NULL)
-    spawn_section = models.ForeignKey(null=True, to="SpawnItem", on_delete=models.SET_NULL)
-    spawn_section_custom = models.ForeignKey(null=True, to="CustomSpawnItem", on_delete=models.SET_NULL)
+    item = models.ForeignKey(null=True, to='BaseItem', on_delete=models.SET_NULL, blank=True)
+    treasure = models.ForeignKey(null=True, to='Treasure', on_delete=models.SET_NULL, blank=True)
+    character = models.ForeignKey(null=True, to='StorylineCharacter', on_delete=models.SET_NULL, blank=True)
+    spawn_section = models.ForeignKey(null=True, to="SpawnItem", on_delete=models.SET_NULL, blank=True)
+    spawn_section_custom = models.ForeignKey(null=True, to="CustomSpawnItem", on_delete=models.SET_NULL, blank=True)
 
     def __str__(self):
         return f'{self.story_id}'

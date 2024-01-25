@@ -25,4 +25,6 @@ class GameStoryIdAdmin(ModelAdmin):
         'item',
         'treasure',
         'character',
+        'spawn_section',
+        'spawn_section_custom',
     ]

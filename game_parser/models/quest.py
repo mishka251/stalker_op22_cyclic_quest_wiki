@@ -53,10 +53,9 @@ class CyclicQuest(models.Model):
     target_camp_to_defeat = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Лагерь нужно защитить", related_name="+")
 
     @property
-    def get_vendor_character(self):
+    def get_vendor_character(self) -> "Optional[StorylineCharacter]":
         vendor = self.vendor
-        game_id = vendor.game_story_id if vendor else None
-        character = game_id.character if game_id else None
+        character = vendor.get_npc_profile() if vendor else None
         return character
 
     def __str__(self):
