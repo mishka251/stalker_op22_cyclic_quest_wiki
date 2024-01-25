@@ -17,3 +17,13 @@ class Location(models.Model):
 
     def __str__(self):
         return f'Локация {self.name_translation} ({self.game_code})'
+
+class LocationMapInfo(models.Model):
+    location = models.ForeignKey(Location, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=255, null=False)
+    texture_raw = models.CharField(max_length=255, null=True)
+    bound_rect_raw = models.CharField(max_length=255, null=True)
+    global_rect_raw = models.CharField(max_length=255, null=True)
+    weathers = models.CharField(max_length=255, null=True)
+    music_tracks = models.CharField(max_length=255, null=True)
+    map_image = models.ImageField(null=True)
