@@ -9,6 +9,7 @@ class SpawnItemAdmin(ModelAdmin):
         "item",
         "character_profile",
         "npc_logic",
+        "location",
     ]
 
     search_fields = [
@@ -22,7 +23,7 @@ class SpawnItemAdmin(ModelAdmin):
         "name",
         "section_name",
         "spawn_id",
-        "location_txt",
+        "location",
         "game_vertex_id",
     ]
 
