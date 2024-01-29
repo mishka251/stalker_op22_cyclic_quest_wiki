@@ -1,6 +1,9 @@
-from django.contrib.admin import ModelAdmin, register
+from typing import Optional
+
+from django.contrib.admin import ModelAdmin, register, display
 
 from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem
+from game_parser.utils.admin_utils.icon_view import icon_view
 
 
 @register(SpawnItem)
@@ -25,12 +28,35 @@ class SpawnItemAdmin(ModelAdmin):
         "spawn_id",
         "location",
         "game_vertex_id",
+        "position_raw",
+        "map_bound_rect_raw",
+        "inv_icon_view",
     ]
 
     list_filter = [
         "section_name",
         "location_txt",
     ]
+
+    def _get_location_map(self, obj: SpawnItem) -> "Optional[LocationMapInfo]":
+        if not obj.location:
+            return None
+        location_info = obj.location.locationmapinfo_set.first()
+        return location_info
+
+    @display(description='Иконка', )
+    def inv_icon_view(self, obj: SpawnItem) -> Optional[str]:
+        location_info = self._get_location_map(obj)
+        if not location_info:
+            return None
+        return icon_view(location_info.map_image)
+
+    @display(description='Границы локи', )
+    def map_bound_rect_raw(self, obj: SpawnItem) -> Optional[str]:
+        location_info = self._get_location_map(obj)
+        if not location_info:
+            return None
+        return location_info.bound_rect_raw
 
 
 @register(NpcLogicConfig)

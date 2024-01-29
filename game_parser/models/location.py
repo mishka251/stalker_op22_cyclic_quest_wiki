@@ -18,6 +18,7 @@ class Location(models.Model):
     def __str__(self):
         return f'Локация {self.name_translation} ({self.game_code})'
 
+
 class LocationMapInfo(models.Model):
     location = models.ForeignKey(Location, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=255, null=False)
