@@ -1,0 +1,17 @@
+{%  extends "admin/change_form.html" %}
+
+{% block extrahead %}
+{{ block.super }}
+    <style>
+        .map {
+            width: 50vw;
+            height: 50vh;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          crossorigin=""/>
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            crossorigin=""></script>
+{% endblock %}

@@ -24,59 +24,55 @@
         const map_offset = JSON.parse(document.getElementById('map_offset').textContent);
         const yLevelOffset = JSON.parse(document.getElementById('y_level_offset').textContent);
         const min_x = map_offset[0];
-const min_y = map_offset[1];
-const max_x = map_offset[2];
-const max_y = map_offset[3];
+        const min_y = map_offset[1];
+        const max_x = map_offset[2];
+        const max_y = map_offset[3];
 
 
         document.addEventListener("DOMContentLoaded", () => {
 
             // Using leaflet.js to pan and zoom a big image.
-        // See also: http://kempe.net/blog/2014/06/14/leaflet-pan-zoom-image.html
-        // create the slippy map
-        var map = L.map('map', {
-            minZoom: -1,
-            maxZoom: 6,
-            center: [0, 0],
-            zoom: 1,
-            crs: L.CRS.Simple
-        });
-        // dimensions of the image
-        var w = 512,
-            h = 1024,
-            url = imagePath;
-        // calculate the edges of the image, in coordinate space
-        var southWest = map.unproject([min_x, min_y], 0);
-        var northEast = map.unproject([max_x, max_y], 0);
-        var bounds = new L.LatLngBounds(southWest, northEast);
-        // add the image overlay,
-        // so that it covers the entire map
-        L.imageOverlay(url, bounds).addTo(map);
-        // tell leaflet that the map is exactly as big as the image
-        map.setMaxBounds(bounds);
-        items.forEach(
-            (item) =>{
-                const marker = new L.Marker([item.position[1]+yLevelOffset, item.position[0]])
-                marker.bindPopup(`${item.position}, ${item.name}, ${item.section_name}`)
-                marker.addTo(map);
-            }
-        );
+            // See also: http://kempe.net/blog/2014/06/14/leaflet-pan-zoom-image.html
+            // create the slippy map
+            const map = L.map('map', {
+                minZoom: -1,
+                maxZoom: 6,
+                center: [0, 0],
+                zoom: 1,
+                crs: L.CRS.Simple
+            });
+            // calculate the edges of the image, in coordinate space
+            const southWest = map.unproject([min_x, min_y], 0);
+            const northEast = map.unproject([max_x, max_y], 0);
+            const bounds = new L.LatLngBounds(southWest, northEast);
+            // add the image overlay,
+            // so that it covers the entire map
+            L.imageOverlay(imagePath, bounds).addTo(map);
+            // tell leaflet that the map is exactly as big as the image
+            map.setMaxBounds(bounds);
+            items.forEach(
+                (item) => {
+                    const marker = new L.Marker([item.position[1] + yLevelOffset, item.position[0]])
+                    marker.bindPopup(`${item.position}, ${item.name}, ${item.section_name}`)
+                    marker.addTo(map);
+                }
+            );
 
-        const Coordinates = L.Control.extend({
-    onAdd: map => {
-      const container = L.DomUtil.create("div");
-      map.addEventListener("mousemove", e => {
-          container.innerHTML = `
+            const Coordinates = L.Control.extend({
+                onAdd: map => {
+                    const container = L.DomUtil.create("div");
+                    map.addEventListener("mousemove", e => {
+                        container.innerHTML = `
           <h2>Latitude is
             ${e.latlng.lat.toFixed(4)} <br>
             and Longitude is  ${e.latlng.lng.toFixed(4)}
             </h2>
           `;
-     });
-     return container;
-   }
-});
-map.addControl(new Coordinates({ position: "bottomleft" }));
+                    });
+                    return container;
+                }
+            });
+            map.addControl(new Coordinates({position: "bottomleft"}));
 
         });
     </script>
