@@ -11,3 +11,4 @@ from .game_story_ids import *
 from .cycle_task_vendors import *
 from .spawn_item import *
 from .custom_inventory_box import *
+from .monster import *

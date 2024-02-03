@@ -39,7 +39,8 @@ class BaseLtxParser:
                     continue
                 if self._line_is_include(line):
                     # self._parsed_blocks |= self._parse_include(line)
-                    includes_to_parse.append(line)
+                    # includes_to_parse.append(line)
+                    self._parsed_blocks |= self._parse_include(line)
                     continue
                 if self._is_block_start_line(line):
                     current_block_header, bases = self._get_block_caption(line)
@@ -78,8 +79,8 @@ class BaseLtxParser:
             # if not self._parsed_blocks[block_code]:
             #     raise ValueError(f"empty block {block_code=}")
 
-        for include in includes_to_parse:
-            self._parsed_blocks |= self._parse_include(include)
+        # for include in includes_to_parse:
+        #     self._parsed_blocks |= self._parse_include(include)
 
     def _line_is_include(self, line: str) -> bool:
         return line.startswith("#include")
