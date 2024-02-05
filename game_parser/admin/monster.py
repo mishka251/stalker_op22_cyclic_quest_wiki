@@ -14,6 +14,7 @@ class MonsterAdmin(ModelAdmin):
     autocomplete_fields = [
         'monster_part',
         'icon',
+        'name_translation',
     ]
 
     search_fields = [
