@@ -12,3 +12,4 @@ from .outfit import OutfitAdmin
 from .caps_anom import CapsAnomAdmin
 from .monster_cocoon import MonsterEmbrionAdmin
 from .true_artefact import TrueArtefactAdmin
+from .artefact import ArtefactAdmin

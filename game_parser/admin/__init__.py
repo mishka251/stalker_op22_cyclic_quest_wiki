@@ -11,3 +11,4 @@ from .cycle_tasks_vendors import *
 from .spawn_item import *
 from .custom_inventory_box import *
 from .monster import *
+from .encyclopedia import *
