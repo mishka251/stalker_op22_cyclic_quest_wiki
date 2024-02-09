@@ -12,3 +12,4 @@ from .spawn_item import *
 from .custom_inventory_box import *
 from .monster import *
 from .encyclopedia import *
+from .recept import *
