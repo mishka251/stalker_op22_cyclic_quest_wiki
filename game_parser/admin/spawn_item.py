@@ -6,6 +6,7 @@ from django.template import loader
 
 from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem, LocationMapInfo
 from game_parser.utils.admin_utils.icon_view import icon_view
+from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 
 @register(SpawnItem)
@@ -91,6 +92,15 @@ class SpawnItemAdmin(ModelAdmin):
             "section_name": section_name,
         }
 
+
+class SpawnItemInline(ReadOnlyNestedTable):
+    model = SpawnItem
+
+
+class CustomSpawnItemInline(ReadOnlyNestedTable):
+    model = CustomSpawnItem
+
+
 @register(NpcLogicConfig)
 class NpcLogicConfigAdmin(ModelAdmin):
     search_fields = [
@@ -106,6 +116,11 @@ class NpcLogicConfigAdmin(ModelAdmin):
 
     autocomplete_fields = [
         "trade_config",
+    ]
+
+    inlines = [
+        SpawnItemInline,
+        CustomSpawnItemInline,
     ]
 
 

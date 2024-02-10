@@ -2,8 +2,12 @@ from decimal import Decimal
 
 from django.contrib.admin import ModelAdmin, register, display
 
-from game_parser.models import Trader, Buy, Sell, ItemInBuy, ItemInSell
+from game_parser.models import Trader, Buy, Sell, ItemInBuy, ItemInSell, NpcLogicConfig
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
+
+
+class NpcLogicConfigInline(ReadOnlyNestedTable):
+    model = NpcLogicConfig
 
 
 @register(Trader)
@@ -12,6 +16,10 @@ class TraderAdmin(ModelAdmin):
         "game_code",
         "name",
         "source_file",
+    ]
+
+    inlines = [
+        NpcLogicConfigInline,
     ]
 
 
