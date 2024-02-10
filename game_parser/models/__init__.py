@@ -14,3 +14,4 @@ from .custom_inventory_box import *
 from .monster import *
 from .encyclopedia import *
 from .recepti import *
+from .anomaly import *
