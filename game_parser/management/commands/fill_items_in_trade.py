@@ -14,7 +14,7 @@ class Command(BaseCommand):
     def handle(self, **options):
         count = ItemInTradeBase.objects.count()
         for index, item in enumerate(ItemInTradeBase.objects.all()):
-            item.item = BaseItem.objects.filter(name=item.item_name).first()
+            item.item = BaseItem.objects.filter(name=item.item_name).first() or BaseItem.objects.filter(inv_name=item.item_name).first()
             item.save()
             print(f'{index+1}/{count}')
 

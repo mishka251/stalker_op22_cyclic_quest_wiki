@@ -81,9 +81,13 @@ class SellAdmin(ModelAdmin):
 
 @register(ItemInBuy)
 class ItemInBuyAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "item"
+    ]
 
 
 @register(ItemInSell)
 class ItemInSellAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "item"
+    ]
