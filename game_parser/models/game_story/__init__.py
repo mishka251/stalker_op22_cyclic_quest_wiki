@@ -1,4 +1,4 @@
-from .dialog import Dialog
+from .dialog import Dialog, DialogPhrase
 from .script_function import ScriptFunction
 from .base_script_reward import BaseScriptReward
 from .spawn_reward import SpawnReward
