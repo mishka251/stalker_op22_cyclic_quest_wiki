@@ -15,6 +15,11 @@ class SpawnRewardAdmin(ModelAdmin):
         'xyz_raw',
     )
 
+    autocomplete_fields = [
+        "item",
+        "function",
+    ]
+
     @display(description='Предмет')
     def item_view(self, character: SpawnReward) -> str:
         return character.get_item
