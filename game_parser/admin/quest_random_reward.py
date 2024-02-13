@@ -15,6 +15,8 @@ class CyclicQuestRandomRewardInline(ReadOnlyNestedTable):
 class QuestRandomRewardAdmin(ModelAdmin):
     autocomplete_fields = [
         'possible_items',
+        "icon",
+        "name_translation",
     ]
 
     search_fields = [

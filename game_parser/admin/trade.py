@@ -48,6 +48,14 @@ class ItemInByline(ReadOnlyNestedTable):
 @register(Buy)
 class BuyAdmin(ModelAdmin):
     inlines = [ItemInByline]
+    autocomplete_fields = [
+        "trader",
+    ]
+
+    search_fields = [
+        "trader",
+        "name",
+    ]
 
 
 class ItemInSellInline(ReadOnlyNestedTable):
@@ -75,6 +83,14 @@ class ItemInSellInline(ReadOnlyNestedTable):
 @register(Sell)
 class SellAdmin(ModelAdmin):
     inlines = [ItemInSellInline]
+    autocomplete_fields = [
+        "trader",
+    ]
+
+    search_fields = [
+        "trader",
+        "name",
+    ]
 
 
 
@@ -82,12 +98,14 @@ class SellAdmin(ModelAdmin):
 @register(ItemInBuy)
 class ItemInBuyAdmin(ModelAdmin):
     autocomplete_fields = [
-        "item"
+        "item",
+        "trade",
     ]
 
 
 @register(ItemInSell)
 class ItemInSellAdmin(ModelAdmin):
     autocomplete_fields = [
-        "item"
+        "item",
+        "trade",
     ]

@@ -20,11 +20,15 @@ class Location(models.Model):
 
 
 class LocationMapInfo(models.Model):
-    location = models.ForeignKey(Location, null=True, on_delete=models.SET_NULL)
-    name = models.CharField(max_length=255, null=False)
-    texture_raw = models.CharField(max_length=255, null=True)
-    bound_rect_raw = models.CharField(max_length=255, null=True)
-    global_rect_raw = models.CharField(max_length=255, null=True)
-    weathers = models.CharField(max_length=255, null=True)
-    music_tracks = models.CharField(max_length=255, null=True)
-    map_image = models.ImageField(null=True)
+    class Meta:
+        verbose_name = "Дополнительная информация о локации"
+        verbose_name_plural = "Дополнительные данные о локациях"
+
+    location = models.ForeignKey(Location, null=True, on_delete=models.SET_NULL, verbose_name="локация")
+    name = models.CharField(max_length=255, null=False, verbose_name="Название")
+    texture_raw = models.CharField(max_length=255, null=True, verbose_name="Название картинки с картой")
+    bound_rect_raw = models.CharField(max_length=255, null=True, verbose_name="Границы локации(границы картинки?)")
+    global_rect_raw = models.CharField(max_length=255, null=True, verbose_name="Границы локации(относительно глобальной карты?)")
+    weathers = models.CharField(max_length=255, null=True, verbose_name="Информация о погоде")
+    music_tracks = models.CharField(max_length=255, null=True, verbose_name="Информация о фоновой музыке")
+    map_image = models.ImageField(null=True, verbose_name="Карта")

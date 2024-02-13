@@ -1,12 +1,28 @@
 from django.db import models
 
+
 class InventoryBox(models.Model):
-    section_name = models.CharField(max_length=255)
+    class Meta:
+        verbose_name = "Тайник"
+        verbose_name_plural = "Тайники"
+
+    section_name = models.CharField(max_length=255, verbose_name="Название секции")
     source_file_name = models.CharField(max_length=255, verbose_name="Путь к файлу")
     items_raw = models.CharField(max_length=1000, verbose_name="Строка с предметами", null=True)
 
+    def __str__(self):
+        return f"Тайник {self.section_name}"
+
 class ItemInTreasureBox(models.Model):
-    item = models.ForeignKey('BaseItem', null=False, on_delete=models.CASCADE)
-    box = models.ForeignKey('InventoryBox', null=False, on_delete=models.CASCADE)
-    count = models.IntegerField(null=True)
-    
+    class Meta:
+        verbose_name = "Предметы в тайнике"
+        verbose_name_plural = "Предметы в тайниках"
+
+    item = models.ForeignKey('BaseItem', null=False, on_delete=models.CASCADE, verbose_name="Предмет")
+    box = models.ForeignKey('InventoryBox', null=False, on_delete=models.CASCADE, verbose_name="Тайник")
+    count = models.IntegerField(null=True, verbose_name="Количество")
+
+    def __str__(self):
+        return f"{self.count} {self.item} в {self.box}"
+
+

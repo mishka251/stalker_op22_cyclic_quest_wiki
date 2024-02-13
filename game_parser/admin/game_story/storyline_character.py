@@ -3,7 +3,7 @@ from typing import Optional
 from django.contrib.admin import ModelAdmin, register, display
 from django.utils.html import mark_safe
 
-from game_parser.models import Dialog, GameStoryId
+from game_parser.models import Dialog, GameStoryId, Community
 from game_parser.models.game_story import StorylineCharacter, Icon
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
@@ -30,6 +30,14 @@ class GameStoryIdAdmin(ReadOnlyNestedTable):
     model = GameStoryId
 
 
+@register(Community)
+class CommunityAdmin(ModelAdmin):
+    search_fields = [
+        "id",
+        "name",
+    ]
+
+
 @register(StorylineCharacter)
 class StorylineCharacterAdmin(ModelAdmin):
     list_display = (
@@ -42,6 +50,7 @@ class StorylineCharacterAdmin(ModelAdmin):
         'name_translation',
         'icon',
         'dialogs',
+        'community',
     ]
 
     inlines = [

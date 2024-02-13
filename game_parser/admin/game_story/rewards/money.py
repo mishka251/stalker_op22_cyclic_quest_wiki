@@ -14,3 +14,7 @@ class MoneyRewardAdmin(ModelAdmin):
         'count',
         'raw_count',
     )
+
+    autocomplete_fields = [
+        "function",
+    ]

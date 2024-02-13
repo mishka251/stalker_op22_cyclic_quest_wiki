@@ -17,3 +17,8 @@ class ItemRewardAdmin(ModelAdmin):
         'raw_item',
     )
 
+    autocomplete_fields = [
+        "function",
+        "item",
+    ]
+

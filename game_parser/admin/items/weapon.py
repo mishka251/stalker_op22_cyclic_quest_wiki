@@ -23,4 +23,7 @@ class WeaponAdmin(BaseItemAdmin):
     autocomplete_fields = [
         *BaseItemAdmin.autocomplete_fields,
         'ammo',
+        'grenade_launcher',
+        'scope',
+        'silencer',
     ]

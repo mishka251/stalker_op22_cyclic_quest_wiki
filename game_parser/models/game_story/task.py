@@ -5,6 +5,10 @@ from game_parser.models.game_story.storyline_character import Icon
 
 
 class GameTask(models.Model):
+    class Meta:
+        verbose_name = "Сюжетное задание"
+        verbose_name_plural = "Сюжетные задания"
+
     game_id = models.CharField(max_length=256, unique=True, verbose_name='Игровой id')
     title_id_raw = models.CharField(max_length=256, verbose_name='Сырое название')
     title = models.ForeignKey(Translation, null=True, on_delete=models.SET_NULL, verbose_name='Заголовок(перевод)')
@@ -21,6 +25,9 @@ class GameTask(models.Model):
 
 
 class TaskObjective(models.Model):
+    class Meta:
+        verbose_name = "Цель задания"
+        verbose_name_plural = "Цели заданий"
     task = models.ForeignKey(GameTask, on_delete=models.CASCADE, verbose_name='Задание')
     text_id_raw = models.CharField(max_length=256, null=True, verbose_name='Сырой текст')
     text = models.ForeignKey(Translation, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Текст(перевод)')

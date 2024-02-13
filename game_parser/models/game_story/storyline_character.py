@@ -7,6 +7,9 @@ class Community(models.Model):
 
 
 class Icon(models.Model):
+    class Meta:
+        verbose_name = "Иконка"
+        verbose_name_plural = "Иконки"
     name = models.CharField(max_length=512, null=False)
     icon = models.ImageField(null=False)
 

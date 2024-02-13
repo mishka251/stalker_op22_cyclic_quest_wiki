@@ -24,6 +24,7 @@ class QuestAdmin(ModelAdmin):
         'target_stalker',
         'target_camp_to_destroy',
         'target_camp_to_defeat',
+        'vendor',
     ]
 
     inlines = [

@@ -5,8 +5,13 @@ from game_parser.models import InventoryBox, ItemInTreasureBox
 
 @register(InventoryBox)
 class InventoryBoxAdmin(ModelAdmin):
-    pass
+    search_fields = [
+        "section_name",
+    ]
 
 @register(ItemInTreasureBox)
 class ItemInTreasureBoxAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "box",
+        "item",
+    ]

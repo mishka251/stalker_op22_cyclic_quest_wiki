@@ -61,6 +61,8 @@ class CyclicQuest(models.Model):
     def __str__(self):
         kind_caption = dict(QuestKinds.choices)[self.type]
         target = self.target_item or self.target_str
+        if self.target_count:
+            target = f"{self.target_count} {target}"
         return f'{kind_caption} {target} для {self.get_vendor_character}'
 
 

@@ -14,6 +14,9 @@ class GameTaskAdmin(ModelAdmin):
     )
 
     search_fields = ['game_id']
+    autocomplete_fields = [
+        "title",
+    ]
 
     @display(description='Имя')
     def title_view(self, character: GameTask) -> str:
@@ -29,6 +32,17 @@ class TaskObjectiveAdmin(ModelAdmin):
         'article_view',
     )
 
+    autocomplete_fields = [
+        "icon",
+        "task",
+        "text",
+    ]
+
+    search_fields = [
+        "task",
+        "text_id_raw",
+    ]
+
     @display(description='Текст')
     def text_view(self, character: TaskObjective) -> str:
         return character.get_text
@@ -39,5 +53,8 @@ class TaskObjectiveAdmin(ModelAdmin):
 
 @register(MapLocationType)
 class MapLocationTypeAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "hint",
+        "objective",
+    ]
 

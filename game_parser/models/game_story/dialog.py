@@ -8,15 +8,15 @@ from game_parser.models.game_story.infoportion import InfoPortion
 class Dialog(models.Model):
     class Meta:
         verbose_name = 'Диалог'
-
+        verbose_name_plural = "Диалоги"
     game_id = models.CharField(max_length=512, null=False, verbose_name='id')
-    has_info_raw = models.TextField(null=True)
+    has_info_raw = models.TextField(null=True, verbose_name="id требуемых инфопоршней")
     dont_has_info_raw = models.TextField(null=True)
     give_info_raw = models.TextField(null=True)
     actions_raw = models.TextField(null=True)
     precondition_raw = models.TextField(null=True)
     init_func_raw = models.TextField(null=True)
-    comments_raw = models.TextField(null=True)
+    comments_raw = models.TextField(null=True, verbose_name="комментарии из xml")
 
     has_info = models.ManyToManyField(InfoPortion, related_name='open_dialogs', verbose_name='Информация, нужная для получения диалога')
     dont_has_info = models.ManyToManyField(InfoPortion, related_name='close_dialogs', verbose_name='Информация, блокирующая диалог')
@@ -29,18 +29,28 @@ class Dialog(models.Model):
 
 
 class DialogPhrase(models.Model):
-    local_id = models.CharField(max_length=10)
+    class Meta:
+        verbose_name = 'Фраза диалога'
+        verbose_name_plural = "Фразы диалогов"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["local_id", "dialog"],
+                name="unique_dialog_phrase_by_local_id_and_dialog",
+            )
+        ]
 
-    dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE, null=False)
+    local_id = models.CharField(max_length=10, verbose_name="id фразы в диалоге")
 
-    text_id_raw = models.CharField(max_length=256, null=True)
-    text = models.ForeignKey(Translation, null=True, on_delete=models.SET_NULL)
+    dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE, null=False, verbose_name="Диалог")
 
-    next_ids_raw = models.CharField(max_length=512)
-    previous = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)
+    text_id_raw = models.CharField(max_length=256, null=True, verbose_name="id текста")
+    text = models.ForeignKey(Translation, null=True, on_delete=models.SET_NULL, verbose_name="Перевод текста")
 
-    give_info_raw = models.TextField(null=True)
-    actions_raw = models.TextField(null=True)
+    next_ids_raw = models.CharField(max_length=512, verbose_name="id следующих фраз диалога")
+    previous = models.ForeignKey('self', null=True, on_delete=models.SET_NULL, verbose_name="Предыдущая фраза")
+
+    give_info_raw = models.TextField(null=True, verbose_name="Получение инфопоршня(id)")
+    actions_raw = models.TextField(null=True, verbose_name="Запуск действий(id)")
     precondition_raw = models.TextField(null=True)
     has_info_raw = models.TextField(null=True)
     dont_has_info_raw = models.TextField(null=True)
@@ -62,4 +72,4 @@ class DialogPhrase(models.Model):
         return self.text_id_raw
 
     def __str__(self):
-        return f'Фраза {self.local_id} дилаога {self.dialog}'
+        return f'Фраза {self.local_id} диалога {self.dialog}'
