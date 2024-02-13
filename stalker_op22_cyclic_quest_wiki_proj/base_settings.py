@@ -149,17 +149,11 @@ LOGGING = {
         },
         'logfile': {
             'level': 'DEBUG',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'class': 'logging.FileHandler',
             'filename': BASE_DIR / 'logs' / 'django.log',
             'formatter': 'standard',
-            'when': 'midnight',
             'encoding': 'utf8',
         },
-        # 'mail_admins': {
-        #     'level': 'ERROR',
-        #     'class': 'django.utils.log.AdminEmailHandler',
-        #     'filters': ['special']
-        # }
     },
     'loggers': {
         'django': {
