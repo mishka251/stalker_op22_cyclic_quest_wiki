@@ -43,6 +43,17 @@ class BaseLtxParser:
                     self._parsed_blocks |= self._parse_include(line)
                     continue
                 if self._is_block_start_line(line):
+                    prev_block_name = current_block_header
+                    if prev_block_name is not None:
+                        block_code = prev_block_name
+                        block_lines = raw_blocks[block_code]
+                        block_lines = self._parse_block_lines(block_lines, block_code)
+                        if isinstance(block_lines, list):
+                            self._parsed_blocks[block_code] = block_lines
+                        else:
+                            self._parsed_blocks[block_code] = {}
+                            self._parsed_blocks[block_code] |= self._get_bases(blocks_bases[block_code])
+                            self._parsed_blocks[block_code] |= block_lines
                     current_block_header, bases = self._get_block_caption(line)
                     raw_blocks[current_block_header] = []
                     blocks_bases[current_block_header] = bases
@@ -108,7 +119,7 @@ class BaseLtxParser:
                 elif base in self._known_extends:
                     merged_bases |= self._known_extends[base]
                 else:
-                    raise ValueError(f"Unknown {base=}")
+                    raise ValueError(f"Unknown {base=} in file={self._path}")
         except Exception as e:
             print(f"Error while get_bases {merged_bases=}, {bases=}, {[self._parsed_blocks[base] for base in bases]=}")
             raise e
