@@ -9,7 +9,7 @@ class Treasure(models.Model):
         verbose_name = 'Тайник'
         verbose_name_plural = 'Тайники'
 
-    target = models.CharField(null=False, max_length=10, verbose_name='???')
+    target = models.CharField(null=False, max_length=10, verbose_name='spawn_id для поиска в спавне')
     name_str = models.CharField(null=False, max_length=255, verbose_name='Название(код перевода)')
     description_str = models.CharField(null=False, max_length=255, verbose_name='Описание(код перевода)')
     items_str = models.CharField(null=False, max_length=1_000, verbose_name='Предметы в тайнике(строкой)')
@@ -30,6 +30,9 @@ class Treasure(models.Model):
         verbose_name='Перевод описания',
         related_name='+'
     )
+
+    spawn_item = models.ForeignKey("SpawnItem", null=True, on_delete=models.SET_NULL, verbose_name="Секция спавна")
+
 
     def __str__(self):
         treasure_str = ''

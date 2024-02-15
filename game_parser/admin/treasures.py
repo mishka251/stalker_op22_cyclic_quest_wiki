@@ -27,6 +27,7 @@ class TreasureAdmin(ModelAdmin):
     autocomplete_fields = [
         'custom_name_translation',
         'description_translation',
+        'spawn_item',
     ]
 
     inlines = [

@@ -1,11 +1,14 @@
+import re
 from decimal import Decimal
 from typing import Optional
 
+from django.template import loader
 from django.contrib.admin import ModelAdmin, register, display, TabularInline
 from django.utils.safestring import mark_safe
 
+from game_parser.admin.utils import SpawnItemMapRenderer
 from game_parser.models import ItemReward, SpawnReward, CyclicQuest, ItemInSell, ItemInBuy, QuestRandomReward, \
-    ItemInTreasure, SpawnItem, Recept
+    ItemInTreasure, SpawnItem, Recept, LocationMapInfo
 from game_parser.models.items.base_item import BaseItem
 from game_parser.models.quest import CyclicQuestItemReward
 from game_parser.utils.admin_utils.icon_view import icon_view
@@ -109,14 +112,45 @@ class RandomReward(ReadOnlyNestedTable):
 
 class TreasureItemsAdmin(ReadOnlyNestedTable):
     model = ItemInTreasure
+    fields = [
+        "treasure",
+        "count",
+        "map",
+    ]
+
+    readonly_fields = [
+        "map",
+    ]
+
+    @display(description="Карта")
+    def map(self, item: ItemInTreasure) -> Optional[str]:
+        renderer = SpawnItemMapRenderer(item.treasure.spawn_item)
+        return renderer.render()
 
 
 class SpawnInline(ReadOnlyNestedTable):
     model = SpawnItem
+    fields = [
+        "location",
+        "position_raw",
+        "map",
+    ]
+
+    readonly_fields = [
+        "map",
+    ]
+
+
+    @display(description="Карта")
+    def map(self, item: SpawnItem) -> Optional[str]:
+        renderer = SpawnItemMapRenderer(item)
+        return renderer.render()
+
 
 
 class ReceptInline(ReadOnlyNestedTable):
     model = Recept
+
 
 @register(BaseItem)
 class BaseItemAdmin(ModelAdmin):
@@ -148,6 +182,8 @@ class BaseItemAdmin(ModelAdmin):
         'name_translation',
         'description_translation',
     ]
+
+    change_form_template = "admin/game_parser/spawnitem/change_form.html"
 
     @display(description='Название', ordering='name_translation__rus')
     def name_translation_rus(self, obj: BaseItem) -> str:
