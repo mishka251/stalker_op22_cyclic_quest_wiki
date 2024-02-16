@@ -52,6 +52,7 @@ class CustomSpawnItem(models.Model):
     spec_rank_str = models.CharField(max_length=255, null=True)
     community_str = models.CharField(max_length=255, null=True)
     visual_str = models.CharField(max_length=255, null=True)
+    custom_inventory_box = models.ForeignKey("InventoryBox", on_delete=models.SET_NULL, null=True, verbose_name="Тайник(рюкзак?)")
 
     def __str__(self):
         return f"{self.name} ({self.section_name})"

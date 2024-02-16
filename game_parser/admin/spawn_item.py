@@ -88,6 +88,7 @@ class CustomSpawnItemAdmin(ModelAdmin):
         "item",
         "character_profile",
         "npc_logic",
+        "custom_inventory_box",
     ]
 
     search_fields = [
