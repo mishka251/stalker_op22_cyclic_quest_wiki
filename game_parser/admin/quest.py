@@ -25,6 +25,7 @@ class QuestAdmin(ModelAdmin):
         'target_camp_to_destroy',
         'target_camp_to_defeat',
         'vendor',
+        'text',
     ]
 
     inlines = [

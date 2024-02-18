@@ -52,6 +52,7 @@ class TaskObjectiveAdmin(ModelAdmin):
         "function_fail",
         "infoportion_set_fail",
         "function_call_complete",
+        "article",
     ]
 
     search_fields = [

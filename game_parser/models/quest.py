@@ -52,6 +52,9 @@ class CyclicQuest(models.Model):
     target_camp_to_destroy = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Лагерь нужно уничтожить", related_name="+")
     target_camp_to_defeat = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Лагерь нужно защитить", related_name="+")
 
+    text_raw = models.CharField(max_length=255, null=True, verbose_name="Код перевода текста задания")
+    text = models.ForeignKey("Translation", on_delete=models.SET_NULL, null=True, verbose_name="Текст задания", related_name="+")
+
     @property
     def get_vendor_character(self) -> "Optional[StorylineCharacter]":
         vendor = self.vendor
