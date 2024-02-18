@@ -1,6 +1,8 @@
 from django.contrib.admin import ModelAdmin, register, TabularInline, display
+from django.utils.safestring import mark_safe
 
-from game_parser.models import Dialog
+from game_parser.admin.utils import links_list
+from game_parser.models import Dialog, ScriptFunction
 from game_parser.models.game_story.dialog import DialogPhrase
 
 
@@ -42,6 +44,15 @@ class DialogAdmin(ModelAdmin):
         'precondition',
         'init_func',
     ]
+
+    readonly_fields = [
+        "all_action",
+    ]
+
+    @display(description="Функции вызываемые в фразах диалога")
+    def all_action(self, dialog: Dialog) -> str:
+        all_actions = set(ScriptFunction.objects.filter(starts_phrases__dialog=dialog))
+        return mark_safe(links_list(all_actions))
 
 
 @register(DialogPhrase)

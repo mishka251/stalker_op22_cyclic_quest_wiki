@@ -1,8 +1,9 @@
 import re
 from decimal import Decimal
-from typing import Optional
+from typing import Optional, Iterable
 
 from django.template import loader
+from django.db.models import Model
 from django.contrib.admin import ModelAdmin, register, display, TabularInline
 from django.utils.safestring import mark_safe
 
@@ -70,3 +71,11 @@ class SpawnItemMapRenderer:
             "name": name,
             "section_name": section_name,
         }
+
+def _item_link(item: Model) -> str:
+    href = f"/admin/{item._meta.app_label}/{item._meta.model_name}/{item.pk}"
+    str_ = str(item)
+    return f"<a href='{href}'> {str_} </a>"
+
+def links_list(items: Iterable[Model]) -> str:
+    return "\n".join(map(_item_link, items))

@@ -4,6 +4,12 @@ from django.contrib.admin import ModelAdmin, register, display
 from django.utils.html import mark_safe
 
 from game_parser.models.game_story import GameTask, TaskObjective, MapLocationType
+from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
+
+
+class TaskObjectiveInline(ReadOnlyNestedTable):
+    model = TaskObjective
+
 
 @register(GameTask)
 class GameTaskAdmin(ModelAdmin):
@@ -12,6 +18,10 @@ class GameTaskAdmin(ModelAdmin):
         'game_id',
         'title_view',
     )
+
+    inlines = [
+        TaskObjectiveInline,
+    ]
 
     search_fields = ['game_id']
     autocomplete_fields = [

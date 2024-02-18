@@ -55,6 +55,8 @@ class TaskObjective(models.Model):
     infoportion_set_fail = models.ForeignKey("InfoPortion",  related_name="set_on_fail_task_objective", on_delete=models.SET_NULL, null=True, verbose_name="Инфопоршень, устанавлеваемый при провале")
     function_call_complete = models.ForeignKey("ScriptFunction", related_name="call_on_complete_task_objective", on_delete=models.SET_NULL, null=True, verbose_name="Функция, вызываемая при завершении")
 
+    article = models.ForeignKey("EncyclopediaArticle", related_name="task_objectives", on_delete=models.SET_NULL, null=True, verbose_name="Статья")
+
 
     @property
     def get_text(self) -> str:
