@@ -9,6 +9,7 @@ import logging
 
 import re
 
+from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.models import GameTask, TaskObjective, MapLocationType
 
 logger = logging.getLogger(__name__)
@@ -38,8 +39,9 @@ class Command(BaseCommand):
 
         for file_path in self.get_files_paths(self.get_files_dir_path()):
             print(file_path)
-            self._fix_fucking_incorrect_xml(file_path)
-            with open(self._tml_file_name_for_xml(file_path), 'r') as tml_file:
+            fixer = GSCXmlFixer(file_path)
+            fixed_file_path = fixer.fix(add_root_tag=True)
+            with open(fixed_file_path, 'r') as tml_file:
                 root_node = parse(tml_file).getroot()
             # print(root_node)
             for game_task in root_node:
@@ -47,24 +49,6 @@ class Command(BaseCommand):
                     self._parse_game_task(game_task)
                 else:
                     logger.warning(f'Unexpected node {game_task.tag} in {file_path}')
-
-    def _tml_file_name_for_xml(self, source_file_path: Path) -> str:
-        return f'{source_file_path.name[:-4]}_tmp.xml'
-    def _fix_fucking_incorrect_xml(self, source_file_path: Path) -> None:
-        with open(source_file_path, 'r') as file:
-            content = file.read()
-        fixed_content = self._fix_broken_comments(content)
-        fixed_content = self._add_root_tag(fixed_content)
-        with open(self._tml_file_name_for_xml(source_file_path), 'w') as tml_file:
-            tml_file.write(fixed_content)
-
-    def _add_root_tag(self, content: str) -> str:
-        return f'<xml>{content}</xml>'
-
-    def _fix_broken_comments(self, content:str) -> str:
-        xml_comment_re = re.compile(r'<!--[\s-]*(?P<comment>.*?)[\s-]*-->')
-        fixed_content = re.sub(xml_comment_re, r'<!-- \g<comment> -->', content)
-        return fixed_content
 
     def _parse_game_task(self, game_task_node: Element) -> None:
         # print(game_task_node)

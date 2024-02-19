@@ -11,6 +11,7 @@ import re
 
 from lxml.etree import parse, Element, _Comment
 
+from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.models import GameTask, TaskObjective, MapLocationType, Dialog, Icon, StorylineCharacter
 from game_parser.models.game_story.dialog import DialogPhrase
 from PIL import Image
@@ -45,8 +46,9 @@ class Command(BaseCommand):
 
         for file_path in self.get_files_paths(self.get_files_dir_path()):
             print(file_path)
-            self._fix_fucking_incorrect_xml(file_path)
-            root_node = parse(self._tml_file_name_for_xml(file_path)).getroot()
+            fixer = GSCXmlFixer(file_path)
+            fixed_file_path = fixer.fix()
+            root_node = parse(fixed_file_path).getroot()
             comments = []
             for child_node in root_node:
                 if child_node.tag == 'specific_character':
@@ -56,30 +58,6 @@ class Command(BaseCommand):
                     comments.append(child_node.text)
                 else:
                     logger.warning(f'Unexpected node {child_node.tag} in {file_path}')
-
-    def _tml_file_name_for_xml(self, source_file_path: Path) -> Path:
-        return self.TMP_DIR / source_file_path.name
-
-    def _fix_fucking_incorrect_xml(self, source_file_path: Path) -> None:
-        with open(source_file_path, 'r', encoding=DEFAULT_ENCODING) as file:
-            content = file.read()
-        fixed_content = self._fix_broken_comments(content)
-        with open(self._tml_file_name_for_xml(source_file_path), 'w', encoding=DEFAULT_ENCODING) as tml_file:
-            tml_file.write(fixed_content)
-
-    def _add_root_tag(self, content: str) -> str:
-        return f'<xml>{content}</xml>'
-
-    def _fix_broken_comments(self, content: str) -> str:
-        current_content = ''
-        fixed_content = content
-        xml_comment_re = re.compile(r'<!--(?P<before>.*?)-{2,}(?P<after>.*)-->')
-        while fixed_content != current_content:
-            current_content = fixed_content
-            fixed_content = re.sub(xml_comment_re, r'<!--\g<before> \g<after>-->', current_content)
-        xml_comment2_re = re.compile(r'<!--[\s-]*(?P<comment>.*?)[\s-]*-->')
-        fixed_content = re.sub(xml_comment2_re, r'<!-- \g<comment> -->', fixed_content)
-        return fixed_content
 
     def _replace_includes(self, content: str) -> str:
         import_regex = re.compile(r'#include "(?P<include_path>.*?)"')

@@ -1,18 +1,16 @@
+import logging
 from pathlib import Path
-# from xml.etree.ElementTree import Element, parse
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
-
-import logging
-
-import re
-
 from lxml.etree import parse, Element, _Comment
 
-from game_parser.models import GameTask, TaskObjective, MapLocationType, Dialog
+from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
+from game_parser.models import Dialog
 from game_parser.models.game_story.dialog import DialogPhrase
+
+# from xml.etree.ElementTree import Element, parse
 
 logger = logging.getLogger(__name__)
 
@@ -49,17 +47,15 @@ class Command(BaseCommand):
             if file_path.name == 'dialogs_vip_npc.xml':
                 continue
             print(file_path)
-            self._fix_fucking_incorrect_xml(file_path)
-            # with open(self._tml_file_name_for_xml(file_path), 'r', encoding=DEFAULT_ENCODING) as tml_file:
-            root_node = parse(self._tml_file_name_for_xml(file_path)).getroot()
-            # print(root_node)
+            fixer = GSCXmlFixer(file_path)
+            fixed_file_path = fixer.fix()
+            root_node = parse(fixed_file_path).getroot()
             dialog_comments = []
 
             for game_dialogs in root_node:
                 if game_dialogs.tag == 'game_dialogs':
                     for maybe_dialog_node in game_dialogs:
                         if isinstance(maybe_dialog_node, _Comment):
-                            # logger.info(f'Comment {maybe_dialog_node} {maybe_dialog_node.text}')
                             dialog_comments.append(maybe_dialog_node.text)
                         else:
                             self._parse_dialog(maybe_dialog_node, dialog_comments)
@@ -72,34 +68,6 @@ class Command(BaseCommand):
                     # logger.info(f'Comment {game_dialogs} {game_dialogs.text}')
                 else:
                     logger.warning(f'Unexpected node {game_dialogs.tag} in {file_path}')
-
-    def _tml_file_name_for_xml(self, source_file_path: Path) -> Path:
-        return self.TMP_DIR / source_file_path.name
-
-    def _fix_fucking_incorrect_xml(self, source_file_path: Path) -> None:
-        with open(source_file_path, 'r', encoding=DEFAULT_ENCODING) as file:
-            content = file.read()
-        fixed_content = self._fix_broken_comments(content)
-        # if source_file_path.name == 'dialogs_vip_npc.xml':
-        #     fixed_content = self._add_root_tag(fixed_content)
-        with open(self._tml_file_name_for_xml(source_file_path), 'w', encoding=DEFAULT_ENCODING) as tml_file:
-            tml_file.write(fixed_content)
-
-    def _add_root_tag(self, content: str) -> str:
-        return f'<xml>{content}</xml>'
-
-    def _fix_broken_comments(self, content: str) -> str:
-        current_content = ''
-        fixed_content = content
-        xml_comment_re = re.compile(r'<!--(?P<before>.*?)-{2,}(?P<after>.*)-->')
-        while fixed_content != current_content:
-            current_content = fixed_content
-            fixed_content = re.sub(xml_comment_re, r'<!--\g<before> \g<after>-->', current_content)
-        xml_comment2_re = re.compile(r'<!--[\s-]*(?P<comment>.*?)[\s-]*-->')
-        fixed_content = re.sub(xml_comment2_re, r'<!-- \g<comment> -->', fixed_content)
-        return fixed_content
-
-    # def _fix_fuck
 
     def _parse_dialog(self, dialog_node: Element, dialog_comments: list[str]) -> None:
         # print(dialog_node)

@@ -7,6 +7,7 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 from lxml.etree import parse, Element
 
+from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.models import EncyclopediaGroup, EncyclopediaArticle, Translation, Icon, Artefact
 
 from pathlib import Path
@@ -42,8 +43,9 @@ class Command(BaseCommand):
     def handle(self, **options):
         EncyclopediaGroup.objects.all().delete()
         EncyclopediaArticle.objects.all().delete()
-        self._fix_fucking_incorrect_xml(self.get_file_path())
-        root_node = parse(self._tml_file_name_for_xml(self.get_file_path())).getroot()
+        fixer = GSCXmlFixer(self.get_file_path())
+        fixed_file_path = fixer.fix()
+        root_node = parse(fixed_file_path).getroot()
         for maybe_article in root_node:
             if maybe_article.tag == 'article':
                 print(maybe_article)
@@ -136,25 +138,3 @@ class Command(BaseCommand):
 
         return (left, top, right, bottom)
 
-    def _tml_file_name_for_xml(self, source_file_path: Path) -> Path:
-        return self.TMP_DIR / source_file_path.name
-
-    def _fix_fucking_incorrect_xml(self, source_file_path: Path) -> None:
-        with open(source_file_path, 'r', encoding=DEFAULT_ENCODING) as file:
-            content = file.read()
-        fixed_content = self._fix_broken_comments(content)
-        with open(self._tml_file_name_for_xml(source_file_path), 'w', encoding=DEFAULT_ENCODING) as tml_file:
-            tml_file.write(fixed_content)
-
-    def _add_root_tag(self, content: str) -> str:
-        return f'<xml>{content}</xml>'
-    def _fix_broken_comments(self, content: str) -> str:
-        current_content = ''
-        fixed_content = content
-        xml_comment_re = re.compile(r'<!--(?P<before>.*?)-{2,}(?P<after>.*)-->')
-        while fixed_content != current_content:
-            current_content = fixed_content
-            fixed_content = re.sub(xml_comment_re, r'<!--\g<before> \g<after>-->', current_content)
-        xml_comment2_re = re.compile(r'<!--[\s-]*(?P<comment>.*?)[\s-]*-->')
-        fixed_content = re.sub(xml_comment2_re, r'<!-- \g<comment> -->', fixed_content)
-        return fixed_content
