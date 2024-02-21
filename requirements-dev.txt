@@ -1,5 +1,5 @@
 -r requirements.txt
 
 luaparser==3.2.1
-lupa==1.14.1
+lupa==2.0
 
