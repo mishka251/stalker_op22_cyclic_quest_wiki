@@ -1,3 +1,4 @@
+setuptools
 Django>-4.2,<5.0.2
 Pillow==9.3.0
 django-polymorphic==3.1.0
@@ -8,4 +9,3 @@ six==1.16.0
 typing-extensions==4.9.0
 urllib3==1.26.15
 asgiref==3.6.0
-setuptools
