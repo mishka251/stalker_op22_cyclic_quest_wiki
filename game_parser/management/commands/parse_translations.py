@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
+from game_parser.logic.model_xml_loaders.translation import TranslationLoader
 from game_parser.models import Translation
 
 
@@ -59,15 +60,5 @@ class Command(BaseCommand):
                 continue
 
             for child in root:
-                if child.tag != 'string':
-                    logger.warning(f'wrong child {file}, {root}, {child}')
-                    continue
-                code = child.attrib['id']
-                kwargs = {}
-                for sub_child in child:
-                    kwargs[sub_child.tag] = sub_child.text
-                translation = Translation(code=code, **kwargs)
-                translation.save()
-                print(translation)
-
+                translation = TranslationLoader().load(child)
 

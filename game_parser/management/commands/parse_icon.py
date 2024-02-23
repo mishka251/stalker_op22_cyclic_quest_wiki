@@ -12,6 +12,7 @@ import re
 from lxml.etree import parse, Element, _Comment
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
+from game_parser.logic.model_xml_loaders.icon import IconLoader
 from game_parser.models import GameTask, TaskObjective, MapLocationType, Dialog, Icon
 from game_parser.models.game_story.dialog import DialogPhrase
 from PIL import Image
@@ -70,56 +71,5 @@ class Command(BaseCommand):
                 if child_node.tag == 'file_name':
                     image_file_path = settings.OP22_GAME_DATA_PATH/'textures'/(child_node.text+'.dds')
                     image = Image.open(image_file_path)
-                elif child_node.tag == 'texture':
-                    if image is None:
-                        raise ValueError(f"image not first in file {file_path}")
-                    self._parse_icon(child_node, image)
-                    # dialog_comments = []
-                # elif isinstance(child_node, _Comment):
-                #     dialog_comments.append(child_node.text)
-                    # logger.info(f'Comment {child_node} {child_node.text}')
-                else:
-                    logger.warning(f'Unexpected node {child_node.tag} in {file_path}')
-
-    def _parse_icon(self, texture_node: Element, image: Image) -> None:
-        # print(dialog_node)
-        if texture_node.tag != 'texture':
-            logger.warning(f'Unexpected node {texture_node.tag}')
-            return
-        texture_id = texture_node.attrib.pop('id')
-        x = int(texture_node.attrib.pop('x'))
-        y = int(texture_node.attrib.pop('y'))
-        width = int(texture_node.attrib.pop('width'))
-        height = int(texture_node.attrib.pop('height'))
-        icon = Icon(name=texture_id)
-        self._get_image(image, x, y, width, height, texture_id, icon)
-        # Icon.objects.create(
-        #     name=texture_id,
-        #     icon=icon_image,
-        # )
-
-    def _get_item_image_coordinates(self, x:int, y:int, width:int, height:int) -> tuple[int, int, int, int]:
-        inv_grid_x = x
-        inv_grid_y = y
-
-        inv_grid_width = width
-        inv_grid_height = height
-
-        left = inv_grid_x# * self.IMAGE_PART_WIDTH
-        top = inv_grid_y #* self.IMAGE_PART_HEIGHT
-        right = (inv_grid_x + inv_grid_width)# * self.IMAGE_PART_WIDTH
-        bottom = (inv_grid_y + inv_grid_height) #* self.IMAGE_PART_HEIGHT
-
-        return (left, top, right, bottom)
-
-    def _get_image(self, image: Image, x:int, y:int, width:int, height:int, name: str, instance: Icon):
-        box = self._get_item_image_coordinates(x, y, width, height)
-        # logger.debug(f'{box=}')
-        part = image.crop(box)
-        tmp_file_name = 'tmp.png'
-        part.save(tmp_file_name)
-        with open(tmp_file_name, 'rb') as tmp_image:
-            image_file = ImageFile(tmp_image, name=f'{name}_icon.png')
-            instance.icon = image_file
-            instance.save()
-        # return image_file
+            loader = IconLoader(image)
+            loader.load_bulk(root_node)
