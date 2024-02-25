@@ -36,12 +36,9 @@ class Command(BaseCommand):
     def handle(self, **options):
         StorylineCharacter.objects.all().delete()
 
-        if not self.TMP_DIR.exists():
-            self.TMP_DIR.mkdir()
-
         for file_path in self.get_files_paths(self.get_files_dir_path()):
             print(file_path)
-            fixer = GSCXmlFixer(file_path)
-            fixed_file_path = fixer.fix()
+            fixer = GSCXmlFixer()
+            fixed_file_path = fixer.fix(file_path)
             root_node = parse(fixed_file_path).getroot()
             StorylineCharacterLoader().load_bulk(root_node)

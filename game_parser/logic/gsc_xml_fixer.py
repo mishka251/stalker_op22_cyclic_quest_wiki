@@ -12,20 +12,21 @@ class GSCXmlFixer:
     Правка xml-файлов от GSC, которые не читаются стандартными библиотеками python
     """
 
-    def __init__(self, source_path: Path):
-        self._source = source_path
+    def __init__(self, add_root_tag: bool = False, encoding: str = DEFAULT_ENCODING):
+        self._need_add_root_tag = add_root_tag
+        self._encoding = encoding
 
-    def fix(self, add_root_tag: bool=False) -> Path:
+    def fix(self, source: Path) -> Path:
         if not TMP_DIR.exists():
             TMP_DIR.mkdir()
 
-        with open(self._source, 'r', encoding=DEFAULT_ENCODING) as file:
+        with open(source, 'r', encoding=self._encoding) as file:
             content = file.read()
         fixed_content = self._fix_broken_comments(content)
-        if add_root_tag:
+        if self._need_add_root_tag:
             fixed_content = self._add_root_tag(fixed_content)
-        fixed_file_path = self._tml_file_name_for_xml(self._source)
-        with open(fixed_file_path, 'w', encoding=DEFAULT_ENCODING) as tml_file:
+        fixed_file_path = self._tml_file_name_for_xml(source)
+        with open(fixed_file_path, 'w', encoding=self._encoding) as tml_file:
             tml_file.write(fixed_content)
         return fixed_file_path
 

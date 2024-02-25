@@ -58,7 +58,5 @@ class Command(BaseCommand):
             if root.tag != 'string_table':
                 logger.warning(f'Wrong root {file}, {root}')
                 continue
-
-            for child in root:
-                translation = TranslationLoader().load(child)
+            TranslationLoader().load_bulk(root)
 

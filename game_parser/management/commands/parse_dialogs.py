@@ -48,7 +48,7 @@ class Command(BaseCommand):
             if file_path.name == 'dialogs_vip_npc.xml':
                 continue
             print(file_path)
-            fixer = GSCXmlFixer(file_path)
-            fixed_file_path = fixer.fix()
+            fixer = GSCXmlFixer()
+            fixed_file_path = fixer.fix(file_path)
             root_node = parse(fixed_file_path).getroot()
             DialogLoader().load_bulk(root_node)

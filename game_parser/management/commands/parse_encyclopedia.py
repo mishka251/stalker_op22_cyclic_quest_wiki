@@ -44,8 +44,8 @@ class Command(BaseCommand):
     def handle(self, **options):
         EncyclopediaGroup.objects.all().delete()
         EncyclopediaArticle.objects.all().delete()
-        fixer = GSCXmlFixer(self.get_file_path())
-        fixed_file_path = fixer.fix()
+        fixer = GSCXmlFixer()
+        fixed_file_path = fixer.fix(self.get_file_path())
         root_node = parse(fixed_file_path).getroot()
         EncyclopediaArticleLoader().load_bulk(root_node)
 

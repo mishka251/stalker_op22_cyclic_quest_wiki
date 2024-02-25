@@ -35,18 +35,21 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         artefact = None
         if ltx_str:
             artefact = Artefact.objects.filter(name=ltx_str).first()
-        article = EncyclopediaArticle.objects.create(
-            game_id=game_id,
-            name=name,
-            name_translation=Translation.objects.filter(code=name).first(),
-            group_name=group_name,
-            group=group,
-            ltx_str=ltx_str,
-            icon=icon,
-            text=text,
-            text_translation=Translation.objects.filter(code=text).first(),
-            artefact=artefact,
-        )
+        try:
+            article = EncyclopediaArticle.objects.create(
+                game_id=game_id,
+                name=name,
+                name_translation=Translation.objects.filter(code=name).first(),
+                group_name=group_name,
+                group=group,
+                ltx_str=ltx_str,
+                icon=icon,
+                text=text,
+                text_translation=Translation.objects.filter(code=text).first(),
+                artefact=artefact,
+            )
+        except Exception as ex:
+            raise Exception(f"{game_id=}, {name=}, {group_name=}") from ex
         return article
 
     def _parse_icon(self, texture_node: Element) -> Icon:

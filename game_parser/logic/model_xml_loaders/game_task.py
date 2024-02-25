@@ -78,6 +78,8 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
             elif child_node.tag == 'map_location_type':
                 map_location_type = {'name': child_node.text, 'hint': child_node.attrib.pop('hint', None)}
                 map_location_types.append(map_location_type)
+            elif child_node.tag == 'function_call_fail':
+                print(f"Skip function_call_fail")
             else:
                 raise ValueError(f'Unexpected objective child {child_node.tag} in {task.game_id}')
         objective = TaskObjective.objects.create(

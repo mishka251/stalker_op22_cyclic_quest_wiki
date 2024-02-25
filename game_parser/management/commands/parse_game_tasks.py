@@ -40,8 +40,8 @@ class Command(BaseCommand):
 
         for file_path in self.get_files_paths(self.get_files_dir_path()):
             print(file_path)
-            fixer = GSCXmlFixer(file_path)
-            fixed_file_path = fixer.fix(add_root_tag=True)
+            fixer = GSCXmlFixer(add_root_tag=True)
+            fixed_file_path = fixer.fix(file_path)
             with open(fixed_file_path, 'r') as tml_file:
                 root_node = parse(tml_file).getroot()
             # print(root_node)

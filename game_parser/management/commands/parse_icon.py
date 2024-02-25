@@ -63,8 +63,8 @@ class Command(BaseCommand):
 
         for file_path in self.get_files_paths(self.get_files_dir_path()):
             print(file_path)
-            fixer = GSCXmlFixer(file_path)
-            fixed_file_path = fixer.fix()
+            fixer = GSCXmlFixer()
+            fixed_file_path = fixer.fix(file_path)
             root_node = parse(fixed_file_path).getroot()
             image = None
             for child_node in root_node:

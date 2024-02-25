@@ -26,6 +26,9 @@ class BaseModelXmlLoader(Generic[TModel]):
                 comments = []
             elif isinstance(child_node, _Comment):
                 comments.append(child_node.text)
+            elif child_node.tag in self.skip_tags:
+                comments = []
+                continue
             else:
                 raise ValueError(f'Unexpected node {child_node.tag}')
         return items

@@ -1,5 +1,5 @@
 from lxml.etree import Element, _Comment
-
+from django.db import IntegrityError
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader, TModel
 from game_parser.models import Dialog, DialogPhrase
 
@@ -60,7 +60,10 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
         for phrase_node in phrase_list_node:
             if phrase_node.tag == 'phrase':
                 phrase_id = phrase_node.attrib.pop('id')
-                phrase = DialogPhrase.objects.create(dialog=dialog, local_id=phrase_id)
+                try:
+                    phrase = DialogPhrase.objects.create(dialog=dialog, local_id=phrase_id)
+                except IntegrityError as ex:
+                    raise IntegrityError(f"{dialog=}, {phrase_id=}") from ex
                 next = []
                 precondition = []
                 action = []

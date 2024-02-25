@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class InfoPortionLoader(BaseModelXmlLoader[InfoPortion]):
+    expected_tag = "info_portion"
 
     def _load(self, root_node: Element, comments: list[str]) -> InfoPortion:
         info_portion_id = root_node.attrib.pop('id', None)

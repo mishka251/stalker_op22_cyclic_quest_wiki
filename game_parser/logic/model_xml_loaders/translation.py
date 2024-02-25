@@ -8,6 +8,7 @@ from game_parser.models import Translation
 logger = logging.getLogger(__name__)
 
 class TranslationLoader(BaseModelXmlLoader[Translation]):
+    expected_tag = "string"
 
     def _load(self, character_node: Element, comments: list[str]) -> Translation:
         if character_node.tag != 'string':
@@ -19,5 +20,5 @@ class TranslationLoader(BaseModelXmlLoader[Translation]):
             kwargs[sub_child.tag] = sub_child.text
         translation = Translation(code=code, **kwargs)
         translation.save()
-        print(translation)
+        # print(translation)
         return translation
