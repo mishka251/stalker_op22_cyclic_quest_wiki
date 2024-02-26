@@ -20,7 +20,6 @@ from django.core.files.images import ImageFile
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_ENCODING = "windows-1251"
 
 
 class Command(BaseCommand):
@@ -71,5 +70,7 @@ class Command(BaseCommand):
                 if child_node.tag == 'file_name':
                     image_file_path = settings.OP22_GAME_DATA_PATH/'textures'/(child_node.text+'.dds')
                     image = Image.open(image_file_path)
+            if image is None:
+                raise ValueError(f"No image in {file_path}")
             loader = IconLoader(image)
             loader.load_bulk(root_node)

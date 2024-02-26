@@ -6,12 +6,14 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 from lxml.etree import parse
+from PIL import Image
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.ltx_parser import LtxParser
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.logic.model_xml_loaders.dialog import DialogLoader
 from game_parser.logic.model_xml_loaders.encyclopedia import EncyclopediaArticleLoader
+from game_parser.logic.model_xml_loaders.icon import IconLoader
 from game_parser.logic.model_xml_loaders.infoportion import InfoPortionLoader
 from game_parser.logic.model_xml_loaders.storyline_character import StorylineCharacterLoader
 from game_parser.logic.model_xml_loaders.translation import TranslationLoader
@@ -172,7 +174,25 @@ class Command(BaseCommand):
         self._load_xml(dialogs_sources, DialogLoader(), "DIALOGS", GSCXmlFixer())
         # self._load_xml(profiles_sources, TranslationLoader(), "PROFILES")
         self._load_xml(specific_characters_sources, StorylineCharacterLoader(), "SPECIFIC_CHARACTERS", GSCXmlFixer())
+        self._load_icon_xml(texture_desc_sources, "TEXTURE", GSCXmlFixer())
 
+    def _load_icon_xml(self, files: list[Path], name: str, fixer: GSCXmlFixer) -> None:
+        print(f"Start parsing {name=}")
+        for file in files:
+            print(f"\tstart {file}")
+            fixed_file_path = fixer.fix(file)
+            root_node = parse(fixed_file_path).getroot()
+            image = None
+            for child_node in root_node:
+                if child_node.tag == 'file_name':
+                    image_file_path = settings.OP22_GAME_DATA_PATH/'textures'/(child_node.text+'.dds')
+                    image = Image.open(image_file_path)
+            if image is None:
+                raise ValueError(f"No image in {file}")
+            loader = IconLoader(image)
+            loader.load_bulk(root_node)
+            print(f"\tfinish {file}")
+        print(f"Finish parsing {name=}")
 
     def _load_xml(self, files: list[Path], resource: BaseModelXmlLoader, name: str, fixer: GSCXmlFixer) -> None:
         print(f"Start parsing {name=}")

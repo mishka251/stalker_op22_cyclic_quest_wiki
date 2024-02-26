@@ -31,7 +31,6 @@ from django.core.files.images import ImageFile
 
 
 logger = logging.getLogger(__name__)
-DEFAULT_ENCODING = "windows-1251"
 
 class Command(BaseCommand):
     TMP_DIR = Path('tmp')

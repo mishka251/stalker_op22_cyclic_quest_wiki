@@ -2,4 +2,4 @@
 
 luaparser==3.2.1
 lupa==2.0
-
+chardet==5.2.0

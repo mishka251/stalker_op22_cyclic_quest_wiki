@@ -14,7 +14,6 @@ from game_parser.models import StorylineCharacter
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_ENCODING = "windows-1251"
 
 
 class Command(BaseCommand):
