@@ -94,7 +94,13 @@ class BaseModelResource:
             value = field.get_value(data)
             field.fill_instance(instance, value)
 
-    def create_instance_from_data(self, section_name: str, data: dict[str, Any]):
+    def create_instance_from_data(self, section_name: str, data: dict[str, Any]) -> Model:
+        try:
+            return self._create_instance_from_data(section_name, data)
+        except Exception as ex:
+            raise type(ex)(f"Ошибка при парсинге {section_name}") from ex
+
+    def _create_instance_from_data(self, section_name: str, data: dict[str, Any]) -> Model:
         data[SECTION_NAME] = section_name
         instance = self._init_instance()
         self._apply_data(data, instance)

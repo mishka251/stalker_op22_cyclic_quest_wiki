@@ -67,11 +67,15 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         y = int(texture_node.attrib.pop('y'))
         width = int(texture_node.attrib.pop('width'))
         height = int(texture_node.attrib.pop('height'))
+
         image_file = texture_node.text + ".dds"
         base_path = settings.OP22_GAME_DATA_PATH
+        texture_id = f"{image_file}_{x}_{y}"
+        icon = Icon.objects.filter(name=texture_id).first()
+        if icon is not None:
+            return icon
         file_path = base_path / "textures" / image_file
         image = Image.open(file_path)
-        texture_id = image_file
         icon = Icon(name=texture_id)
         self._get_image(image, x, y, width, height, texture_id, icon)
         return icon

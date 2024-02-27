@@ -10,7 +10,7 @@ class Icon(models.Model):
     class Meta:
         verbose_name = "Иконка"
         verbose_name_plural = "Иконки"
-    name = models.CharField(max_length=512, null=False)
+    name = models.CharField(max_length=512, null=False, unique=True)
     icon = models.ImageField(null=False)
 
     def __str__(self):

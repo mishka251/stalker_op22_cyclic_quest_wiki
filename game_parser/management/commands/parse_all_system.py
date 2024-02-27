@@ -1,4 +1,5 @@
 import logging
+from collections import defaultdict
 from itertools import groupby
 from pathlib import Path
 
@@ -10,6 +11,11 @@ from PIL import Image
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.ltx_parser import LtxParser
+from game_parser.logic.model_resources.base_item import AmmoResource, GrenadeLauncherResource, GrenadeResource, \
+    WeaponResource, ScopeResource, KnifeResource, MonsterEmbrionResource, CapsAnomResource, TrueArtefactResource, \
+    SilencerResource, OutfitResource
+from game_parser.logic.model_resources.base_resource import BaseModelResource
+from game_parser.logic.model_resources.monster import MonsterResource
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.logic.model_xml_loaders.dialog import DialogLoader
 from game_parser.logic.model_xml_loaders.encyclopedia import EncyclopediaArticleLoader
@@ -17,18 +23,23 @@ from game_parser.logic.model_xml_loaders.icon import IconLoader
 from game_parser.logic.model_xml_loaders.infoportion import InfoPortionLoader
 from game_parser.logic.model_xml_loaders.storyline_character import StorylineCharacterLoader
 from game_parser.logic.model_xml_loaders.translation import TranslationLoader
-from game_parser.models import EncyclopediaGroup, EncyclopediaArticle
+from game_parser.models import EncyclopediaGroup, EncyclopediaArticle, Icon, BaseItem, Outfit, Explosive, Grenade, Ammo, \
+    Weapon, Silencer, Scope, GrenadeLauncher, MonsterPart, Knife, Other, TrueArtefact, MonsterEmbrion, CapsAnom
 
 logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    AMMO_CLASSES = {"AMMO"}
-    ARTEFACT_classes = {"ARTEFACT"}
-    GRENADE_AUNCHED_CLASSES = {
+    AMMO_CLASSES = {
+        "AMMO",
+
         "A_M209",
         "A_OG7B",
         "A_VOG25"
+    }
+    ARTEFACT_classes = {"ARTEFACT"}
+    GRENADE_AUNCHED_CLASSES = {
+        "W_GLAUNC",
     }
 
     HANDLE_GRENADES_CLASSES = {
@@ -68,6 +79,7 @@ class Command(BaseCommand):
         "SM_SNORK",
         "SM_TUSHK",
         "SM_ZOMBI",
+        "AI_PHANT",
     }
 
     WEAPON_CLASSES = {
@@ -76,12 +88,11 @@ class Command(BaseCommand):
         "WP_BM16",
         "WP_GROZA",
         "WP_HPSA",
-        "WP_KNIFE",
         "WP_LR300",
         "WP_PM",
         "WP_RG6",
         "WP_RPG7",
-        "WP_SCOPE",
+        #
         "WP_SHOTG",
         "WP_SVD",
         "WP_SVU",
@@ -89,6 +100,15 @@ class Command(BaseCommand):
         "WP_VAL",
         "WP_VINT",
         "WP_WALTH",
+    }
+
+    KNIFE_SECTIONS = {
+        "WP_KNIFE",
+        "knife",
+    }
+
+    SCOPE_CLASSES = {
+        "WP_SCOPE",
     }
 
     ANOMALIES_CLASSES = {
@@ -109,6 +129,37 @@ class Command(BaseCommand):
         "Z_ZONE",
     }
 
+    SILENCER_CLASSES = {
+        "W_SILENC"
+    }
+
+    OUTFITS_CLASSES = {
+        "EQU_STLK",
+        "EQU_MLTR",
+        "EQU_EXO",
+        "E_STLK",
+        "outfit",
+        "without_outfit",
+    }
+
+    RESTRICTOR_CLASSES = {
+        "SCRIPTZN",
+        "SPC_RS_S",
+    }
+
+    BREAKEABLE_CLASSES = {
+        "O_BRKBL",
+        "O_BRKBL_S",
+    }
+
+    INV_BOX_CLASSES = {
+        "O_INVBOX",
+    }
+
+    PNV_CLASSES = {
+        "D_NVP"
+    }
+
     @atomic
     def handle(self, **options):
         base_path = settings.OP22_GAME_DATA_PATH
@@ -116,6 +167,22 @@ class Command(BaseCommand):
         known_bases = {}
         EncyclopediaGroup.objects.all().delete()
         EncyclopediaArticle.objects.all().delete()
+        Icon.objects.all().delete()
+
+        Outfit.objects.all().delete()
+        Explosive.objects.all().delete()
+        Grenade.objects.all().delete()
+        Ammo.objects.all().delete()
+        Weapon.objects.all().delete()
+        Silencer.objects.all().delete()
+        Scope.objects.all().delete()
+        GrenadeLauncher.objects.all().delete()
+        MonsterPart.objects.all().delete()
+        Knife.objects.all().delete()
+        Other.objects.all().delete()
+        TrueArtefact.objects.all().delete()
+        MonsterEmbrion.objects.all().delete()
+        CapsAnom.objects.all().delete()
 
         parser = LtxParser(system_file, known_extends=known_bases)
         results = parser.get_parsed_blocks()
@@ -158,9 +225,17 @@ class Command(BaseCommand):
 
         existing_sections_keys = [k for k in results.keys() if isinstance(results[k], dict)]
 
-        sorted_by_cls_ = sorted(existing_sections_keys, key=lambda key: results[key].get("class", "None"))
-        for cls_, keys in groupby(sorted_by_cls_, key=lambda key: results[key].get("class", "None")):
-            keys = list(keys)
+        # sorted_by_cls_ =list( sorted(existing_sections_keys, key=lambda key: results[key].get("class", "None")))
+        # grouped_by_cls = list( groupby(sorted_by_cls_, key=lambda key: results[key].get("class", "None")))
+        # grouped_by_cls_dict = {
+        #     cls_: list(keys)
+        #     for cls_, keys in grouped_by_cls
+        # }
+        grouped_by_cls_dict = defaultdict(set)
+        for section_name in existing_sections_keys:
+            cls_name = results[section_name].get("class", "None")
+            grouped_by_cls_dict[cls_name].add(section_name)
+        for cls_, keys in grouped_by_cls_dict.items():
             print(cls_, len(keys))
 
         # TODO Проверить все секции на то, что всё есть в БД
@@ -168,13 +243,105 @@ class Command(BaseCommand):
         print("START FILLING")
 
         # for translation_files_source in translation_files_sources:
-        self._load_xml(translation_files_sources, TranslationLoader(), "Translation", GSCXmlFixer(encoding="utf-8"))
-        self._load_xml(info_portions_sources, InfoPortionLoader(), "Info", GSCXmlFixer())
-        self._load_xml(encyclopedia_sources, EncyclopediaArticleLoader(), "ENCYCLOPEDIA", GSCXmlFixer())
-        self._load_xml(dialogs_sources, DialogLoader(), "DIALOGS", GSCXmlFixer())
-        # self._load_xml(profiles_sources, TranslationLoader(), "PROFILES")
-        self._load_xml(specific_characters_sources, StorylineCharacterLoader(), "SPECIFIC_CHARACTERS", GSCXmlFixer())
-        self._load_icon_xml(texture_desc_sources, "TEXTURE", GSCXmlFixer())
+        # self._load_xml(translation_files_sources, TranslationLoader(), "Translation", GSCXmlFixer(encoding="utf-8"))
+        # self._load_icon_xml(texture_desc_sources, "TEXTURE", GSCXmlFixer())
+        # self._load_xml(info_portions_sources, InfoPortionLoader(), "Info", GSCXmlFixer())
+        # self._load_xml(encyclopedia_sources, EncyclopediaArticleLoader(), "ENCYCLOPEDIA", GSCXmlFixer())
+        # self._load_xml(dialogs_sources, DialogLoader(), "DIALOGS", GSCXmlFixer())
+        # # self._load_xml(profiles_sources, TranslationLoader(), "PROFILES")
+        # self._load_xml(specific_characters_sources, StorylineCharacterLoader(), "SPECIFIC_CHARACTERS", GSCXmlFixer())
+
+        ammo_keys, ammo = self._get_sections_by_class(results, grouped_by_cls_dict, self.AMMO_CLASSES)
+        artefacts_keys, artefacts = self._get_sections_by_class(results, grouped_by_cls_dict, self.ARTEFACT_classes)
+        grenade_launcher_keys, grenade_launcher = self._get_sections_by_class(results, grouped_by_cls_dict, self.GRENADE_AUNCHED_CLASSES)
+        handle_grenade_keys, handle_grenade = self._get_sections_by_class(results, grouped_by_cls_dict, self.HANDLE_GRENADES_CLASSES)
+        medicine_keys, medicine = self._get_sections_by_class(results, grouped_by_cls_dict, self.MEDICINE_CLASSES)
+        monster_keys, monster = self._get_sections_by_class(results, grouped_by_cls_dict, self.MONSTERS_CLASSES)
+        weapon_keys, weapon = self._get_sections_by_class(results, grouped_by_cls_dict, self.WEAPON_CLASSES)
+        anomaly_keys, anomaly = self._get_sections_by_class(results, grouped_by_cls_dict, self.ANOMALIES_CLASSES)
+        scopes_keys, scopes = self._get_sections_by_class(results, grouped_by_cls_dict, self.SCOPE_CLASSES)
+        knife_keys, knife = self._get_sections_by_class(results, grouped_by_cls_dict, self.KNIFE_SECTIONS)
+        silencer_keys, silencer = self._get_sections_by_class(results, grouped_by_cls_dict, self.SILENCER_CLASSES)
+        outfit_keys, outfit = self._get_sections_by_class(results, grouped_by_cls_dict, self.OUTFITS_CLASSES)
+
+
+        used_keys = (
+            ammo_keys|
+            artefacts_keys|
+            grenade_launcher_keys|
+            handle_grenade_keys|
+            medicine_keys|
+            monster_keys|
+            weapon_keys|
+            anomaly_keys|
+            scopes_keys|
+            knife_keys|
+            silencer_keys|
+            outfit_keys
+        )
+
+
+
+        self._load_sections(ammo, AmmoResource())
+        # self._load_sections(artefacts, AmmoResource())
+        self._load_sections(grenade_launcher, GrenadeLauncherResource())
+        self._load_sections(handle_grenade, GrenadeResource())
+        # self._load_sections(medicine, GrenadeResource())
+        # self._load_sections(monster, GrenadeResource())
+        self._load_sections(weapon, WeaponResource())
+        self._load_sections(scopes, ScopeResource())
+        self._load_sections(knife, KnifeResource())
+        self._load_sections(silencer, SilencerResource())
+        self._load_sections(outfit, OutfitResource())
+        self._load_sections(monster, MonsterResource())
+        self._load_artefacts(artefacts)
+
+        unused_keys = set(existing_sections_keys) - used_keys
+        unused_classes = {
+            results[section_name].get("class", "None")
+            for section_name in unused_keys
+        }
+        print(f"UNUSED {len(unused_keys)} {unused_classes=}")
+
+    def _load_artefacts(self, sections: dict[str, dict]) -> None:
+        cocoons = {
+           section_name: section
+            for section_name, section in sections.items()
+            if section.get("cocoon", None) == "true" and section_name != "cocoon"
+        }
+
+        caps_anom = {
+           section_name: section
+            for section_name, section in sections.items()
+            if section.get("caps_anom", None) == "true" and section_name != "caps_anom"
+        }
+
+        true_arts = {
+           section_name: section
+            for section_name, section in sections.items()
+            if section.get("caps_anom", None) is None and section.get("cocoon", None) is None
+        }
+
+        self._load_sections(cocoons, MonsterEmbrionResource())
+        self._load_sections(caps_anom, CapsAnomResource())
+        self._load_sections(true_arts, TrueArtefactResource())
+
+    def _load_sections(self, sections: dict[str, dict], resource: BaseModelResource) -> None:
+        for section_name, section in sections.items():
+            resource.create_instance_from_data(section_name, section)
+
+
+    def _get_sections_by_class(self, results, grouped_by_cls_dict, classes: set[str]) -> tuple[set[str], dict[str, dict]]:
+        ammo_keys = set()
+        for key in classes:
+            ammo_keys |= set(grouped_by_cls_dict[key])
+        ammo = {
+            ammo_key: results[ammo_key]
+            for ammo_key in ammo_keys
+            if ammo_key not in classes
+        }
+        return ammo_keys, ammo
+
 
     def _load_icon_xml(self, files: list[Path], name: str, fixer: GSCXmlFixer) -> None:
         print(f"Start parsing {name=}")
