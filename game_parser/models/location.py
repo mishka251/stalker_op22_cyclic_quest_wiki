@@ -8,9 +8,9 @@ class Location(models.Model):
         verbose_name = 'Локация'
         verbose_name_plural = 'Локации'
 
-    game_id = models.CharField(null=False, max_length=3, verbose_name='Ид уровня') #id (01)
-    game_code = models.CharField(null=False, max_length=255, verbose_name='Название уровня') # section name (level01)
-    name = models.CharField(null=True, max_length=255, verbose_name='Код человекочитабельного названия') # L01_Escape
+    game_id = models.CharField(null=False, max_length=3, verbose_name='Ид уровня', unique=True) #id (01)
+    game_code = models.CharField(null=False, max_length=255, verbose_name='Название уровня', unique=True) # section name (level01)
+    name = models.CharField(null=True, max_length=255, verbose_name='Код человекочитабельного названия', unique=True) # L01_Escape
 
     name_translation = models.ForeignKey(Translation, null=True, verbose_name='Перевод названия', on_delete=models.SET_NULL)
     offset_str = models.CharField(null=True, max_length=255, verbose_name='Сдвиг на глобальной карте??')

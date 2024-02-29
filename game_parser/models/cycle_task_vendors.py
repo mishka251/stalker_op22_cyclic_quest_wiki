@@ -9,9 +9,9 @@ class CycleTaskVendor(models.Model):
         verbose_name = "ID НПС, выдающий циклические задания"
         verbose_name_plural = "ID Выдающих ЦЗ НПС"
 
-    game_story_id_raw = models.PositiveSmallIntegerField(null=False, verbose_name='game id')
-    vendor_id = models.PositiveSmallIntegerField(null=False, verbose_name='game id')
-    game_story_id = models.ForeignKey(null=True, to='GameStoryId', on_delete=models.SET_NULL)
+    game_story_id_raw = models.PositiveSmallIntegerField(null=False, verbose_name='game id', unique=True)
+    vendor_id = models.PositiveSmallIntegerField(null=False, verbose_name='game id', unique=True)
+    game_story_id = models.ForeignKey(null=True, to='GameStoryId', on_delete=models.SET_NULL, unique=True)
 
     def __str__(self):
         return f"{self.game_story_id}, {self.vendor_id}"

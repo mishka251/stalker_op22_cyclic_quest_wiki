@@ -5,8 +5,8 @@ class GameStoryId(models.Model):
     class Meta:
         verbose_name = "Связь id с секциями"
         verbose_name_plural = "Связи id с секциями"
-    story_id = models.PositiveSmallIntegerField(null=False, verbose_name='id в игре')
-    section_name = models.CharField(null=False, max_length=255, verbose_name='Название секции')
+    story_id = models.PositiveSmallIntegerField(null=False, verbose_name='id в игре', unique=True)
+    section_name = models.CharField(null=False, max_length=255, verbose_name='Название секции', unique=True)
 
     item = models.ForeignKey(null=True, to='BaseItem', on_delete=models.SET_NULL, blank=True, verbose_name="Предмет")
     treasure = models.ForeignKey(null=True, to='Treasure', on_delete=models.SET_NULL, blank=True, verbose_name="Тайник")

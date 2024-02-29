@@ -8,7 +8,7 @@ class InfoPortion(models.Model):
         verbose_name = 'Инфопоршень'
         verbose_name_plural = 'Инфопоршни'
 
-    game_id = models.CharField(max_length=512, verbose_name='Игровой идентификатор')
+    game_id = models.CharField(max_length=512, verbose_name='Игровой идентификатор', unique=True)
 
     article_raw = models.CharField(max_length=256, null=True, verbose_name='Статьи(сырые id)')
 

@@ -20,7 +20,7 @@ class CyclicQuest(models.Model):
         verbose_name_plural = 'Циклические квесты'
 
     type = models.CharField(choices=QuestKinds.choices, null=False, max_length=255, verbose_name='Тип задания(тип цели задания)')
-    game_code = models.CharField(null=False, max_length=255, verbose_name='Игровой код в файле')
+    game_code = models.CharField(null=False, max_length=255, verbose_name='Игровой код в файле', unique=True)
     giver_code_local = models.CharField(null=True, max_length=255, verbose_name='Код квестодателя(локальный)')
     giver_code_global = models.CharField(null=True, max_length=255, verbose_name='Код квестодателя(глобальный)')
     reward_item_string = models.TextField(null=True, verbose_name='Награда. Предметы(-ы)')

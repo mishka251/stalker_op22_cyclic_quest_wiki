@@ -5,7 +5,7 @@ class Monster(models.Model):
         verbose_name = "Мутант"
         verbose_name_plural = "Мутанты"
 
-    section_name = models.CharField(max_length=255, null=False)
+    section_name = models.CharField(max_length=255, null=False, unique=True)
     short_name = models.CharField(max_length=255, null=True)
 
     visual_str = models.CharField(max_length=255, null=True)

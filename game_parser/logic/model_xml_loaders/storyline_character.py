@@ -81,6 +81,7 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
             else:
                 logger.warning(f'Unexpected node {child_node.tag} in character {character_id}')
         return StorylineCharacter.objects.create(
+            game_code=character_id,
             game_id=character_id,
             name=name,
             name_raw=name,

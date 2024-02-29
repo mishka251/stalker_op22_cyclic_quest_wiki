@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Anomaly(models.Model):
-    section_name = models.CharField(max_length=255, null=False)
+    section_name = models.CharField(max_length=255, null=False, unique=True)
     class_name = models.CharField(max_length=255, null=False)
     visual_str = models.CharField(max_length=255, null=True)
     hit_type = models.CharField(max_length=255, null=True)

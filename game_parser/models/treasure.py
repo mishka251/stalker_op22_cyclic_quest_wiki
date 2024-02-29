@@ -46,6 +46,9 @@ class ItemInTreasure(models.Model):
     class Meta:
         verbose_name = 'Предмет в тайнике'
         verbose_name_plural = 'Предметы в тайниках'
+        unique_together = [
+            ["item", "treasure"]
+        ]
 
     item = models.ForeignKey(BaseItem,  null=False, on_delete=models.CASCADE, verbose_name='Предмет')
     treasure = models.ForeignKey(Treasure,  null=False, on_delete=models.CASCADE, verbose_name='Тайник')

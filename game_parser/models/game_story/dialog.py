@@ -9,7 +9,7 @@ class Dialog(models.Model):
     class Meta:
         verbose_name = 'Диалог'
         verbose_name_plural = "Диалоги"
-    game_id = models.CharField(max_length=512, null=False, verbose_name='id')
+    game_id = models.CharField(max_length=512, null=False, verbose_name='id', unique=True)
     has_info_raw = models.TextField(null=True, verbose_name="id требуемых инфопоршней")
     dont_has_info_raw = models.TextField(null=True)
     give_info_raw = models.TextField(null=True)

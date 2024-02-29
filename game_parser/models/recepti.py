@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Recept(models.Model):
-    anomaly_id = models.CharField(max_length=255, null=False)
+    anomaly_id = models.CharField(max_length=255, null=False, unique=True)
     anomaly_name = models.CharField(max_length=255, null=False)
     condition_raw = models.CharField(max_length=255)
     condition = models.ForeignKey("InfoPortion", null=True, on_delete=models.SET_NULL, related_name="opening_recepts")

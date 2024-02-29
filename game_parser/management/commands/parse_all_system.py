@@ -17,9 +17,15 @@ from game_parser.logic.model_resources.base_item import AmmoResource, GrenadeLau
 from game_parser.logic.model_resources.base_resource import BaseModelResource
 from game_parser.logic.model_resources.monster import MonsterResource
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
+from game_parser.logic.model_xml_loaders.dialog import DialogLoader
+from game_parser.logic.model_xml_loaders.encyclopedia import EncyclopediaArticleLoader
 from game_parser.logic.model_xml_loaders.icon import IconLoader
+from game_parser.logic.model_xml_loaders.infoportion import InfoPortionLoader
+from game_parser.logic.model_xml_loaders.storyline_character import StorylineCharacterLoader
+from game_parser.logic.model_xml_loaders.translation import TranslationLoader
 from game_parser.models import EncyclopediaGroup, EncyclopediaArticle, Icon, Outfit, Explosive, Grenade, Ammo, \
-    Weapon, Silencer, Scope, GrenadeLauncher, MonsterPart, Knife, Other, TrueArtefact, MonsterEmbrion, CapsAnom
+    Weapon, Silencer, Scope, GrenadeLauncher, MonsterPart, Knife, Other, TrueArtefact, MonsterEmbrion, CapsAnom, \
+    Anomaly, StorylineCharacter, Dialog, InfoPortion, Translation, Monster
 
 logger = logging.getLogger(__name__)
 
@@ -167,6 +173,15 @@ class Command(BaseCommand):
         EncyclopediaGroup.objects.all().delete()
         EncyclopediaArticle.objects.all().delete()
         Icon.objects.all().delete()
+        StorylineCharacter.objects.all().delete()
+        for d in Dialog.objects.all():
+            d.delete()
+
+        for i in InfoPortion.objects.all():
+            i.delete()
+
+        for t in Translation.objects.all():
+            t.delete()
 
         Outfit.objects.all().delete()
         Explosive.objects.all().delete()
@@ -182,6 +197,8 @@ class Command(BaseCommand):
         TrueArtefact.objects.all().delete()
         MonsterEmbrion.objects.all().delete()
         CapsAnom.objects.all().delete()
+        Anomaly.objects.all().delete()
+        Monster.objects.all().delete()
 
         parser = LtxParser(system_file, known_extends=known_bases)
         results = parser.get_parsed_blocks()
@@ -242,13 +259,13 @@ class Command(BaseCommand):
         print("START FILLING")
 
         # for translation_files_source in translation_files_sources:
-        # self._load_xml(translation_files_sources, TranslationLoader(), "Translation", GSCXmlFixer(encoding="utf-8"))
-        # self._load_icon_xml(texture_desc_sources, "TEXTURE", GSCXmlFixer())
-        # self._load_xml(info_portions_sources, InfoPortionLoader(), "Info", GSCXmlFixer())
-        # self._load_xml(encyclopedia_sources, EncyclopediaArticleLoader(), "ENCYCLOPEDIA", GSCXmlFixer())
-        # self._load_xml(dialogs_sources, DialogLoader(), "DIALOGS", GSCXmlFixer())
-        # # self._load_xml(profiles_sources, TranslationLoader(), "PROFILES")
-        # self._load_xml(specific_characters_sources, StorylineCharacterLoader(), "SPECIFIC_CHARACTERS", GSCXmlFixer())
+        self._load_xml(translation_files_sources, TranslationLoader(), "Translation", GSCXmlFixer(encoding="utf-8"))
+        self._load_icon_xml(texture_desc_sources, "TEXTURE", GSCXmlFixer())
+        self._load_xml(info_portions_sources, InfoPortionLoader(), "Info", GSCXmlFixer())
+        self._load_xml(encyclopedia_sources, EncyclopediaArticleLoader(), "ENCYCLOPEDIA", GSCXmlFixer())
+        self._load_xml(dialogs_sources, DialogLoader(), "DIALOGS", GSCXmlFixer())
+        # self._load_xml(profiles_sources, TranslationLoader(), "PROFILES")
+        self._load_xml(specific_characters_sources, StorylineCharacterLoader(), "SPECIFIC_CHARACTERS", GSCXmlFixer())
 
         ammo_keys, ammo = self._get_sections_by_class(results, grouped_by_cls_dict, self.AMMO_CLASSES)
         artefacts_keys, artefacts = self._get_sections_by_class(results, grouped_by_cls_dict, self.ARTEFACT_classes)

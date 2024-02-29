@@ -18,7 +18,7 @@ class Icon(models.Model):
 
 
 class StorylineCharacter(Character):
-    game_id = models.CharField(max_length=256)
+    game_id = models.CharField(max_length=256, unique=True)
     name_raw = models.CharField(max_length=512)
     name_translation = models.ForeignKey(Translation,null=True,on_delete=models.SET_NULL)
 

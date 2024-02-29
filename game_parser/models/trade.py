@@ -7,7 +7,7 @@ class Trader(models.Model):
         verbose_name = 'Профиль торговли'
         verbose_name_plural = 'Профили торговли'
 
-    game_code = models.CharField(null=False, max_length=255)
+    game_code = models.CharField(null=False, max_length=255, unique=True)
     name = models.CharField(null=True, max_length=255)
     source_file = models.CharField(null=True, max_length=255)
 
