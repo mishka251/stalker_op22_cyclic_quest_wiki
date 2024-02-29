@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
+from game_parser.logic.model_resources.anomaly import AnomalyResource
 from game_parser.models import Anomaly, EncyclopediaArticle
 
 logger = logging.getLogger(__name__)
@@ -38,10 +39,5 @@ class Command(BaseCommand):
 
         for quest_name, quest_data in blocks.items():
             print(quest_name)
-            Anomaly.objects.create(
-                section_name=quest_name,
-                class_name=quest_data.get("class"),
-                visual_str=quest_data.get("visual"),
-                hit_type=quest_data.get("hit_type"),
-                article=EncyclopediaArticle.objects.filter(game_id=quest_name).first(),
-            )
+
+            AnomalyResource().create_instance_from_data(quest_name, quest_data)

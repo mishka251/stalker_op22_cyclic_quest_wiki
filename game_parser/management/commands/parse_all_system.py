@@ -1,29 +1,24 @@
 import logging
 from collections import defaultdict
-from itertools import groupby
 from pathlib import Path
 
+from PIL import Image
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 from lxml.etree import parse
-from PIL import Image
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.ltx_parser import LtxParser
+from game_parser.logic.model_resources.anomaly import AnomalyResource
 from game_parser.logic.model_resources.base_item import AmmoResource, GrenadeLauncherResource, GrenadeResource, \
     WeaponResource, ScopeResource, KnifeResource, MonsterEmbrionResource, CapsAnomResource, TrueArtefactResource, \
-    SilencerResource, OutfitResource
+    SilencerResource, OutfitResource, MonsterPartResource, ExplosiveResource, OtherResource
 from game_parser.logic.model_resources.base_resource import BaseModelResource
 from game_parser.logic.model_resources.monster import MonsterResource
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
-from game_parser.logic.model_xml_loaders.dialog import DialogLoader
-from game_parser.logic.model_xml_loaders.encyclopedia import EncyclopediaArticleLoader
 from game_parser.logic.model_xml_loaders.icon import IconLoader
-from game_parser.logic.model_xml_loaders.infoportion import InfoPortionLoader
-from game_parser.logic.model_xml_loaders.storyline_character import StorylineCharacterLoader
-from game_parser.logic.model_xml_loaders.translation import TranslationLoader
-from game_parser.models import EncyclopediaGroup, EncyclopediaArticle, Icon, BaseItem, Outfit, Explosive, Grenade, Ammo, \
+from game_parser.models import EncyclopediaGroup, EncyclopediaArticle, Icon, Outfit, Explosive, Grenade, Ammo, \
     Weapon, Silencer, Scope, GrenadeLauncher, MonsterPart, Knife, Other, TrueArtefact, MonsterEmbrion, CapsAnom
 
 logger = logging.getLogger(__name__)
@@ -51,14 +46,18 @@ class Command(BaseCommand):
 
     MEDICINE_CLASSES = {
         "II_ANTIR",
-        "II_ATTCH",
+        # "II_ATTCH",
         "II_BANDG",
         "II_BOLT",
         "II_BOTTL",
         "II_DOC",
-        "II_EXPLO",
+        # "II_EXPLO",
         "II_FOOD",
         "II_MEDKI",
+    }
+
+    EXPLOSIVE_CLASSES = {
+        "II_EXPLO",
     }
 
     MONSTERS_CLASSES = {
@@ -253,8 +252,10 @@ class Command(BaseCommand):
 
         ammo_keys, ammo = self._get_sections_by_class(results, grouped_by_cls_dict, self.AMMO_CLASSES)
         artefacts_keys, artefacts = self._get_sections_by_class(results, grouped_by_cls_dict, self.ARTEFACT_classes)
-        grenade_launcher_keys, grenade_launcher = self._get_sections_by_class(results, grouped_by_cls_dict, self.GRENADE_AUNCHED_CLASSES)
-        handle_grenade_keys, handle_grenade = self._get_sections_by_class(results, grouped_by_cls_dict, self.HANDLE_GRENADES_CLASSES)
+        grenade_launcher_keys, grenade_launcher = self._get_sections_by_class(results, grouped_by_cls_dict,
+                                                                              self.GRENADE_AUNCHED_CLASSES)
+        handle_grenade_keys, handle_grenade = self._get_sections_by_class(results, grouped_by_cls_dict,
+                                                                          self.HANDLE_GRENADES_CLASSES)
         medicine_keys, medicine = self._get_sections_by_class(results, grouped_by_cls_dict, self.MEDICINE_CLASSES)
         monster_keys, monster = self._get_sections_by_class(results, grouped_by_cls_dict, self.MONSTERS_CLASSES)
         weapon_keys, weapon = self._get_sections_by_class(results, grouped_by_cls_dict, self.WEAPON_CLASSES)
@@ -263,37 +264,48 @@ class Command(BaseCommand):
         knife_keys, knife = self._get_sections_by_class(results, grouped_by_cls_dict, self.KNIFE_SECTIONS)
         silencer_keys, silencer = self._get_sections_by_class(results, grouped_by_cls_dict, self.SILENCER_CLASSES)
         outfit_keys, outfit = self._get_sections_by_class(results, grouped_by_cls_dict, self.OUTFITS_CLASSES)
+        monster_parts_keys, monster_parts = self._get_monster_parts(results, grouped_by_cls_dict)
+        explosive_keys, explosive = self._get_explosive(results, grouped_by_cls_dict)
 
+        other_classes = self.MEDICINE_CLASSES | self.PNV_CLASSES | {"II_ATTCH", "D_PDA"}
+        other_keys, other = self._get_sections_by_class(results, grouped_by_cls_dict, other_classes)
+        other = {
+            key: item
+            for key, item in other.items()
+            if item.get("monster_part") != "true"
+        }
 
         used_keys = (
-            ammo_keys|
-            artefacts_keys|
-            grenade_launcher_keys|
-            handle_grenade_keys|
-            medicine_keys|
-            monster_keys|
-            weapon_keys|
-            anomaly_keys|
-            scopes_keys|
-            knife_keys|
-            silencer_keys|
-            outfit_keys
+                ammo_keys |
+                artefacts_keys |
+                grenade_launcher_keys |
+                handle_grenade_keys |
+                medicine_keys |
+                monster_keys |
+                weapon_keys |
+                anomaly_keys |
+                scopes_keys |
+                knife_keys |
+                silencer_keys |
+                outfit_keys |
+                monster_parts_keys |
+                explosive_keys |
+                set(other.keys())
         )
 
-
-
         self._load_sections(ammo, AmmoResource())
-        # self._load_sections(artefacts, AmmoResource())
         self._load_sections(grenade_launcher, GrenadeLauncherResource())
         self._load_sections(handle_grenade, GrenadeResource())
-        # self._load_sections(medicine, GrenadeResource())
-        # self._load_sections(monster, GrenadeResource())
         self._load_sections(weapon, WeaponResource())
         self._load_sections(scopes, ScopeResource())
         self._load_sections(knife, KnifeResource())
         self._load_sections(silencer, SilencerResource())
         self._load_sections(outfit, OutfitResource())
         self._load_sections(monster, MonsterResource())
+        self._load_sections(monster_parts, MonsterPartResource())
+        self._load_sections(explosive, ExplosiveResource())
+        self._load_sections(anomaly, AnomalyResource())
+        self._load_sections(other, OtherResource())
         self._load_artefacts(artefacts)
 
         unused_keys = set(existing_sections_keys) - used_keys
@@ -303,21 +315,39 @@ class Command(BaseCommand):
         }
         print(f"UNUSED {len(unused_keys)} {unused_classes=}")
 
+    def _get_explosive(self, results, grouped_by_cls_dict, ):
+        items_keys, items = self._get_sections_by_class(results, grouped_by_cls_dict, self.EXPLOSIVE_CLASSES)
+        monster_parts = {
+            key: item
+            for key, item in items.items()
+            if "fake" not in key
+        }
+        return set(monster_parts.keys()), monster_parts
+
+    def _get_monster_parts(self, results, grouped_by_cls_dict, ):
+        items_keys, items = self._get_sections_by_class(results, grouped_by_cls_dict, {"II_ATTCH"})
+        monster_parts = {
+            key: item
+            for key, item in items.items()
+            if item.get("monster_part") == "true" and key != "monster_part"
+        }
+        return set(monster_parts.keys()), monster_parts
+
     def _load_artefacts(self, sections: dict[str, dict]) -> None:
         cocoons = {
-           section_name: section
+            section_name: section
             for section_name, section in sections.items()
             if section.get("cocoon", None) == "true" and section_name != "cocoon"
         }
 
         caps_anom = {
-           section_name: section
+            section_name: section
             for section_name, section in sections.items()
             if section.get("caps_anom", None) == "true" and section_name != "caps_anom"
         }
 
         true_arts = {
-           section_name: section
+            section_name: section
             for section_name, section in sections.items()
             if section.get("caps_anom", None) is None and section.get("cocoon", None) is None
         }
@@ -330,8 +360,8 @@ class Command(BaseCommand):
         for section_name, section in sections.items():
             resource.create_instance_from_data(section_name, section)
 
-
-    def _get_sections_by_class(self, results, grouped_by_cls_dict, classes: set[str]) -> tuple[set[str], dict[str, dict]]:
+    def _get_sections_by_class(self, results, grouped_by_cls_dict, classes: set[str]) -> tuple[
+        set[str], dict[str, dict]]:
         ammo_keys = set()
         for key in classes:
             ammo_keys |= set(grouped_by_cls_dict[key])
@@ -342,7 +372,6 @@ class Command(BaseCommand):
         }
         return ammo_keys, ammo
 
-
     def _load_icon_xml(self, files: list[Path], name: str, fixer: GSCXmlFixer) -> None:
         print(f"Start parsing {name=}")
         for file in files:
@@ -352,7 +381,7 @@ class Command(BaseCommand):
             image = None
             for child_node in root_node:
                 if child_node.tag == 'file_name':
-                    image_file_path = settings.OP22_GAME_DATA_PATH/'textures'/(child_node.text+'.dds')
+                    image_file_path = settings.OP22_GAME_DATA_PATH / 'textures' / (child_node.text + '.dds')
                     image = Image.open(image_file_path)
             if image is None:
                 raise ValueError(f"No image in {file}")
