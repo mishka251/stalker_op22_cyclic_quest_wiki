@@ -15,6 +15,7 @@ from game_parser.logic.model_resources.base_item import AmmoResource, GrenadeLau
     WeaponResource, ScopeResource, KnifeResource, MonsterEmbrionResource, CapsAnomResource, TrueArtefactResource, \
     SilencerResource, OutfitResource, MonsterPartResource, ExplosiveResource, OtherResource
 from game_parser.logic.model_resources.base_resource import BaseModelResource
+from game_parser.logic.model_resources.inventory_box import InventoryBoxResource
 from game_parser.logic.model_resources.monster import MonsterResource
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.logic.model_xml_loaders.dialog import DialogLoader
@@ -25,7 +26,7 @@ from game_parser.logic.model_xml_loaders.storyline_character import StorylineCha
 from game_parser.logic.model_xml_loaders.translation import TranslationLoader
 from game_parser.models import EncyclopediaGroup, EncyclopediaArticle, Icon, Outfit, Explosive, Grenade, Ammo, \
     Weapon, Silencer, Scope, GrenadeLauncher, MonsterPart, Knife, Other, TrueArtefact, MonsterEmbrion, CapsAnom, \
-    Anomaly, StorylineCharacter, Dialog, InfoPortion, Translation, Monster
+    Anomaly, StorylineCharacter, Dialog, InfoPortion, Translation, Monster, InventoryBox, ItemInTreasureBox
 
 logger = logging.getLogger(__name__)
 
@@ -167,6 +168,7 @@ class Command(BaseCommand):
 
     @atomic
     def handle(self, **options):
+        print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
         system_file = base_path / "config" / "system.ltx"
         known_bases = {}
@@ -174,15 +176,17 @@ class Command(BaseCommand):
         EncyclopediaArticle.objects.all().delete()
         Icon.objects.all().delete()
         StorylineCharacter.objects.all().delete()
-        for d in Dialog.objects.all():
-            d.delete()
+        Dialog.objects.all().delete()
+        InfoPortion.objects.all().delete()
 
-        for i in InfoPortion.objects.all():
-            i.delete()
+        while Translation.objects.exists():
+            ids = Translation.objects.all()[:1_000].values("id")
+            Translation.objects.all().filter(id__in=ids).delete()
+        # for t in Translation.objects.all():
+        #     t.delete()
 
-        for t in Translation.objects.all():
-            t.delete()
-
+        InventoryBox.objects.all().delete()
+        ItemInTreasureBox.objects.all().delete()
         Outfit.objects.all().delete()
         Explosive.objects.all().delete()
         Grenade.objects.all().delete()
@@ -200,9 +204,11 @@ class Command(BaseCommand):
         Anomaly.objects.all().delete()
         Monster.objects.all().delete()
 
+        print("Cleaned")
+
         parser = LtxParser(system_file, known_extends=known_bases)
         results = parser.get_parsed_blocks()
-
+        print("all_system parsed")
         translation_config = results["string_table"]
         translation_files_sources = self._get_paths_list(base_path / "config" / "text", translation_config["files"],
                                                          "xml")
@@ -281,6 +287,7 @@ class Command(BaseCommand):
         knife_keys, knife = self._get_sections_by_class(results, grouped_by_cls_dict, self.KNIFE_SECTIONS)
         silencer_keys, silencer = self._get_sections_by_class(results, grouped_by_cls_dict, self.SILENCER_CLASSES)
         outfit_keys, outfit = self._get_sections_by_class(results, grouped_by_cls_dict, self.OUTFITS_CLASSES)
+        ibox_keys, iboxes = self._get_sections_by_class(results, grouped_by_cls_dict, {"O_INVBOX"})
         monster_parts_keys, monster_parts = self._get_monster_parts(results, grouped_by_cls_dict)
         explosive_keys, explosive = self._get_explosive(results, grouped_by_cls_dict)
 
@@ -307,6 +314,7 @@ class Command(BaseCommand):
                 outfit_keys |
                 monster_parts_keys |
                 explosive_keys |
+                ibox_keys|
                 set(other.keys())
         )
 
@@ -324,6 +332,12 @@ class Command(BaseCommand):
         self._load_sections(anomaly, AnomalyResource())
         self._load_sections(other, OtherResource())
         self._load_artefacts(artefacts)
+        real_iboxes = {
+            ibox_key: ibox_value
+            for (ibox_key, ibox_value) in iboxes.items()
+            if ibox_value.get("custom_data") is not None
+        }
+        self._load_sections(real_iboxes, InventoryBoxResource())
 
         unused_keys = set(existing_sections_keys) - used_keys
         unused_classes = {
