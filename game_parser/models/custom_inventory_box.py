@@ -7,8 +7,10 @@ class InventoryBox(models.Model):
         verbose_name_plural = "Тайники"
 
     section_name = models.CharField(max_length=255, verbose_name="Название секции", unique=True)
-    source_file_name = models.CharField(max_length=255, verbose_name="Путь к файлу")
+    source_file_name = models.CharField(max_length=255, verbose_name="Путь к файлу(custom_data)")
     items_raw = models.CharField(max_length=1000, verbose_name="Строка с предметами", null=True)
+    visual_str = models.CharField(max_length=255, verbose_name="Внешний вид(название - visual)", null=True)
+
 
     def __str__(self):
         return f"Тайник {self.section_name}"
