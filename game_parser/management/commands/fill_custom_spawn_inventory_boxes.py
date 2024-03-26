@@ -1,9 +1,9 @@
 import logging
+
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.models import InfoPortion, CustomSpawnItem, InventoryBox
-from game_parser.models import GameTask
+from game_parser.models import CustomSpawnItem, InventoryBox
 
 logger = logging.getLogger(__name__)
 

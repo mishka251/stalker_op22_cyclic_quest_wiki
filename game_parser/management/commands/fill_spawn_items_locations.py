@@ -2,11 +2,11 @@ import logging
 import re
 
 from django.core.management.base import BaseCommand
-from django.db.transaction import atomic
 from django.db.models.functions import Lower
+from django.db.transaction import atomic
 
-from game_parser.models import Translation, SpawnItem
 from game_parser.models import Location
+from game_parser.models import SpawnItem
 
 logger = logging.getLogger(__name__)
 

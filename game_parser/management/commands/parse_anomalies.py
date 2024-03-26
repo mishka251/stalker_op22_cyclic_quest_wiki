@@ -7,7 +7,7 @@ from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
 from game_parser.logic.model_resources.anomaly import AnomalyResource
-from game_parser.models import Anomaly, EncyclopediaArticle
+from game_parser.models import Anomaly
 
 logger = logging.getLogger(__name__)
 

@@ -1,3 +1,4 @@
+import logging
 import re
 from decimal import Decimal
 from pathlib import Path
@@ -8,8 +9,7 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.models import  Trader, Buy, Sell, ItemInBuy, ItemInSell
-import logging
+from game_parser.models import Trader, Buy, Sell, ItemInBuy, ItemInSell
 
 logger = logging.getLogger(__name__)
 

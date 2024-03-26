@@ -1,17 +1,15 @@
 import logging
 from pathlib import Path
 
-from django.conf import settings
-from django.core.management.base import BaseCommand
-from django.db.transaction import atomic
-from django.db.models.functions import Lower
-from django.core.files import File
-from django.core.files.images import ImageFile
-from game_parser.logic.ltx_parser import LtxParser
-from game_parser.logic.model_resources.treasure import TreasureResource
-from game_parser.models import Treasure, LocationMapInfo, Location
 from PIL import Image
+from django.conf import settings
+from django.core.files.images import ImageFile
+from django.core.management.base import BaseCommand
+from django.db.models.functions import Lower
+from django.db.transaction import atomic
 
+from game_parser.logic.ltx_parser import LtxParser
+from game_parser.models import LocationMapInfo, Location
 
 logger = logging.getLogger(__name__)
 

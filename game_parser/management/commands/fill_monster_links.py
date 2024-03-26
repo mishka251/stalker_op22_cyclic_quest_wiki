@@ -1,9 +1,9 @@
 import logging
+
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.models import Translation, Monster, Icon, MonsterPart
-from game_parser.models import GameTask
 
 logger = logging.getLogger(__name__)
 

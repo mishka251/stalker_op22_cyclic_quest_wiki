@@ -1,17 +1,14 @@
+import logging
 from pathlib import Path
-from xml.etree.ElementTree import Element, parse
+from xml.etree.ElementTree import parse
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-import logging
-
-import re
-
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.model_xml_loaders.game_task import GameTaskLoader
-from game_parser.models import GameTask, TaskObjective, MapLocationType
+from game_parser.models import GameTask, TaskObjective
 
 logger = logging.getLogger(__name__)
 

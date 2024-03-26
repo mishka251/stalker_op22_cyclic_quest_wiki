@@ -1,21 +1,18 @@
 import dataclasses
 import decimal
+import logging
 import os
-import re
-from decimal import Decimal
 from pathlib import Path
 from typing import Optional
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
+from luaparser.ast import ASTVisitor, Op, Call, Number, String, parse, Index, to_lua_source, Nil, Name, Function, \
+    UnaryOp, Invoke
 
-from game_parser.logic.ltx_parser import LtxParser
-from game_parser.models import Trader, Buy, Sell, ItemInBuy, ItemInSell, ScriptFunction, MoneyReward, ItemReward, \
+from game_parser.models import ScriptFunction, MoneyReward, ItemReward, \
     SpawnReward
-import logging
-
-from luaparser.ast import ASTVisitor, FloatDivOp,Op, Call, Number, String, parse, Index, to_lua_source, Nil, Name, Function, UnaryOp, Invoke
 
 logger = logging.getLogger(__name__)
 

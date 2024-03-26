@@ -5,15 +5,10 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.models import CyclicQuest, QuestRandomReward, Translation
-from pathlib import Path
+from game_parser.models.spawn_item import CustomSpawnItem
+
+
 # from xml.etree.ElementTree import Element, parse
-
-from django.conf import settings
-from django.core.management.base import BaseCommand
-from django.db.transaction import atomic
-
-from game_parser.models.spawn_item import SpawnItem, CustomSpawnItem
 
 
 class Command(BaseCommand):

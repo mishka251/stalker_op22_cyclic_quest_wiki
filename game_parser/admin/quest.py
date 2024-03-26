@@ -50,6 +50,7 @@ class QuestAdmin(ModelAdmin):
         "__str__",
         "type",
         "get_vendor_character",
+        "prior",
     ]
 
     @display(description="Квестодатель")

@@ -3,11 +3,9 @@ from typing import Optional
 
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
-from django.db.models import QuerySet
 
-from game_parser.models import Translation, InfoPortion, ScriptFunction, StorylineCharacter
-from game_parser.models.game_story.dialog import DialogPhrase, Dialog
-from game_parser.models.items.base_item import BaseItem
+from game_parser.models import StorylineCharacter
+from game_parser.models.game_story.dialog import Dialog
 
 logger = logging.getLogger(__name__)
 

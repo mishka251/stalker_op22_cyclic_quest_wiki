@@ -5,8 +5,8 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.logic.model_resources.base_item import MonsterPartResource, OutfitResource
-from game_parser.models import MonsterPart, Outfit
+from game_parser.logic.model_resources.base_item import OutfitResource
+from game_parser.models import Outfit
 
 logger = logging.getLogger(__name__)
 
