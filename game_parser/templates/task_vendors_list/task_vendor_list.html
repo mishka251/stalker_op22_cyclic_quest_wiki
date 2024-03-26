@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Квестодатели</title>
+</head>
+<body>
+<div class="page">
+
+    <table class="vendors-list">
+        <thead>
+        <tr>
+            <td>Фото</td>
+            <td>Имя</td>
+            <td>Количество ЦЗ</td>
+            <td>Есть цепочка</td>
+            <td>Ссылка на квесты</td>
+        </tr>
+
+        </thead>
+        {% for vendor_data in vendors %}
+            {% include "task_vendors_list/task_vendor.html" with vendor=vendor_data %}
+        {% endfor %}
+    </table>
+
+</div>
+</body>
+</html>
