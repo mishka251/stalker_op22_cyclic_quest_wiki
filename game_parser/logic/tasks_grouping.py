@@ -5,14 +5,18 @@ from typing import Optional, NamedTuple
 from game_parser.models import Ammo, Weapon, Silencer, Outfit, StorylineCharacter
 from game_parser.models.quest import QuestKinds, CyclicQuest, CyclicQuestItemReward
 
+@dataclasses.dataclass
+class Icon:
+    url: str
+    width: int
+    height: int
+
 
 @dataclasses.dataclass
 class ItemInfo:
     item_id: str
     item_label: str
-    item_icon_path: Optional[str]
-    icon_w: Optional[int]
-    icon_h: Optional[int]
+    icon: Optional[Icon]
 
 
 
@@ -78,6 +82,7 @@ class TaskRandomReward(TaskReward):
     count: int
     reward_name: str
     reward_id: str
+    icon: Optional[Icon]
 
 
 @dataclasses.dataclass
@@ -149,10 +154,15 @@ def parse_task(db_task: CyclicQuest) -> Quest:
         rewards.append(TreasureReward())
 
     for random_reward in db_task.random_rewards.all():
+        icon = None
+        if random_reward.reward.icon and random_reward.reward.icon.icon:
+            icon_ = random_reward.reward.icon.icon
+            icon = Icon(icon_.url, icon_.width, icon_.height)
         reward = TaskRandomReward(
             count=random_reward.count,
-            reward_name=random_reward.reward.caption,
+            reward_name=random_reward.reward.name_translation.rus,
             reward_id=random_reward.reward.name,
+            icon=icon,
         )
         rewards.append(reward)
 
@@ -186,12 +196,14 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         if target_cond_str is None and isinstance(target_item, items_with_condition):
             target_cond_str = "50"
 
+        item_icon = None
+        if target_item.inv_icon:
+            item_icon = Icon(target_item.inv_icon.url, target_item.inv_icon.width, target_item.inv_icon.height)
+
         item_info = ItemInfo(
             item_id=target_item.inv_name,
             item_label=target_item.name_translation.rus if target_item.name_translation else target_item.inv_name,
-            item_icon_path=target_item.inv_icon.url if target_item.inv_icon else None,
-            icon_h=target_item.inv_icon.height if target_item.inv_icon else None,
-            icon_w=target_item.inv_icon.width if target_item.inv_icon else None,
+            icon=item_icon,
         )
         target_count = db_task.target_count or 1
 
@@ -224,12 +236,13 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
 
 
 def parse_item_reward(reward: CyclicQuestItemReward) -> TaskReward:
+    item_icon = None
+    if reward.item.inv_icon:
+        item_icon = Icon(reward.item.inv_icon.url, reward.item.inv_icon.width, reward.item.inv_icon.height)
     item_info = ItemInfo(
         item_id=reward.item.inv_name,
         item_label=reward.item.name_translation.rus if reward.item.name_translation else reward.item.inv_name,
-        item_icon_path=reward.item.inv_icon.url if reward.item.inv_icon else None,
-        icon_h=reward.item.inv_icon.height if reward.item.inv_icon else None,
-        icon_w=reward.item.inv_icon.width if reward.item.inv_icon else None,
+        icon=item_icon,
     )
     if isinstance(reward.item, Ammo):
         return TaskAmmoReward(

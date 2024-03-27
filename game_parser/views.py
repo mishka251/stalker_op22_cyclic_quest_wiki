@@ -96,7 +96,8 @@ class VendorQuestsList(TemplateView):
         except Exception as ex:
             raise Http404("Incorrect vendor ID") from ex
         vendor_tasks = CyclicQuest.objects.filter(vendor=vendor)
+        vendor_profile = vendor.get_npc_profile()
         return {
-            "vendor_quests": collect_vendor_tasks(vendor_tasks, vendor.get_npc_profile()),
-            "vendor": vendor,
+            "vendor_task_info": collect_vendor_tasks(vendor_tasks, vendor_profile),
+            "vendor": vendor_profile,
         }

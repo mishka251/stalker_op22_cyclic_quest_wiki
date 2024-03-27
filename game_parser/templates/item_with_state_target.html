@@ -4,7 +4,14 @@
             <div>{{ target.items_count }} x</div>
         </div>
         <div class="d-flex flex-column">
-            <img src="{{ target.item.item_icon_path }}"   width="{{ target.item.icon_w }}" height="{{ target.item.icon_h }}">
+            {% if target.item.icon %}
+                <img
+                        src="{{ target.item.icon.url }}"
+                        width="{{ target.item.icon.width }}"
+                        height="{{ target.item.icon.height }}"
+                        alt="{{ target.item.item_label }}"
+                >
+            {% endif %}
             <div class="progress min-width-500px">
                     <div
                             class="progress-bar  bg-error"
