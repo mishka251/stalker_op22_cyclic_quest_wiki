@@ -1,22 +1,17 @@
+import logging
 from pathlib import Path
-# from xml.etree.ElementTree import Element, parse
 
+from PIL import Image
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
-
-import logging
-
-import re
-
-from lxml.etree import parse, Element, _Comment
+from lxml.etree import parse
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.model_xml_loaders.icon import IconLoader
-from game_parser.models import GameTask, TaskObjective, MapLocationType, Dialog, Icon
-from game_parser.models.game_story.dialog import DialogPhrase
-from PIL import Image
-from django.core.files.images import ImageFile
+from game_parser.models import Icon
+
+# from xml.etree.ElementTree import Element, parse
 
 logger = logging.getLogger(__name__)
 

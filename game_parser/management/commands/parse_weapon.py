@@ -10,7 +10,7 @@ from django.db.transaction import atomic
 from game_parser.logic.ltx_parser import LtxParser
 from game_parser.logic.model_resources.base_item import WeaponResource, BaseItemResource, AmmoResource, GrenadeResource, \
     KnifeResource, ExplosiveResource, GrenadeLauncherResource, SilencerResource, ScopeResource
-from game_parser.models import (Weapon, Ammo, Addon, Knife, Explosive, Grenade, GrenadeLauncher, Scope, Silencer)
+from game_parser.models import (Weapon, Ammo, Addon, Knife, Explosive, Grenade, GrenadeLauncher)
 from game_parser.models.items.base_item import BaseItem
 
 base_path = settings.OP22_GAME_DATA_PATH

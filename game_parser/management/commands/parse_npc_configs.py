@@ -6,26 +6,10 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.models import CyclicQuest, QuestRandomReward, Translation
-from pathlib import Path
+from game_parser.models.spawn_item import NpcLogicConfig
+
+
 # from xml.etree.ElementTree import Element, parse
-
-from django.conf import settings
-from django.core.management.base import BaseCommand
-from django.db.transaction import atomic
-
-import logging
-
-import re
-
-from lxml.etree import parse, Element, _Comment
-
-from game_parser.models import GameTask, TaskObjective, MapLocationType, Dialog, Icon
-from game_parser.models.game_story.dialog import DialogPhrase
-from PIL import Image
-from django.core.files.images import ImageFile
-
-from game_parser.models.spawn_item import SpawnItem, NpcLogicConfig
 
 
 class Command(BaseCommand):

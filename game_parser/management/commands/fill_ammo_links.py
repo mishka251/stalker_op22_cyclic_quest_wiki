@@ -1,9 +1,9 @@
 import logging
+
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.models import ItemInTradeBase, Weapon, Scope, Silencer, GrenadeLauncher, Ammo
-from game_parser.models.items.base_item import BaseItem
+from game_parser.models import Weapon, Scope, Silencer, GrenadeLauncher, Ammo
 
 logger = logging.getLogger(__name__)
 

@@ -9,8 +9,6 @@ from django.db.transaction import atomic
 from game_parser.logic.model_xml_loaders.translation import TranslationLoader
 from game_parser.models import Translation
 
-
-
 logger = logging.getLogger(__name__)
 
 

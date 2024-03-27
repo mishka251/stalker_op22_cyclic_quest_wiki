@@ -4,7 +4,7 @@ from pathlib import Path
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
-from lxml.etree import parse, Element, _Comment
+from lxml.etree import parse
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.model_xml_loaders.dialog import DialogLoader

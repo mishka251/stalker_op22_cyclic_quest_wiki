@@ -1,10 +1,9 @@
 import logging
+
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.models import Translation, ItemReward, BaseItem, GameStoryId, StorylineCharacter, Treasure, \
-    CycleTaskVendor
-from game_parser.models import GameTask
+from game_parser.models import GameStoryId, CycleTaskVendor
 
 logger = logging.getLogger(__name__)
 
