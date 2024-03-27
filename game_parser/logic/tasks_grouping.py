@@ -2,7 +2,7 @@ import dataclasses
 from itertools import groupby
 from typing import Optional, NamedTuple
 
-from game_parser.models import Ammo, Weapon, Silencer, Outfit
+from game_parser.models import Ammo, Weapon, Silencer, Outfit, StorylineCharacter
 from game_parser.models.quest import QuestKinds, CyclicQuest, CyclicQuestItemReward
 
 
@@ -107,32 +107,33 @@ def collect_info() -> list[CharacterQuests]:
     all_tasks = list(CyclicQuest.objects.all().order_by('vendor'))
     result = []
     for vendor, _vendor_tasks in groupby(all_tasks, lambda task: task.get_vendor_character):
-        vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
-        vendor_id = vendor.game_id
-        try:
-            vendor_name = vendor.name_translation.rus
-        except Exception as e:
-            vendor_name = "<Неизвестный>"
-
-        # print(vendor_name, len(vendor_tasks))
-
-        quest_group_by_type = {}
-
-        for _task_kind, _vendor_kind_tasks in groupby(vendor_tasks, key=lambda task: task.type):
-            task_kind = QuestKinds[_task_kind]
-            vendor_kind_tasks = list(sorted(_vendor_kind_tasks, key=lambda task: task.prior))
-            # print(f"    {task_kind}   {len(list(vendor_kind_tasks))}")
-            tasks_by_prior = {}
-            for priop, _prior_tasks in groupby(vendor_kind_tasks, key=lambda task: task.prior):
-                prior_tasks = list(_prior_tasks)
-                # print(f"        {priop}  {len(prior_tasks)}")
-
-                prior_quests = [parse_task(task) for task in prior_tasks]
-                tasks_by_prior[priop] = prior_quests
-            quest_group_by_type[task_kind] = tasks_by_prior
-        result.append(CharacterQuests(vendor_id, vendor_name, quest_group_by_type))
+        result += [collect_vendor_tasks(_vendor_tasks, vendor)]
 
     return result
+
+
+def collect_vendor_tasks(_vendor_tasks, vendor: StorylineCharacter) -> CharacterQuests:
+    vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
+    vendor_id = vendor.game_id
+    try:
+        vendor_name = vendor.name_translation.rus
+    except Exception as e:
+        vendor_name = "<Неизвестный>"
+    # print(vendor_name, len(vendor_tasks))
+    quest_group_by_type = {}
+    for _task_kind, _vendor_kind_tasks in groupby(vendor_tasks, key=lambda task: task.type):
+        task_kind = QuestKinds[_task_kind]
+        vendor_kind_tasks = list(sorted(_vendor_kind_tasks, key=lambda task: task.prior))
+        # print(f"    {task_kind}   {len(list(vendor_kind_tasks))}")
+        tasks_by_prior = {}
+        for prior, _prior_tasks in groupby(vendor_kind_tasks, key=lambda task: task.prior):
+            prior_tasks = list(_prior_tasks)
+            # print(f"        {prior}  {len(prior_tasks)}")
+
+            prior_quests = [parse_task(task) for task in prior_tasks]
+            tasks_by_prior[prior] = prior_quests
+        quest_group_by_type[task_kind] = tasks_by_prior
+    return CharacterQuests(vendor_id, vendor_name, quest_group_by_type)
 
 
 def parse_task(db_task: CyclicQuest) -> Quest:

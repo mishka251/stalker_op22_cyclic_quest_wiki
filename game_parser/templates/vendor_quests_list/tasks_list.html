@@ -1,0 +1,52 @@
+{% load tasks %}
+
+<!DOCTYPE html>
+<html lang="ru_RU">
+<head>
+    <meta charset="UTF-8">
+    <title> Циклические задания у {{ vendor }} </title>
+</head>
+<body>
+<div class="page">
+    <div
+            id="vendor-{{ vendor_task_info.character_id }}"
+            class="vendor-tasks border-bottom border-4 mb-3"
+    >
+        <div class="vendor d-flex flex-row">
+            <h2>{{ vendor_task_info.character_name }}({{ vendor_task_info.character_id }})</h2>
+        </div>
+
+        <div class="tasks">
+            {% for quest_kind, quest_groups in vendor_task_info.quest_group_by_type.items %}
+                <div
+                        id="vendor-{{ vendor_task_info.character_id }}-kind-{{ quest_kind }}"
+                        class="task-type-group"
+                >
+                    <div class="tasks-type">
+                        <h3>{{ quest_kind.label }}</h3>
+                    </div>
+                    <div class="tasks-by-prior">
+                        {% for prior, tasks in quest_groups.items %}
+                            <div
+                                    id="vendor-{{ vendor_task_info.character_id }}-kind-{{ quest_kind }}-prior-{{ prior }}"
+                                    class="taks-by-prior border-bottom border-3 mb-2"
+                            >
+                                <div class="prior">
+                                    <h4>Приоритет {{ prior }}</h4>
+                                </div>
+                                <div class="tasks">
+                                    {% for task in tasks %}
+                                        {% render_task task %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
