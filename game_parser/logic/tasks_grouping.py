@@ -112,6 +112,7 @@ class TaskAmmoReward(TaskItemReward):
 class Quest:
     target: QuestTarget
     rewards: list[TaskReward]
+    text: Optional[str]
 
 
 QuestGroupByPriority = dict[int, list[Quest]]
@@ -184,7 +185,7 @@ def parse_task(db_task: CyclicQuest) -> Quest:
         )
         rewards.append(reward)
 
-    return Quest(target, rewards)
+    return Quest(target, rewards, db_task.text.rus if db_task.text else None)
 
 
 def parse_target(db_task: CyclicQuest) -> QuestTarget:

@@ -7,6 +7,9 @@
         </h5>
         {% render_target task.target %}
     </div>
+    <div class="test-text mx-3">
+        {{ task.text }}
+    </div>
     <div class="rewards d-flex flex-column">
         <h5 class="align-self-center">Награда</h5>
         {% for reward in task.rewards %}
