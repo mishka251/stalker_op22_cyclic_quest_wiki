@@ -1,9 +1,15 @@
 import dataclasses
+import re
 from itertools import groupby
 from typing import Optional, NamedTuple
 
-from game_parser.models import Ammo, Weapon, Silencer, Outfit, StorylineCharacter
+from game_parser.models import Ammo, Weapon, Silencer, Outfit, StorylineCharacter, LocationMapInfo
 from game_parser.models.quest import QuestKinds, CyclicQuest, CyclicQuestItemReward
+
+position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
+offset_re = re.compile(r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)")
+
+
 
 @dataclasses.dataclass
 class Icon:
@@ -18,6 +24,17 @@ class ItemInfo:
     item_label: str
     icon: Optional[Icon]
 
+@dataclasses.dataclass
+class MapPointItem:
+    position: tuple[float, float]
+    info_str: str
+
+@dataclasses.dataclass
+class MapPointInfo:
+    image_url: str
+    bounds: tuple[float, float, float, float]
+    item: MapPointItem
+    y_level_offset: float
 
 
 @dataclasses.dataclass
@@ -49,6 +66,7 @@ class AmmoTarget(QuestItemTarget):
 @dataclasses.dataclass
 class LagerTarget(QuestTarget):
     game_id: str
+    map_info: Optional[MapPointInfo] = None
 
 
 @dataclasses.dataclass
@@ -187,7 +205,31 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
     if db_task.type in stalker:
         return StalkerTarget(db_task.target_str)
     if db_task.type in lager_types:
-        return LagerTarget(db_task.target_str)
+        camp_map_info = None
+        target_camp = db_task.target_camp_to_defeat or db_task.target_camp_to_destroy
+        if target_camp and target_camp.location:
+            location_map_info = LocationMapInfo.objects.filter(location=target_camp.location).first()
+            if location_map_info and location_map_info.map_image and (coords_rm := position_re.match(target_camp.position_raw)):
+                rm = offset_re.match(location_map_info.bound_rect_raw)
+                (min_x, min_y, max_x, max_y) = (
+                    float(rm.group("min_x")),
+                    float(rm.group("min_y")),
+                    float(rm.group("max_x")),
+                    float(rm.group("max_y"))
+                )
+
+                (x, y, z) = float(coords_rm.group("x")), float(coords_rm.group("y")), float(coords_rm.group("z"))
+                camp_map_info = MapPointInfo(
+                    image_url=location_map_info.map_image.url,
+                    bounds=(min_x, min_y, max_x, max_y),
+                    y_level_offset=-(max_y + min_y),
+                    item=MapPointItem(position=(x, z), info_str=db_task.target_str)
+                    # width=location_map_info.map_image.width,
+                    # height=location_map_info.map_image.height,
+                    # x=x,
+                    # y=z,
+                )
+        return LagerTarget(db_task.target_str, camp_map_info)
 
     if db_task.type in items_types:
         target_item = db_task.target_item.get_real_instance()
