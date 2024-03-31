@@ -1,19 +1,40 @@
 import dataclasses
+import re
 from itertools import groupby
 from typing import Optional, NamedTuple
 
-from game_parser.models import Ammo, Weapon, Silencer, Outfit
+from game_parser.models import Ammo, Weapon, Silencer, Outfit, StorylineCharacter, LocationMapInfo
 from game_parser.models.quest import QuestKinds, CyclicQuest, CyclicQuestItemReward
+
+position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
+offset_re = re.compile(r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)")
+
+
+
+@dataclasses.dataclass
+class Icon:
+    url: str
+    width: int
+    height: int
 
 
 @dataclasses.dataclass
 class ItemInfo:
     item_id: str
     item_label: str
-    item_icon_path: Optional[str]
-    icon_w: Optional[int]
-    icon_h: Optional[int]
+    icon: Optional[Icon]
 
+@dataclasses.dataclass
+class MapPointItem:
+    position: tuple[float, float]
+    info_str: str
+
+@dataclasses.dataclass
+class MapPointInfo:
+    image_url: str
+    bounds: tuple[float, float, float, float]
+    item: MapPointItem
+    y_level_offset: float
 
 
 @dataclasses.dataclass
@@ -45,6 +66,7 @@ class AmmoTarget(QuestItemTarget):
 @dataclasses.dataclass
 class LagerTarget(QuestTarget):
     game_id: str
+    map_info: Optional[MapPointInfo] = None
 
 
 @dataclasses.dataclass
@@ -78,6 +100,7 @@ class TaskRandomReward(TaskReward):
     count: int
     reward_name: str
     reward_id: str
+    icon: Optional[Icon]
 
 
 @dataclasses.dataclass
@@ -89,6 +112,7 @@ class TaskAmmoReward(TaskItemReward):
 class Quest:
     target: QuestTarget
     rewards: list[TaskReward]
+    text: Optional[str]
 
 
 QuestGroupByPriority = dict[int, list[Quest]]
@@ -107,32 +131,33 @@ def collect_info() -> list[CharacterQuests]:
     all_tasks = list(CyclicQuest.objects.all().order_by('vendor'))
     result = []
     for vendor, _vendor_tasks in groupby(all_tasks, lambda task: task.get_vendor_character):
-        vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
-        vendor_id = vendor.game_id
-        try:
-            vendor_name = vendor.name_translation.rus
-        except Exception as e:
-            vendor_name = "<Неизвестный>"
-
-        # print(vendor_name, len(vendor_tasks))
-
-        quest_group_by_type = {}
-
-        for _task_kind, _vendor_kind_tasks in groupby(vendor_tasks, key=lambda task: task.type):
-            task_kind = QuestKinds[_task_kind]
-            vendor_kind_tasks = list(sorted(_vendor_kind_tasks, key=lambda task: task.prior))
-            # print(f"    {task_kind}   {len(list(vendor_kind_tasks))}")
-            tasks_by_prior = {}
-            for priop, _prior_tasks in groupby(vendor_kind_tasks, key=lambda task: task.prior):
-                prior_tasks = list(_prior_tasks)
-                # print(f"        {priop}  {len(prior_tasks)}")
-
-                prior_quests = [parse_task(task) for task in prior_tasks]
-                tasks_by_prior[priop] = prior_quests
-            quest_group_by_type[task_kind] = tasks_by_prior
-        result.append(CharacterQuests(vendor_id, vendor_name, quest_group_by_type))
+        result += [collect_vendor_tasks(_vendor_tasks, vendor)]
 
     return result
+
+
+def collect_vendor_tasks(_vendor_tasks, vendor: StorylineCharacter) -> CharacterQuests:
+    vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
+    vendor_id = vendor.game_id
+    try:
+        vendor_name = vendor.name_translation.rus
+    except Exception as e:
+        vendor_name = "<Неизвестный>"
+    # print(vendor_name, len(vendor_tasks))
+    quest_group_by_type = {}
+    for _task_kind, _vendor_kind_tasks in groupby(vendor_tasks, key=lambda task: task.type):
+        task_kind = QuestKinds[_task_kind]
+        vendor_kind_tasks = list(sorted(_vendor_kind_tasks, key=lambda task: task.prior))
+        # print(f"    {task_kind}   {len(list(vendor_kind_tasks))}")
+        tasks_by_prior = {}
+        for prior, _prior_tasks in groupby(vendor_kind_tasks, key=lambda task: task.prior):
+            prior_tasks = list(_prior_tasks)
+            # print(f"        {prior}  {len(prior_tasks)}")
+
+            prior_quests = [parse_task(task) for task in prior_tasks]
+            tasks_by_prior[prior] = prior_quests
+        quest_group_by_type[task_kind] = tasks_by_prior
+    return CharacterQuests(vendor_id, vendor_name, quest_group_by_type)
 
 
 def parse_task(db_task: CyclicQuest) -> Quest:
@@ -148,14 +173,19 @@ def parse_task(db_task: CyclicQuest) -> Quest:
         rewards.append(TreasureReward())
 
     for random_reward in db_task.random_rewards.all():
+        icon = None
+        if random_reward.reward.icon and random_reward.reward.icon.icon:
+            icon_ = random_reward.reward.icon.icon
+            icon = Icon(icon_.url, icon_.width, icon_.height)
         reward = TaskRandomReward(
             count=random_reward.count,
-            reward_name=random_reward.reward.caption,
+            reward_name=random_reward.reward.name_translation.rus,
             reward_id=random_reward.reward.name,
+            icon=icon,
         )
         rewards.append(reward)
 
-    return Quest(target, rewards)
+    return Quest(target, rewards, db_task.text.rus if db_task.text else None)
 
 
 def parse_target(db_task: CyclicQuest) -> QuestTarget:
@@ -176,7 +206,31 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
     if db_task.type in stalker:
         return StalkerTarget(db_task.target_str)
     if db_task.type in lager_types:
-        return LagerTarget(db_task.target_str)
+        camp_map_info = None
+        target_camp = db_task.target_camp_to_defeat or db_task.target_camp_to_destroy
+        if target_camp and target_camp.location:
+            location_map_info = LocationMapInfo.objects.filter(location=target_camp.location).first()
+            if location_map_info and location_map_info.map_image and (coords_rm := position_re.match(target_camp.position_raw)):
+                rm = offset_re.match(location_map_info.bound_rect_raw)
+                (min_x, min_y, max_x, max_y) = (
+                    float(rm.group("min_x")),
+                    float(rm.group("min_y")),
+                    float(rm.group("max_x")),
+                    float(rm.group("max_y"))
+                )
+
+                (x, y, z) = float(coords_rm.group("x")), float(coords_rm.group("y")), float(coords_rm.group("z"))
+                camp_map_info = MapPointInfo(
+                    image_url=location_map_info.map_image.url,
+                    bounds=(min_x, min_y, max_x, max_y),
+                    y_level_offset=-(max_y + min_y),
+                    item=MapPointItem(position=(x, z), info_str=db_task.target_str)
+                    # width=location_map_info.map_image.width,
+                    # height=location_map_info.map_image.height,
+                    # x=x,
+                    # y=z,
+                )
+        return LagerTarget(db_task.target_str, camp_map_info)
 
     if db_task.type in items_types:
         target_item = db_task.target_item.get_real_instance()
@@ -185,12 +239,14 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         if target_cond_str is None and isinstance(target_item, items_with_condition):
             target_cond_str = "50"
 
+        item_icon = None
+        if target_item.inv_icon:
+            item_icon = Icon(target_item.inv_icon.url, target_item.inv_icon.width, target_item.inv_icon.height)
+
         item_info = ItemInfo(
             item_id=target_item.inv_name,
             item_label=target_item.name_translation.rus if target_item.name_translation else target_item.inv_name,
-            item_icon_path=target_item.inv_icon.url if target_item.inv_icon else None,
-            icon_h=target_item.inv_icon.height if target_item.inv_icon else None,
-            icon_w=target_item.inv_icon.width if target_item.inv_icon else None,
+            icon=item_icon,
         )
         target_count = db_task.target_count or 1
 
@@ -223,12 +279,13 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
 
 
 def parse_item_reward(reward: CyclicQuestItemReward) -> TaskReward:
+    item_icon = None
+    if reward.item.inv_icon:
+        item_icon = Icon(reward.item.inv_icon.url, reward.item.inv_icon.width, reward.item.inv_icon.height)
     item_info = ItemInfo(
         item_id=reward.item.inv_name,
         item_label=reward.item.name_translation.rus if reward.item.name_translation else reward.item.inv_name,
-        item_icon_path=reward.item.inv_icon.url if reward.item.inv_icon else None,
-        icon_h=reward.item.inv_icon.height if reward.item.inv_icon else None,
-        icon_w=reward.item.inv_icon.width if reward.item.inv_icon else None,
+        icon=item_icon,
     )
     if isinstance(reward.item, Ammo):
         return TaskAmmoReward(

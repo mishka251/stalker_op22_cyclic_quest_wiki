@@ -61,4 +61,6 @@ class QuestRandomRewardAdmin(ModelAdmin):
 
     @display(description='Иконка', )
     def inv_icon_view(self, obj: QuestRandomReward) -> Optional[str]:
-        return icon_view(obj.icon.icon)
+        if obj.icon:
+            return icon_view(obj.icon.icon)
+        return None

@@ -2,10 +2,13 @@ import re
 
 from django.views.generic import TemplateView
 from django.db.models.functions import Lower
+from django.http.response import HttpResponseBadRequest, Http404
+from django.urls import reverse
+from django.core.validators import ValidationError
 
-from game_parser.logic.tasks_grouping import collect_info
+from game_parser.logic.tasks_grouping import collect_info, collect_vendor_tasks
 from game_parser.models import SpawnItem, Location, LocationMapInfo, CycleTaskVendor
-from game_parser.models.quest import QuestKinds
+from game_parser.models.quest import QuestKinds, CyclicQuest
 
 
 class TasksListView(TemplateView):
@@ -77,8 +80,24 @@ class TaskVendorsList(TemplateView):
             "name": npc_profile.name_translation.rus if npc_profile and npc_profile.name_translation else None,
             "tasks_count": vendor.cyclicquest_set.count(),
             "has_chain": vendor.cyclicquest_set.filter(type=QuestKinds.chain).exists(),
-            "quests_link": "",
+            "quests_link": reverse("vendor_tasks", kwargs={"vendor_id": vendor.id}),
         }
 
     def _get_npc_profile_icon(self, npc_profile):
         return npc_profile.icon and npc_profile.icon.icon and npc_profile.icon.icon.url
+
+
+class VendorQuestsList(TemplateView):
+    template_name = "vendor_quests_list/tasks_list.html"
+
+    def get_context_data(self, vendor_id: int):
+        try:
+            vendor = CycleTaskVendor.objects.get(id=vendor_id)
+        except Exception as ex:
+            raise Http404("Incorrect vendor ID") from ex
+        vendor_tasks = CyclicQuest.objects.filter(vendor=vendor)
+        vendor_profile = vendor.get_npc_profile()
+        return {
+            "vendor_task_info": collect_vendor_tasks(vendor_tasks, vendor_profile),
+            "vendor": vendor_profile,
+        }

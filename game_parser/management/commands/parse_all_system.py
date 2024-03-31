@@ -166,6 +166,13 @@ class Command(BaseCommand):
         "D_NVP"
     }
 
+    OTHER_CLASSES = {
+        "II_ATTCH",
+        "D_PDA",
+        "CL_GBOX",
+        "D_SIMDET",
+    }
+
     @atomic
     def handle(self, **options):
         print("Start cleaning")
@@ -291,12 +298,12 @@ class Command(BaseCommand):
         monster_parts_keys, monster_parts = self._get_monster_parts(results, grouped_by_cls_dict)
         explosive_keys, explosive = self._get_explosive(results, grouped_by_cls_dict)
 
-        other_classes = self.MEDICINE_CLASSES | self.PNV_CLASSES | {"II_ATTCH", "D_PDA"}
+        other_classes = self.MEDICINE_CLASSES | self.PNV_CLASSES | self.OTHER_CLASSES
         other_keys, other = self._get_sections_by_class(results, grouped_by_cls_dict, other_classes)
         other = {
             key: item
             for key, item in other.items()
-            if item.get("monster_part") != "true"
+            if item.get("monster_part") != "true" and key != "container_basic"
         }
 
         used_keys = (
@@ -356,7 +363,7 @@ class Command(BaseCommand):
         return set(monster_parts.keys()), monster_parts
 
     def _get_monster_parts(self, results, grouped_by_cls_dict, ):
-        items_keys, items = self._get_sections_by_class(results, grouped_by_cls_dict, {"II_ATTCH"})
+        items_keys, items = self._get_sections_by_class(results, grouped_by_cls_dict, {"II_ATTCH", "II_FOOD"})
         monster_parts = {
             key: item
             for key, item in items.items()
