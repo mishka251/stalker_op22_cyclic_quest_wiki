@@ -56,3 +56,21 @@ class CustomSpawnItem(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.section_name})"
+
+
+class CampInfo(models.Model):
+    # для section_name = smart_terrain
+
+    spawn_item = models.ForeignKey("SpawnItem", null=False, on_delete=models.CASCADE, unique=True)
+    type = models.CharField(max_length=128, null=True)
+    capacity = models.PositiveIntegerField(null=True)
+    cond_raw = models.CharField(max_length=512, null=True)
+    communities_raw = models.CharField(max_length=512, null=True)
+    stay_str = models.CharField(max_length=32, null=True)
+    groups_str = models.CharField(max_length=32, null=True)
+    communities = models.ManyToManyField("Community")
+
+    class Meta:
+        verbose_name_plural = "Лагеря НПС/мутантов"
+        verbose_name = "Лагерь НПС/мутантов"
+
