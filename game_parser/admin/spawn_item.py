@@ -119,3 +119,8 @@ class CampInfoAdmin(ModelAdmin):
         "communities_raw",
         "cond_raw",
     ]
+
+    search_fields = [
+        "type",
+        "spawn_item__name",
+    ]

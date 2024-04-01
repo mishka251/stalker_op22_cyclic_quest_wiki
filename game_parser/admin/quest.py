@@ -24,6 +24,7 @@ class QuestAdmin(ModelAdmin):
         'target_stalker',
         'target_camp_to_destroy',
         'target_camp_to_defeat',
+        'target_camp',
         'vendor',
         'text',
     ]
@@ -51,6 +52,9 @@ class QuestAdmin(ModelAdmin):
         "type",
         "get_vendor_character",
         "prior",
+        'target_camp',
+        'target_camp_to_destroy',
+        'target_camp_to_defeat',
     ]
 
     @display(description="Квестодатель")
