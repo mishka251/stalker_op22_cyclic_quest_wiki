@@ -74,3 +74,34 @@ class CampInfo(models.Model):
         verbose_name_plural = "Лагеря НПС/мутантов"
         verbose_name = "Лагерь НПС/мутантов"
 
+
+class StalkerSection(models.Model):
+    section_name = models.CharField(max_length=255, null=False, unique=True)
+
+    character_profile_str = models.CharField(max_length=128, null=True)
+    spec_rank_str = models.CharField(max_length=128, null=True)
+    community_str = models.CharField(max_length=128, null=True)
+    custom_data_path = models.CharField(max_length=512, null=True)
+    community = models.ForeignKey("Community", null=True, on_delete=models.SET_NULL)
+    character_profile = models.ForeignKey("StorylineCharacter", null=True, on_delete=models.SET_NULL)
+
+
+class Respawn(models.Model):
+    # для section_name = respawn
+
+    spawn_item = models.ForeignKey("SpawnItem", null=False, on_delete=models.CASCADE, unique=True)
+    respawn_section_raw = models.CharField(max_length=512, null=True)
+    max_spawn_raw = models.CharField(max_length=128, null=True)
+    idle_spawn_raw = models.CharField(max_length=128, null=True)
+    conditions_raw = models.CharField(max_length=128, null=True)
+
+    max_spawn = models.PositiveIntegerField(null=True)
+    respawn_section = models.ManyToManyField("StalkerSection")
+
+
+class SingleStalkerSpawnItem(models.Model):
+    # для section_name = stalker*
+
+    spawn_item = models.ForeignKey("SpawnItem", null=False, on_delete=models.CASCADE, unique=True)
+    character_profile_raw = models.CharField(max_length=512, null=False)
+    stalker_section = models.ForeignKey("StalkerSection", null=True, on_delete=models.SET_NULL)

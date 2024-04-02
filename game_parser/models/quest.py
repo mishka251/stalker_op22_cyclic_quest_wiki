@@ -54,6 +54,7 @@ class CyclicQuest(models.Model):
 
     text_raw = models.CharField(max_length=255, null=True, verbose_name="Код перевода текста задания")
     text = models.ForeignKey("Translation", on_delete=models.SET_NULL, null=True, verbose_name="Текст задания", related_name="+")
+    # target_stalker = models.ForeignKey("StalkerSection",  on_delete=models.SET_NULL, null=True, verbose_name="Сталкер цель",)
 
     @property
     def get_vendor_character(self) -> "Optional[StorylineCharacter]":

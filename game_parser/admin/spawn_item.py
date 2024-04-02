@@ -5,7 +5,8 @@ from django.contrib.admin import ModelAdmin, register, display
 from django.template import loader
 
 from game_parser.admin.utils import SpawnItemMapRenderer
-from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem, LocationMapInfo, CampInfo
+from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem, LocationMapInfo, CampInfo, StalkerSection, \
+    Respawn, SingleStalkerSpawnItem
 from game_parser.utils.admin_utils.icon_view import icon_view
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
@@ -122,5 +123,56 @@ class CampInfoAdmin(ModelAdmin):
 
     search_fields = [
         "type",
+        "spawn_item__name",
+    ]
+
+@register(StalkerSection)
+class StalkerSectionAdmin(ModelAdmin):
+    autocomplete_fields = [
+        "character_profile",
+    ]
+
+    list_display = [
+        "section_name",
+        "character_profile_str",
+        "community_str",
+        "community",
+        "character_profile",
+    ]
+
+    search_fields = [
+        "community_str",
+    ]
+
+@register(Respawn)
+class RespawnAdmin(ModelAdmin):
+    autocomplete_fields = [
+        "spawn_item",
+        "respawn_section",
+    ]
+
+    list_display = [
+        "spawn_item",
+        "respawn_section_raw",
+    ]
+
+    search_fields = [
+        "spawn_item__name",
+    ]
+
+@register(SingleStalkerSpawnItem)
+class SingleStalkerSpawnItemAdmin(ModelAdmin):
+    autocomplete_fields = [
+        "spawn_item",
+    ]
+
+    list_display = [
+        "spawn_item",
+        "character_profile_raw",
+        "stalker_section",
+    ]
+
+    search_fields = [
+        "character_profile_raw",
         "spawn_item__name",
     ]

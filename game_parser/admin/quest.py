@@ -55,6 +55,7 @@ class QuestAdmin(ModelAdmin):
         'target_camp',
         'target_camp_to_destroy',
         'target_camp_to_defeat',
+        'target_stalker',
     ]
 
     @display(description="Квестодатель")
