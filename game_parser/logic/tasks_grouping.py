@@ -207,7 +207,12 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         return StalkerTarget(db_task.target_str)
     if db_task.type in lager_types:
         camp_map_info = None
-        target_camp = db_task.target_camp_to_defeat or db_task.target_camp_to_destroy
+        target_camp = db_task.target_camp # or db_task.target_camp_to_destroy
+        target_camp = (
+            target_camp.spawn_item
+            if target_camp else
+            (db_task.target_camp_to_destroy if db_task.type == QuestKinds.eliminate_lager else db_task.target_camp_to_defeat)
+        )
         if target_camp and target_camp.location:
             location_map_info = LocationMapInfo.objects.filter(location=target_camp.location).first()
             if location_map_info and location_map_info.map_image and (coords_rm := position_re.match(target_camp.position_raw)):

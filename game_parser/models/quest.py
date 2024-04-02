@@ -42,7 +42,7 @@ class CyclicQuest(models.Model):
     reward_dialog_str = models.CharField(max_length=512, null=True, verbose_name='Награда. Диалог(?)')
     defend_target_str = models.CharField(max_length=255, null=True, verbose_name='Цель. Защита(?)')
     reward_relation_str = models.CharField(max_length=255, null=True, verbose_name='Награда. Репутация/отношения')
-
+    target_camp = models.ForeignKey("CampInfo", null=True, on_delete=models.SET_NULL, verbose_name="Цель - лагерь")
     target_item = models.ForeignKey(BaseItem, null=True, on_delete=models.SET_NULL, verbose_name='Целевой предмет', related_name='quests_when_needed')
     # reward_items = models.ManyToManyField(BaseItem, related_name='quests_when_giving')
     vendor = models.ForeignKey('CycleTaskVendor', null=True, on_delete=models.SET_NULL, verbose_name='Персонаж квестодатель')

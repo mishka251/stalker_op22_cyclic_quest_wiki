@@ -5,7 +5,7 @@ from django.contrib.admin import ModelAdmin, register, display
 from django.template import loader
 
 from game_parser.admin.utils import SpawnItemMapRenderer
-from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem, LocationMapInfo
+from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem, LocationMapInfo, CampInfo
 from game_parser.utils.admin_utils.icon_view import icon_view
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
@@ -105,3 +105,22 @@ class CustomSpawnItemAdmin(ModelAdmin):
         "section_name",
     ]
 
+
+
+@register(CampInfo)
+class CampInfoAdmin(ModelAdmin):
+    autocomplete_fields = [
+        "spawn_item",
+    ]
+
+    list_display = [
+        "spawn_item",
+        "type",
+        "communities_raw",
+        "cond_raw",
+    ]
+
+    search_fields = [
+        "type",
+        "spawn_item__name",
+    ]
