@@ -126,23 +126,6 @@ class CampInfoAdmin(ModelAdmin):
         "spawn_item__name",
     ]
 
-@register(StalkerSection)
-class StalkerSectionAdmin(ModelAdmin):
-    autocomplete_fields = [
-        "character_profile",
-    ]
-
-    list_display = [
-        "section_name",
-        "character_profile_str",
-        "community_str",
-        "community",
-        "character_profile",
-    ]
-
-    search_fields = [
-        "community_str",
-    ]
 
 @register(Respawn)
 class RespawnAdmin(ModelAdmin):
@@ -164,6 +147,7 @@ class RespawnAdmin(ModelAdmin):
 class SingleStalkerSpawnItemAdmin(ModelAdmin):
     autocomplete_fields = [
         "spawn_item",
+        "stalker_section",
     ]
 
     list_display = [
@@ -175,4 +159,37 @@ class SingleStalkerSpawnItemAdmin(ModelAdmin):
     search_fields = [
         "character_profile_raw",
         "spawn_item__name",
+    ]
+
+
+class RespawnsInline(ReadOnlyNestedTable):
+    model = Respawn.respawn_section.through
+
+class SingleStalkerSpawnItemInline(ReadOnlyNestedTable):
+    model = SingleStalkerSpawnItem
+
+
+@register(StalkerSection)
+class StalkerSectionAdmin(ModelAdmin):
+    autocomplete_fields = [
+        "character_profile",
+        "community",
+    ]
+
+    list_display = [
+        "section_name",
+        "character_profile_str",
+        "community_str",
+        "community",
+        "character_profile",
+    ]
+
+    search_fields = [
+        "section_name",
+        "community_str",
+    ]
+
+    inlines = [
+        RespawnsInline,
+        SingleStalkerSpawnItemInline,
     ]

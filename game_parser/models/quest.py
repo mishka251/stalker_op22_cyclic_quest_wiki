@@ -48,13 +48,13 @@ class CyclicQuest(models.Model):
     vendor = models.ForeignKey('CycleTaskVendor', null=True, on_delete=models.SET_NULL, verbose_name='Персонаж квестодатель')
     # random_rewards = models.ManyToManyField('QuestRandomReward', verbose_name='Рандомные награды', related_name='quests', through='QuestRandomRewardThrough')
 
-    target_stalker = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Сталкер цель", related_name="+")
+    # target_stalker = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Сталкер цель", related_name="+")
     target_camp_to_destroy = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Лагерь нужно уничтожить", related_name="+")
     target_camp_to_defeat = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Лагерь нужно защитить", related_name="+")
 
     text_raw = models.CharField(max_length=255, null=True, verbose_name="Код перевода текста задания")
     text = models.ForeignKey("Translation", on_delete=models.SET_NULL, null=True, verbose_name="Текст задания", related_name="+")
-    # target_stalker = models.ForeignKey("StalkerSection",  on_delete=models.SET_NULL, null=True, verbose_name="Сталкер цель",)
+    target_stalker = models.ForeignKey("StalkerSection",  on_delete=models.SET_NULL, null=True, verbose_name="Сталкер цель",)
 
     @property
     def get_vendor_character(self) -> "Optional[StorylineCharacter]":

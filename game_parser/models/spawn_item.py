@@ -85,6 +85,9 @@ class StalkerSection(models.Model):
     community = models.ForeignKey("Community", null=True, on_delete=models.SET_NULL)
     character_profile = models.ForeignKey("StorylineCharacter", null=True, on_delete=models.SET_NULL)
 
+    def __str__(self):
+        return f"{self.section_name}, {self.character_profile_str} ({self.community_str}, {self.spec_rank_str})"
+
 
 class Respawn(models.Model):
     # для section_name = respawn
