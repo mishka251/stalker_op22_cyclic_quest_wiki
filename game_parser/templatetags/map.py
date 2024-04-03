@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.template.loader import render_to_string
 from django.template import Library
 
@@ -5,7 +7,9 @@ from game_parser.logic.tasks_grouping import MapPointInfo
 
 register = Library()
 @register.simple_tag
-def render_map_item(map_item_info: MapPointInfo, map_id: str) -> str:
+def render_map_item(map_item_info: MapPointInfo, map_id: str, index: Optional[str]=None) -> str:
+    if index is not None:
+        map_id = f"{map_id}_{index}"
     template_name = 'leaflet_map_field.html'
     context = {
         "item": {

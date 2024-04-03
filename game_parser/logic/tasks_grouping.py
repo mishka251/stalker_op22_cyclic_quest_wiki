@@ -3,7 +3,8 @@ import re
 from itertools import groupby
 from typing import Optional, NamedTuple
 
-from game_parser.models import Ammo, Weapon, Silencer, Outfit, StorylineCharacter, LocationMapInfo
+from game_parser.models import Ammo, Weapon, Silencer, Outfit, StorylineCharacter, LocationMapInfo, \
+    SingleStalkerSpawnItem, SpawnItem
 from game_parser.models.quest import QuestKinds, CyclicQuest, CyclicQuestItemReward
 
 position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
@@ -72,6 +73,8 @@ class LagerTarget(QuestTarget):
 @dataclasses.dataclass
 class StalkerTarget(QuestTarget):
     game_id: str
+    stalker_str: str
+    possible_points: list[MapPointInfo]
 
 
 @dataclasses.dataclass
@@ -204,37 +207,28 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
     stalker = {QuestKinds.kill_stalker}
 
     if db_task.type in stalker:
-        return StalkerTarget(db_task.target_str)
+        stalker = db_task.target_stalker
+        single_spawn_items = SingleStalkerSpawnItem.objects.filter(stalker_section=stalker)
+        single_spawn_items_ids = single_spawn_items.values_list("spawn_item_id", flat=True)
+        respawns = stalker.respawn_set.all()
+        respawns_spawn_items = respawns.values_list("spawn_item_id", flat=True)
+        possible_spawn_items = SpawnItem.objects.filter(
+            id__in=list(single_spawn_items_ids)+list(respawns_spawn_items)
+        )
+        maybe_map_points =[_spawn_item_to_map_info(db_task.target_str, item) for item in possible_spawn_items]
+        return StalkerTarget(
+            db_task.target_str,
+            str(stalker),
+            [point for point in maybe_map_points if point is not None]
+        )
     if db_task.type in lager_types:
-        camp_map_info = None
         target_camp = db_task.target_camp # or db_task.target_camp_to_destroy
         target_camp = (
             target_camp.spawn_item
             if target_camp else
             (db_task.target_camp_to_destroy if db_task.type == QuestKinds.eliminate_lager else db_task.target_camp_to_defeat)
         )
-        if target_camp and target_camp.location:
-            location_map_info = LocationMapInfo.objects.filter(location=target_camp.location).first()
-            if location_map_info and location_map_info.map_image and (coords_rm := position_re.match(target_camp.position_raw)):
-                rm = offset_re.match(location_map_info.bound_rect_raw)
-                (min_x, min_y, max_x, max_y) = (
-                    float(rm.group("min_x")),
-                    float(rm.group("min_y")),
-                    float(rm.group("max_x")),
-                    float(rm.group("max_y"))
-                )
-
-                (x, y, z) = float(coords_rm.group("x")), float(coords_rm.group("y")), float(coords_rm.group("z"))
-                camp_map_info = MapPointInfo(
-                    image_url=location_map_info.map_image.url,
-                    bounds=(min_x, min_y, max_x, max_y),
-                    y_level_offset=-(max_y + min_y),
-                    item=MapPointItem(position=(x, z), info_str=db_task.target_str)
-                    # width=location_map_info.map_image.width,
-                    # height=location_map_info.map_image.height,
-                    # x=x,
-                    # y=z,
-                )
+        camp_map_info = _spawn_item_to_map_info(db_task.target_str, target_camp)
         return LagerTarget(db_task.target_str, camp_map_info)
 
     if db_task.type in items_types:
@@ -281,6 +275,33 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
             )
 
     raise NotImplementedError()
+
+
+def _spawn_item_to_map_info(target_str: str, target_camp: SpawnItem) -> Optional[MapPointInfo]:
+    if target_camp and target_camp.location:
+        location_map_info = LocationMapInfo.objects.filter(location=target_camp.location).first()
+        if location_map_info and location_map_info.map_image and (
+        coords_rm := position_re.match(target_camp.position_raw)):
+            rm = offset_re.match(location_map_info.bound_rect_raw)
+            (min_x, min_y, max_x, max_y) = (
+                float(rm.group("min_x")),
+                float(rm.group("min_y")),
+                float(rm.group("max_x")),
+                float(rm.group("max_y"))
+            )
+
+            (x, y, z) = float(coords_rm.group("x")), float(coords_rm.group("y")), float(coords_rm.group("z"))
+            return MapPointInfo(
+                image_url=location_map_info.map_image.url,
+                bounds=(min_x, min_y, max_x, max_y),
+                y_level_offset=-(max_y + min_y),
+                item=MapPointItem(position=(x, z), info_str=target_str)
+                # width=location_map_info.map_image.width,
+                # height=location_map_info.map_image.height,
+                # x=x,
+                # y=z,
+            )
+    return None
 
 
 def parse_item_reward(reward: CyclicQuestItemReward) -> TaskReward:
