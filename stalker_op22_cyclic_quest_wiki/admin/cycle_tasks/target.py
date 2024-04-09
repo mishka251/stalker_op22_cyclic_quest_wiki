@@ -6,18 +6,32 @@ from stalker_op22_cyclic_quest_wiki.models import CycleTaskTarget, CycleTaskTarg
 
 @register(CycleTaskTarget)
 class CycleTaskTargetAdmin(ModelAdmin):
-    pass
-
+    autocomplete_fields = [
+        "quest",
+    ]
 
 
 @register(CycleTaskTargetCamp)
 class CycleTaskTargetCampAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "quest",
+        "map_position",
+    ]
+
 
 @register(CycleTaskTargetItem)
 class CycleTaskTargetItemAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "quest",
+        "item",
+    ]
+
 
 @register(CycleTaskTargetStalker)
 class CycleTaskTargetStalkerAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "quest",
+        "map_positions",
+        "community",
+        "rank",
+    ]

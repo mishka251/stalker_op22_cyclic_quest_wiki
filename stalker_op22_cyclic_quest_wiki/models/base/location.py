@@ -16,7 +16,7 @@ class Location(models.Model):
 
     global_rect_raw = models.CharField(max_length=255, null=True,
                                        verbose_name="Границы локации(относительно глобальной карты?)")
-    map_info = models.ForeignKey("LocationMapInfo", null=True, on_delete=models.PROTECT)
+    map_info = models.ForeignKey("LocationMapInfo", null=True, on_delete=models.PROTECT, verbose_name="Карта локации")
 
     def natural_key(self):
         return (self.name, )

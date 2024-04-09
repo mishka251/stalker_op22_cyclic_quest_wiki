@@ -15,4 +15,4 @@ class MapPosition(models.Model):
     spawn_story_id = models.PositiveBigIntegerField(verbose_name="spawn_story_id", unique=True, null=True)
     game_vertex_id = models.PositiveBigIntegerField(verbose_name="vertexID")
 
-    location = models.ForeignKey("Location", on_delete=models.SET_NULL, null=True, blank=True)
+    location = models.ForeignKey("Location", on_delete=models.PROTECT, null=False, blank=False, verbose_name="Локация")

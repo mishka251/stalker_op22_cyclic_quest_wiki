@@ -12,8 +12,8 @@ class Icon(models.Model):
         verbose_name_plural = "Иконки"
 
     objects = IconManager()
-    name = models.CharField(max_length=512, null=False, unique=True)
-    icon = models.ImageField(null=False)
+    name = models.CharField(max_length=512, null=False, unique=True, verbose_name="Код иконки для связи с объектами")
+    icon = models.ImageField(null=False, verbose_name="Иконка")
 
     def natural_key(self):
         return (self.name,)

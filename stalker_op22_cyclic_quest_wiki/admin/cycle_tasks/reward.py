@@ -6,24 +6,47 @@ from stalker_op22_cyclic_quest_wiki.models import TreasureReward, RandomRewardIn
 
 @register(ItemReward)
 class ItemRewardAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "quest",
+        "item",
+    ]
+    search_fields = [
+        "quest__code",
+        "item__name",
+    ]
 
 
 @register(MoneyReward)
 class MoneyRewardAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "quest",
+    ]
 
 
 @register(QuestRandomReward)
 class QuestRandomRewardAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "quest",
+        "reward",
+    ]
 
 
 @register(RandomRewardInfo)
 class RandomRewardInfoAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "description",
+        "icon",
+    ]
+
+    search_fields = [
+        "index",
+        "description__rus",
+    ]
 
 
 @register(TreasureReward)
 class TreasureRewardAdmin(ModelAdmin):
-    pass
+    autocomplete_fields = [
+        "quest",
+    ]
+
