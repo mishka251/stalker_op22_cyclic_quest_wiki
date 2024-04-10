@@ -1,9 +1,38 @@
 from game_parser.models import Character, Translation
 from django.db import models
 
+class CommunityType(models.TextChoices):
+    MUTANT = ("monster", "Мутант")
+    STALKER = ("stalker", "Сталкер")
+
 class Community(models.Model):
-    id = models.CharField(max_length=10, primary_key=True)
-    name = models.CharField(max_length=512, null=True)
+    class Meta:
+        verbose_name = "Группировка"
+        verbose_name_plural = "Группировки"
+    index = models.PositiveSmallIntegerField(null=False, verbose_name="ID группировки", unique=False)
+    code = models.CharField(max_length=128, null=False, verbose_name="Код в игре")
+    type = models.CharField(choices=CommunityType.choices, null=False, max_length=128, verbose_name="Тип")
+    translation = models.ForeignKey("Translation", null=True, on_delete=models.SET_NULL, verbose_name="Перевод названия")
+
+    def __str__(self):
+        return self.translation.rus if self.translation else self.code
+
+class RankType(models.TextChoices):
+    MUTANT = ("monster", "Мутант")
+    STALKER = ("stalker", "Сталкер")
+
+class Rank(models.Model):
+    class Meta:
+        verbose_name = "Ранг сталкера"
+        verbose_name_plural = "Ранги сталкеров"
+    name = models.CharField(max_length=128, null=False, unique=True, verbose_name="Код")
+    type = models.CharField(choices=RankType.choices, null=False, max_length=128, verbose_name="Тип")
+    translation = models.ForeignKey("Translation", null=True, on_delete=models.SET_NULL, verbose_name="Название")
+    min_score = models.PositiveSmallIntegerField(null=True, verbose_name="Нижний порог ранга")
+    max_score = models.PositiveSmallIntegerField(null=True, verbose_name="Верхний порог ранга")
+
+    def __str__(self):
+        return self.translation.rus if self.translation else self.name
 
 
 class Icon(models.Model):

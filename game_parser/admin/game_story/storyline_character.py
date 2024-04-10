@@ -3,7 +3,7 @@ from typing import Optional
 from django.contrib.admin import ModelAdmin, register, display
 from django.utils.html import mark_safe
 
-from game_parser.models import Dialog, GameStoryId, Community
+from game_parser.models import Dialog, GameStoryId, Community, Rank
 from game_parser.models.game_story import StorylineCharacter, Icon
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
@@ -33,10 +33,23 @@ class GameStoryIdAdmin(ReadOnlyNestedTable):
 @register(Community)
 class CommunityAdmin(ModelAdmin):
     search_fields = [
-        "id",
+        "index",
+        "code",
+    ]
+
+    autocomplete_fields = [
+        "translation"
+    ]
+
+@register(Rank)
+class RandAdmin(ModelAdmin):
+    search_fields = [
         "name",
     ]
 
+    autocomplete_fields = [
+        "translation"
+    ]
 
 @register(StorylineCharacter)
 class StorylineCharacterAdmin(ModelAdmin):
