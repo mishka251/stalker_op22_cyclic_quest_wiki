@@ -14,4 +14,5 @@ class CycleTaskVendor(models.Model):
     name_translation = models.ForeignKey(Translation, null=False, on_delete=models.PROTECT, verbose_name="Имя НПС")
     icon = models.ForeignKey(Icon, null=False, on_delete=models.PROTECT, verbose_name="Фото НПС")
 
-
+    def __str__(self):
+        return self.name_translation.rus or self.name_translation.code

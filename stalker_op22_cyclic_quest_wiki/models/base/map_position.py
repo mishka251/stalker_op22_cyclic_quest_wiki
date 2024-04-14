@@ -5,7 +5,7 @@ class MapPosition(models.Model):
     class Meta:
         verbose_name = "Точка на локации"
         verbose_name_plural = "Точки на локации"
-    name = models.CharField(max_length=255, verbose_name="Название", unique=True, null=False)
+    name = models.CharField(max_length=255, verbose_name="Название", unique=False, null=False)
     x = models.FloatField(null=False)
     y = models.FloatField(null=False)
     z = models.FloatField(null=False)
@@ -16,3 +16,6 @@ class MapPosition(models.Model):
     game_vertex_id = models.PositiveBigIntegerField(verbose_name="vertexID")
 
     location = models.ForeignKey("Location", on_delete=models.PROTECT, null=False, blank=False, verbose_name="Локация")
+
+    def __str__(self):
+        return f"{self.name} - {self.x}, {self.y}, {self.z} на локации {self.location}"

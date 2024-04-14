@@ -1,7 +1,8 @@
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from django.db import models
-
+if TYPE_CHECKING:
+    from game_parser.models import StorylineCharacter, SpawnItem
 
 
 class CycleTaskVendor(models.Model):
@@ -16,7 +17,7 @@ class CycleTaskVendor(models.Model):
     def __str__(self):
         return f"{self.game_story_id}, {self.vendor_id}"
 
-    def get_spawn_section(self) -> "Optional[SpawnSection]":
+    def get_spawn_section(self) -> "Optional[SpawnItem]":
         game_story_id = self.game_story_id
         if not game_story_id:
             return None

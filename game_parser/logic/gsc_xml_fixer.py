@@ -27,7 +27,8 @@ class GSCXmlFixer:
         need_add_root_tag = header is None
         with open(source, 'r', encoding=encoding) as file:
             content = file.read()
-        fixed_content = self._fix_broken_comments(content)
+        fixed_content = self._replace_includes(content)
+        fixed_content = self._fix_broken_comments(fixed_content)
         if need_add_root_tag:
             fixed_content = self._add_root_tag(fixed_content, encoding)
         fixed_file_path = self._tml_file_name_for_xml(source)
@@ -60,7 +61,7 @@ class GSCXmlFixer:
             return line
         return None
 
-    def _detect_file_encoding_by_content(self, source):
+    def _detect_file_encoding_by_content(self, source: Path) -> str:
         detector = UniversalDetector()
         with open(source, 'rb') as file:
             for line in file:
@@ -100,5 +101,15 @@ class GSCXmlFixer:
         include_path = m.groupdict()['include_path']
         base_path = settings.OP22_GAME_DATA_PATH / 'config'
         target_path = base_path / include_path
-        with open(target_path, 'r') as file:
-            return file.read()
+        encoding = self._detect_file_encoding_by_content(target_path)
+        # if include_path.endswith("articles_chess.xml"):
+        #     encoding = "utf-8"
+        try:
+            with open(target_path, 'r', encoding=encoding) as file:
+                content = file.read()
+                return self._replace_includes(content)
+        except Exception as e:
+            raise FixerError(f"При парсинге {target_path} {encoding=}") from e
+
+class FixerError(Exception):
+    pass

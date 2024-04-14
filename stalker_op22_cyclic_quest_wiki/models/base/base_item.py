@@ -22,8 +22,13 @@ class Item(PolymorphicModel):
     icon = models.ForeignKey("Icon", on_delete=models.PROTECT, null=False, verbose_name="Иконка")
     name_translation = models.ForeignKey("Translation", on_delete=models.PROTECT, null=False,
                                          verbose_name='Перевод названия', related_name='+')
-    description_translation = models.ForeignKey("Translation", on_delete=models.PROTECT, null=False,
+    description_translation = models.ForeignKey("Translation", on_delete=models.PROTECT, null=True,
                                                 verbose_name='Перевод описания', related_name='+')
 
     def natural_key(self):
         return (self.name,)
+
+    def __str__(self):
+        if self.name_translation:
+            return self.name_translation.rus
+        return self.name

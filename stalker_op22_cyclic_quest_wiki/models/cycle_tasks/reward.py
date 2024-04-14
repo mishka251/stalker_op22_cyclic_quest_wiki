@@ -27,6 +27,9 @@ class MoneyReward(QuestReward):
     def natural_key(self):
         return (*self.quest.natural_key(),)
 
+    def __str__(self):
+        return f"{self.money} рублей за квест {self.quest}"
+
 
 class ItemReward(QuestReward):
     class Meta:
@@ -42,6 +45,8 @@ class ItemReward(QuestReward):
     def natural_key(self):
         return (*self.quest.natural_key(), *self.item.natural_key())
 
+    def __str__(self):
+        return f"{self.count} {self.item} за квест {self.quest}"
 
 class QuestRandomReward(QuestReward):
     class Meta:
@@ -57,6 +62,9 @@ class QuestRandomReward(QuestReward):
     def natural_key(self):
         return (*self.quest.natural_key(), *self.reward.natural_key())
 
+    def __str__(self):
+        return f"{self.count} {self.reward} за квест {self.quest}"
+
 
 class RandomRewardInfo(models.Model):
     class Meta:
@@ -70,6 +78,8 @@ class RandomRewardInfo(models.Model):
     def natural_key(self):
         return (self.index,)
 
+    def __str__(self):
+        return self.description.rus or self.description.code
 
 class TreasureReward(QuestReward):
     class Meta:
@@ -81,3 +91,6 @@ class TreasureReward(QuestReward):
 
     def natural_key(self):
         return (*self.quest.natural_key(),)
+
+    def __str__(self):
+        return f"Тайник за квест {self.quest}"

@@ -1,7 +1,7 @@
 from PIL import Image
 from django.conf import settings
 from django.core.files.images import ImageFile
-from lxml.etree import Element
+from lxml.etree import Element, _Comment
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.models import EncyclopediaArticle, EncyclopediaGroup, Translation, Artefact
@@ -26,12 +26,17 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
                 text = child_node.text
             elif child_node.tag == 'texture':
                 icon = self._parse_icon(child_node)
+            elif isinstance(child_node, _Comment):
+                pass
             else:
                 raise ValueError(f'Unexpected game info_portion child {child_node.tag} in {game_id}')
-        group = EncyclopediaGroup.objects.get_or_create(
-            name=group_name,
-            defaults={"name_translation": Translation.objects.filter(code=group_name).first()},
-        )[0]
+        if group_name is not None:
+            group = EncyclopediaGroup.objects.get_or_create(
+                name=group_name,
+                defaults={"name_translation": Translation.objects.filter(code=group_name).first()},
+            )[0]
+        else:
+            group = None
         artefact = None
         if ltx_str:
             artefact = Artefact.objects.filter(name=ltx_str).first()

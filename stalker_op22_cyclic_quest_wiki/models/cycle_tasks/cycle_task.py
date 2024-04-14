@@ -34,3 +34,7 @@ class CyclicQuest(models.Model):
 
     def natural_key(self) -> tuple:
         return (self.game_code, )
+
+    def __str__(self):
+        type_caption = QuestKinds[self.type].label
+        return f"{type_caption}({self.prior}) для {self.vendor}"
