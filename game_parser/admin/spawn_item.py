@@ -112,6 +112,7 @@ class CustomSpawnItemAdmin(ModelAdmin):
 class CampInfoAdmin(ModelAdmin):
     autocomplete_fields = [
         "spawn_item",
+        "communities",
     ]
 
     list_display = [

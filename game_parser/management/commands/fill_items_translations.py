@@ -2,6 +2,7 @@ import logging
 
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
+from django.db.models import Q
 
 from game_parser.models import Translation
 from game_parser.models.items.base_item import BaseItem
@@ -13,8 +14,9 @@ class Command(BaseCommand):
 
     @atomic
     def handle(self, **options):
-        count = BaseItem.objects.count()
-        for index, item in enumerate(BaseItem.objects.all()):
+        count = BaseItem.objects.filter(Q(description_translation__isnull=True)|Q(name_translation__isnull=True)).count()
+        for index, item in enumerate(BaseItem.objects.filter(Q(description_translation__isnull=True)|Q(name_translation__isnull=True))):
+
             item.description_translation = Translation.objects.filter(code=item.description_code).first()
             item.name_translation = Translation.objects.filter(code=item.inv_name).first()
             item.save()

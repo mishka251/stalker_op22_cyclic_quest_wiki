@@ -106,7 +106,8 @@ class GSCXmlFixer:
         #     encoding = "utf-8"
         try:
             with open(target_path, 'r', encoding=encoding) as file:
-                return file.read()
+                content = file.read()
+                return self._replace_includes(content)
         except Exception as e:
             raise FixerError(f"При парсинге {target_path} {encoding=}") from e
 

@@ -12,14 +12,13 @@ class Location(models.Model):
     name = models.CharField(max_length=255, unique=True, null=False)
     name_translation = models.ForeignKey("Translation", null=True, verbose_name='Перевод названия',
                                          on_delete=models.SET_NULL)
-    offset_str = models.CharField(null=True, max_length=255, verbose_name='Сдвиг на глобальной карте??')
-
-    global_rect_raw = models.CharField(max_length=255, null=True,
-                                       verbose_name="Границы локации(относительно глобальной карты?)")
     map_info = models.ForeignKey("LocationMapInfo", null=True, on_delete=models.PROTECT, verbose_name="Карта локации")
 
     def natural_key(self):
         return (self.name, )
+
+    def __str__(self):
+        return self.name_translation.rus
 
 class LocationMapInfo(models.Model):
     class Meta:
@@ -27,8 +26,6 @@ class LocationMapInfo(models.Model):
         verbose_name_plural = "Карты локации"
     location_name = models.CharField(max_length=255, unique=True, null=False)
     map_image = models.ImageField(null=False, verbose_name="Карта")
-    bound_rect_raw = models.CharField(max_length=255, null=False, verbose_name="Границы локации(границы картинки?)")
-
     min_x = models.FloatField(null=False)
     max_x = models.FloatField(null=False)
     min_y = models.FloatField(null=False)
@@ -37,3 +34,5 @@ class LocationMapInfo(models.Model):
     def natural_key(self):
         return (self.location_name, )
 
+    def __str__(self):
+        return f"Карта {self.location_set.first()}"

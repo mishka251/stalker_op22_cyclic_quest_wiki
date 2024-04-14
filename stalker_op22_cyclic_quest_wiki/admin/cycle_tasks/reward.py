@@ -36,6 +36,7 @@ class RandomRewardInfoAdmin(ModelAdmin):
     autocomplete_fields = [
         "description",
         "icon",
+        "possible_items",
     ]
 
     search_fields = [

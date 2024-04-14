@@ -33,6 +33,4 @@ class BaseItem(PolymorphicModel):
     def __str__(self):
         if self.name_translation:
             return self.name_translation.rus
-        if self.description_translation:
-            return self.description_translation.rus
         return self.name
