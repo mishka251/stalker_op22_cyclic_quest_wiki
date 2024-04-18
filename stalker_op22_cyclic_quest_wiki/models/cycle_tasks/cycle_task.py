@@ -15,10 +15,17 @@ class QuestKinds(models.TextChoices):
     defend_lager = 'defend_lager', 'Защитить лагерь'
 
 
+class CyclicQuestManager(models.Manager):
+    def get_by_natural_key(self, game_code: str) -> "CyclicQuest":
+        return self.get(game_code=game_code)
+
+
 class CyclicQuest(models.Model):
     class Meta:
         verbose_name = 'Циклический квест'
         verbose_name_plural = 'Циклические квесты'
+
+    objects = CyclicQuestManager()
 
     game_code = models.CharField(null=False, max_length=255, verbose_name='Игровой код в файле', unique=True)
     type = models.CharField(choices=QuestKinds.choices, null=False, max_length=255,
