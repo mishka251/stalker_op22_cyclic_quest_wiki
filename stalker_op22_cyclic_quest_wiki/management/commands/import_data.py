@@ -1,7 +1,9 @@
 import dataclasses
+import shutil
 from pathlib import Path
 
 import tablib
+from django.conf import settings
 from django.core.management import BaseCommand, CommandError
 from django.db.models import Model
 from import_export.results import Error
@@ -34,6 +36,26 @@ class Command(BaseCommand):
                 raise CommandError("Импорт сломался")
             else:
                 print(f"end {model_info.model_cls.__name__} OK")
+
+        print("Start import icons")
+        icons_dir = tmp_dir/"icons"
+        media_dir = Path(settings.MEDIA_ROOT)
+        media_dir.mkdir(exist_ok=True)
+        for icon_path in icons_dir.iterdir():
+            if icon_path.is_dir():
+                shutil.copytree(icon_path, media_dir/icon_path.name)
+            else:
+                shutil.copyfile(icon_path, media_dir/icon_path.name)
+        print("End import icons")
+
+        print("Start import maps")
+        maps_dir = tmp_dir/"maps"
+        for map_path in maps_dir.iterdir():
+            if map_path.is_dir():
+                shutil.copytree(map_path, media_dir/map_path.name)
+            else:
+                shutil.copyfile(map_path, media_dir/map_path.name)
+        print("End import maps")
 
     def _print_error(self, error: Error):
         print(f"{error.error} {error.row}\n{error.traceback}")
