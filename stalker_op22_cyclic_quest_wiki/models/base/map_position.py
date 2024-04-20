@@ -1,10 +1,18 @@
 from django.db import models
 
 
+class MapPositionManager(models.Manager):
+    def get_by_natural_key(self, spawn_id: str) -> "MapPosition":
+        return self.get(spawn_id=spawn_id)
+
+
 class MapPosition(models.Model):
     class Meta:
         verbose_name = "Точка на локации"
         verbose_name_plural = "Точки на локации"
+
+    objects = MapPositionManager()
+
     name = models.CharField(max_length=255, verbose_name="Название", unique=False, null=False)
     x = models.FloatField(null=False)
     y = models.FloatField(null=False)
@@ -19,3 +27,6 @@ class MapPosition(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.x}, {self.y}, {self.z} на локации {self.location}"
+
+    def natural_key(self):
+        return (self.spawn_id,)

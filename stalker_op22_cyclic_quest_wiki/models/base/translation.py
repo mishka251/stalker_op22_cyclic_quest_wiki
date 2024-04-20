@@ -1,10 +1,17 @@
 from django.db import models
+from django.db.models import Manager
+
+
+class TranslationManager(Manager):
+    def get_by_natural_key(self, code: str) -> "Translation":
+        return self.get(code=code)
 
 
 class Translation(models.Model):
     class Meta:
         verbose_name = 'Перевод'
         verbose_name_plural = 'Переводы'
+    objects = TranslationManager()
 
     code = models.CharField(max_length=128, null=False, verbose_name='Код названия', unique=True, db_index=True)
     rus = models.TextField(verbose_name='Русский', null=False)
@@ -15,3 +22,6 @@ class Translation(models.Model):
 
     def __str__(self):
         return f'{self.code} {self.rus}'
+
+    def natural_key(self):
+        return (self.code,)

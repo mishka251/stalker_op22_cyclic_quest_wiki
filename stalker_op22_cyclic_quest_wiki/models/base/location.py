@@ -20,6 +20,12 @@ class Location(models.Model):
     def __str__(self):
         return self.name_translation.rus
 
+
+class LocationMapInfoManager(models.Manager):
+    def get_by_natural_key(self, location_name: str) -> "LocationMapInfo":
+        return self.get(location_name=location_name)
+
+
 class LocationMapInfo(models.Model):
     class Meta:
         verbose_name = "Карта локации"

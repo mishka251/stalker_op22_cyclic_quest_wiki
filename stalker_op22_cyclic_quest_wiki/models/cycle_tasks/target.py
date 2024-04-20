@@ -37,7 +37,8 @@ class CycleTaskTargetCamp(CycleTaskTarget):
     communities = models.ManyToManyField("Community", verbose_name="Группы в лагере")
 
     def __str__(self):
-        communities = ", ".join(str(community) for community in self.communities.all())
+
+        communities = ", ".join(str(community) for community in self.communities.all()) if not self._state.adding else ""
         return f"Лагерь {self.map_position} {communities} для {self.quest}"
 
 
@@ -46,8 +47,6 @@ class CycleTaskTargetStalker(CycleTaskTarget):
         verbose_name = "Сталкер цель ЦЗ"
         verbose_name_plural = "Сталкеры цель ЦЗ"
 
-    # stalker = models.ForeignKey("StalkerSection", on_delete=models.SET_NULL, null=True,
-    #                                    verbose_name="Сталкер цель", )
     rank = models.ForeignKey("StalkerRank", null=False, on_delete=models.PROTECT, verbose_name="Ранг сталкера")
     community = models.ForeignKey("Community", null=False, on_delete=models.PROTECT, verbose_name="группа сталкера")
     map_positions = models.ManyToManyField("MapPosition", verbose_name="Возможные места спавна")
