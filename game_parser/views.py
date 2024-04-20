@@ -101,3 +101,12 @@ class VendorQuestsList(TemplateView):
             "vendor_task_info": collect_vendor_tasks(vendor_tasks, vendor_profile),
             "vendor": vendor_profile,
         }
+
+
+class IndexView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        return {
+
+        }
