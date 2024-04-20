@@ -1,5 +1,7 @@
 import dataclasses
+import os
 import shutil
+import zipfile
 from pathlib import Path
 
 from django.core.management import BaseCommand
@@ -42,3 +44,6 @@ class Command(BaseCommand):
                 target_path.parent.mkdir(exist_ok=True)
             shutil.copyfile(map_path, target_path)
         print("End export maps")
+        shutil.make_archive('data', 'zip', tmp_dir)
+        print("End archiving data")
+        shutil.rmtree(tmp_dir)
