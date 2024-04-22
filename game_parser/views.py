@@ -80,7 +80,7 @@ class TaskVendorsList(TemplateView):
             "name": npc_profile.name_translation.rus if npc_profile and npc_profile.name_translation else None,
             "tasks_count": vendor.cyclicquest_set.count(),
             "has_chain": vendor.cyclicquest_set.filter(type=QuestKinds.chain).exists(),
-            "quests_link": reverse("vendor_tasks", kwargs={"vendor_id": vendor.id}),
+            "quests_link": reverse("game_parser:vendor_tasks", kwargs={"vendor_id": vendor.id}),
         }
 
     def _get_npc_profile_icon(self, npc_profile):
@@ -104,7 +104,7 @@ class VendorQuestsList(TemplateView):
 
 
 class IndexView(TemplateView):
-    template_name = "index.html"
+    template_name = "parser_index.html"
 
     def get_context_data(self, **kwargs):
         return {

@@ -6,7 +6,7 @@ from stalker_op22_cyclic_quest_wiki.views.cyclic_quests.tasks_grouping import co
 
 
 class VendorQuestsList(TemplateView):
-    template_name = "vendor_quests_list/tasks_list.html"
+    template_name = "wiki/vendor_quests_list/tasks_list.html"
 
     def get_context_data(self, vendor_id: int):
         try:

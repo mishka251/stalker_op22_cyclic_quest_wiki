@@ -5,6 +5,8 @@ from django.conf.urls.static import static
 
 from game_parser.views import TasksListView, EscapeMap, TaskVendorsList, VendorQuestsList, IndexView
 
+app_name = "game_parser"
+
 urlpatterns = [
     path('tasks/', TasksListView.as_view()),
     path('map/', EscapeMap.as_view()),
