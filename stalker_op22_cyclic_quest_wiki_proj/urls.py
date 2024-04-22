@@ -19,7 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('game_parser.urls')),
+    path('game_parser/', include('game_parser.urls')),
+    path('', include('stalker_op22_cyclic_quest_wiki.urls')),
     path('admin/', admin.site.urls),
 ]
 

@@ -1,0 +1,20 @@
+<div>
+    <div class="d-flex flex-row">
+        <div class="d-flex flex-column justify-content-center">
+            <div>{{ reward.items_count }} x</div>
+        </div>
+        <div class="d-flex flex-column">
+            {% if reward.item.icon %}
+                <img
+                        src="{{ reward.item.icon.url }}"
+                        width="{{ reward.item.icon.width }}"
+                        height="{{ reward.item.icon.height }}"
+                        alt="{{ reward.item.item_label }}"
+                >
+            {% endif %}
+            <div class="d-flex flex-row">
+                <div>{{ reward.item.item_label }}("{{ reward.item.item_id }}")</div>
+            </div>
+        </div>
+    </div>
+</div>

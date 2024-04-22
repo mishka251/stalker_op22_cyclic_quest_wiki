@@ -1,0 +1,23 @@
+{% extends "game_parser_base.html" %}
+{% block title %} Квестодатели {% endblock title %}
+{% block main %}
+<div class="page">
+
+    <table class="vendors-list">
+        <thead>
+        <tr>
+            <td>Фото</td>
+            <td>Имя</td>
+            <td>Количество ЦЗ</td>
+            <td>Есть цепочка</td>
+            <td>Ссылка на квесты</td>
+        </tr>
+
+        </thead>
+        {% for vendor_data in vendors %}
+            {% include "task_vendors_list/task_vendor.html" with vendor=vendor_data %}
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock main %}

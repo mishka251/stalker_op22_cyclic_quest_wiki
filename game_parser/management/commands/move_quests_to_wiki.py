@@ -8,6 +8,9 @@ from game_parser.models import Ammo as ParserAmmo, SingleStalkerSpawnItem, Spawn
 from game_parser.models import BaseItem as ParserItem
 from game_parser.models import CycleTaskVendor as ParserVendor
 from game_parser.models import CyclicQuest as ParserCyclicQuest
+from game_parser.models import Outfit as ParserOutfit
+from game_parser.models import Weapon as ParserWeapon
+from game_parser.models import Silencer as ParserSilencer
 from game_parser.models import QuestRandomReward as ParserRandomReward
 from game_parser.models.quest import QuestKinds as ParserQuestKinds
 from stalker_op22_cyclic_quest_wiki.models import Community as WikiCommunity
@@ -180,12 +183,16 @@ class Command(BaseCommand):
 
         if quest.type in item_target_quest_types:
             wiki_item = WikiItem.objects.get(name=quest.target_item.name)
+            target_cond_str = quest.target_cond_str
+            items_with_condition = (ParserWeapon, ParserOutfit, ParserSilencer)
+            if target_cond_str is None and isinstance(quest.target_item, items_with_condition):
+                target_cond_str = "50"
             CycleTaskTargetItem.objects.update_or_create(
                 quest=wiki_quest,
                 defaults={
                     "item": wiki_item,
                     "count": quest.target_count,
-                    "cond_str": quest.target_cond_str,
+                    "cond_str": target_cond_str,
                 }
             )
         elif quest.type in camp_target_quest_types:
