@@ -56,7 +56,6 @@ def render_target(target: TaskReward):
             target_cond_str = "Сломанный"
         context["target_cond_str"] = target_cond_str
 
-
         template_name = 'wiki/vendor_quests_list/target/item_with_state_target.html'
     elif isinstance(target, QuestItemTarget):
         template_name = 'wiki/vendor_quests_list/target/item_target.html'

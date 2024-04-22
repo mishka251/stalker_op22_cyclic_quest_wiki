@@ -34,6 +34,7 @@ class MapPointItem:
 
 @dataclasses.dataclass
 class MapPointInfo:
+    unique_map_id: str
     image_url: str
     bounds: tuple[float, float, float, float]
     item: MapPointItem
@@ -74,7 +75,6 @@ class LagerTarget(QuestTarget):
 
 @dataclasses.dataclass
 class StalkerTarget(QuestTarget):
-    # game_id: str
     stalker_str: str
     possible_points: list[MapPointInfo]
     rank: str
@@ -209,7 +209,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
     if db_task.type in stalker:
         stalker = CycleTaskTargetStalker.objects.get(quest=db_task)
         possible_spawn_items = stalker.map_positions.all()
-        maybe_map_points =[_spawn_item_to_map_info(item) for item in possible_spawn_items]
+        maybe_map_points =[_spawn_item_to_map_info(item, f"{db_task.game_code}_stalker_{i}") for i, item in enumerate(possible_spawn_items)]
         return StalkerTarget(
             str(stalker),
             [point for point in maybe_map_points if point is not None],
@@ -218,7 +218,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         )
     if db_task.type in lager_types:
         target_camp = CycleTaskTargetCamp.objects.get(quest=db_task)
-        camp_map_info = _spawn_item_to_map_info(target_camp.map_position)
+        camp_map_info = _spawn_item_to_map_info(target_camp.map_position, f"{db_task.game_code}_target_camp")
         return LagerTarget(camp_map_info)
 
     if db_task.type in items_types:
@@ -265,11 +265,13 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
 
 
 def _spawn_item_to_map_info(
-        target_camp: MapPosition
+        target_camp: MapPosition,
+        unique_map_id: str,
 ) -> Optional[MapPointInfo]:
     map_info = target_camp.location.map_info
     if map_info:
         return MapPointInfo(
+            unique_map_id,
             image_url=map_info.map_image.url,
             bounds=(map_info.min_x, map_info.min_y, map_info.max_x, map_info.max_y),
             y_level_offset=-(map_info.max_y + map_info.min_y),
