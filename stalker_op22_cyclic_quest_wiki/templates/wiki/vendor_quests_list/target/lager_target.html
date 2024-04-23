@@ -1,8 +1,8 @@
-{% load parser_map %}
+{% load map %}
 
 <div>
     {{ target.game_id }}
     {% if target.map_info %}
-        {% render_map_item target.map_info target.game_id %}
+        {% render_map_item target.map_info %}
     {% endif %}
 </div>

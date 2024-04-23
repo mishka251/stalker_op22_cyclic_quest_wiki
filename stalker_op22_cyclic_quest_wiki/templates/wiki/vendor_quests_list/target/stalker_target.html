@@ -1,4 +1,4 @@
-{% load parser_map %}
+{% load map %}
 
 <div>
     <h6>{{ target.stalker_str }}</h6>
@@ -6,7 +6,7 @@
     <div>
         {% for point in target.possible_points %}
             <div class="my-3">
-                {% render_map_item point target.game_id forloop.counter %}
+                {% render_map_item point%}
             </div>
         {% endfor %}
     </div>
