@@ -6,3 +6,6 @@ DEBUG = True
 SECRET_KEY = 'test-123'
 
 
+INSTALLED_APPS += [
+    'game_parser',
+]
