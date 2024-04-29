@@ -32,9 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'stalker_op22_cyclic_quest_wiki',
-    'game_parser',
     'polymorphic',
+    'stalker_op22_cyclic_quest_wiki',
 ]
 
 MIDDLEWARE = [
