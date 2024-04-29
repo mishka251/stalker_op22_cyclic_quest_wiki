@@ -1,7 +1,6 @@
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
-# from game_parser.models import Translation
 from stalker_op22_cyclic_quest_wiki.models.base.icon import Icon
 
 

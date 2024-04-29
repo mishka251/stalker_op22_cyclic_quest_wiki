@@ -1,0 +1,49 @@
+<div>
+    {{ item|json_script:item_var_name }}
+    {{ map_offset|json_script:map_offset_name }}
+    {{ y_level_offset|json_script:y_level_offset_name }}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const imagePath = "{{ layer_image_url }}";
+            const items = [JSON.parse(document.getElementById("{{ item_var_name }}").textContent)];
+            const map_offset = JSON.parse(document.getElementById("{{map_offset_name}}").textContent);
+            const yLevelOffset = JSON.parse(document.getElementById("{{ y_level_offset_name }}").textContent);
+            const itemId = "{{ item_id }}";
+
+            const min_x = map_offset[0];
+            const min_y = map_offset[1];
+            const max_x = map_offset[2];
+            const max_y = map_offset[3];
+            // Using leaflet.js to pan and zoom a big image.
+            // See also: http://kempe.net/blog/2014/06/14/leaflet-pan-zoom-image.html
+            // create the slippy map
+            const map = L.map('map_' + itemId, {
+                minZoom: -1,
+                maxZoom: 6,
+                center: [0, 0],
+                zoom: 1,
+                crs: L.CRS.Simple
+            });
+
+            // calculate the edges of the image, in coordinate space
+            const southWest = map.unproject([min_x, min_y], 0);
+            const northEast = map.unproject([max_x, max_y], 0);
+            const bounds = new L.LatLngBounds(southWest, northEast);
+            // add the image overlay,
+            // so that it covers the entire map
+            L.imageOverlay(imagePath, bounds).addTo(map);
+            // tell leaflet that the map is exactly as big as the image
+            {#map.setMaxBounds(bounds);#}
+            items.forEach(
+                (item) => {
+                    const coordinates=[item.position[1] + yLevelOffset, item.position[0]];
+                    const marker = new L.Marker(coordinates)
+                    marker.bindPopup(`${item.info_str}`)
+                    marker.addTo(map);
+                    map.flyTo(coordinates, 2);
+                }
+            );
+        });
+    </script>
+    <div id="map_{{ item_id }}" class="map"></div>
+</div>

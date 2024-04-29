@@ -1,7 +1,5 @@
 from django.db import models
 
-from game_parser.models.character import Character
-from game_parser.models.items.base_item import BaseItem
 from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.vendor import CycleTaskVendor
 
 

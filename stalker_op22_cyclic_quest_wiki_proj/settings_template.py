@@ -1,10 +1,11 @@
 from .base_settings import *
 
-DEBUG = True
+DEBUG = False
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'test-123'
+SECRET_KEY = ''
 
+OP22_GAME_DATA_PATH = Path(r'')
 
 INSTALLED_APPS += [
     'game_parser',

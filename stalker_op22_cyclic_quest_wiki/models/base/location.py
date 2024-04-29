@@ -30,6 +30,7 @@ class LocationMapInfo(models.Model):
     class Meta:
         verbose_name = "Карта локации"
         verbose_name_plural = "Карты локации"
+    objects = LocationMapInfoManager()
     location_name = models.CharField(max_length=255, unique=True, null=False)
     map_image = models.ImageField(null=False, verbose_name="Карта")
     min_x = models.FloatField(null=False)

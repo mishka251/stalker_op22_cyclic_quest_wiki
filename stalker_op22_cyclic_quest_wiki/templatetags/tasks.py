@@ -27,7 +27,7 @@ def render_reward(reward: TaskReward):
     elif isinstance(reward, TreasureReward):
         template_name = 'wiki/vendor_quests_list/reward/treasure_reward.html'
     elif isinstance(reward, TaskRandomReward):
-        template_name = 'random_reward.html'
+        template_name = 'wiki/vendor_quests_list/reward/random_reward.html'
     else:
         raise NotImplementedError(f'{reward.__class__}')
     context = {

@@ -3,9 +3,7 @@ import re
 from itertools import groupby
 from typing import Optional, NamedTuple
 
-from game_parser.models import SpawnItem
-from game_parser.models.quest import CyclicQuestItemReward
-from stalker_op22_cyclic_quest_wiki.models import Ammo, LocationMapInfo, QuestKinds, CyclicQuest, \
+from stalker_op22_cyclic_quest_wiki.models import Ammo, QuestKinds, CyclicQuest, \
     CycleTaskVendor, MoneyReward, TreasureReward as TreasureRewardModel, QuestRandomReward, CycleTaskTargetStalker, \
     MapPosition, CycleTaskTargetCamp, CycleTaskTargetItem, ItemReward
 
