@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  django:
+    image: mishka251/stalker_op22_cyclic_quest_wiki-django:v0.1.0
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+       condition: service_healthy
+      update:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: "postgres://${PGUSER}:${PGPASSWORD}@db:5432/${PGDATABASE}"
+    volumes:
+      - "media:/app/media"
+
+  update:
+    image: mishka251/stalker_op22_cyclic_quest_wiki-django:v0.1.0
+    command:
+      - /app/update.sh
+#      - bash -c "sleep 300s"
+#      - /bin/sh -c "/app/update.sh"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "postgres://${PGUSER}:${PGPASSWORD}@db:5432/${PGDATABASE}"
+    volumes:
+      - "media:/app/media"
+      - "static:/app/staticfiles"
+
+  db:
+    image: postgres:16.2-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "${PGDATABASE}"
+      POSTGRES_USER: "${PGUSER}"
+      POSTGRES_PASSWORD: "${PGPASSWORD}"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-d", "${PGDATABASE}", "-U", "${PGUSER}"  ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 10s
+  nginx:
+    image: mishka251/stalker_op22_cyclic_quest_wiki-nginx:v0.1.0
+    restart: unless-stopped
+    volumes:
+      - "media:/mediafiles"
+      - "static:/staticfiles"
+    ports:
+      - "80:80"
+    depends_on:
+      - django
+
+volumes:
+  static:
+  media:
+  db-data:
