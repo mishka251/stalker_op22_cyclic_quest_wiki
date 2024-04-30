@@ -67,7 +67,6 @@ class AmmoTarget(QuestItemTarget):
 
 @dataclasses.dataclass
 class LagerTarget(QuestTarget):
-    # game_id: str
     map_info: Optional[MapPointInfo] = None
 
 
@@ -104,7 +103,6 @@ class TreasureReward(TaskReward):
 class TaskRandomReward(TaskReward):
     count: int
     reward_name: str
-    # reward_id: str
     icon: Optional[Icon]
 
 
@@ -146,16 +144,13 @@ def collect_vendor_tasks(_vendor_tasks: list[CyclicQuest], vendor: CycleTaskVend
     vendor_id = vendor.game_story_id
 
     vendor_name = vendor.name_translation.rus
-    # print(vendor_name, len(vendor_tasks))
     quest_group_by_type = {}
     for _task_kind, _vendor_kind_tasks in groupby(vendor_tasks, key=lambda task: task.type):
         task_kind = QuestKinds[_task_kind]
         vendor_kind_tasks = list(sorted(_vendor_kind_tasks, key=lambda task: task.prior))
-        # print(f"    {task_kind}   {len(list(vendor_kind_tasks))}")
         tasks_by_prior = {}
         for prior, _prior_tasks in groupby(vendor_kind_tasks, key=lambda task: task.prior):
             prior_tasks = list(_prior_tasks)
-            # print(f"        {prior}  {len(prior_tasks)}")
 
             prior_quests = [parse_task(task) for task in prior_tasks]
             tasks_by_prior[prior] = prior_quests
@@ -181,7 +176,6 @@ def parse_task(db_task: CyclicQuest) -> Quest:
         reward = TaskRandomReward(
             count=random_reward.count,
             reward_name=random_reward.reward.description.rus,
-            # reward_id=random_reward.reward.name,
             icon=icon,
         )
         rewards.append(reward)

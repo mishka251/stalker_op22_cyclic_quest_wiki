@@ -11,8 +11,6 @@ from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.model_xml_loaders.icon import IconLoader
 from game_parser.models import Icon
 
-# from xml.etree.ElementTree import Element, parse
-
 logger = logging.getLogger(__name__)
 
 
@@ -42,9 +40,6 @@ class Command(BaseCommand):
                 "ui_npc_unique_2.xml",
             }:
                 paths.append(path)
-        # for (dir, _, files) in os.walk(path):
-        #     for file_name in files:
-        #         paths.append(Path(os.path.join(dir, file_name)))
 
         return paths
 

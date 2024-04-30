@@ -36,7 +36,6 @@ class TaskObjective(models.Model):
     icon = models.ForeignKey(Icon, null=True, on_delete=models.SET_NULL, related_name="+", verbose_name="Иконка")
 
     article_id_raw = models.CharField(max_length=256, null=True, verbose_name="Статья(энциклопедия)")
-    # article = models.ForeignKey(Translation, null=True, on_delete=models.SET_NULL, related_name='+')
 
     function_complete_raw = models.TextField(null=True, verbose_name="Функция, вызываемая при завершении")
     infoportion_complete_raw = models.TextField(null=True, verbose_name="Инфопоршень, устанавлеваемый при завершении")
@@ -45,12 +44,10 @@ class TaskObjective(models.Model):
     function_fail_raw = models.TextField(null=True, verbose_name="Функция, вызываемая при провале")
     infoportion_set_fail_raw = models.TextField(null=True, verbose_name="Инфопоршень, устанавлеваемый при провале")
     function_call_complete_raw = models.TextField(null=True, verbose_name="Функция, вызываемая при завершении")
-    # infoportion_set_fail_raw = models.TextField(null=True)
 
     function_complete = models.ForeignKey("ScriptFunction", related_name="on_complete_task_objective", on_delete=models.SET_NULL, null=True, verbose_name="Функция, вызываемая при завершении")
     infoportion_complete = models.ForeignKey("InfoPortion",related_name="on_complete_task_objective",  on_delete=models.SET_NULL, null=True, verbose_name="Инфопоршень, устанавлеваемый при завершении")
     infoportion_set_complete = models.ForeignKey("InfoPortion",  related_name="set_on_complete_task_objective", on_delete=models.SET_NULL, null=True, verbose_name="Инфопоршень, устанавлеваемый при завершении")
-    # object_story_id_raw = models.TextField(null=True)
     function_fail = models.ForeignKey("ScriptFunction",related_name="set_on_fail_task_objective",  on_delete=models.SET_NULL, null=True, verbose_name="Функция, вызываемая при провале")
     infoportion_set_fail = models.ForeignKey("InfoPortion",  related_name="set_on_fail_task_objective", on_delete=models.SET_NULL, null=True, verbose_name="Инфопоршень, устанавлеваемый при провале")
     function_call_complete = models.ForeignKey("ScriptFunction", related_name="call_on_complete_task_objective", on_delete=models.SET_NULL, null=True, verbose_name="Функция, вызываемая при завершении")
@@ -66,8 +63,6 @@ class TaskObjective(models.Model):
 
     @property
     def get_article(self) -> str:
-        # if self.article:
-        #     return self.article.rus
         return self.article_id_raw
 
     def __str__(self):

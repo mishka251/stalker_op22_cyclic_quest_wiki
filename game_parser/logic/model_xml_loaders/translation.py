@@ -20,5 +20,4 @@ class TranslationLoader(BaseModelXmlLoader[Translation]):
             kwargs[sub_child.tag] = sub_child.text
         translation = Translation(code=code, **kwargs)
         translation.save()
-        # print(translation)
         return translation

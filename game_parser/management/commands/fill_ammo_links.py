@@ -38,6 +38,5 @@ class Command(BaseCommand):
             weapon.save()
             print(f"{index+1}/{count}")
 
-        # unfounded_items = set(Weapon.objects.filter(item__isnull=True).values_list('item_name', flat=True))
         unfounded_items = {item.name  for item in partial_updated}
         print(f"Not found = {unfounded_items}")

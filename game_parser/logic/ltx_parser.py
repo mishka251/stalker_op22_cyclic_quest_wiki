@@ -29,8 +29,6 @@ class BaseLtxParser:
         raw_blocks = {}
         blocks_bases: dict[str, tuple[str, ...]] = {}
         current_block_header = None
-        includes_to_parse = []
-        # in_multiline_content = False
         current_multiline_block = None
         for line in lines_generator:
             line = self._preprocess_line(line)
@@ -38,8 +36,6 @@ class BaseLtxParser:
                 if not line:
                     continue
                 if self._line_is_include(line):
-                    # self._parsed_blocks |= self._parse_include(line)
-                    # includes_to_parse.append(line)
                     self._parsed_blocks |= self._parse_include(line)
                     continue
                 if self._is_block_start_line(line):
@@ -87,11 +83,6 @@ class BaseLtxParser:
                 self._parsed_blocks[block_code] = {}
                 self._parsed_blocks[block_code] |= self._get_bases(blocks_bases[block_code])
                 self._parsed_blocks[block_code] |= block_lines
-            # if not self._parsed_blocks[block_code]:
-            #     raise ValueError(f"empty block {block_code=}")
-
-        # for include in includes_to_parse:
-        #     self._parsed_blocks |= self._parse_include(include)
 
     def _line_is_include(self, line: str) -> bool:
         return line.startswith("#include")
@@ -155,7 +146,6 @@ class BaseLtxParser:
             return lines
         if cnt >= 1:
             return dict(self._parse_line_key_value(line) for line in lines)
-        # raise ValueError(f'Не должно быть больше 1 =, {name=}')
 
     def _parse_line_key_value(self, line: str) -> tuple[str, str | None]:
         if "=" in line:

@@ -146,16 +146,13 @@ def collect_vendor_tasks(_vendor_tasks, vendor: StorylineCharacter) -> Character
         vendor_name = vendor.name_translation.rus
     except Exception as e:
         vendor_name = "<Неизвестный>"
-    # print(vendor_name, len(vendor_tasks))
     quest_group_by_type = {}
     for _task_kind, _vendor_kind_tasks in groupby(vendor_tasks, key=lambda task: task.type):
         task_kind = QuestKinds[_task_kind]
         vendor_kind_tasks = list(sorted(_vendor_kind_tasks, key=lambda task: task.prior))
-        # print(f"    {task_kind}   {len(list(vendor_kind_tasks))}")
         tasks_by_prior = {}
         for prior, _prior_tasks in groupby(vendor_kind_tasks, key=lambda task: task.prior):
             prior_tasks = list(_prior_tasks)
-            # print(f"        {prior}  {len(prior_tasks)}")
 
             prior_quests = [parse_task(task) for task in prior_tasks]
             tasks_by_prior[prior] = prior_quests
@@ -296,10 +293,6 @@ def _spawn_item_to_map_info(target_str: str, target_camp: SpawnItem) -> Optional
                 bounds=(min_x, min_y, max_x, max_y),
                 y_level_offset=-(max_y + min_y),
                 item=MapPointItem(position=(x, z), info_str=target_str)
-                # width=location_map_info.map_image.width,
-                # height=location_map_info.map_image.height,
-                # x=x,
-                # y=z,
             )
     return None
 

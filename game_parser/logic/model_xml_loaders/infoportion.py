@@ -18,9 +18,7 @@ class InfoPortionLoader(BaseModelXmlLoader[InfoPortion]):
         disable_raw = []
         task_raw = []
         actions_raw = []
-        # preconditions = []
         for child_node in root_node:
-            # print(child_node)
             if child_node.tag == "article":
                 article_raw.append(child_node.text)
             elif child_node.tag == "disable":
@@ -29,10 +27,8 @@ class InfoPortionLoader(BaseModelXmlLoader[InfoPortion]):
                 task_raw.append(child_node.text)
             elif child_node.tag == "action":
                 actions_raw.append(child_node.text)
-            # elif child_node.tag == 'phrase_list':
-            #     self._parse_phrase_list(info_portion, child_node)
             elif isinstance(child_node, _Comment):
-                pass  # dialog_comments.append(game_dialogs.text)
+                pass
             else:
                 logger.warning(f"Unexpected game info_portion child {child_node.tag} in {info_portion_id}")
         info_portion.article_raw = ";".join(article_raw)

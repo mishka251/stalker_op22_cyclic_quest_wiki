@@ -8,8 +8,6 @@ from game_parser.logic.ltx_parser import LtxParser
 from game_parser.models.spawn_item import CustomSpawnItem
 
 
-# from xml.etree.ElementTree import Element, parse
-
 
 class Command(BaseCommand):
 
@@ -96,21 +94,6 @@ class Command(BaseCommand):
         "s_inventory_box_vzn": {"__parent": "s_inventory_box_vzn"},
         "bloodsucker_hell": {"__parent": "bloodsucker_hell"},
         "snork_weak": {"__parent": "snork_weak"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
     }
 
     @atomic

@@ -189,8 +189,6 @@ class Command(BaseCommand):
         while Translation.objects.exists():
             ids = Translation.objects.all()[:1_000].values("id")
             Translation.objects.all().filter(id__in=ids).delete()
-        # for t in Translation.objects.all():
-        #     t.delete()
 
         InventoryBox.objects.all().delete()
         ItemInTreasureBox.objects.all().delete()
@@ -254,12 +252,6 @@ class Command(BaseCommand):
 
         existing_sections_keys = [k for k in results.keys() if isinstance(results[k], dict)]
 
-        # sorted_by_cls_ =list( sorted(existing_sections_keys, key=lambda key: results[key].get("class", "None")))
-        # grouped_by_cls = list( groupby(sorted_by_cls_, key=lambda key: results[key].get("class", "None")))
-        # grouped_by_cls_dict = {
-        #     cls_: list(keys)
-        #     for cls_, keys in grouped_by_cls
-        # }
         grouped_by_cls_dict = defaultdict(set)
         for section_name in existing_sections_keys:
             cls_name = results[section_name].get("class", "None")
@@ -271,13 +263,11 @@ class Command(BaseCommand):
         results_lists_keys = [k for k in results.keys() if isinstance(results[k], list)]
         print("START FILLING")
 
-        # for translation_files_source in translation_files_sources:
         self._load_xml(translation_files_sources, TranslationLoader(), "Translation", GSCXmlFixer(encoding="utf-8"))
         self._load_icon_xml(texture_desc_sources, "TEXTURE", GSCXmlFixer())
         self._load_xml(info_portions_sources, InfoPortionLoader(), "Info", GSCXmlFixer())
         self._load_xml(encyclopedia_sources, EncyclopediaArticleLoader(), "ENCYCLOPEDIA", GSCXmlFixer())
         self._load_xml(dialogs_sources, DialogLoader(), "DIALOGS", GSCXmlFixer())
-        # self._load_xml(profiles_sources, TranslationLoader(), "PROFILES")
         self._load_xml(specific_characters_sources, StorylineCharacterLoader(), "SPECIFIC_CHARACTERS", GSCXmlFixer())
 
         ammo_keys, ammo = self._get_sections_by_class(results, grouped_by_cls_dict, self.AMMO_CLASSES)

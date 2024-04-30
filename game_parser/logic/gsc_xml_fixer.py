@@ -102,8 +102,6 @@ class GSCXmlFixer:
         base_path = settings.OP22_GAME_DATA_PATH / "config"
         target_path = base_path / include_path
         encoding = self._detect_file_encoding_by_content(target_path)
-        # if include_path.endswith("articles_chess.xml"):
-        #     encoding = "utf-8"
         try:
             with open(target_path, "r", encoding=encoding) as file:
                 content = file.read()

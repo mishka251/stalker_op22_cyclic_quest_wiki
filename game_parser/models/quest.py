@@ -33,8 +33,6 @@ class CyclicQuest(models.Model):
     prior = models.IntegerField(default=0,null=False, verbose_name=" Типа очередность задания")
     target_str = models.CharField(null=True, max_length=255, verbose_name="Цель задания")
 
-    # giver = models.ForeignKey(Character, null=True, on_delete=models.SET_NULL, max_length=255, verbose_name='Персонаж квестодатель')
-
     once = models.BooleanField(default=False, verbose_name="Одноразовый ли квест")
     condlist_str = models.CharField(max_length=1_000, null=True, verbose_name="Условия для возможности получения задания")
     target_count = models.PositiveIntegerField(null=True, verbose_name="Кол-во нужных предметов")
@@ -48,11 +46,7 @@ class CyclicQuest(models.Model):
     reward_relation_str = models.CharField(max_length=255, null=True, verbose_name="Награда. Репутация/отношения")
     target_camp = models.ForeignKey("CampInfo", null=True, on_delete=models.SET_NULL, verbose_name="Цель - лагерь")
     target_item = models.ForeignKey(BaseItem, null=True, on_delete=models.SET_NULL, verbose_name="Целевой предмет", related_name="quests_when_needed")
-    # reward_items = models.ManyToManyField(BaseItem, related_name='quests_when_giving')
     vendor = models.ForeignKey("CycleTaskVendor", null=True, on_delete=models.SET_NULL, verbose_name="Персонаж квестодатель")
-    # random_rewards = models.ManyToManyField('QuestRandomReward', verbose_name='Рандомные награды', related_name='quests', through='QuestRandomRewardThrough')
-
-    # target_stalker = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Сталкер цель", related_name="+")
     target_camp_to_destroy = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Лагерь нужно уничтожить", related_name="+")
     target_camp_to_defeat = models.ForeignKey("SpawnItem", on_delete=models.SET_NULL, null=True, verbose_name="Лагерь нужно защитить", related_name="+")
 

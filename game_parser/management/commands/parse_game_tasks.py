@@ -24,9 +24,6 @@ class Command(BaseCommand):
         for path in path.iterdir():
             if path.name.startswith("tasks"):
                 paths.append(path)
-        # for (dir, _, files) in os.walk(path):
-        #     for file_name in files:
-        #         paths.append(Path(os.path.join(dir, file_name)))
 
         return paths
 
@@ -41,5 +38,4 @@ class Command(BaseCommand):
             fixed_file_path = fixer.fix(file_path)
             with open(fixed_file_path, "r") as tml_file:
                 root_node = parse(tml_file).getroot()
-            # print(root_node)
             GameTaskLoader().load_bulk(root_node)

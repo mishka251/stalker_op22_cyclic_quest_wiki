@@ -24,10 +24,6 @@ class Command(BaseCommand):
         base_path = settings.OP22_GAME_DATA_PATH
         return base_path / "textures"
 
-    # _exclude_keys = {
-    #     'list',
-    # }
-
     @atomic
     def handle(self, **options):
         LocationMapInfo.objects.all().delete()
@@ -57,7 +53,6 @@ class Command(BaseCommand):
                 global_rect_raw=location_data.get("global_rect"),
                 weathers=location_data.get("weathers"),
                 music_tracks=location_data.get("music_tracks"),
-                # map_image=image_file,
             )
             if not location.texture_raw:
                 continue

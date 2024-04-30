@@ -11,9 +11,6 @@ from game_parser.models import CyclicQuest, QuestRandomReward, Translation
 from game_parser.models import Icon
 
 
-# from xml.etree.ElementTree import Element, parse
-
-
 class Command(BaseCommand):
 
     def get_file_path(self):
@@ -141,7 +138,6 @@ class Command(BaseCommand):
     def _get_image(self, image: Image, x: int, y: int, width: int, height: int, name: str) -> Icon:
         instance: Icon = Icon(name=name)
         box = self._get_item_image_coordinates(x, y, width, height)
-        # logger.debug(f'{box=}')
         part = image.crop(box)
         tmp_file_name = "tmp.png"
         part.save(tmp_file_name)

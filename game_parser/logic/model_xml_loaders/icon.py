@@ -18,7 +18,7 @@ class IconLoader(BaseModelXmlLoader[Icon]):
     def _load(self, texture_node: Element, comments: list[str]) -> Icon:
         if texture_node.tag != "texture":
             raise ValueError(f"Unexpected node {texture_node.tag}")
-            # return
+
         texture_id = texture_node.attrib.pop("id")
         x = int(texture_node.attrib.pop("x"))
         y = int(texture_node.attrib.pop("y"))
@@ -27,10 +27,6 @@ class IconLoader(BaseModelXmlLoader[Icon]):
         icon = Icon(name=texture_id)
         self._get_image(x, y, width, height, texture_id, icon)
         return icon
-        # Icon.objects.create(
-        #     name=texture_id,
-        #     icon=icon_image,
-        # )
 
     def _get_item_image_coordinates(self, x: int, y: int, width: int, height: int) -> tuple[int, int, int, int]:
         inv_grid_x = x
@@ -48,7 +44,6 @@ class IconLoader(BaseModelXmlLoader[Icon]):
 
     def _get_image(self, x: int, y: int, width: int, height: int, name: str, instance: Icon):
         box = self._get_item_image_coordinates(x, y, width, height)
-        # logger.debug(f'{box=}')
         part = self.image.crop(box)
         tmp_file_name = "tmp.png"
         part.save(tmp_file_name)
@@ -56,4 +51,3 @@ class IconLoader(BaseModelXmlLoader[Icon]):
             image_file = ImageFile(tmp_image, name=f"{name}_icon.png")
             instance.icon = image_file
             instance.save()
-        # return image_files

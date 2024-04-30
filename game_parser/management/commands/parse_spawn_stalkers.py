@@ -8,9 +8,6 @@ from game_parser.logic.ltx_parser import LtxParser, TextLtxParser
 from game_parser.models.spawn_item import SpawnItem, Respawn, SingleStalkerSpawnItem
 
 
-# from xml.etree.ElementTree import Element, parse
-
-
 class Command(BaseCommand):
 
     def get_file_path(self) -> Path:
@@ -57,7 +54,6 @@ class Command(BaseCommand):
         )
 
     def _create_stalker(self, level_file_name: str, section: dict[str, str], path) -> SingleStalkerSpawnItem:
-        # custom_data = TextLtxParser(path, section["custom_data"]).get_parsed_blocks().get("smart_terrain", {})
         return SingleStalkerSpawnItem(
             spawn_item=SpawnItem.objects.get(spawn_id=section["spawn_id"], location_txt=level_file_name),
             character_profile_raw=section["character_profile"],

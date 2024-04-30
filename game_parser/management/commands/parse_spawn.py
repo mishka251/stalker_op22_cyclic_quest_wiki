@@ -8,8 +8,6 @@ from game_parser.logic.ltx_parser import LtxParser
 from game_parser.models.spawn_item import SpawnItem
 
 
-# from xml.etree.ElementTree import Element, parse
-
 
 class Command(BaseCommand):
 

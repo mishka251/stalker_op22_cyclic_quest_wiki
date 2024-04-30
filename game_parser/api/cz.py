@@ -39,8 +39,6 @@ class VendorCyclicQuests(View):
         quests: list[CyclicQuest] = CyclicQuest.objects.filter(vendor=vendor)
         results = []
         for quest in quests:
-            # npc_profile = quest_giver.get_npc_profile()
-            # name_translations = npc_profile.name_translation
             quest_giver_json = {
                 "type": quest.type,
                 "prior": quest.prior,
@@ -67,17 +65,6 @@ class VendorCyclicQuests(View):
                 },
                 "once": quest.once,
                 "hide_reward": quest.hide_reward,
-
-                #
-                # "id": str(quest_giver.id),
-                # 'name': {
-                #     "rus": name_translations.rus,
-                #     "eng": name_translations.eng,
-                #     "ukr": name_translations.ukr,
-                #     "pln": name_translations.pln,
-                #     "fra": name_translations.fra,
-                # },
-                # "icon_url": npc_profile.icon.url,
             }
             results.append(quest_giver_json)
         return JsonResponse(results, safe=False)
@@ -123,8 +110,6 @@ class VendorCyclicQuests(View):
     def _camp_to_dict(self, camp: SpawnItem) -> dict:
         position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
         rm = position_re.match(camp.position_raw)
-        # if not rm:
-        #     return None
         (x, y, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
         position = (x, z)
         location_info =  LocationMapInfo.objects.get(location=camp.location)

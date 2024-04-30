@@ -66,7 +66,6 @@ class Command(BaseCommand):
             print(cls_, len(keys))
 
         # TODO Проверить все секции на то, что всё есть в БД
-        # results_lists_keys = [k for k in results.keys() if isinstance(results[k], list)]
         print("START FILLING")
 
         stalker_keys, stalkers = self._get_sections_by_class(results, grouped_by_cls_dict, self.STALKER_CLASSES)

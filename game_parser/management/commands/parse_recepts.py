@@ -42,9 +42,6 @@ class Command(BaseCommand):
                 continue
             receipt = node.values[0]
 
-        # print(receipt)
-        # print(to_lua_source(receipt))
-
         lua.execute("function translate(s) return s end")
         t = lua.eval(to_lua_source(receipt))
 
@@ -80,7 +77,6 @@ class Command(BaseCommand):
                     condition_raw=receipt_condition,
                     condition=InfoPortion.objects.filter(game_id=receipt_condition).first(),
                     components_raw="".join(komponents),
-                    # components=...,
                     cel_raw=cel,
                     cel=(BaseItem.objects.filter(name=cel).first() or BaseItem.objects.filter(inv_name=cel).first()),
                     v_udachi=v_udachi,

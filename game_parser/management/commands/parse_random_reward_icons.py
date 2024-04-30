@@ -9,8 +9,6 @@ from game_parser.models import Icon
 from game_parser.models import QuestRandomReward
 
 
-# from xml.etree.ElementTree import Element, parse
-
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -42,7 +40,7 @@ class Command(BaseCommand):
     def _get_image(self, image: Image, x: int, y: int, width: int, height: int, name: str) -> Icon:
         instance: Icon = Icon(name=name)
         box = self._get_item_image_coordinates(x, y, width, height)
-        # logger.debug(f'{box=}')
+
         part = image.crop(box)
         tmp_file_name = "tmp.png"
         part.save(tmp_file_name)

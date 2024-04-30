@@ -10,8 +10,6 @@ from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.model_xml_loaders.encyclopedia import EncyclopediaArticleLoader
 from game_parser.models import EncyclopediaGroup, EncyclopediaArticle
 
-# from xml.etree.ElementTree import Element, parse
-
 
 logger = logging.getLogger(__name__)
 

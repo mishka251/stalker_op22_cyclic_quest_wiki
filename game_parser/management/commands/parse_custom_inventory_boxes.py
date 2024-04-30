@@ -31,7 +31,6 @@ class Command(BaseCommand):
             if not spawn:
                 print("no spawn in file", file)
                 continue
-            # print(spawn)
             item_with_count: dict[str, int] = {}
             if isinstance(spawn, list):
                 item_with_count = {

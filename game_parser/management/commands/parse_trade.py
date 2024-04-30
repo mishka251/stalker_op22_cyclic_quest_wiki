@@ -32,20 +32,6 @@ class Command(BaseCommand):
             paths.append(file_name)
         return paths
 
-    # _exclude = {
-    #     'trader'
-    # }
-
-    # @atomic
-    # def handle(self, **options):
-    #     for file in self.get_files_paths():
-    #
-    #         print(f'start {file}')
-    #         trader_name = file.name[:-4]
-    #         trader = Trader.objects.get(game_code=trader_name)
-    #         trader.source_file = (file.relative_to(self.get_files_dir_path().parent))
-    #         trader.save()
-
     @atomic
     def handle(self, **options):
         Trader.objects.all().delete()
@@ -84,23 +70,6 @@ class Command(BaseCommand):
                 supply_section = self._clean_section(results.pop(supply_section_name))
                 sell_section = self._clean_section(results.pop(sell_section_name))
                 self._create_sell(trader, sell_section_name, supply_section, sell_section, sell_condition)
-
-
-            # section_blocks = {
-            #     k: v
-            #     for k, v in results.items()
-            #     if k not in self._exclude
-            # }
-
-            # for section_name, section_data in section_blocks.items():
-            #     print(f'    start {section_name}')
-            #     if section_name.endswith('buy'):
-            #         self._create_buy(trader, section_name, section_data)
-            #     elif section_name.endswith('sell'):
-            #         self._create_sell(trader, section_name, section_data)
-            #     else:
-            #         raise ValueError(f'Unknown section type {section_name}')
-            #     print(f'    end {section_name}')
             print(f"end {file}")
 
     def _parse_condition(self, trade_with_condition_str: str) -> tuple[Optional[str], str]:
@@ -115,7 +84,6 @@ class Command(BaseCommand):
     def _create_buy(self, trader: Trader, section_name: str, data: dict[str, str]) -> None:
         buy = Buy.objects.create(trader=trader, name=section_name)
         for item_name, item_str in data.items():
-            # print(f'\t\t{item_name}')
             min_price_str, max_price_str = item_str.split(",")
             min_price = Decimal(min_price_str.strip())
             max_price = Decimal(max_price_str.strip())

@@ -9,9 +9,6 @@ from game_parser.logic.ltx_parser import LtxParser
 from game_parser.models.spawn_item import NpcLogicConfig
 
 
-# from xml.etree.ElementTree import Element, parse
-
-
 class Command(BaseCommand):
 
     def get_configs_path(self) -> Path:

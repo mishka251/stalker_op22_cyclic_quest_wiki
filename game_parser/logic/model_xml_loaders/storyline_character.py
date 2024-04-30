@@ -16,7 +16,6 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
             raise ValueError
         character_id = character_node.attrib.pop("id")
         character_no_random = bool(character_node.attrib.pop("no_random", None))
-        # team_default = int(character_node.attrib.pop('team_default',None))
         name = None
         icon_raw = None
         community_raw = None

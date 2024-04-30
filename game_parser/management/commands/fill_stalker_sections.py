@@ -41,7 +41,6 @@ class Command(BaseCommand):
             respawn_sections = [s.strip() for s in item.respawn_section_raw.split(",")]
             stalkers = StalkerSection.objects.filter(section_name__in=respawn_sections)
             item.respawn_section.set(stalkers)
-            # item.save()
             if index % 100 == 0:
                 print(f"{index + 1}/{count}")
 

@@ -20,22 +20,17 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
         return results
 
     def _load(self, dialog_node: Element, dialog_comments: list[str]) -> Dialog:
-        # print(dialog_node)
         if dialog_node.tag != "dialog":
             raise ValueError(f"Unexpected node {dialog_node.tag}")
         dialog_id = dialog_node.attrib.pop("id", None)
         if dialog_id is None:
             raise ValueError(f"Unexpected id is None {dialog_node}")
-
-        # prio = dialog_node.attrib.pop('prio', None)
         dialog = Dialog.objects.create(game_id=dialog_id, comments_raw=";".join(dialog_comments))
         preconditions = []
         has_info = []
         dont_has_info = []
         init_func = []
-        # preconditions = []
         for child_node in dialog_node:
-            # print(child_node)
             if child_node.tag == "precondition":
                 preconditions.append(child_node.text)
             elif child_node.tag == "has_info":
@@ -47,7 +42,7 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
             elif child_node.tag == "phrase_list":
                 self._parse_phrase_list(dialog, child_node)
             elif isinstance(child_node, _Comment):
-                pass  # dialog_comments.append(game_dialogs.text)
+                pass
             else:
                 raise ValueError(f"Unexpected game dialog child {child_node.tag} in {dialog_id}")
         dialog.precondition_raw = ";".join(preconditions)

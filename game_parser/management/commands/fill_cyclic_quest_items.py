@@ -71,5 +71,4 @@ class Command(BaseCommand):
                 prev_name = part
         if prev_name is not None:
             result.append((prev_name, 1))
-            # prev_name = part
         return result

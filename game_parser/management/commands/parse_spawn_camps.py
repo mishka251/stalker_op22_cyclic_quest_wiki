@@ -8,8 +8,6 @@ from game_parser.logic.ltx_parser import LtxParser, TextLtxParser
 from game_parser.models.spawn_item import SpawnItem, CampInfo
 
 
-# from xml.etree.ElementTree import Element, parse
-
 
 class Command(BaseCommand):
 

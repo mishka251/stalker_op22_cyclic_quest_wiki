@@ -13,7 +13,6 @@ from stalker_op22_cyclic_quest_wiki.management.commands.resources import to_expo
 class Command(BaseCommand):
     def add_arguments(self, parser):
         super().add_arguments(parser)
-        # parser.add_argument('--file_path', type=str, help='Path to the file', default='data.zip')
         parser.add_argument(
             "--imported_archive",
             type=Path,

@@ -18,7 +18,6 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         text = None
         icon = None
         for child_node in article_node:
-            # print(child_node)
             if child_node.tag == "ltx":
                 ltx_str = child_node.text
             elif child_node.tag == "text":
@@ -57,12 +56,6 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         return article
 
     def _parse_icon(self, texture_node: Element) -> Icon:
-        # print(dialog_node)
-        # if texture_node.tag != 'texture':
-        #     logger.warning(f'Unexpected node {texture_node.tag}')
-        #     return
-
-        # texture_id = texture_node.attrib.pop('id')
         x = texture_node.attrib.pop("x", None)
         if x is None:
             texture_id = texture_node.text
@@ -86,7 +79,6 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
 
     def _get_image(self, image: Image, x: int, y: int, width: int, height: int, name: str, instance: Icon):
         box = self._get_item_image_coordinates(x, y, width, height)
-        # logger.debug(f'{box=}')
         part = image.crop(box)
         tmp_file_name = "tmp.png"
         part.save(tmp_file_name)

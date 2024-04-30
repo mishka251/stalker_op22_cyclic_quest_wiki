@@ -264,7 +264,6 @@ class Command(BaseCommand):
             "II_EXPLO": {
                 "model_type": ModelTypes.EXPLOSIVE,
             },
-            # 'ammo_igl': {},
         }
         file = base_path / "config" / "weapons" / "weapons.ltx"
 
@@ -279,7 +278,6 @@ class Command(BaseCommand):
             if "hud" not in k and k not in self._excluded_keys and "immunities" not in k
         }
         for quest_name, quest_data in quest_blocks.items():
-            # print(f'{quest_name=}')
             maybe_instance = self._parse_data_to_model(quest_name, quest_data)
             if maybe_instance is None:
                 logger.warning(f"Нет объекта для  {quest_name=}")

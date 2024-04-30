@@ -16,14 +16,6 @@ class Command(BaseCommand):
         base_path = settings.OP22_GAME_DATA_PATH
         return base_path / "config" / "creatures" / "monsters.ltx"
 
-    # _exclude_keys = {
-    #     'without_outfit',
-    #     'nano_resistance',
-    #     'sect_mil_exoskeleton',
-    #     'sect_mil_exoskeleton_add',
-    #     'sect_mil_exoskeleton_adr',
-    # }
-
     @atomic
     def handle(self, **options):
         Monster.objects.all().delete()
@@ -42,10 +34,8 @@ class Command(BaseCommand):
             k: v
             for k, v in results.items()
             if isinstance(v, dict) and v.get("monster", "false") == "true"
-            # if k not in self._exclude_keys and not k.endswith('immunities')
         }
 
-        # resource = OutfitResource()
 
         for quest_name, quest_data in quest_blocks.items():
             print(quest_name)
@@ -62,6 +52,3 @@ class Command(BaseCommand):
                 species=quest_data.get("species"),
                 spec_rank=quest_data.get("spec_rank"),
             )
-            # item = resource.create_instance_from_data(quest_name, quest_data)
-            # if quest_data:
-            #     logger.warning(f'unused data {quest_data} in {quest_name}')

@@ -11,7 +11,6 @@ from game_parser.logic.model_xml_loaders.dialog import DialogLoader
 from game_parser.models import Dialog
 from game_parser.models.game_story.dialog import DialogPhrase
 
-# from xml.etree.ElementTree import Element, parse
 
 logger = logging.getLogger(__name__)
 
@@ -27,9 +26,6 @@ class Command(BaseCommand):
         for path in path.iterdir():
             if path.name.startswith("dialogs"):
                 paths.append(path)
-        # for (dir, _, files) in os.walk(path):
-        #     for file_name in files:
-        #         paths.append(Path(os.path.join(dir, file_name)))
 
         return paths
 

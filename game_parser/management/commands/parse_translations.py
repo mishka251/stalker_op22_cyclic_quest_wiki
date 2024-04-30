@@ -51,7 +51,6 @@ class Command(BaseCommand):
             print(f"{file=}")
             tree = ET.parse(file)
             root = tree.getroot()
-            # print(root)
 
             if root.tag != "string_table":
                 logger.warning(f"Wrong root {file}, {root}")

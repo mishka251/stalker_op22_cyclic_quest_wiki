@@ -57,17 +57,11 @@ class NestedCallsVisitor(ASTVisitor):
         node_func = node.func
 
         if isinstance(node.func, Call):
-            # print(f'visit Index {to_lua_source(node)}, skip')
             return
         if isinstance(node_func, Index):
-            # print(f'visit Index {to_lua_source(node)}, skip')
             func_name = to_lua_source(node_func)
         else:
             func_name = node_func.id
-        # founded_functions = {'got', 'got_money', 'create'}
-        # if func_name not in founded_functions:
-        #     # print(f'{func_name} skipped')
-        #     return
 
         if func_name == "got":
             if len(node.args) ==1:
@@ -79,7 +73,6 @@ class NestedCallsVisitor(ASTVisitor):
                 self._item_rewards.append(ItemRewardDto(name, count))
             else:
                 raise NotImplementedError(f"Unknown got {to_lua_source(node)}")
-            # self._item_rewards.append([self._parse_value(arg) for arg in node.args])
         elif func_name == "got_money":
             self._money_rewards.append([self._parse_value(arg) for arg in node.args])
         elif func_name == "create":
@@ -90,21 +83,6 @@ class NestedCallsVisitor(ASTVisitor):
                 x = None
                 y = None
                 z = None
-                # TODO
-                # if isinstance(xyz, Call):
-                #     try:
-                #         x = float(self._parse_value(xyz.args[0]))
-                #     except ValueError:
-                #         pass
-                #     try:
-                #         y = float(self._parse_value(xyz.args[1]))
-                #     except ValueError:
-                #         pass
-                #     try:
-                #         z = float(self._parse_value(xyz.args[2]))
-                #     except ValueError:
-                #         pass
-
                 level_vertex = self._parse_value(node.args[2])
                 game_vertex_id = self._parse_value(node.args[3])
                 self._spawn_rewards.append(SpawnDto(name, x, y, z, level_vertex, game_vertex_id, to_lua_source(node),xyz_raw))
@@ -202,7 +180,6 @@ class Command(BaseCommand):
         SpawnReward.objects.all().delete()
         ScriptFunction.objects.all().delete()
 
-        # print(*self.get_files_paths(self.get_files_dir_path()), sep='\n')
         script_files = self.get_files_paths(self.get_files_dir_path())
         exclude_files = {self.get_files_dir_path()/"lua_help.script"}
 
@@ -221,8 +198,6 @@ class Command(BaseCommand):
             visitor = FunctionsVisitor()
             visitor.visit(tree)
             rewards = visitor.rewards()
-            # functions_by_namespace[file_namespace] =
-            # print(self._functions_with_rewards(rewards))
             for function_name, reward in rewards.items():
                 func = ScriptFunction.objects.create(name=function_name, namespace=file_namespace)
                 function_aliases = self._create_function_aliases(function_name, file_namespace)
@@ -256,8 +231,6 @@ class Command(BaseCommand):
                     ItemReward.objects.create(function=func, raw_count=items_count_str, raw_item=item_name, count=items_count)
 
                 for item in reward["spawn"]:
-                    # item_name = item.item_name
-                    # items_count_str = item.count
                     level_vertex = None
                     try:
                         level_vertex = int(item.level_vertex)
@@ -303,10 +276,3 @@ class Command(BaseCommand):
             name=f"{part}.{name}"
             names.append(name)
         return names
-
-    # def _functions_with_rewards(self, all_function):
-    #     return {
-    #         func_name: rewards
-    #         for func_name, rewards in all_function.items()
-    #         if len(rewards['items']) > 0 or len(rewards['money']) > 0 or len(rewards['spawn']) > 0  or len(rewards['nested']) > 0
-    #     }
