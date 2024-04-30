@@ -26,8 +26,8 @@ class ItemInTreasureBox(models.Model):
             ["item", "box"],
         ]
 
-    item = models.ForeignKey('BaseItem', null=False, on_delete=models.CASCADE, verbose_name="Предмет")
-    box = models.ForeignKey('InventoryBox', null=False, on_delete=models.CASCADE, verbose_name="Тайник")
+    item = models.ForeignKey("BaseItem", null=False, on_delete=models.CASCADE, verbose_name="Предмет")
+    box = models.ForeignKey("InventoryBox", null=False, on_delete=models.CASCADE, verbose_name="Тайник")
     count = models.IntegerField(null=True, verbose_name="Количество")
 
     def __str__(self):

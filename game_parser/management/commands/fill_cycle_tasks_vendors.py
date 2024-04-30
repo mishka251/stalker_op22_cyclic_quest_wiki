@@ -16,5 +16,5 @@ class Command(BaseCommand):
         for index, item in enumerate(CycleTaskVendor.objects.all()):
             item.game_story_id = GameStoryId.objects.filter(story_id=item.game_story_id_raw).first()
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

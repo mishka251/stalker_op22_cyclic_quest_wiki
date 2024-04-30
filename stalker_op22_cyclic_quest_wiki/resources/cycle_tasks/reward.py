@@ -30,7 +30,7 @@ class QuestRandomRewardResource(resources.ModelResource):
     class Meta:
         model = QuestRandomReward
         use_natural_foreign_keys = True
-        import_id_fields = ["quest", 'reward']
+        import_id_fields = ["quest", "reward"]
         exclude = {"id", "polymorphic_ctype"}
 class RandomRewardInfoResource(resources.ModelResource):
     class Meta:
@@ -42,7 +42,7 @@ class RandomRewardInfoResource(resources.ModelResource):
     possible_items = fields.Field(
         column_name="possible_items",
         attribute="possible_items",
-        widget=ManyToManyWidget(Item, separator='|', field="name")
+        widget=ManyToManyWidget(Item, separator="|", field="name")
     )
 
 

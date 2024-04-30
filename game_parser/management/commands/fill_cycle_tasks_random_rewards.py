@@ -19,15 +19,15 @@ class Command(BaseCommand):
             if not quest.random_rewards_string:
                 continue
 
-            parts = [item.strip() for item in quest.random_rewards_string.split(',')]
+            parts = [item.strip() for item in quest.random_rewards_string.split(",")]
             items = list(zip(parts[::2], parts[1::2]))
             # print(items)
             for (reward_index, reward_count) in items:
-                reward_id = f'random_{reward_index}'
+                reward_id = f"random_{reward_index}"
                 QuestRandomRewardThrough.objects.create(
                     quest=quest,
                     count=int(reward_count),
                     reward=QuestRandomReward.objects.get(name=reward_id)
                 )
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

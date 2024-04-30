@@ -17,25 +17,25 @@ class Command(BaseCommand):
 
     @atomic
     def handle(self, **options):
-        base_image_path = settings.OP22_GAME_DATA_PATH / 'textures' / 'ui' / 'ui_icon_equipment.dds'
+        base_image_path = settings.OP22_GAME_DATA_PATH / "textures" / "ui" / "ui_icon_equipment.dds"
         image = Image.open(base_image_path)
         count = BaseItem.objects.count()
         for index, item in enumerate(BaseItem.objects.all()):
-            logger.debug(f'start {index}/{count} - {item}')
+            logger.debug(f"start {index}/{count} - {item}")
             if not self._item_has_icon(item):
-                logger.warning(f'{item} нет данных об иконке')
+                logger.warning(f"{item} нет данных об иконке")
                 continue
 
             box = self._get_item_image_coordinates(item)
-            logger.debug(f'{box=}')
+            logger.debug(f"{box=}")
             part = image.crop(box)
-            tmp_file_name = 'tmp.png'
+            tmp_file_name = "tmp.png"
             part.save(tmp_file_name)
-            with open(tmp_file_name, 'rb') as tmp_image:
-                item.inv_icon = ImageFile(tmp_image, name=f'{item.name}_icon.png')
+            with open(tmp_file_name, "rb") as tmp_image:
+                item.inv_icon = ImageFile(tmp_image, name=f"{item.name}_icon.png")
                 item.save()
 
-            print(f'{index + 1}/{count}')
+            print(f"{index + 1}/{count}")
         image.close()
 
     def _item_has_icon(self, item: BaseItem) -> bool:

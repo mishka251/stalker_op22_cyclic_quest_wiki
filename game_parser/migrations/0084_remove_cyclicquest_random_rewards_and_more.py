@@ -7,27 +7,27 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0083_alter_cyclicquest_type_questrandomrewardthrough_and_more'),
+        ("game_parser", "0083_alter_cyclicquest_type_questrandomrewardthrough_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='cyclicquest',
-            name='random_rewards',
+            model_name="cyclicquest",
+            name="random_rewards",
         ),
         migrations.AlterField(
-            model_name='questrandomrewardthrough',
-            name='count',
-            field=models.IntegerField(default=1, verbose_name='Кол-во'),
+            model_name="questrandomrewardthrough",
+            name="count",
+            field=models.IntegerField(default=1, verbose_name="Кол-во"),
         ),
         migrations.AlterField(
-            model_name='questrandomrewardthrough',
-            name='quest',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='random_rewards', to='game_parser.cyclicquest', verbose_name='ЦЗ'),
+            model_name="questrandomrewardthrough",
+            name="quest",
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="random_rewards", to="game_parser.cyclicquest", verbose_name="ЦЗ"),
         ),
         migrations.AlterField(
-            model_name='questrandomrewardthrough',
-            name='reward',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='quests', to='game_parser.questrandomreward', verbose_name='Тип награды'),
+            model_name="questrandomrewardthrough",
+            name="reward",
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="quests", to="game_parser.questrandomreward", verbose_name="Тип награды"),
         ),
     ]

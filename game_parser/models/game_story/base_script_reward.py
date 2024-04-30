@@ -8,4 +8,4 @@ class BaseScriptReward(PolymorphicModel):
     class Meta:
         ...
 
-    function = models.ForeignKey(ScriptFunction, related_name='rewards', on_delete=models.SET_NULL, null=True)
+    function = models.ForeignKey(ScriptFunction, related_name="rewards", on_delete=models.SET_NULL, null=True)

@@ -13,4 +13,4 @@ class MoneyReward(BaseScriptReward):
 
     def __str__(self):
         count = self.count or self.raw_count
-        return f'{count} руб.'
+        return f"{count} руб."

@@ -14,7 +14,7 @@ class RewardsInline(ReadOnlyPolymorphicInline):
     class SpawnRewardInline(ReadOnlyPolymorphicChildInline):
         model = SpawnReward
         autocomplete_fields = [
-            'item',
+            "item",
         ]
 
     class MoneyRewardInline(ReadOnlyPolymorphicChildInline):
@@ -23,7 +23,7 @@ class RewardsInline(ReadOnlyPolymorphicInline):
     class ItemRewardInline(ReadOnlyPolymorphicChildInline):
         model = ItemReward
         autocomplete_fields = [
-            'item',
+            "item",
         ]
 
     child_inlines = (
@@ -34,23 +34,23 @@ class RewardsInline(ReadOnlyPolymorphicInline):
 
 class DialogPhrasesCallsFunction(ReadOnlyNestedTable):
     model = DialogPhrase.actions.through
-    verbose_name = 'Используется в фразах диалогов'
+    verbose_name = "Используется в фразах диалогов"
 
 class InfoportionCallsFunction(ReadOnlyNestedTable):
     model = InfoPortion.actions.through
-    verbose_name = 'Используется в инфопоршнях'
+    verbose_name = "Используется в инфопоршнях"
 
 
 @register(ScriptFunction)
 class ScriptFunctionAdmin(PolymorphicInlineSupportMixin, ModelAdmin):
     list_display = (
-        '__str__',
-        'name',
-        'namespace',
-        'dialog',
+        "__str__",
+        "name",
+        "namespace",
+        "dialog",
         # 'nested_function',
         # 'raw_nested_function',
-        'rewards',
+        "rewards",
     )
     inlines = (
         RewardsInline,
@@ -58,17 +58,17 @@ class ScriptFunctionAdmin(PolymorphicInlineSupportMixin, ModelAdmin):
         InfoportionCallsFunction,
     )
     search_fields = [
-        'namespace',
-        'name',
+        "namespace",
+        "name",
     ]
 
     autocomplete_fields = [
-        'dialog',
-        'nested_function',
+        "dialog",
+        "nested_function",
     ]
 
     def rewards(self, func: ScriptFunction) -> str:
-        return '\n'.join([str(reward) for reward in func.rewards.all()])
+        return "\n".join([str(reward) for reward in func.rewards.all()])
 
 __all__ = [
     "ScriptFunctionAdmin",

@@ -9,3 +9,4 @@ mypy
 django-stubs[compatible-mypy]
 lxml-stubs
 types-cffi
+ruff

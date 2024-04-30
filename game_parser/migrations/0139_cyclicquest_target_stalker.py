@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0138_remove_cyclicquest_target_stalker'),
+        ("game_parser", "0138_remove_cyclicquest_target_stalker"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cyclicquest',
-            name='target_stalker',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.stalkersection', verbose_name='Сталкер цель'),
+            model_name="cyclicquest",
+            name="target_stalker",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.stalkersection", verbose_name="Сталкер цель"),
         ),
     ]

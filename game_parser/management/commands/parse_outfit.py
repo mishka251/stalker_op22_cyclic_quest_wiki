@@ -15,14 +15,14 @@ class Command(BaseCommand):
 
     def get_file_path(self):
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / 'misc' / 'outfit.ltx'
+        return base_path / "config" / "misc" / "outfit.ltx"
 
     _exclude_keys = {
-        'without_outfit',
-        'nano_resistance',
-        'sect_mil_exoskeleton',
-        'sect_mil_exoskeleton_add',
-        'sect_mil_exoskeleton_adr',
+        "without_outfit",
+        "nano_resistance",
+        "sect_mil_exoskeleton",
+        "sect_mil_exoskeleton_add",
+        "sect_mil_exoskeleton_adr",
     }
 
     @atomic
@@ -30,7 +30,7 @@ class Command(BaseCommand):
         Outfit.objects.all().delete()
 
         known_bases = {
-            'outfit': {},
+            "outfit": {},
         }
 
         parser = LtxParser(self.get_file_path(), known_extends=known_bases)
@@ -39,7 +39,7 @@ class Command(BaseCommand):
         quest_blocks = {
             k: v
             for k, v in results.items()
-            if k not in self._exclude_keys and not k.endswith('immunities')
+            if k not in self._exclude_keys and not k.endswith("immunities")
         }
 
         resource = OutfitResource()
@@ -48,4 +48,4 @@ class Command(BaseCommand):
             print(quest_name)
             item = resource.create_instance_from_data(quest_name, quest_data)
             if quest_data:
-                logger.warning(f'unused data {quest_data} in {quest_name}')
+                logger.warning(f"unused data {quest_data} in {quest_name}")

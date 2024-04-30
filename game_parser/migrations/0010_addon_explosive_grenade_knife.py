@@ -7,36 +7,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0009_alter_baseitem_inv_name_and_more'),
+        ("game_parser", "0009_alter_baseitem_inv_name_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Addon',
+            name="Addon",
             fields=[
-                ('baseitem_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='game_parser.baseitem')),
+                ("baseitem_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.baseitem")),
             ],
-            bases=('game_parser.baseitem',),
+            bases=("game_parser.baseitem",),
         ),
         migrations.CreateModel(
-            name='Explosive',
+            name="Explosive",
             fields=[
-                ('baseitem_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='game_parser.baseitem')),
+                ("baseitem_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.baseitem")),
             ],
-            bases=('game_parser.baseitem',),
+            bases=("game_parser.baseitem",),
         ),
         migrations.CreateModel(
-            name='Grenade',
+            name="Grenade",
             fields=[
-                ('baseitem_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='game_parser.baseitem')),
+                ("baseitem_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.baseitem")),
             ],
-            bases=('game_parser.baseitem',),
+            bases=("game_parser.baseitem",),
         ),
         migrations.CreateModel(
-            name='Knife',
+            name="Knife",
             fields=[
-                ('baseitem_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='game_parser.baseitem')),
+                ("baseitem_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.baseitem")),
             ],
-            bases=('game_parser.baseitem',),
+            bases=("game_parser.baseitem",),
         ),
     ]

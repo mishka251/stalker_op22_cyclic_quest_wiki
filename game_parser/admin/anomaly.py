@@ -6,7 +6,7 @@ from game_parser.models import Anomaly
 @register(Anomaly)
 class EncyclopediaGroupAdmin(ModelAdmin):
     autocomplete_fields = [
-        'article',
+        "article",
     ]
 
     search_fields = [

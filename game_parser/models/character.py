@@ -6,4 +6,4 @@ class Character(models.Model):
     name = models.CharField(null=True, max_length=255)
 
     def __str__(self):
-        return f'NPC {self.game_code} {self.name}'
+        return f"NPC {self.game_code} {self.name}"

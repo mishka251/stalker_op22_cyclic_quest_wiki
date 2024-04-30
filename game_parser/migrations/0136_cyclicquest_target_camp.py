@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0135_alter_campinfo_options_remove_campinfo_groups_and_more'),
+        ("game_parser", "0135_alter_campinfo_options_remove_campinfo_groups_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cyclicquest',
-            name='target_camp',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.campinfo', verbose_name='Цель - лагерь'),
+            model_name="cyclicquest",
+            name="target_camp",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.campinfo", verbose_name="Цель - лагерь"),
         ),
     ]

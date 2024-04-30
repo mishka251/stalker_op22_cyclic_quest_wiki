@@ -17,5 +17,5 @@ class Command(BaseCommand):
         for index, item in enumerate(Location.objects.all()):
             item.name_translation = Translation.objects.filter(code__iexact=item.name.lower()).first()
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

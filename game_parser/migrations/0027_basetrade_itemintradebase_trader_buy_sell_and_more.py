@@ -7,70 +7,70 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0026_trueartefact_jump_speed_delta_and_more'),
+        ("game_parser", "0026_trueartefact_jump_speed_delta_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BaseTrade',
+            name="BaseTrade",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=120, verbose_name='Название секции')),
-                ('condition', models.CharField(max_length=250, null=True, verbose_name='Условие')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=120, verbose_name="Название секции")),
+                ("condition", models.CharField(max_length=250, null=True, verbose_name="Условие")),
             ],
         ),
         migrations.CreateModel(
-            name='ItemInTradeBase',
+            name="ItemInTradeBase",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('item_name', models.CharField(max_length=255, verbose_name='Идентификатор предмета')),
-                ('item', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.baseitem', verbose_name='Предмет')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("item_name", models.CharField(max_length=255, verbose_name="Идентификатор предмета")),
+                ("item", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.baseitem", verbose_name="Предмет")),
             ],
         ),
         migrations.CreateModel(
-            name='Trader',
+            name="Trader",
             fields=[
-                ('character_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='game_parser.character')),
+                ("character_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.character")),
             ],
-            bases=('game_parser.character',),
+            bases=("game_parser.character",),
         ),
         migrations.CreateModel(
-            name='Buy',
+            name="Buy",
             fields=[
-                ('basetrade_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='game_parser.basetrade')),
+                ("basetrade_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.basetrade")),
             ],
-            bases=('game_parser.basetrade',),
+            bases=("game_parser.basetrade",),
         ),
         migrations.CreateModel(
-            name='Sell',
+            name="Sell",
             fields=[
-                ('basetrade_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='game_parser.basetrade')),
+                ("basetrade_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.basetrade")),
             ],
-            bases=('game_parser.basetrade',),
+            bases=("game_parser.basetrade",),
         ),
         migrations.AddField(
-            model_name='basetrade',
-            name='trader',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.trader', verbose_name='Торговец'),
+            model_name="basetrade",
+            name="trader",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.trader", verbose_name="Торговец"),
         ),
         migrations.CreateModel(
-            name='ItemInSell',
+            name="ItemInSell",
             fields=[
-                ('itemintradebase_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='game_parser.itemintradebase')),
-                ('probability', models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Вероятность')),
-                ('count', models.IntegerField(verbose_name='Кол-во предметов')),
-                ('trade', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='game_parser.sell', verbose_name='Торговля')),
+                ("itemintradebase_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.itemintradebase")),
+                ("probability", models.DecimalField(decimal_places=2, max_digits=5, verbose_name="Вероятность")),
+                ("count", models.IntegerField(verbose_name="Кол-во предметов")),
+                ("trade", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.sell", verbose_name="Торговля")),
             ],
-            bases=('game_parser.itemintradebase',),
+            bases=("game_parser.itemintradebase",),
         ),
         migrations.CreateModel(
-            name='ItemInBuy',
+            name="ItemInBuy",
             fields=[
-                ('itemintradebase_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='game_parser.itemintradebase')),
-                ('min_price_modifier', models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Множитель цены(от)')),
-                ('max_price_modifier', models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Множитель цены(до)')),
-                ('trade', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='game_parser.buy', verbose_name='Торговля')),
+                ("itemintradebase_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.itemintradebase")),
+                ("min_price_modifier", models.DecimalField(decimal_places=2, max_digits=5, verbose_name="Множитель цены(от)")),
+                ("max_price_modifier", models.DecimalField(decimal_places=2, max_digits=5, verbose_name="Множитель цены(до)")),
+                ("trade", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.buy", verbose_name="Торговля")),
             ],
-            bases=('game_parser.itemintradebase',),
+            bases=("game_parser.itemintradebase",),
         ),
     ]

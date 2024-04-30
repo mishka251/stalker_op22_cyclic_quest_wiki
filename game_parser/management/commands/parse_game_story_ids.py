@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / 'game_story_ids.ltx'
+        return base_path / "config" / "game_story_ids.ltx"
 
     @atomic
     def handle(self, **options):
@@ -24,7 +24,7 @@ class Command(BaseCommand):
         parser = LtxParser(self.get_file_path())
         results = parser.get_parsed_blocks()
 
-        block: dict[str, str] = results['story_ids']
+        block: dict[str, str] = results["story_ids"]
         for game_id_raw, section_name_raw in block.items():
             game_id = int(game_id_raw)
             section_name = section_name_raw.strip('"')

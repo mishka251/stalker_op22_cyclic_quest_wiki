@@ -6,10 +6,10 @@ from game_parser.models.game_story import MoneyReward
 @register(MoneyReward)
 class MoneyRewardAdmin(ModelAdmin):
     list_display = (
-        '__str__',
-        'function',
-        'count',
-        'raw_count',
+        "__str__",
+        "function",
+        "count",
+        "raw_count",
     )
 
     autocomplete_fields = [

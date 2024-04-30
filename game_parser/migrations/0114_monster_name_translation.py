@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0113_monster_icon_monster_monster_part'),
+        ("game_parser", "0113_monster_icon_monster_monster_part"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='monster',
-            name='name_translation',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.translation'),
+            model_name="monster",
+            name="name_translation",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.translation"),
         ),
     ]

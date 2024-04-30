@@ -19,7 +19,7 @@ class Command(BaseCommand):
         count = SpawnItem.objects.count()
         for index, item in enumerate(SpawnItem.objects.all()):
             if index % 100 == 0:
-                print(f'{index+1:_}/{count:_}')
+                print(f"{index+1:_}/{count:_}")
             match = location_name_re.match(item.location_txt)
             if not match:
                 continue

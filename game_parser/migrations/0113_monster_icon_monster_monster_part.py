@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0112_alter_monster_short_name'),
+        ("game_parser", "0112_alter_monster_short_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='monster',
-            name='icon',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.icon'),
+            model_name="monster",
+            name="icon",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.icon"),
         ),
         migrations.AddField(
-            model_name='monster',
-            name='monster_part',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.monsterpart'),
+            model_name="monster",
+            name="monster_part",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.monsterpart"),
         ),
     ]

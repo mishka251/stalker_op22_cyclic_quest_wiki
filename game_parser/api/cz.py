@@ -19,7 +19,7 @@ class QuestGiversView(View):
             name_translations = npc_profile.name_translation
             quest_giver_json = {
                 "id": str(quest_giver.id),
-                'name': {
+                "name": {
                     "rus": name_translations.rus,
                     "eng": name_translations.eng,
                     "ukr": name_translations.ukr,

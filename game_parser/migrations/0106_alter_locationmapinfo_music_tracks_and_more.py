@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0105_locationmapinfo'),
+        ("game_parser", "0105_locationmapinfo"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='locationmapinfo',
-            name='music_tracks',
+            model_name="locationmapinfo",
+            name="music_tracks",
             field=models.CharField(max_length=255, null=True),
         ),
         migrations.AlterField(
-            model_name='locationmapinfo',
-            name='weathers',
+            model_name="locationmapinfo",
+            name="weathers",
             field=models.CharField(max_length=255, null=True),
         ),
     ]

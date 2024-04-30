@@ -16,7 +16,7 @@ class CycleTaskTargetCampResource(resources.ModelResource):
     communities = fields.Field(
         column_name="communities",
         attribute="communities",
-        widget=ManyToManyWidget(Community, separator='|', field="name")
+        widget=ManyToManyWidget(Community, separator="|", field="name")
     )
 
 
@@ -37,6 +37,6 @@ class CycleTaskTargetStalkerResource(resources.ModelResource):
     map_positions = fields.Field(
         column_name="map_positions",
         attribute="map_positions",
-        widget=ManyToManyWidget(MapPosition, separator='|', field="spawn_id")
+        widget=ManyToManyWidget(MapPosition, separator="|", field="spawn_id")
     )
 

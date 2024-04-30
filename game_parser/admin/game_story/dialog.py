@@ -10,9 +10,9 @@ class DialogPhraseInlineAdmin(TabularInline):
     model = DialogPhrase
     show_change_link = True
     fields = [
-        'local_id',
-        'text_id_raw',
-        'text',
+        "local_id",
+        "text_id_raw",
+        "text",
     ]
 
     def has_add_permission(self, request, obj):
@@ -29,20 +29,20 @@ class DialogPhraseInlineAdmin(TabularInline):
 class DialogAdmin(ModelAdmin):
     inlines = [DialogPhraseInlineAdmin]
     list_display = [
-        '__str__',
-        'game_id',
+        "__str__",
+        "game_id",
     ]
 
     search_fields = [
-        'game_id',
+        "game_id",
     ]
 
     autocomplete_fields = [
-        'has_info',
-        'dont_has_info',
-        'give_info',
-        'precondition',
-        'init_func',
+        "has_info",
+        "dont_has_info",
+        "give_info",
+        "precondition",
+        "init_func",
     ]
 
     readonly_fields = [
@@ -58,28 +58,28 @@ class DialogAdmin(ModelAdmin):
 @register(DialogPhrase)
 class DialogPhraseAdmin(ModelAdmin):
     list_display = [
-        '__str__',
-        'dialog',
-        'local_id',
-        'get_text',
+        "__str__",
+        "dialog",
+        "local_id",
+        "get_text",
     ]
 
     autocomplete_fields = [
-        'dialog',
-        'text',
-        'previous',
-        'give_info',
-        'actions',
-        'precondition',
-        'has_info',
-        'don_has_info',
-        'disable_info',
-        'disable',
+        "dialog",
+        "text",
+        "previous",
+        "give_info",
+        "actions",
+        "precondition",
+        "has_info",
+        "don_has_info",
+        "disable_info",
+        "disable",
     ]
 
     search_fields = [
-        'local_id',
-        'dialog__game_id',
+        "local_id",
+        "dialog__game_id",
     ]
 
     @display()
@@ -87,6 +87,6 @@ class DialogPhraseAdmin(ModelAdmin):
         return phrase.get_text
 
 __all__ = [
-    'DialogAdmin',
+    "DialogAdmin",
     "DialogPhraseAdmin",
 ]

@@ -14,9 +14,9 @@ class Command(BaseCommand):
     def handle(self, **options):
         count = QuestRandomReward.objects.count()
         for index, item in enumerate(QuestRandomReward.objects.all()):
-            raw_items = item.possible_items_str.split(';')
+            raw_items = item.possible_items_str.split(";")
             item.possible_items.set(BaseItem.objects.filter(name__in=raw_items))
             if len(raw_items) != item.possible_items.count():
-                print(f'warn {len(raw_items)=} != {item.possible_items.count()=}')
-            print(f'{index+1}/{count}')
+                print(f"warn {len(raw_items)=} != {item.possible_items.count()=}")
+            print(f"{index+1}/{count}")
 

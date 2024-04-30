@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0126_customspawnitem_custom_inventory_box'),
+        ("game_parser", "0126_customspawnitem_custom_inventory_box"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='taskobjective',
-            name='article',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='task_objectives', to='game_parser.encyclopediaarticle', verbose_name='Статья'),
+            model_name="taskobjective",
+            name="article",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="task_objectives", to="game_parser.encyclopediaarticle", verbose_name="Статья"),
         ),
     ]

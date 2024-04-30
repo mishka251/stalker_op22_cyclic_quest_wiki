@@ -7,43 +7,43 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0136_cyclicquest_target_camp'),
+        ("game_parser", "0136_cyclicquest_target_camp"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='StalkerSection',
+            name="StalkerSection",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('section_name', models.CharField(max_length=255, unique=True)),
-                ('character_profile_str', models.CharField(max_length=128, null=True)),
-                ('spec_rank_str', models.CharField(max_length=128, null=True)),
-                ('community_str', models.CharField(max_length=128, null=True)),
-                ('custom_data_path', models.CharField(max_length=512, null=True)),
-                ('character_profile', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.storylinecharacter')),
-                ('community', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.community')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("section_name", models.CharField(max_length=255, unique=True)),
+                ("character_profile_str", models.CharField(max_length=128, null=True)),
+                ("spec_rank_str", models.CharField(max_length=128, null=True)),
+                ("community_str", models.CharField(max_length=128, null=True)),
+                ("custom_data_path", models.CharField(max_length=512, null=True)),
+                ("character_profile", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.storylinecharacter")),
+                ("community", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.community")),
             ],
         ),
         migrations.CreateModel(
-            name='SingleStalkerSpawnItem',
+            name="SingleStalkerSpawnItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('character_profile_raw', models.CharField(max_length=512)),
-                ('spawn_item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='game_parser.spawnitem', unique=True)),
-                ('stalker_section', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.stalkersection')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("character_profile_raw", models.CharField(max_length=512)),
+                ("spawn_item", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.spawnitem", unique=True)),
+                ("stalker_section", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.stalkersection")),
             ],
         ),
         migrations.CreateModel(
-            name='Respawn',
+            name="Respawn",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('respawn_section_raw', models.CharField(max_length=512, null=True)),
-                ('max_spawn_raw', models.CharField(max_length=128, null=True)),
-                ('idle_spawn_raw', models.CharField(max_length=128, null=True)),
-                ('conditions_raw', models.CharField(max_length=128, null=True)),
-                ('max_spawn', models.PositiveIntegerField(null=True)),
-                ('respawn_section', models.ManyToManyField(to='game_parser.stalkersection')),
-                ('spawn_item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='game_parser.spawnitem', unique=True)),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("respawn_section_raw", models.CharField(max_length=512, null=True)),
+                ("max_spawn_raw", models.CharField(max_length=128, null=True)),
+                ("idle_spawn_raw", models.CharField(max_length=128, null=True)),
+                ("conditions_raw", models.CharField(max_length=128, null=True)),
+                ("max_spawn", models.PositiveIntegerField(null=True)),
+                ("respawn_section", models.ManyToManyField(to="game_parser.stalkersection")),
+                ("spawn_item", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.spawnitem", unique=True)),
             ],
         ),
     ]

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('stalker_op22_cyclic_quest_wiki', '0006_alter_cycletasktargetitem_item'),
+        ("stalker_op22_cyclic_quest_wiki", "0006_alter_cycletasktargetitem_item"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='mapposition',
-            name='name',
-            field=models.CharField(max_length=255, verbose_name='Название'),
+            model_name="mapposition",
+            name="name",
+            field=models.CharField(max_length=255, verbose_name="Название"),
         ),
     ]

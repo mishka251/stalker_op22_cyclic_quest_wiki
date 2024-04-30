@@ -7,20 +7,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0062_dialogphrase_disable_info_raw_and_more'),
+        ("game_parser", "0062_dialogphrase_disable_info_raw_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='InfoPortion',
+            name="InfoPortion",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('game_id', models.CharField(max_length=512)),
-                ('article_raw', models.CharField(max_length=256, null=True)),
-                ('disable_raw', models.TextField(null=True)),
-                ('task_raw', models.TextField(null=True)),
-                ('actions_raw', models.TextField(null=True)),
-                ('task', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.gametask')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("game_id", models.CharField(max_length=512)),
+                ("article_raw", models.CharField(max_length=256, null=True)),
+                ("disable_raw", models.TextField(null=True)),
+                ("task_raw", models.TextField(null=True)),
+                ("actions_raw", models.TextField(null=True)),
+                ("task", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.gametask")),
             ],
         ),
     ]

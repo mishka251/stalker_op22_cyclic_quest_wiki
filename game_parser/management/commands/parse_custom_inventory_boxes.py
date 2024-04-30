@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def get_file_path(self):
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config'/'scripts'/'treasure'
+        return base_path / "config"/"scripts"/"treasure"
 
 
     @atomic

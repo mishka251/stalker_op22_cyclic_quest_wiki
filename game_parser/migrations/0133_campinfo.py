@@ -7,22 +7,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0132_inventorybox_visual_str_and_more'),
+        ("game_parser", "0132_inventorybox_visual_str_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CampInfo',
+            name="CampInfo",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(max_length=128)),
-                ('capacity', models.PositiveIntegerField()),
-                ('cond_raw', models.CharField(max_length=512, null=True)),
-                ('communities_raw', models.CharField(max_length=512, null=True)),
-                ('stay_str', models.CharField(max_length=32, null=True)),
-                ('groups', models.PositiveIntegerField(default=1)),
-                ('communities', models.ManyToManyField(to='game_parser.community')),
-                ('spawn_item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='game_parser.spawnitem')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("type", models.CharField(max_length=128)),
+                ("capacity", models.PositiveIntegerField()),
+                ("cond_raw", models.CharField(max_length=512, null=True)),
+                ("communities_raw", models.CharField(max_length=512, null=True)),
+                ("stay_str", models.CharField(max_length=32, null=True)),
+                ("groups", models.PositiveIntegerField(default=1)),
+                ("communities", models.ManyToManyField(to="game_parser.community")),
+                ("spawn_item", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.spawnitem")),
             ],
         ),
     ]

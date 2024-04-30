@@ -7,26 +7,26 @@ from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTa
 
 class CyclicQuestRewardInline(ReadOnlyNestedTable):
     model = CyclicQuestItemReward
-    verbose_name = 'Награда'
-    verbose_name_plural = 'Награды'
+    verbose_name = "Награда"
+    verbose_name_plural = "Награды"
 
 
 class CyclicQuestRandomRewardInline(ReadOnlyNestedTable):
     model = QuestRandomRewardThrough
-    verbose_name = 'Случайная награда'
-    verbose_name_plural = 'Случайные награды'
+    verbose_name = "Случайная награда"
+    verbose_name_plural = "Случайные награды"
 
 
 @register(CyclicQuest)
 class QuestAdmin(ModelAdmin):
     autocomplete_fields = [
-        'target_item',
-        'target_stalker',
-        'target_camp_to_destroy',
-        'target_camp_to_defeat',
-        'target_camp',
-        'vendor',
-        'text',
+        "target_item",
+        "target_stalker",
+        "target_camp_to_destroy",
+        "target_camp_to_defeat",
+        "target_camp",
+        "vendor",
+        "text",
     ]
 
     inlines = [
@@ -52,10 +52,10 @@ class QuestAdmin(ModelAdmin):
         "type",
         "get_vendor_character",
         "prior",
-        'target_camp',
-        'target_camp_to_destroy',
-        'target_camp_to_defeat',
-        'target_stalker',
+        "target_camp",
+        "target_camp_to_destroy",
+        "target_camp_to_defeat",
+        "target_stalker",
     ]
 
     @display(description="Квестодатель")
@@ -66,11 +66,11 @@ class QuestAdmin(ModelAdmin):
 @register(QuestRandomRewardThrough)
 class QuestRandomRewardThroughAdmin(ModelAdmin):
     autocomplete_fields = [
-        'quest',
-        'reward',
+        "quest",
+        "reward",
     ]
 
     search_fields = [
-        'quest',
-        'reward',
+        "quest",
+        "reward",
     ]

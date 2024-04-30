@@ -11,11 +11,11 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
     expected_tag = "specific_character"
 
     def _load(self, character_node: Element, comments: list[str]) -> StorylineCharacter:
-        if character_node.tag != 'specific_character':
-            logger.warning(f'Unexpected node {character_node.tag}')
+        if character_node.tag != "specific_character":
+            logger.warning(f"Unexpected node {character_node.tag}")
             raise ValueError
-        character_id = character_node.attrib.pop('id')
-        character_no_random = bool(character_node.attrib.pop('no_random', None))
+        character_id = character_node.attrib.pop("id")
+        character_no_random = bool(character_node.attrib.pop("no_random", None))
         # team_default = int(character_node.attrib.pop('team_default',None))
         name = None
         icon_raw = None
@@ -36,59 +36,59 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
         bio_raw = None
         team = None
         for child_node in character_node:
-            if child_node.tag == 'name':
+            if child_node.tag == "name":
                 name = child_node.text
-            elif child_node.tag == 'icon':
+            elif child_node.tag == "icon":
                 icon_raw = child_node.text
-            elif child_node.tag == 'terrain_sect':
+            elif child_node.tag == "terrain_sect":
                 terrain_sect_raw = child_node.text
-            elif child_node.tag == 'bio':
+            elif child_node.tag == "bio":
                 bio_raw = child_node.text
-            elif child_node.tag == 'crouch_type':
+            elif child_node.tag == "crouch_type":
                 crouch_type_raw = child_node.text
-            elif child_node.tag == 'snd_config':
+            elif child_node.tag == "snd_config":
                 snd_config_raw = child_node.text
-            elif child_node.tag == 'money':
+            elif child_node.tag == "money":
                 money_min_raw = child_node.attrib.pop("min")
                 money_max_raw = child_node.attrib.pop("max")
                 money_inf_raw = child_node.attrib.pop("infinitive")
-            elif child_node.tag == 'visual':
+            elif child_node.tag == "visual":
                 visual = child_node.text
-            elif child_node.tag == 'class':
+            elif child_node.tag == "class":
                 class_raw = child_node.text
-            elif child_node.tag == 'supplies':
+            elif child_node.tag == "supplies":
                 supplies_raw = child_node.text
-            elif child_node.tag == 'rank':
+            elif child_node.tag == "rank":
                 rank = int(child_node.text)
-            elif child_node.tag == 'reputation':
+            elif child_node.tag == "reputation":
                 reputation = int(child_node.text)
-            elif child_node.tag == 'community':
+            elif child_node.tag == "community":
                 community_raw = child_node.text
-            elif child_node.tag == 'actor_dialog':
+            elif child_node.tag == "actor_dialog":
                 dialogs_raw.append(child_node.text)
-            elif child_node.tag == 'start_dialog':
+            elif child_node.tag == "start_dialog":
                 start_dialog = (child_node.text)
             elif isinstance(child_node, _Comment):
                 pass
-            elif child_node.tag == 'panic_threshold':
+            elif child_node.tag == "panic_threshold":
                 pass
-            elif child_node.tag == 'panic_treshold':  # WTF??
+            elif child_node.tag == "panic_treshold":  # WTF??
                 pass
-            elif child_node.tag == 'map_icon':
+            elif child_node.tag == "map_icon":
                 pass
-            elif child_node.tag == 'team':
+            elif child_node.tag == "team":
                 team = child_node.text
             else:
-                logger.warning(f'Unexpected node {child_node.tag} in character {character_id}')
+                logger.warning(f"Unexpected node {child_node.tag} in character {character_id}")
         return StorylineCharacter.objects.create(
             game_code=character_id,
             game_id=character_id,
             name=name,
             name_raw=name,
-            comments=';'.join(comments),
+            comments=";".join(comments),
             icon_raw=icon_raw,
             community_default_raw=community_raw,
-            dialogs_raw=';'.join(dialogs_raw),
+            dialogs_raw=";".join(dialogs_raw),
             rank=rank,
             reputation=reputation,
             start_dialog_row=start_dialog,

@@ -16,14 +16,14 @@ class IconLoader(BaseModelXmlLoader[Icon]):
         self.image = image
 
     def _load(self, texture_node: Element, comments: list[str]) -> Icon:
-        if texture_node.tag != 'texture':
-            raise ValueError(f'Unexpected node {texture_node.tag}')
+        if texture_node.tag != "texture":
+            raise ValueError(f"Unexpected node {texture_node.tag}")
             # return
-        texture_id = texture_node.attrib.pop('id')
-        x = int(texture_node.attrib.pop('x'))
-        y = int(texture_node.attrib.pop('y'))
-        width = int(texture_node.attrib.pop('width'))
-        height = int(texture_node.attrib.pop('height'))
+        texture_id = texture_node.attrib.pop("id")
+        x = int(texture_node.attrib.pop("x"))
+        y = int(texture_node.attrib.pop("y"))
+        width = int(texture_node.attrib.pop("width"))
+        height = int(texture_node.attrib.pop("height"))
         icon = Icon(name=texture_id)
         self._get_image(x, y, width, height, texture_id, icon)
         return icon
@@ -50,10 +50,10 @@ class IconLoader(BaseModelXmlLoader[Icon]):
         box = self._get_item_image_coordinates(x, y, width, height)
         # logger.debug(f'{box=}')
         part = self.image.crop(box)
-        tmp_file_name = 'tmp.png'
+        tmp_file_name = "tmp.png"
         part.save(tmp_file_name)
-        with open(tmp_file_name, 'rb') as tmp_image:
-            image_file = ImageFile(tmp_image, name=f'{name}_icon.png')
+        with open(tmp_file_name, "rb") as tmp_image:
+            image_file = ImageFile(tmp_image, name=f"{name}_icon.png")
             instance.icon = image_file
             instance.save()
         # return image_files

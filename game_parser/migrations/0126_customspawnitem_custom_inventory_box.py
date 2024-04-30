@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0125_treasure_spawn_item_alter_treasure_target'),
+        ("game_parser", "0125_treasure_spawn_item_alter_treasure_target"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='customspawnitem',
-            name='custom_inventory_box',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.inventorybox', verbose_name='Тайник(рюкзак?)'),
+            model_name="customspawnitem",
+            name="custom_inventory_box",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.inventorybox", verbose_name="Тайник(рюкзак?)"),
         ),
     ]

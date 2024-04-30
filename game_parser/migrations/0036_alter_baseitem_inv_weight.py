@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0035_other'),
+        ("game_parser", "0035_other"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='baseitem',
-            name='inv_weight',
-            field=models.DecimalField(decimal_places=3, max_digits=12, verbose_name='Вес'),
+            model_name="baseitem",
+            name="inv_weight",
+            field=models.DecimalField(decimal_places=3, max_digits=12, verbose_name="Вес"),
         ),
     ]

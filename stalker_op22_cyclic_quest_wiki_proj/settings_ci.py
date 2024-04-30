@@ -3,9 +3,9 @@ from .base_settings import *
 DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'test-123'
+SECRET_KEY = "test-123"
 
 
 INSTALLED_APPS += [
-    'game_parser',
+    "game_parser",
 ]

@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0053_alter_gametask_game_id_and_more'),
+        ("game_parser", "0053_alter_gametask_game_id_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='MapLocationType',
+            name="MapLocationType",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('hint_raw', models.CharField(max_length=256, null=True)),
-                ('location_type', models.CharField(max_length=256)),
-                ('hint', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='game_parser.translation')),
-                ('objective', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='game_parser.gametask')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("hint_raw", models.CharField(max_length=256, null=True)),
+                ("location_type", models.CharField(max_length=256)),
+                ("hint", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation")),
+                ("objective", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.gametask")),
             ],
         ),
     ]

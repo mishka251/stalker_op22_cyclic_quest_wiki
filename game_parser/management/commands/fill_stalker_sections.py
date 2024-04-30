@@ -22,7 +22,7 @@ class Command(BaseCommand):
             )
             item.save()
             if index % 100 == 0:
-                print(f'{index+1}/{count}')
+                print(f"{index+1}/{count}")
 
         count = SingleStalkerSpawnItem.objects.count()
         for index, item in enumerate(SingleStalkerSpawnItem.objects.all()):
@@ -32,7 +32,7 @@ class Command(BaseCommand):
             )
             item.save()
             if index % 100 == 0:
-                print(f'{index + 1}/{count}')
+                print(f"{index + 1}/{count}")
 
         count = Respawn.objects.count()
         for index, item in enumerate(Respawn.objects.all()):
@@ -43,7 +43,7 @@ class Command(BaseCommand):
             item.respawn_section.set(stalkers)
             # item.save()
             if index % 100 == 0:
-                print(f'{index + 1}/{count}')
+                print(f"{index + 1}/{count}")
 
         count = CyclicQuest.objects.count()
         for index, item in enumerate(CyclicQuest.objects.all()):
@@ -51,4 +51,4 @@ class Command(BaseCommand):
                 continue
             item.target_stalker = (StalkerSection.objects.filter(section_name__exact=item.target_str.lower()).first()            )
             item.save()
-            print(f'{index + 1}/{count}')
+            print(f"{index + 1}/{count}")

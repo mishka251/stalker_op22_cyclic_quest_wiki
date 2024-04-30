@@ -6,16 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0075_alter_cyclicquestitemreward_quest'),
+        ("game_parser", "0075_alter_cyclicquestitemreward_quest"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='cyclicquestitemreward',
-            options={'verbose_name': 'Предмет в награду за ЦЗ', 'verbose_name_plural': 'Предметы в наградах за ЦЗ'},
+            name="cyclicquestitemreward",
+            options={"verbose_name": "Предмет в награду за ЦЗ", "verbose_name_plural": "Предметы в наградах за ЦЗ"},
         ),
         migrations.AlterUniqueTogether(
-            name='cyclicquestitemreward',
-            unique_together={('item', 'quest'), ('raw_item', 'quest')},
+            name="cyclicquestitemreward",
+            unique_together={("item", "quest"), ("raw_item", "quest")},
         ),
     ]

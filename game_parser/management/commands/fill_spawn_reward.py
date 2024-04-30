@@ -16,5 +16,5 @@ class Command(BaseCommand):
         for index, item in enumerate(SpawnReward.objects.all()):
             item.item = BaseItem.objects.filter(name=item.raw_maybe_item).first()
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

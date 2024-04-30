@@ -14,49 +14,49 @@ from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTa
 
 class ItemQuestRewardInlineAdmin(ReadOnlyNestedTable):
     model = ItemReward
-    verbose_name = 'Функция с выдачей предмета'
-    verbose_name_plural = 'Функции с выдачей предмета'
+    verbose_name = "Функция с выдачей предмета"
+    verbose_name_plural = "Функции с выдачей предмета"
 
     exclude = (
-        'raw_item',
-        'raw_count',
+        "raw_item",
+        "raw_count",
     )
 
 
 class ItemQuestSpawnRewardInlineAdmin(ReadOnlyNestedTable):
     model = SpawnReward
-    verbose_name = 'Функция со спавном предмета'
-    verbose_name_plural = 'Функции со спавном предмета'
+    verbose_name = "Функция со спавном предмета"
+    verbose_name_plural = "Функции со спавном предмета"
     exclude = (
-        'raw_maybe_item',
-        'x',
-        'y',
-        'z',
-        'raw_level_vertex',
-        'raw_game_vertex_id',
-        'level_vertex',
-        'game_vertex_id',
-        'xyz_raw',
-        'raw_target',
+        "raw_maybe_item",
+        "x",
+        "y",
+        "z",
+        "raw_level_vertex",
+        "raw_game_vertex_id",
+        "level_vertex",
+        "game_vertex_id",
+        "xyz_raw",
+        "raw_target",
     )
 
 
 class CyclicQuestRewardInline(ReadOnlyNestedTable):
     model = CyclicQuestItemReward
-    verbose_name = 'Цикличка, где получаем как награду'
-    verbose_name_plural = 'Циклички, где получаем как награду'
+    verbose_name = "Цикличка, где получаем как награду"
+    verbose_name_plural = "Циклички, где получаем как награду"
 
 
 class CyclicQuestTargetInline(ReadOnlyNestedTable):
     model = CyclicQuest
-    verbose_name = 'Цикличка, где требуется'
-    verbose_name_plural = 'Циклички, где требуется'
+    verbose_name = "Цикличка, где требуется"
+    verbose_name_plural = "Циклички, где требуется"
 
 
 class TradingWhereSell(ReadOnlyNestedTable):
     model = ItemInSell
-    verbose_name = 'Можно купить'
-    verbose_name_plural = 'Можно купить'
+    verbose_name = "Можно купить"
+    verbose_name_plural = "Можно купить"
 
     readonly_fields = [
         "price_from",
@@ -79,8 +79,8 @@ class TradingWhereSell(ReadOnlyNestedTable):
 
 class TradingWhereBuy(ReadOnlyNestedTable):
     model = ItemInBuy
-    verbose_name = 'Можно продать'
-    verbose_name_plural = 'Можно продать'
+    verbose_name = "Можно продать"
+    verbose_name_plural = "Можно продать"
 
     readonly_fields = [
         "price_from",
@@ -103,8 +103,8 @@ class TradingWhereBuy(ReadOnlyNestedTable):
 
 class RandomReward(ReadOnlyNestedTable):
     model = QuestRandomReward.possible_items.through
-    verbose_name = 'Случайная награда'
-    verbose_name_plural = 'В случайных наградах'
+    verbose_name = "Случайная награда"
+    verbose_name_plural = "В случайных наградах"
 
 
 class TreasureItemsAdmin(ReadOnlyNestedTable):
@@ -152,14 +152,14 @@ class ReceptInline(ReadOnlyNestedTable):
 @register(BaseItem)
 class BaseItemAdmin(ModelAdmin):
     list_display: tuple[str, ...] = (
-        'name_translation_rus',
-        'description_translation_rus',
-        'inv_icon_view',
+        "name_translation_rus",
+        "description_translation_rus",
+        "inv_icon_view",
     )
 
     search_fields = [
-        'inv_name',
-        'name',
+        "inv_name",
+        "name",
     ]
 
     inlines = [
@@ -176,24 +176,24 @@ class BaseItemAdmin(ModelAdmin):
     ]
 
     autocomplete_fields = [
-        'name_translation',
-        'description_translation',
+        "name_translation",
+        "description_translation",
     ]
 
     change_form_template = "admin/game_parser/spawnitem/change_form.html"
 
-    @display(description='Название', ordering='name_translation__rus')
+    @display(description="Название", ordering="name_translation__rus")
     def name_translation_rus(self, obj: BaseItem) -> str:
         if obj.name_translation:
             return obj.name_translation.rus
         return obj.inv_name
 
-    @display(description='Описание')
+    @display(description="Описание")
     def description_translation_rus(self, obj: BaseItem) -> str:
         if obj.description_translation:
             return obj.description_translation.rus
         return obj.description_code
 
-    @display(description='Иконка', )
+    @display(description="Иконка", )
     def inv_icon_view(self, obj: BaseItem) -> Optional[str]:
         return icon_view(obj.inv_icon)

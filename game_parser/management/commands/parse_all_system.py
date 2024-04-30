@@ -220,37 +220,37 @@ class Command(BaseCommand):
         translation_files_sources = self._get_paths_list(base_path / "config" / "text", translation_config["files"],
                                                          "xml")
 
-        print("TRANSLATION", all(p.exists() for p in translation_files_sources), *translation_files_sources, sep='\n',
+        print("TRANSLATION", all(p.exists() for p in translation_files_sources), *translation_files_sources, sep="\n",
               end="\n" * 3)
 
         texture_desc_config = results["texture_desc"]
         texture_desc_sources = self._get_paths_list(base_path / "config" / "ui", texture_desc_config["files"], "xml")
-        print("TEXTURE", all(p.exists() for p in texture_desc_sources), *texture_desc_sources, sep='\n', end="\n" * 3)
+        print("TEXTURE", all(p.exists() for p in texture_desc_sources), *texture_desc_sources, sep="\n", end="\n" * 3)
 
         info_portions_config = results["info_portions"]
         info_portions_sources = self._get_paths_list(base_path / "config" / "gameplay", info_portions_config["files"],
                                                      "xml")
-        print("INFO_PORTION", all(p.exists() for p in info_portions_sources), *info_portions_sources, sep='\n',
+        print("INFO_PORTION", all(p.exists() for p in info_portions_sources), *info_portions_sources, sep="\n",
               end="\n" * 3)
 
         encyclopedia_config = results["encyclopedia"]
         encyclopedia_sources = self._get_paths_list(base_path / "config" / "gameplay", encyclopedia_config["files"],
                                                     "xml")
-        print("ENCYCLOPEDIA", all(p.exists() for p in encyclopedia_sources), *encyclopedia_sources, sep='\n',
+        print("ENCYCLOPEDIA", all(p.exists() for p in encyclopedia_sources), *encyclopedia_sources, sep="\n",
               end="\n" * 3)
 
         dialogs_config = results["dialogs"]
         dialogs_sources = self._get_paths_list(base_path / "config" / "gameplay", dialogs_config["files"], "xml")
-        print("DIALOGS", all(p.exists() for p in dialogs_sources), *dialogs_sources, sep='\n', end="\n" * 3)
+        print("DIALOGS", all(p.exists() for p in dialogs_sources), *dialogs_sources, sep="\n", end="\n" * 3)
 
         profiles_config = results["profiles"]
         profiles_sources = self._get_paths_list(base_path / "config" / "gameplay", profiles_config["files"], "xml")
-        print("PROFILES", all(p.exists() for p in profiles_sources), *profiles_sources, sep='\n', end="\n" * 3)
+        print("PROFILES", all(p.exists() for p in profiles_sources), *profiles_sources, sep="\n", end="\n" * 3)
 
         specific_characters_sources = self._get_paths_list(base_path / "config" / "gameplay",
                                                            profiles_config["specific_characters_files"], "xml")
         print("SPECIFIC_CHARACTERS", all(p.exists() for p in specific_characters_sources), *specific_characters_sources,
-              sep='\n', end="\n" * 3)
+              sep="\n", end="\n" * 3)
 
         existing_sections_keys = [k for k in results.keys() if isinstance(results[k], dict)]
 
@@ -418,8 +418,8 @@ class Command(BaseCommand):
             root_node = parse(fixed_file_path).getroot()
             image = None
             for child_node in root_node:
-                if child_node.tag == 'file_name':
-                    image_file_path = settings.OP22_GAME_DATA_PATH / 'textures' / (child_node.text + '.dds')
+                if child_node.tag == "file_name":
+                    image_file_path = settings.OP22_GAME_DATA_PATH / "textures" / (child_node.text + ".dds")
                     image = Image.open(image_file_path)
             if image is None:
                 raise ValueError(f"No image in {file}")

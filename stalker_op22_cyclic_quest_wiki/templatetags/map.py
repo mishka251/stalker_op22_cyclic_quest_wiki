@@ -9,7 +9,7 @@ register = Library()
 @register.simple_tag
 def render_map_item(map_item_info: MapPointInfo) -> str:
     map_id = map_item_info.unique_map_id
-    template_name = 'wiki/widgets/leaflet_map_field.html'
+    template_name = "wiki/widgets/leaflet_map_field.html"
     context = {
         "item": {
             "position": map_item_info.item.position,

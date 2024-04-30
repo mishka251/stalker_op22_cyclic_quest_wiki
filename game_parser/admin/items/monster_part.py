@@ -23,7 +23,7 @@ class MonsterInline(ReadOnlyNestedTable):
         "inv_icon_view",
     ]
 
-    @display(description='Иконка', )
+    @display(description="Иконка", )
     def inv_icon_view(self, obj: Monster) -> Optional[str]:
         if not obj.icon:
             return None

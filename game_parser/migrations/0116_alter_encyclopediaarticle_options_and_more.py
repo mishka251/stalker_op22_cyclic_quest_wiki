@@ -6,27 +6,27 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0115_encyclopediagroup_encyclopediaarticle'),
+        ("game_parser", "0115_encyclopediagroup_encyclopediaarticle"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='encyclopediaarticle',
-            options={'verbose_name': 'Статья в энциклопедии', 'verbose_name_plural': 'Статьи в энциклопедии'},
+            name="encyclopediaarticle",
+            options={"verbose_name": "Статья в энциклопедии", "verbose_name_plural": "Статьи в энциклопедии"},
         ),
         migrations.AlterField(
-            model_name='encyclopediaarticle',
-            name='group_name',
-            field=models.CharField(max_length=255, verbose_name='Название'),
+            model_name="encyclopediaarticle",
+            name="group_name",
+            field=models.CharField(max_length=255, verbose_name="Название"),
         ),
         migrations.AlterField(
-            model_name='encyclopediaarticle',
-            name='ltx_str',
-            field=models.CharField(max_length=255, null=True, unique=True, verbose_name='Название'),
+            model_name="encyclopediaarticle",
+            name="ltx_str",
+            field=models.CharField(max_length=255, null=True, unique=True, verbose_name="Название"),
         ),
         migrations.AlterField(
-            model_name='encyclopediaarticle',
-            name='name',
-            field=models.CharField(max_length=255, verbose_name='Название'),
+            model_name="encyclopediaarticle",
+            name="name",
+            field=models.CharField(max_length=255, verbose_name="Название"),
         ),
     ]

@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('stalker_op22_cyclic_quest_wiki', '0005_alter_item_description_translation'),
+        ("stalker_op22_cyclic_quest_wiki", "0005_alter_item_description_translation"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='cycletasktargetitem',
-            name='item',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='quests_when_needed', to='stalker_op22_cyclic_quest_wiki.item', verbose_name='Целевой предмет'),
+            model_name="cycletasktargetitem",
+            name="item",
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name="quests_when_needed", to="stalker_op22_cyclic_quest_wiki.item", verbose_name="Целевой предмет"),
         ),
     ]

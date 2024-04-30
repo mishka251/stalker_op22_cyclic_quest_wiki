@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0140_alter_community_options_remove_community_name_and_more'),
+        ("game_parser", "0140_alter_community_options_remove_community_name_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='rank',
-            name='translation',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.translation', verbose_name='Название'),
+            model_name="rank",
+            name="translation",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.translation", verbose_name="Название"),
         ),
     ]

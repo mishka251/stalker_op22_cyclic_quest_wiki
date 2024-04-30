@@ -20,5 +20,5 @@ class Command(BaseCommand):
             item.name_translation = Translation.objects.filter(code__iexact=translation_id).first()
             item.icon = Icon.objects.filter(name__iexact=icon_id).first()
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

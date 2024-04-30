@@ -46,7 +46,7 @@ class Icon(models.Model):
     icon = models.ImageField(null=False)
 
     def __str__(self):
-        return f'{self.name}'
+        return f"{self.name}"
 
 
 class StorylineCharacter(Character):
@@ -84,17 +84,17 @@ class StorylineCharacter(Character):
     bio_raw = models.TextField(null=True)
     team_raw = models.TextField(null=True)
 
-    dialogs = models.ManyToManyField('Dialog')
+    dialogs = models.ManyToManyField("Dialog")
 
-    NPC_RANDOM_NAME = 'GENERATE_NAME_stalker'
+    NPC_RANDOM_NAME = "GENERATE_NAME_stalker"
 
     @property
     def get_name(self) -> str:
         if self.name_translation:
             return self.name_translation.rus
         if self.name_raw == StorylineCharacter.NPC_RANDOM_NAME:
-            return 'Случайное имя'
+            return "Случайное имя"
         return self.name_raw
 
     def __str__(self):
-        return f'NPC {self.get_name}'
+        return f"NPC {self.get_name}"

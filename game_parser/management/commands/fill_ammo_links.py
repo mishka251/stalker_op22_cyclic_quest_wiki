@@ -36,8 +36,8 @@ class Command(BaseCommand):
             if len(ammo_names) != ammos.count():
                 partial_updated.add(weapon)
             weapon.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 
         # unfounded_items = set(Weapon.objects.filter(item__isnull=True).values_list('item_name', flat=True))
         unfounded_items = {item.name  for item in partial_updated}
-        print(f'Not found = {unfounded_items}')
+        print(f"Not found = {unfounded_items}")

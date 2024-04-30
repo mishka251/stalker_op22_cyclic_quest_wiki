@@ -39,7 +39,7 @@ class Command(BaseCommand):
                     pass
 
             item.save()
-            print(f'{index+1:_}/{count:_}')
+            print(f"{index+1:_}/{count:_}")
 
 
         count = NpcLogicConfig.objects.count()
@@ -47,4 +47,4 @@ class Command(BaseCommand):
             if item.trade_file_name:
                 item.trade_config = Trader.objects.filter(source_file=item.trade_file_name).first()
             item.save()
-            print(f'{index + 1:_}/{count:_}')
+            print(f"{index + 1:_}/{count:_}")

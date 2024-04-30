@@ -17,4 +17,4 @@ class Command(BaseCommand):
             item.text_raw = f"tm_{item.game_code}_text"
             item.text = Translation.objects.filter(code=item.text_raw).first()
             item.save()
-            print(f'{index + 1}/{count}')
+            print(f"{index + 1}/{count}")

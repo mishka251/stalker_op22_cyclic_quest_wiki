@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0031_translation_fra'),
+        ("game_parser", "0031_translation_fra"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='baseitem',
-            name='description_translation',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='game_parser.translation', verbose_name='Перевод описания'),
+            model_name="baseitem",
+            name="description_translation",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation", verbose_name="Перевод описания"),
         ),
         migrations.AddField(
-            model_name='baseitem',
-            name='name_translation',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='game_parser.translation', verbose_name='Перевод названия'),
+            model_name="baseitem",
+            name="name_translation",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation", verbose_name="Перевод названия"),
         ),
     ]

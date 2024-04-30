@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0096_npclogicconfig_trade_config_spawnitem_npc_logic'),
+        ("game_parser", "0096_npclogicconfig_trade_config_spawnitem_npc_logic"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='spawnitem',
-            name='character_profile',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.storylinecharacter', verbose_name='Профиль НПС'),
+            model_name="spawnitem",
+            name="character_profile",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.storylinecharacter", verbose_name="Профиль НПС"),
         ),
         migrations.AlterField(
-            model_name='spawnitem',
-            name='npc_logic',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.npclogicconfig', verbose_name='Конфиг логики НПС'),
+            model_name="spawnitem",
+            name="npc_logic",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.npclogicconfig", verbose_name="Конфиг логики НПС"),
         ),
     ]

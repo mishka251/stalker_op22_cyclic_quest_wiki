@@ -9,7 +9,7 @@ from game_parser.utils.admin_utils.icon_view import icon_view
 @register(EncyclopediaGroup)
 class EncyclopediaGroupAdmin(ModelAdmin):
     autocomplete_fields = [
-        'name_translation',
+        "name_translation",
     ]
 
     search_fields = [
@@ -45,7 +45,7 @@ class EncyclopediaArticleAdmin(ModelAdmin):
         "artefact",
     ]
 
-    @display(description='Иконка', )
+    @display(description="Иконка", )
     def inv_icon_view(self, obj: EncyclopediaArticle) -> Optional[str]:
         if not obj.icon:
             return None

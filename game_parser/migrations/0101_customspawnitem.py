@@ -7,25 +7,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0100_cyclicquest_target_camp_to_defeat_and_more'),
+        ("game_parser", "0100_cyclicquest_target_camp_to_defeat_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CustomSpawnItem',
+            name="CustomSpawnItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('section_name', models.CharField(max_length=255, verbose_name='Название секции')),
-                ('name', models.CharField(max_length=255, verbose_name='Название')),
-                ('location_txt', models.CharField(max_length=255, verbose_name='локация')),
-                ('custom_data', models.TextField(null=True)),
-                ('character_profile_str', models.CharField(max_length=255, null=True, verbose_name='Профиль сталкера')),
-                ('spec_rank_str', models.CharField(max_length=255, null=True)),
-                ('community_str', models.CharField(max_length=255, null=True)),
-                ('visual_str', models.CharField(max_length=255, null=True)),
-                ('character_profile', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.storylinecharacter', verbose_name='Профиль НПС')),
-                ('item', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.baseitem', verbose_name='Предмет')),
-                ('npc_logic', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.npclogicconfig', verbose_name='Конфиг логики НПС')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("section_name", models.CharField(max_length=255, verbose_name="Название секции")),
+                ("name", models.CharField(max_length=255, verbose_name="Название")),
+                ("location_txt", models.CharField(max_length=255, verbose_name="локация")),
+                ("custom_data", models.TextField(null=True)),
+                ("character_profile_str", models.CharField(max_length=255, null=True, verbose_name="Профиль сталкера")),
+                ("spec_rank_str", models.CharField(max_length=255, null=True)),
+                ("community_str", models.CharField(max_length=255, null=True)),
+                ("visual_str", models.CharField(max_length=255, null=True)),
+                ("character_profile", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.storylinecharacter", verbose_name="Профиль НПС")),
+                ("item", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.baseitem", verbose_name="Предмет")),
+                ("npc_logic", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.npclogicconfig", verbose_name="Конфиг логики НПС")),
             ],
         ),
     ]

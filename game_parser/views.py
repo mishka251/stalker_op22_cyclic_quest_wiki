@@ -13,11 +13,11 @@ from game_parser.models.quest import QuestKinds, CyclicQuest
 
 class TasksListView(TemplateView):
 
-    template_name = 'vendors_tasks_list.html'
+    template_name = "vendors_tasks_list.html"
 
     def get_context_data(self, **kwargs):
         data = collect_info()
-        return {'vendors_quests': data}
+        return {"vendors_quests": data}
 
 
 class EscapeMap(TemplateView):

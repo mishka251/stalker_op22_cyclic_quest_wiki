@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0004_cyclicquest_hide_reward_cyclicquest_reward_treasure'),
+        ("game_parser", "0004_cyclicquest_hide_reward_cyclicquest_reward_treasure"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cyclicquest',
-            name='defend_target_str',
+            model_name="cyclicquest",
+            name="defend_target_str",
             field=models.CharField(max_length=255, null=True),
         ),
         migrations.AddField(
-            model_name='cyclicquest',
-            name='reward_dialog_str',
+            model_name="cyclicquest",
+            name="reward_dialog_str",
             field=models.CharField(max_length=512, null=True),
         ),
         migrations.AddField(
-            model_name='cyclicquest',
-            name='reward_relation_str',
+            model_name="cyclicquest",
+            name="reward_relation_str",
             field=models.CharField(max_length=255, null=True),
         ),
     ]

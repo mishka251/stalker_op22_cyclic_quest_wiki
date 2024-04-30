@@ -17,5 +17,5 @@ class Command(BaseCommand):
         for index, item in enumerate(InfoPortion.objects.all()):
             item.task = GameTask.objects.filter(game_id=item.task_raw).first()
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

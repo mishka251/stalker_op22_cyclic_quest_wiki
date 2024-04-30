@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0054_maplocationtype'),
+        ("game_parser", "0054_maplocationtype"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='taskobjective',
-            name='function_fail_raw',
+            model_name="taskobjective",
+            name="function_fail_raw",
             field=models.TextField(null=True),
         ),
     ]

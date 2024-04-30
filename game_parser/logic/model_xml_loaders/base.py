@@ -30,5 +30,5 @@ class BaseModelXmlLoader(Generic[TModel]):
                 comments = []
                 continue
             else:
-                raise ValueError(f'Unexpected node {child_node.tag}')
+                raise ValueError(f"Unexpected node {child_node.tag}")
         return items

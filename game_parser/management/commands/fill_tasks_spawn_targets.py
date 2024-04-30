@@ -26,4 +26,4 @@ class Command(BaseCommand):
             else:
                 continue
             item.save()
-            print(f'{index + 1}/{count}')
+            print(f"{index + 1}/{count}")

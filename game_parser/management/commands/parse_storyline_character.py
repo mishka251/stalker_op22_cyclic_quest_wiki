@@ -17,16 +17,16 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    TMP_DIR = Path('tmp')
+    TMP_DIR = Path("tmp")
 
     def get_files_dir_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / 'gameplay'
+        return base_path / "config" / "gameplay"
 
     def get_files_paths(self, path: Path) -> list[Path]:
         paths = []
         for path in path.iterdir():
-            if path.name.startswith('characters'):
+            if path.name.startswith("characters"):
                 paths.append(path)
 
         return paths

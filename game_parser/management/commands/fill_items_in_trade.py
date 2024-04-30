@@ -17,8 +17,8 @@ class Command(BaseCommand):
         for index, item in enumerate(ItemInTradeBase.objects.all()):
             item.item = BaseItem.objects.filter(name=item.item_name).first() or BaseItem.objects.filter(inv_name=item.item_name).first()
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 
-        unfounded_items = set(ItemInTradeBase.objects.filter(item__isnull=True).values_list('item_name', flat=True))
+        unfounded_items = set(ItemInTradeBase.objects.filter(item__isnull=True).values_list("item_name", flat=True))
 
-        print(f'Not found = {unfounded_items}')
+        print(f"Not found = {unfounded_items}")

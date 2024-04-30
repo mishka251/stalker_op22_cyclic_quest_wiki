@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0036_alter_baseitem_inv_weight'),
+        ("game_parser", "0036_alter_baseitem_inv_weight"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cyclicquest',
-            name='reward_items',
-            field=models.ManyToManyField(related_name='quests_when_giving', to='game_parser.baseitem'),
+            model_name="cyclicquest",
+            name="reward_items",
+            field=models.ManyToManyField(related_name="quests_when_giving", to="game_parser.baseitem"),
         ),
         migrations.AlterField(
-            model_name='cyclicquest',
-            name='target_item',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='quests_when_needed', to='game_parser.baseitem', verbose_name='Целевой предмет'),
+            model_name="cyclicquest",
+            name="target_item",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="quests_when_needed", to="game_parser.baseitem", verbose_name="Целевой предмет"),
         ),
     ]

@@ -7,60 +7,60 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0139_cyclicquest_target_stalker'),
+        ("game_parser", "0139_cyclicquest_target_stalker"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='community',
-            options={'verbose_name': 'Группировка', 'verbose_name_plural': 'Группировки'},
+            name="community",
+            options={"verbose_name": "Группировка", "verbose_name_plural": "Группировки"},
         ),
         migrations.RemoveField(
-            model_name='community',
-            name='name',
+            model_name="community",
+            name="name",
         ),
         migrations.AddField(
-            model_name='community',
-            name='code',
-            field=models.CharField(default='', max_length=128, verbose_name='Код в игре'),
+            model_name="community",
+            name="code",
+            field=models.CharField(default="", max_length=128, verbose_name="Код в игре"),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='community',
-            name='index',
-            field=models.PositiveSmallIntegerField(default=1, unique=True, verbose_name='ID группировки'),
+            model_name="community",
+            name="index",
+            field=models.PositiveSmallIntegerField(default=1, unique=True, verbose_name="ID группировки"),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='community',
-            name='translation',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.PROTECT, to='game_parser.translation', verbose_name='Перевод названия'),
+            model_name="community",
+            name="translation",
+            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.PROTECT, to="game_parser.translation", verbose_name="Перевод названия"),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='community',
-            name='type',
-            field=models.CharField(choices=[('monster', 'Мутант'), ('stalker', 'Сталкер')], default='', max_length=128, verbose_name='Тип'),
+            model_name="community",
+            name="type",
+            field=models.CharField(choices=[("monster", "Мутант"), ("stalker", "Сталкер")], default="", max_length=128, verbose_name="Тип"),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='community',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="community",
+            name="id",
+            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
         ),
         migrations.CreateModel(
-            name='Rank',
+            name="Rank",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=128, unique=True, verbose_name='Код')),
-                ('type', models.CharField(choices=[('monster', 'Мутант'), ('stalker', 'Сталкер')], max_length=128, verbose_name='Тип')),
-                ('min_score', models.PositiveSmallIntegerField(null=True, verbose_name='Нижний порог ранга')),
-                ('max_score', models.PositiveSmallIntegerField(null=True, verbose_name='Верхний порог ранга')),
-                ('translation', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='game_parser.translation', verbose_name='Название')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=128, unique=True, verbose_name="Код")),
+                ("type", models.CharField(choices=[("monster", "Мутант"), ("stalker", "Сталкер")], max_length=128, verbose_name="Тип")),
+                ("min_score", models.PositiveSmallIntegerField(null=True, verbose_name="Нижний порог ранга")),
+                ("max_score", models.PositiveSmallIntegerField(null=True, verbose_name="Верхний порог ранга")),
+                ("translation", models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to="game_parser.translation", verbose_name="Название")),
             ],
             options={
-                'verbose_name': 'Ранг сталкера',
-                'verbose_name_plural': 'Ранги сталкеров',
+                "verbose_name": "Ранг сталкера",
+                "verbose_name_plural": "Ранги сталкеров",
             },
         ),
     ]

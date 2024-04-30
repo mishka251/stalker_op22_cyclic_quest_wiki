@@ -16,10 +16,10 @@ class Command(BaseCommand):
 
     def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / 'game_levels.ltx'
+        return base_path / "config" / "game_levels.ltx"
 
     _exclude_keys = {
-        'levels',
+        "levels",
     }
 
     @atomic
@@ -43,7 +43,7 @@ class Command(BaseCommand):
             resource = self._get_resource(quest_name, quest_data)
             item = resource.create_instance_from_data(quest_name, quest_data)
             if quest_data:
-                logger.warning(f'unused data {quest_data} in {quest_name} {resource=}')
+                logger.warning(f"unused data {quest_data} in {quest_name} {resource=}")
 
     def _get_resource(self, block_name: str, block_data: dict) -> LocationResource:
         return LocationResource()

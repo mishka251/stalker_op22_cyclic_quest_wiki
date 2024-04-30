@@ -11,21 +11,21 @@ class TaskObjectiveInline(ReadOnlyNestedTable):
 @register(GameTask)
 class GameTaskAdmin(ModelAdmin):
     list_display = (
-        '__str__',
-        'game_id',
-        'title_view',
+        "__str__",
+        "game_id",
+        "title_view",
     )
 
     inlines = [
         TaskObjectiveInline,
     ]
 
-    search_fields = ['game_id']
+    search_fields = ["game_id"]
     autocomplete_fields = [
         "title",
     ]
 
-    @display(description='Имя')
+    @display(description="Имя")
     def title_view(self, character: GameTask) -> str:
         return character.get_title
 
@@ -33,10 +33,10 @@ class GameTaskAdmin(ModelAdmin):
 @register(TaskObjective)
 class TaskObjectiveAdmin(ModelAdmin):
     list_display = (
-        '__str__',
-        'task',
-        'text_view',
-        'article_view',
+        "__str__",
+        "task",
+        "text_view",
+        "article_view",
     )
 
     autocomplete_fields = [
@@ -57,11 +57,11 @@ class TaskObjectiveAdmin(ModelAdmin):
         "text_id_raw",
     ]
 
-    @display(description='Текст')
+    @display(description="Текст")
     def text_view(self, character: TaskObjective) -> str:
         return character.get_text
 
-    @display(description='Запись')
+    @display(description="Запись")
     def article_view(self, character: TaskObjective) -> str:
         return character.get_article
 

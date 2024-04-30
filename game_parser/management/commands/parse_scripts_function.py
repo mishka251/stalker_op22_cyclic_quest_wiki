@@ -21,7 +21,7 @@ def log_parse_error(func):
         try:
             func(self, node)
         except Exception as ex:
-            logger.error(f'Ошибка при парсинге {to_lua_source(node)}')
+            logger.error(f"Ошибка при парсинге {to_lua_source(node)}")
             logger.exception(ex)
             raise
     return wrapper
@@ -69,7 +69,7 @@ class NestedCallsVisitor(ASTVisitor):
         #     # print(f'{func_name} skipped')
         #     return
 
-        if func_name == 'got':
+        if func_name == "got":
             if len(node.args) ==1:
                 name = self._parse_value(node.args[0])
                 self._item_rewards.append(ItemRewardDto(name, 1))
@@ -78,11 +78,11 @@ class NestedCallsVisitor(ASTVisitor):
                 count =  self._parse_value(node.args[1])
                 self._item_rewards.append(ItemRewardDto(name, count))
             else:
-                raise NotImplementedError(f'Unknown got {to_lua_source(node)}')
+                raise NotImplementedError(f"Unknown got {to_lua_source(node)}")
             # self._item_rewards.append([self._parse_value(arg) for arg in node.args])
-        elif func_name == 'got_money':
+        elif func_name == "got_money":
             self._money_rewards.append([self._parse_value(arg) for arg in node.args])
-        elif func_name == 'create':
+        elif func_name == "create":
             if len(node.args) == 4:
                 name= self._parse_value(node.args[0])
                 xyz = node.args[1]
@@ -126,7 +126,7 @@ class NestedCallsVisitor(ASTVisitor):
             elif len(node.args) == 1:
                 return
             else:
-                raise NotImplementedError(f'Unknown create {to_lua_source(node)}')
+                raise NotImplementedError(f"Unknown create {to_lua_source(node)}")
         else:
             self._nested_calls.append(to_lua_source(node.func))
 
@@ -136,27 +136,27 @@ class NestedCallsVisitor(ASTVisitor):
         if isinstance(arg, String):
             return arg.s
         if isinstance(arg, Index):
-            return f'<variable>{to_lua_source(arg)}'
+            return f"<variable>{to_lua_source(arg)}"
         if isinstance(arg, Nil):
-            return 'nil'
+            return "nil"
         if isinstance(arg, Name):
-            return f'<variable>{to_lua_source(arg)}'
+            return f"<variable>{to_lua_source(arg)}"
         if isinstance(arg, Op):
-            return f'<op>{to_lua_source(arg)}'
+            return f"<op>{to_lua_source(arg)}"
         if isinstance(arg, Call):
-            return f'<call>{to_lua_source(arg)}'
+            return f"<call>{to_lua_source(arg)}"
         if isinstance(arg, UnaryOp):
-            return f'{to_lua_source(arg)}'
+            return f"{to_lua_source(arg)}"
         if isinstance(arg, Invoke):
-            return f'<invoke>{to_lua_source(arg)}'
-        raise NotImplementedError(f'{arg.__class__} is not implemented')
+            return f"<invoke>{to_lua_source(arg)}"
+        raise NotImplementedError(f"{arg.__class__} is not implemented")
 
     def get_results(self):
         return {
-            'items': self._item_rewards,
-            'money': self._money_rewards,
-            'spawn': self._spawn_rewards,
-            'nested': self._nested_calls,
+            "items": self._item_rewards,
+            "money": self._money_rewards,
+            "spawn": self._spawn_rewards,
+            "nested": self._nested_calls,
         }
 
 
@@ -179,7 +179,7 @@ class Command(BaseCommand):
 
     def get_files_dir_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'scripts'
+        return base_path / "scripts"
 
     def get_files_paths(self, path: Path) -> list[Path]:
         paths = []
@@ -192,8 +192,8 @@ class Command(BaseCommand):
     def _get_namespace(self, file_path: Path) -> str:
         path = file_path.relative_to(self.get_files_dir_path())
         path = str(path)
-        path = path[:-len('.script')]
-        return path.replace('\\', '.')
+        path = path[:-len(".script")]
+        return path.replace("\\", ".")
 
     @atomic
     def handle(self, **options):
@@ -204,16 +204,16 @@ class Command(BaseCommand):
 
         # print(*self.get_files_paths(self.get_files_dir_path()), sep='\n')
         script_files = self.get_files_paths(self.get_files_dir_path())
-        exclude_files = {self.get_files_dir_path()/'lua_help.script'}
+        exclude_files = {self.get_files_dir_path()/"lua_help.script"}
 
         functions_by_aliases: dict[str, ScriptFunction] = {}
 
         for script_file in script_files:
-            print(f'START {script_file}')
+            print(f"START {script_file}")
             if script_file in exclude_files:
                 continue
             file_namespace = self._get_namespace(script_file)
-            print(f'{file_namespace=}')
+            print(f"{file_namespace=}")
             with open(script_file) as file:
                 src = file.read()
 
@@ -228,47 +228,47 @@ class Command(BaseCommand):
                 function_aliases = self._create_function_aliases(function_name, file_namespace)
                 for alias in function_aliases:
                     if alias in functions_by_aliases:
-                        logger.warning(f'Для {alias} несколько функций {functions_by_aliases[alias]}, {func} ')
+                        logger.warning(f"Для {alias} несколько функций {functions_by_aliases[alias]}, {func} ")
                     functions_by_aliases[alias] = func
 
-                func.raw_nested_function = ';'.join(reward['nested'])
+                func.raw_nested_function = ";".join(reward["nested"])
                 func.save()
 
-                for money in reward['money']:
+                for money in reward["money"]:
                     raw_value = money[0]
                     value = None
                     try:
                         value = decimal.Decimal(raw_value)
                     except (TypeError, ValueError, decimal.InvalidOperation):
-                        logger.warning(f'Decimal parsing error {raw_value=}')
+                        logger.warning(f"Decimal parsing error {raw_value=}")
 
                     MoneyReward.objects.create(function=func, raw_count=raw_value, count=value)
 
-                for item in reward['items']:
+                for item in reward["items"]:
                     item_name = item.item_name
                     items_count_str = item.count
                     items_count = None
                     try:
                         items_count = int(items_count_str)
                     except (TypeError, ValueError, decimal.InvalidOperation):
-                        logger.warning(f'int parsing error {items_count_str=}')
+                        logger.warning(f"int parsing error {items_count_str=}")
 
                     ItemReward.objects.create(function=func, raw_count=items_count_str, raw_item=item_name, count=items_count)
 
-                for item in reward['spawn']:
+                for item in reward["spawn"]:
                     # item_name = item.item_name
                     # items_count_str = item.count
                     level_vertex = None
                     try:
                         level_vertex = int(item.level_vertex)
                     except (TypeError, ValueError, decimal.InvalidOperation):
-                        logger.warning(f'int parsing error {item.level_vertex=}')
+                        logger.warning(f"int parsing error {item.level_vertex=}")
 
                     game_vertex_id = None
                     try:
                         game_vertex_id = int(item.game_vertex_id)
                     except (TypeError, ValueError, decimal.InvalidOperation):
-                        logger.warning(f'int parsing error {item.game_vertex_id=}')
+                        logger.warning(f"int parsing error {item.game_vertex_id=}")
 
                     SpawnReward.objects.create(
                         function=func,
@@ -286,21 +286,21 @@ class Command(BaseCommand):
                     )
 
         for func in ScriptFunction.objects.all():
-            nested_func_names = func.raw_nested_function.split(';')
+            nested_func_names = func.raw_nested_function.split(";")
             nested_functions = [functions_by_aliases.get(func_name, None) for func_name in nested_func_names]
             nested_functions = [f for f in nested_functions if f is not None]
             if len(nested_func_names) != len(nested_functions):
                 founded = {str(f) for f in nested_functions}
                 not_found = set(nested_func_names) - founded
-                logger.warning(f'Set nested functions {not_found=}')
+                logger.warning(f"Set nested functions {not_found=}")
             func.nested_function.set(nested_functions)
 
     def _create_function_aliases(self, function_name, file_namespace) -> list[str]:
         name = function_name
         names = [name]
-        namespace_parts = list(reversed(file_namespace.split('.')))
+        namespace_parts = list(reversed(file_namespace.split(".")))
         for part in namespace_parts:
-            name=f'{part}.{name}'
+            name=f"{part}.{name}"
             names.append(name)
         return names
 

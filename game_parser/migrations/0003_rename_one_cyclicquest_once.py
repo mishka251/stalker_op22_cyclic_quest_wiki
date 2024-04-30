@@ -6,13 +6,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0002_cyclicquest_condlist_str_cyclicquest_map_location_and_more'),
+        ("game_parser", "0002_cyclicquest_condlist_str_cyclicquest_map_location_and_more"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='cyclicquest',
-            old_name='one',
-            new_name='once',
+            model_name="cyclicquest",
+            old_name="one",
+            new_name="once",
         ),
     ]

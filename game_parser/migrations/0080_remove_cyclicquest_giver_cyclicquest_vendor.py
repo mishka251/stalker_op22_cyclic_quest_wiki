@@ -7,17 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0079_cycletaskvendor'),
+        ("game_parser", "0079_cycletaskvendor"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='cyclicquest',
-            name='giver',
+            model_name="cyclicquest",
+            name="giver",
         ),
         migrations.AddField(
-            model_name='cyclicquest',
-            name='vendor',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.cycletaskvendor', verbose_name='Персонаж квестодатель'),
+            model_name="cyclicquest",
+            name="vendor",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.cycletaskvendor", verbose_name="Персонаж квестодатель"),
         ),
     ]

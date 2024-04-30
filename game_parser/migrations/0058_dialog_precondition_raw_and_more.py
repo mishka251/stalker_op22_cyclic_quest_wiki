@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0057_taskobjective_function_call_complete_raw_and_more'),
+        ("game_parser", "0057_taskobjective_function_call_complete_raw_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='dialog',
-            name='precondition_raw',
+            model_name="dialog",
+            name="precondition_raw",
             field=models.TextField(null=True),
         ),
         migrations.AddField(
-            model_name='dialogphrase',
-            name='precondition_raw',
+            model_name="dialogphrase",
+            name="precondition_raw",
             field=models.TextField(null=True),
         ),
     ]

@@ -15,9 +15,9 @@ class NoSpawnError(ValueError):
 class InventoryBoxResource(BaseModelResource):
     _model_cls = InventoryBox
     _fields = [
-        CharField(SECTION_NAME, 'section_name'),
-        CharField('custom_data', 'source_file_name'),
-        CharField('visual', 'visual_str', required=False),
+        CharField(SECTION_NAME, "section_name"),
+        CharField("custom_data", "source_file_name"),
+        CharField("visual", "visual_str", required=False),
     ]
 
     def _apply_data(self, data: dict[str, Any], instance: InventoryBox):

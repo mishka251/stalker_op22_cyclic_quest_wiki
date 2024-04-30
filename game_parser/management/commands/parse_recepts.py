@@ -21,7 +21,7 @@ class Command(BaseCommand):
 
     def get_files_dir_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'scripts' / "amk" / "amk_mod.script"
+        return base_path / "scripts" / "amk" / "amk_mod.script"
 
     @atomic
     def handle(self, **options):

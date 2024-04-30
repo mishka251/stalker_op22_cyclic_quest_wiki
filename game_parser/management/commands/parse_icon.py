@@ -18,28 +18,28 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    TMP_DIR = Path('tmp')
+    TMP_DIR = Path("tmp")
     IMAGE_PART_WIDTH = 50
     IMAGE_PART_HEIGHT = 50
 
     def get_files_dir_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / 'ui'
+        return base_path / "config" / "ui"
 
     def get_files_paths(self, path: Path) -> list[Path]:
         paths = []
         for path in path.iterdir():
-            if path.name.startswith('ui_npc')\
+            if path.name.startswith("ui_npc")\
                     or path.name in {
-                'ui_arhara_unique.xml',
-                'ui_icons_npc.xml',
-                'ui_iconstotal.xml',
-                'ui_iconstotal2.xml',
-                'ui_npc_chess.xml',
-                'ui_npc_monster.xml',
-                'ui_npc_snp.xml',
-                'ui_npc_unique.xml',
-                'ui_npc_unique_2.xml',
+                "ui_arhara_unique.xml",
+                "ui_icons_npc.xml",
+                "ui_iconstotal.xml",
+                "ui_iconstotal2.xml",
+                "ui_npc_chess.xml",
+                "ui_npc_monster.xml",
+                "ui_npc_snp.xml",
+                "ui_npc_unique.xml",
+                "ui_npc_unique_2.xml",
             }:
                 paths.append(path)
         # for (dir, _, files) in os.walk(path):
@@ -62,8 +62,8 @@ class Command(BaseCommand):
             root_node = parse(fixed_file_path).getroot()
             image = None
             for child_node in root_node:
-                if child_node.tag == 'file_name':
-                    image_file_path = settings.OP22_GAME_DATA_PATH/'textures'/(child_node.text+'.dds')
+                if child_node.tag == "file_name":
+                    image_file_path = settings.OP22_GAME_DATA_PATH/"textures"/(child_node.text+".dds")
                     image = Image.open(image_file_path)
             if image is None:
                 raise ValueError(f"No image in {file_path}")

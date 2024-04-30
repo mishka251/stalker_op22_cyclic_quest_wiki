@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0056_alter_maplocationtype_objective'),
+        ("game_parser", "0056_alter_maplocationtype_objective"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='taskobjective',
-            name='function_call_complete_raw',
+            model_name="taskobjective",
+            name="function_call_complete_raw",
             field=models.TextField(null=True),
         ),
         migrations.AddField(
-            model_name='taskobjective',
-            name='infoportion_set_fail_raw',
+            model_name="taskobjective",
+            name="infoportion_set_fail_raw",
             field=models.TextField(null=True),
         ),
     ]

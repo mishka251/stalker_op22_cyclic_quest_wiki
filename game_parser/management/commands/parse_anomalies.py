@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / "misc" / 'zones.ltx'
+        return base_path / "config" / "misc" / "zones.ltx"
 
     @atomic
     def handle(self, **options):

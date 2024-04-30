@@ -24,15 +24,15 @@ class Command(BaseCommand):
         ]
         count = CyclicQuest.objects.filter(type__in=quests_with_items).count()
         for index, quest in enumerate(CyclicQuest.objects.filter(type__in=quests_with_items)):
-            print(f'{index + 1}/{count}')
+            print(f"{index + 1}/{count}")
             quest.target_item = self._get_item_by_name(quest.target_str)
             quest.save()
-        print('Стадия 2 - M2M')
+        print("Стадия 2 - M2M")
         unfounded_rewards = set()
-        quests_with_items_rewards = CyclicQuest.objects.exclude(reward_item_string__isnull=True).exclude(reward_item_string='')
+        quests_with_items_rewards = CyclicQuest.objects.exclude(reward_item_string__isnull=True).exclude(reward_item_string="")
         count = quests_with_items_rewards.count()
         for index, quest in enumerate(quests_with_items_rewards):
-            print(f'{index + 1}/{count}')
+            print(f"{index + 1}/{count}")
             items_info = self._parse_item_rewards(quest.reward_item_string)
             for item_name, item_count in items_info:
                 item = self._get_item_by_name(item_name)
@@ -48,16 +48,16 @@ class Command(BaseCommand):
         unfounded_targets = set(
             CyclicQuest.objects
             .filter(target_item__isnull=True, type__in=quests_with_items)
-            .values_list('target_str', flat=True)
+            .values_list("target_str", flat=True)
         )
-        print(f'{unfounded_targets=}')
-        print(f'{unfounded_rewards=}')
+        print(f"{unfounded_targets=}")
+        print(f"{unfounded_rewards=}")
 
     def _get_item_by_name(self, name: str) -> Optional[BaseItem]:
         return BaseItem.objects.filter(name=name).first() or BaseItem.objects.filter(inv_name=name).first()
 
     def _parse_item_rewards(self, reward_item_string: str) -> list[tuple[str, int]]:
-        parts = [s.strip() for s in reward_item_string.split(',')]
+        parts = [s.strip() for s in reward_item_string.split(",")]
         prev_name = None
         result = []
         for part in parts:

@@ -11,24 +11,24 @@ from game_parser.models import Icon
 class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
     expected_tag = "article"
     def _load(self, article_node: Element, comments: list[str]) -> EncyclopediaArticle:
-        game_id = article_node.attrib.pop('id', None)
-        name = article_node.attrib.pop('name', None)
-        group_name = article_node.attrib.pop('group', None)
+        game_id = article_node.attrib.pop("id", None)
+        name = article_node.attrib.pop("name", None)
+        group_name = article_node.attrib.pop("group", None)
         ltx_str = None
         text = None
         icon = None
         for child_node in article_node:
             # print(child_node)
-            if child_node.tag == 'ltx':
+            if child_node.tag == "ltx":
                 ltx_str = child_node.text
-            elif child_node.tag == 'text':
+            elif child_node.tag == "text":
                 text = child_node.text
-            elif child_node.tag == 'texture':
+            elif child_node.tag == "texture":
                 icon = self._parse_icon(child_node)
             elif isinstance(child_node, _Comment):
                 pass
             else:
-                raise ValueError(f'Unexpected game info_portion child {child_node.tag} in {game_id}')
+                raise ValueError(f"Unexpected game info_portion child {child_node.tag} in {game_id}")
         if group_name is not None:
             group = EncyclopediaGroup.objects.get_or_create(
                 name=group_name,
@@ -63,14 +63,14 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         #     return
 
         # texture_id = texture_node.attrib.pop('id')
-        x = texture_node.attrib.pop('x', None)
+        x = texture_node.attrib.pop("x", None)
         if x is None:
             texture_id = texture_node.text
             return Icon.objects.get(name=texture_id)
         x = int(x)
-        y = int(texture_node.attrib.pop('y'))
-        width = int(texture_node.attrib.pop('width'))
-        height = int(texture_node.attrib.pop('height'))
+        y = int(texture_node.attrib.pop("y"))
+        width = int(texture_node.attrib.pop("width"))
+        height = int(texture_node.attrib.pop("height"))
 
         image_file = texture_node.text + ".dds"
         base_path = settings.OP22_GAME_DATA_PATH
@@ -88,10 +88,10 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         box = self._get_item_image_coordinates(x, y, width, height)
         # logger.debug(f'{box=}')
         part = image.crop(box)
-        tmp_file_name = 'tmp.png'
+        tmp_file_name = "tmp.png"
         part.save(tmp_file_name)
-        with open(tmp_file_name, 'rb') as tmp_image:
-            image_file = ImageFile(tmp_image, name=f'{name}_icon.png')
+        with open(tmp_file_name, "rb") as tmp_image:
+            image_file = ImageFile(tmp_image, name=f"{name}_icon.png")
             instance.icon = image_file
             instance.save()
         return instance

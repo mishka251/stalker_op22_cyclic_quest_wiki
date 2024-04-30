@@ -10,7 +10,7 @@ register = Library()
 def render_map_item(map_item_info: MapPointInfo, map_id: str, index: Optional[str]=None) -> str:
     if index is not None:
         map_id = f"{map_id}_{index}"
-    template_name = 'leaflet_map_field.html'
+    template_name = "leaflet_map_field.html"
     context = {
         "item": {
             "position": map_item_info.item.position,

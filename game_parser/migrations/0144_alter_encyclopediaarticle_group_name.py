@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0143_alter_community_index'),
+        ("game_parser", "0143_alter_community_index"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='encyclopediaarticle',
-            name='group_name',
-            field=models.CharField(max_length=255, null=True, verbose_name='Группа'),
+            model_name="encyclopediaarticle",
+            name="group_name",
+            field=models.CharField(max_length=255, null=True, verbose_name="Группа"),
         ),
     ]

@@ -6,16 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0041_treasure_custom_name_and_more'),
+        ("game_parser", "0041_treasure_custom_name_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='itemintreasure',
-            options={'verbose_name': 'Предмет в тайнике', 'verbose_name_plural': 'Предметы в тайниках'},
+            name="itemintreasure",
+            options={"verbose_name": "Предмет в тайнике", "verbose_name_plural": "Предметы в тайниках"},
         ),
         migrations.AlterModelOptions(
-            name='treasure',
-            options={'verbose_name': 'Тайник', 'verbose_name_plural': 'Тайники'},
+            name="treasure",
+            options={"verbose_name": "Тайник", "verbose_name_plural": "Тайники"},
         ),
     ]

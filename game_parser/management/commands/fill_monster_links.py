@@ -24,5 +24,5 @@ class Command(BaseCommand):
                         or MonsterPart.objects.filter(inv_name=item.Spawn_Inventory_Item_Section).first()
                 )
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

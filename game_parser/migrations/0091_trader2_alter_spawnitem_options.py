@@ -23,26 +23,26 @@ def move_trader_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0090_alter_spawnitem_game_vertex_id'),
+        ("game_parser", "0090_alter_spawnitem_game_vertex_id"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Trader2',
+            name="Trader2",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('game_code', models.CharField(max_length=255)),
-                ('name', models.CharField(max_length=255, null=True)),
-                ('source_file', models.CharField(max_length=255, null=True)),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("game_code", models.CharField(max_length=255)),
+                ("name", models.CharField(max_length=255, null=True)),
+                ("source_file", models.CharField(max_length=255, null=True)),
             ],
             options={
-                'verbose_name': 'Профиль торговли',
-                'verbose_name_plural': 'Профили торговли',
+                "verbose_name": "Профиль торговли",
+                "verbose_name_plural": "Профили торговли",
             },
         ),
         migrations.AlterModelOptions(
-            name='spawnitem',
-            options={'verbose_name': 'Секция спавна', 'verbose_name_plural': 'Секции спавна'},
+            name="spawnitem",
+            options={"verbose_name": "Секция спавна", "verbose_name_plural": "Секции спавна"},
         ),
         migrations.RunPython(move_trader_data),
     ]

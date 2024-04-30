@@ -5,26 +5,26 @@ from django.db import migrations, models
 
 
 def set_item_content_type(apps, schema_editor):
-    ContentType = apps.get_model('contenttypes', 'ContentType')
+    ContentType = apps.get_model("contenttypes", "ContentType")
     models = [
-        'Outfit',
-        'Explosive',
-        'Grenade',
-        'Ammo',
-        'Weapon',
-        'Silencer',
-        'Scope',
-        'GrenadeLauncher',
-        'MonsterPart',
-        'Knife',
-        'Other',
-        'TrueArtefact',
-        'MonsterEmbrion',
-        'CapsAnom',
+        "Outfit",
+        "Explosive",
+        "Grenade",
+        "Ammo",
+        "Weapon",
+        "Silencer",
+        "Scope",
+        "GrenadeLauncher",
+        "MonsterPart",
+        "Knife",
+        "Other",
+        "TrueArtefact",
+        "MonsterEmbrion",
+        "CapsAnom",
     ]
 
     for model in models:
-        MyModel = apps.get_model('game_parser', model)
+        MyModel = apps.get_model("game_parser", model)
         new_ct = ContentType.objects.get_for_model(MyModel)
         MyModel.objects.filter(polymorphic_ctype__isnull=True).update(polymorphic_ctype=new_ct)
 
@@ -32,19 +32,19 @@ def set_item_content_type(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contenttypes', '0002_remove_content_type_name'),
-        ('game_parser', '0081_storylinecharacter_dialogs'),
+        ("contenttypes", "0002_remove_content_type_name"),
+        ("game_parser", "0081_storylinecharacter_dialogs"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='baseitem',
-            options={'base_manager_name': 'objects'},
+            name="baseitem",
+            options={"base_manager_name": "objects"},
         ),
         migrations.AddField(
-            model_name='baseitem',
-            name='polymorphic_ctype',
-            field=models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='polymorphic_%(app_label)s.%(class)s_set+', to='contenttypes.contenttype'),
+            model_name="baseitem",
+            name="polymorphic_ctype",
+            field=models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name="polymorphic_%(app_label)s.%(class)s_set+", to="contenttypes.contenttype"),
         ),
         migrations.RunPython(set_item_content_type, migrations.RunPython.noop),
     ]

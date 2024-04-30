@@ -7,19 +7,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0034_cyclicquest_target_item_alter_baseitem_name'),
+        ("game_parser", "0034_cyclicquest_target_item_alter_baseitem_name"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Other',
+            name="Other",
             fields=[
-                ('baseitem_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='game_parser.baseitem')),
+                ("baseitem_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.baseitem")),
             ],
             options={
-                'verbose_name': 'Прочий предмет',
-                'verbose_name_plural': 'Прочее',
+                "verbose_name": "Прочий предмет",
+                "verbose_name_plural": "Прочее",
             },
-            bases=('game_parser.baseitem',),
+            bases=("game_parser.baseitem",),
         ),
     ]

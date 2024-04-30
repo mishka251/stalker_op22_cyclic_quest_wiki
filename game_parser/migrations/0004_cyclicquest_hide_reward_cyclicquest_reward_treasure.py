@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0003_rename_one_cyclicquest_once'),
+        ("game_parser", "0003_rename_one_cyclicquest_once"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cyclicquest',
-            name='hide_reward',
+            model_name="cyclicquest",
+            name="hide_reward",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='cyclicquest',
-            name='reward_treasure',
+            model_name="cyclicquest",
+            name="reward_treasure",
             field=models.BooleanField(default=False),
         ),
     ]

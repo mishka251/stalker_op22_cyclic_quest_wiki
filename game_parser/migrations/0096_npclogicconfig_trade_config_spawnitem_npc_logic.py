@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0095_npclogicconfig'),
+        ("game_parser", "0095_npclogicconfig"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='npclogicconfig',
-            name='trade_config',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.trader', verbose_name='Конфиг торговли'),
+            model_name="npclogicconfig",
+            name="trade_config",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.trader", verbose_name="Конфиг торговли"),
         ),
         migrations.AddField(
-            model_name='spawnitem',
-            name='npc_logic',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.npclogicconfig', verbose_name='Конфиг НПС'),
+            model_name="spawnitem",
+            name="npc_logic",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.npclogicconfig", verbose_name="Конфиг НПС"),
         ),
     ]

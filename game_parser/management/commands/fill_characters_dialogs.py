@@ -17,12 +17,12 @@ class Command(BaseCommand):
         count = StorylineCharacter.objects.count()
         for index, item in enumerate(StorylineCharacter.objects.all()):
             item.dialogs.set(self._get_dialogs_by_raw(item.dialogs_raw))
-            print(f'{index + 1}/{count}')
+            print(f"{index + 1}/{count}")
 
     def _get_dialogs_by_raw(self, raw: Optional[str]) -> set[Dialog]:
         if raw is None:
             return set()
-        values = raw.split(';')
+        values = raw.split(";")
         result = set()
         for dialog_id in values:
             if not dialog_id:
@@ -31,5 +31,5 @@ class Command(BaseCommand):
             if dialog is not None:
                 result.add(dialog)
             else:
-                logger.warning(f'Dialog not found {dialog_id}')
+                logger.warning(f"Dialog not found {dialog_id}")
         return result

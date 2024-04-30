@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0102_remove_customspawnitem_location_txt'),
+        ("game_parser", "0102_remove_customspawnitem_location_txt"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='gamestoryid',
-            name='spawn_section_custom',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.customspawnitem'),
+            model_name="gamestoryid",
+            name="spawn_section_custom",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.customspawnitem"),
         ),
     ]

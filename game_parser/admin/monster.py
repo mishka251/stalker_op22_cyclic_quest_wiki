@@ -9,9 +9,9 @@ from game_parser.utils.admin_utils.icon_view import icon_view
 @register(Monster)
 class MonsterAdmin(ModelAdmin):
     autocomplete_fields = [
-        'monster_part',
-        'icon',
-        'name_translation',
+        "monster_part",
+        "icon",
+        "name_translation",
     ]
 
     search_fields = [
@@ -29,7 +29,7 @@ class MonsterAdmin(ModelAdmin):
         "inv_icon_view",
     ]
 
-    @display(description='Иконка', )
+    @display(description="Иконка", )
     def inv_icon_view(self, obj: Monster) -> Optional[str]:
         if not obj.icon:
             return None

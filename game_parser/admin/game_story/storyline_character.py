@@ -11,13 +11,13 @@ from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTa
 @register(Icon)
 class IconCharacterAdmin(ModelAdmin):
     list_display = (
-        '__str__',
-        'icon_view',
-        'name',
+        "__str__",
+        "icon_view",
+        "name",
     )
-    search_fields = ['name']
+    search_fields = ["name"]
 
-    @display(description='Иконка', )
+    @display(description="Иконка", )
     def icon_view(self, obj: Icon) -> Optional[str]:
         return mark_safe(f'<img src="{obj.icon.url}" alt="{obj.icon.name}">')
 
@@ -54,16 +54,16 @@ class RandAdmin(ModelAdmin):
 @register(StorylineCharacter)
 class StorylineCharacterAdmin(ModelAdmin):
     list_display = (
-        '__str__',
-        'icon_view',
-        'name_view',
+        "__str__",
+        "icon_view",
+        "name_view",
     )
-    search_fields = ['name', 'name_translation__rus']
+    search_fields = ["name", "name_translation__rus"]
     autocomplete_fields = [
-        'name_translation',
-        'icon',
-        'dialogs',
-        'community',
+        "name_translation",
+        "icon",
+        "dialogs",
+        "community",
     ]
 
     inlines = [
@@ -71,11 +71,11 @@ class StorylineCharacterAdmin(ModelAdmin):
         GameStoryIdAdmin,
     ]
 
-    @display(description='Имя')
+    @display(description="Имя")
     def name_view(self, character: StorylineCharacter) -> str:
         return character.get_name
 
-    @display(description='Иконка', )
+    @display(description="Иконка", )
     def icon_view(self, obj: StorylineCharacter) -> Optional[str]:
         if not obj.icon:
             return None

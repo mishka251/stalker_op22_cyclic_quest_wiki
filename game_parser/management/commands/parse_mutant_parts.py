@@ -15,10 +15,10 @@ class Command(BaseCommand):
 
     def get_file_path(self):
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / 'misc' / 'monster_items.ltx'
+        return base_path / "config" / "misc" / "monster_items.ltx"
 
     _exclude_keys = {
-        'monster_part'
+        "monster_part"
     }
 
     @atomic
@@ -26,7 +26,7 @@ class Command(BaseCommand):
         MonsterPart.objects.all().delete()
 
         known_bases = {
-            'II_ATTCH': {},
+            "II_ATTCH": {},
         }
 
         parser = LtxParser(self.get_file_path(), known_extends=known_bases)
@@ -44,4 +44,4 @@ class Command(BaseCommand):
             # print(quest_name)
             item = resource.create_instance_from_data(quest_name, quest_data)
             if quest_data:
-                logger.warning(f'unused data {quest_data} in {quest_name}')
+                logger.warning(f"unused data {quest_data} in {quest_name}")

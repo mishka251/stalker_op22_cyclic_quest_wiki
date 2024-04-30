@@ -31,4 +31,4 @@ class Command(BaseCommand):
                 item.function_call_complete = functions.filter(fullname=item.function_call_complete_raw).first()
 
             item.save()
-            print(f'{index + 1}/{count}')
+            print(f"{index + 1}/{count}")

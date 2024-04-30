@@ -17,5 +17,5 @@ class Command(BaseCommand):
         for index, item in enumerate(DialogPhrase.objects.all()):
             item.text = Translation.objects.filter(code=item.text_id_raw).first()
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

@@ -18,11 +18,11 @@ class Command(BaseCommand):
 
     def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / 'game_maps_single.ltx'
+        return base_path / "config" / "game_maps_single.ltx"
 
     def get_base_image(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'textures'
+        return base_path / "textures"
 
     # _exclude_keys = {
     #     'list',
@@ -63,9 +63,9 @@ class Command(BaseCommand):
                 continue
             image_path = self.get_base_image() / (location_data["texture"] + ".dds")
             image = Image.open(image_path)
-            tmp_file_name = 'tmp.png'
+            tmp_file_name = "tmp.png"
             image.save(tmp_file_name)
-            with open(tmp_file_name, 'rb') as tmp_image:
+            with open(tmp_file_name, "rb") as tmp_image:
                 image_file = ImageFile(tmp_image, name=level_name+ ".png")
                 location.map_image = image_file
                 location.save()

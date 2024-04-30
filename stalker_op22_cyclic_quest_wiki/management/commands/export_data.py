@@ -40,6 +40,6 @@ class Command(BaseCommand):
                 target_path.parent.mkdir(exist_ok=True)
             shutil.copyfile(map_path, target_path)
         print("End export maps")
-        shutil.make_archive('data', 'zip', tmp_dir)
+        shutil.make_archive("data", "zip", tmp_dir)
         print("End archiving data")
         shutil.rmtree(tmp_dir)

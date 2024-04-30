@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0059_dialog_init_func_raw'),
+        ("game_parser", "0059_dialog_init_func_raw"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='dialog',
-            name='comments_raw',
+            model_name="dialog",
+            name="comments_raw",
             field=models.TextField(null=True),
         ),
     ]

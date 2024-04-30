@@ -10,7 +10,7 @@ class Location(models.Model):
         verbose_name_plural = "Локации"
     objects = LocationManager()
     name = models.CharField(max_length=255, unique=True, null=False)
-    name_translation = models.ForeignKey("Translation", null=True, verbose_name='Перевод названия',
+    name_translation = models.ForeignKey("Translation", null=True, verbose_name="Перевод названия",
                                          on_delete=models.SET_NULL)
     map_info = models.ForeignKey("LocationMapInfo", null=True, on_delete=models.PROTECT, verbose_name="Карта локации")
 

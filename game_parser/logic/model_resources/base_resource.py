@@ -3,7 +3,7 @@ from typing import Any, Optional, Type
 
 from django.db.models import Model
 
-SECTION_NAME = '_section_name'
+SECTION_NAME = "_section_name"
 
 
 class BaseResourceField:
@@ -75,7 +75,7 @@ class BooleanField(BaseResourceField):
         super().__init__(data_field_name, model_field_name, required, default)
 
     def _parse_non_empty_value(self, value: Any) -> Any:
-        TRUE_VALUE = 'true'
+        TRUE_VALUE = "true"
         return value == TRUE_VALUE
 
 

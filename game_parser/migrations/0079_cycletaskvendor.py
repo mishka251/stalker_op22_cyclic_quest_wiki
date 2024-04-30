@@ -7,17 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0078_gamestoryid_character'),
+        ("game_parser", "0078_gamestoryid_character"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CycleTaskVendor',
+            name="CycleTaskVendor",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('game_story_id_raw', models.PositiveSmallIntegerField(verbose_name='game id')),
-                ('vendor_id', models.PositiveSmallIntegerField(verbose_name='game id')),
-                ('game_story_id', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.gamestoryid')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("game_story_id_raw", models.PositiveSmallIntegerField(verbose_name="game id")),
+                ("vendor_id", models.PositiveSmallIntegerField(verbose_name="game id")),
+                ("game_story_id", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.gamestoryid")),
             ],
         ),
     ]

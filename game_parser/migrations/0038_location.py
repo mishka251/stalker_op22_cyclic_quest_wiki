@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0037_cyclicquest_reward_items_and_more'),
+        ("game_parser", "0037_cyclicquest_reward_items_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Location',
+            name="Location",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('game_id', models.CharField(max_length=3, verbose_name='Ид уровня')),
-                ('game_code', models.CharField(max_length=255, verbose_name='Название уровня')),
-                ('name', models.CharField(max_length=255, null=True, verbose_name='Код человекочитабельного названия')),
-                ('name_translation', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.translation', verbose_name='Перевод названия')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("game_id", models.CharField(max_length=3, verbose_name="Ид уровня")),
+                ("game_code", models.CharField(max_length=255, verbose_name="Название уровня")),
+                ("name", models.CharField(max_length=255, null=True, verbose_name="Код человекочитабельного названия")),
+                ("name_translation", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.translation", verbose_name="Перевод названия")),
             ],
         ),
     ]

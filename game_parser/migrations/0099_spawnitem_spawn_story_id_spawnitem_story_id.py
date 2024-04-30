@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0098_alter_cycletaskvendor_options_and_more'),
+        ("game_parser", "0098_alter_cycletaskvendor_options_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='spawnitem',
-            name='spawn_story_id',
-            field=models.PositiveBigIntegerField(null=True, unique=True, verbose_name='spawn_story_id'),
+            model_name="spawnitem",
+            name="spawn_story_id",
+            field=models.PositiveBigIntegerField(null=True, unique=True, verbose_name="spawn_story_id"),
         ),
         migrations.AddField(
-            model_name='spawnitem',
-            name='story_id',
-            field=models.PositiveBigIntegerField(null=True, unique=True, verbose_name='story_id'),
+            model_name="spawnitem",
+            name="story_id",
+            field=models.PositiveBigIntegerField(null=True, unique=True, verbose_name="story_id"),
         ),
     ]

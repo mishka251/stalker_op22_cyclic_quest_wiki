@@ -7,26 +7,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0134_alter_campinfo_capacity_alter_campinfo_type'),
+        ("game_parser", "0134_alter_campinfo_capacity_alter_campinfo_type"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='campinfo',
-            options={'verbose_name': 'Лагерь НПС/мутантов', 'verbose_name_plural': 'Лагеря НПС/мутантов'},
+            name="campinfo",
+            options={"verbose_name": "Лагерь НПС/мутантов", "verbose_name_plural": "Лагеря НПС/мутантов"},
         ),
         migrations.RemoveField(
-            model_name='campinfo',
-            name='groups',
+            model_name="campinfo",
+            name="groups",
         ),
         migrations.AddField(
-            model_name='campinfo',
-            name='groups_str',
+            model_name="campinfo",
+            name="groups_str",
             field=models.CharField(max_length=32, null=True),
         ),
         migrations.AlterField(
-            model_name='campinfo',
-            name='spawn_item',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='game_parser.spawnitem', unique=True),
+            model_name="campinfo",
+            name="spawn_item",
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.spawnitem", unique=True),
         ),
     ]

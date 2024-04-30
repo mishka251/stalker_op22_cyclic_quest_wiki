@@ -131,7 +131,7 @@ class CharacterQuests:
 # class CyclicTasksView(TemplateView):
 
 def collect_info() -> list[CharacterQuests]:
-    all_tasks = list(CyclicQuest.objects.all().order_by('vendor'))
+    all_tasks = list(CyclicQuest.objects.all().order_by("vendor"))
     result = []
     for vendor, _vendor_tasks in groupby(all_tasks, lambda task: task.get_vendor_character):
         result += [collect_vendor_tasks(_vendor_tasks, vendor)]
@@ -251,7 +251,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
 
         if target_cond_str is not None:
             if "," in target_cond_str:
-                min_str, max_str = target_cond_str.split(',')
+                min_str, max_str = target_cond_str.split(",")
                 state = ItemState(float(min_str.strip()), float(max_str.strip()))
             else:
                 state = ItemState(float(target_cond_str.strip()), 100)

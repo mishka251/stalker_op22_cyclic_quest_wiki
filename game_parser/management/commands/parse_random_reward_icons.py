@@ -44,10 +44,10 @@ class Command(BaseCommand):
         box = self._get_item_image_coordinates(x, y, width, height)
         # logger.debug(f'{box=}')
         part = image.crop(box)
-        tmp_file_name = 'tmp.png'
+        tmp_file_name = "tmp.png"
         part.save(tmp_file_name)
-        with open(tmp_file_name, 'rb') as tmp_image:
-            image_file = ImageFile(tmp_image, name=f'{name}_icon.png')
+        with open(tmp_file_name, "rb") as tmp_image:
+            image_file = ImageFile(tmp_image, name=f"{name}_icon.png")
             instance.icon = image_file
             instance.save()
         return instance

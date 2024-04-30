@@ -16,5 +16,5 @@ class Command(BaseCommand):
         for index, item in enumerate(ItemReward.objects.all()):
             item.item = BaseItem.objects.filter(name=item.raw_item).first()
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

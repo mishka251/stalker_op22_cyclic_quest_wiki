@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0142_alter_community_translation'),
+        ("game_parser", "0142_alter_community_translation"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='community',
-            name='index',
-            field=models.PositiveSmallIntegerField(verbose_name='ID группировки'),
+            model_name="community",
+            name="index",
+            field=models.PositiveSmallIntegerField(verbose_name="ID группировки"),
         ),
     ]

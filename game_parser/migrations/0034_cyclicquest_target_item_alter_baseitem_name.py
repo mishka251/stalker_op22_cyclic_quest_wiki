@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0033_baseitem_inv_icon'),
+        ("game_parser", "0033_baseitem_inv_icon"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cyclicquest',
-            name='target_item',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.baseitem', verbose_name='Целевой предмет'),
+            model_name="cyclicquest",
+            name="target_item",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.baseitem", verbose_name="Целевой предмет"),
         ),
         migrations.AlterField(
-            model_name='baseitem',
-            name='name',
-            field=models.CharField(max_length=255, unique=True, verbose_name='Название(код в игре)'),
+            model_name="baseitem",
+            name="name",
+            field=models.CharField(max_length=255, unique=True, verbose_name="Название(код в игре)"),
         ),
     ]

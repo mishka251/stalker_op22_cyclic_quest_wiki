@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
     def get_file_path(self):
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / 'creatures' / 'monsters.ltx'
+        return base_path / "config" / "creatures" / "monsters.ltx"
 
     # _exclude_keys = {
     #     'without_outfit',
@@ -30,7 +30,7 @@ class Command(BaseCommand):
 
         known_bases = {
             "base": {},
-            'monster': {
+            "monster": {
                 "monster": "true",
             },
         }

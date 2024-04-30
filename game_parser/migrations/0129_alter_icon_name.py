@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0128_cyclicquest_text_cyclicquest_text_raw'),
+        ("game_parser", "0128_cyclicquest_text_cyclicquest_text_raw"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='icon',
-            name='name',
+            model_name="icon",
+            name="name",
             field=models.CharField(max_length=512, unique=True),
         ),
     ]

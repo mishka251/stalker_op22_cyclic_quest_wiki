@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0089_alter_spawnitem_custom_data'),
+        ("game_parser", "0089_alter_spawnitem_custom_data"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='spawnitem',
-            name='game_vertex_id',
-            field=models.PositiveBigIntegerField(verbose_name='vertexID'),
+            model_name="spawnitem",
+            name="game_vertex_id",
+            field=models.PositiveBigIntegerField(verbose_name="vertexID"),
         ),
     ]

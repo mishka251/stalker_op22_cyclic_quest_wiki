@@ -17,4 +17,4 @@ class Command(BaseCommand):
         for index, item in enumerate(Treasure.objects.all()):
             item.spawn_item = SpawnItem.objects.get(spawn_story_id=item.target)
             item.save()
-            print(f'{index + 1}/{count}')
+            print(f"{index + 1}/{count}")

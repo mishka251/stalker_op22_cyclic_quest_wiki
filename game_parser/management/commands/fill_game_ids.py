@@ -19,5 +19,5 @@ class Command(BaseCommand):
             item.treasure = Treasure.objects.filter(name_str__iexact=section_name).first()
             item.character = StorylineCharacter.objects.filter(game_id__iexact=section_name).first()
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

@@ -19,5 +19,5 @@ class Command(BaseCommand):
                 or BaseItem.objects.filter(inv_name=item.section_name).first()
             )
             item.save()
-            print(f'{index+1:_}/{count:_}')
+            print(f"{index+1:_}/{count:_}")
 

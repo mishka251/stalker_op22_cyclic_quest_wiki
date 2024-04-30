@@ -29,6 +29,6 @@ class LocationMapInfoAdmin(ModelAdmin):
         "inv_icon_view",
     ]
 
-    @display(description='Иконка', )
+    @display(description="Иконка", )
     def inv_icon_view(self, obj: LocationMapInfo) -> Optional[str]:
         return icon_view(obj.map_image)

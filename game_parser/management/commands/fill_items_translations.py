@@ -20,5 +20,5 @@ class Command(BaseCommand):
             item.description_translation = Translation.objects.filter(code=item.description_code).first()
             item.name_translation = Translation.objects.filter(code=item.inv_name).first()
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

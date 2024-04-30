@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0127_taskobjective_article'),
+        ("game_parser", "0127_taskobjective_article"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cyclicquest',
-            name='text',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='game_parser.translation', verbose_name='Текст задания'),
+            model_name="cyclicquest",
+            name="text",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation", verbose_name="Текст задания"),
         ),
         migrations.AddField(
-            model_name='cyclicquest',
-            name='text_raw',
-            field=models.CharField(max_length=255, null=True, verbose_name='Код перевода текста задания'),
+            model_name="cyclicquest",
+            name="text_raw",
+            field=models.CharField(max_length=255, null=True, verbose_name="Код перевода текста задания"),
         ),
     ]

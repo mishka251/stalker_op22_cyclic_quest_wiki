@@ -7,28 +7,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0116_alter_encyclopediaarticle_options_and_more'),
+        ("game_parser", "0116_alter_encyclopediaarticle_options_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='encyclopediaarticle',
-            name='artefact',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='articles', to='game_parser.artefact'),
+            model_name="encyclopediaarticle",
+            name="artefact",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="articles", to="game_parser.artefact"),
         ),
         migrations.AlterField(
-            model_name='encyclopediaarticle',
-            name='game_id',
-            field=models.CharField(max_length=255, unique=True, verbose_name='Игровой id'),
+            model_name="encyclopediaarticle",
+            name="game_id",
+            field=models.CharField(max_length=255, unique=True, verbose_name="Игровой id"),
         ),
         migrations.AlterField(
-            model_name='encyclopediaarticle',
-            name='group_name',
-            field=models.CharField(max_length=255, verbose_name='Группа'),
+            model_name="encyclopediaarticle",
+            name="group_name",
+            field=models.CharField(max_length=255, verbose_name="Группа"),
         ),
         migrations.AlterField(
-            model_name='encyclopediaarticle',
-            name='ltx_str',
-            field=models.CharField(max_length=255, null=True, unique=True, verbose_name='Иконка'),
+            model_name="encyclopediaarticle",
+            name="ltx_str",
+            field=models.CharField(max_length=255, null=True, unique=True, verbose_name="Иконка"),
         ),
     ]

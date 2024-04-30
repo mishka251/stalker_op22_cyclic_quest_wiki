@@ -7,17 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0097_spawnitem_character_profile_and_more'),
+        ("game_parser", "0097_spawnitem_character_profile_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='cycletaskvendor',
-            options={'verbose_name': 'ID НПС, выдающий циклические задания', 'verbose_name_plural': 'ID Выдающих ЦЗ НПС'},
+            name="cycletaskvendor",
+            options={"verbose_name": "ID НПС, выдающий циклические задания", "verbose_name_plural": "ID Выдающих ЦЗ НПС"},
         ),
         migrations.AddField(
-            model_name='gamestoryid',
-            name='spawn_section',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='game_parser.spawnitem'),
+            model_name="gamestoryid",
+            name="spawn_section",
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.spawnitem"),
         ),
     ]

@@ -5,30 +5,30 @@ from django.db import migrations, models
 
 
 def set_reward_content_type(apps, schema_editor):
-    ContentType = apps.get_model('contenttypes', 'ContentType')
+    ContentType = apps.get_model("contenttypes", "ContentType")
     models = [
-        'MoneyReward',
-        'ItemReward',
-        'SpawnReward',
+        "MoneyReward",
+        "ItemReward",
+        "SpawnReward",
     ]
 
     for model in models:
-        MyModel = apps.get_model('game_parser', model)
+        MyModel = apps.get_model("game_parser", model)
         new_ct = ContentType.objects.get_for_model(MyModel)
         MyModel.objects.filter(polymorphic_ctype__isnull=True).update(polymorphic_ctype=new_ct)
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contenttypes', '0002_remove_content_type_name'),
-        ('game_parser', '0071_remove_taskobjective_article'),
+        ("contenttypes", "0002_remove_content_type_name"),
+        ("game_parser", "0071_remove_taskobjective_article"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='basescriptreward',
-            name='polymorphic_ctype',
-            field=models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='polymorphic_%(app_label)s.%(class)s_set+', to='contenttypes.contenttype'),
+            model_name="basescriptreward",
+            name="polymorphic_ctype",
+            field=models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name="polymorphic_%(app_label)s.%(class)s_set+", to="contenttypes.contenttype"),
         ),
         migrations.RunPython(set_reward_content_type, migrations.RunPython.noop),
     ]

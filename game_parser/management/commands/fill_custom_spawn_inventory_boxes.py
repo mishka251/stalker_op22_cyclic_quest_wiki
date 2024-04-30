@@ -18,5 +18,5 @@ class Command(BaseCommand):
                 continue
             item.custom_inventory_box = InventoryBox.objects.filter(source_file_name=f"config\{item.custom_data.strip()}").first()
             item.save()
-            print(f'{index+1}/{count}')
+            print(f"{index+1}/{count}")
 

@@ -15,18 +15,18 @@ class Command(BaseCommand):
         super().add_arguments(parser)
         # parser.add_argument('--file_path', type=str, help='Path to the file', default='data.zip')
         parser.add_argument(
-            '--imported_archive',
+            "--imported_archive",
             type=Path,
-            help='Path to imported file',
-            default=Path('data.zip'),
+            help="Path to imported file",
+            default=Path("data.zip"),
         )
 
     def handle(self, *args, **options):
-        imported_archive = options['imported_archive']
+        imported_archive = options["imported_archive"]
         tmp_dir = Path("import_tmp")
         tmp_dir.mkdir(exist_ok=True)
 
-        with zipfile.ZipFile(imported_archive, 'r') as myzip:
+        with zipfile.ZipFile(imported_archive, "r") as myzip:
             myzip.extractall(tmp_dir)
         for model_info in to_export:
             print(f"start {model_info.model_cls.__name__}")

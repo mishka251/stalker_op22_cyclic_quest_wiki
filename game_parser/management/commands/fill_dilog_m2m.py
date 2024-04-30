@@ -24,7 +24,7 @@ class Command(BaseCommand):
             item.disable_info.set(self._get_info_portions_by_raw(item.disable_info_raw))
             item.disable.set(self._get_info_portions_by_raw(item.disable_raw))
             item.save()
-            print(f'DialogPhrase:  {index + 1}/{count}')
+            print(f"DialogPhrase:  {index + 1}/{count}")
 
         count = Dialog.objects.count()
         for index, item in enumerate(Dialog.objects.all()):
@@ -34,31 +34,31 @@ class Command(BaseCommand):
             item.precondition.set(self._get_scripts_by_raw(item.precondition_raw))
             item.init_func.set(self._get_scripts_by_raw(item.init_func_raw))
             item.save()
-            print(f'Dialog:  {index + 1}/{count}')
+            print(f"Dialog:  {index + 1}/{count}")
 
     def _get_scripts_by_raw(self, raw: Optional[str]) -> set[ScriptFunction]:
         if raw is None:
             return set()
-        values = raw.split(';')
+        values = raw.split(";")
         result = set()
         for function_full_name in values:
             if not function_full_name:
                 continue
-            if '.' in function_full_name:
-                func_namespace, func_name = function_full_name.rsplit('.', 1)
+            if "." in function_full_name:
+                func_namespace, func_name = function_full_name.rsplit(".", 1)
                 function = ScriptFunction.objects.filter(name=func_name, namespace=func_namespace).first()
             else:
                 function = ScriptFunction.objects.filter(name=function_full_name).first()
             if function is not None:
                 result.add(function)
             else:
-                logger.warning(f'Function not found {function_full_name}')
+                logger.warning(f"Function not found {function_full_name}")
         return result
 
     def _get_info_portions_by_raw(self, raw: Optional[str]) -> set[InfoPortion]:
         if raw is None:
             return set()
-        values = raw.split(';')
+        values = raw.split(";")
         result = set()
         for portion_id in values:
             if not portion_id:
@@ -67,5 +67,5 @@ class Command(BaseCommand):
             if portion is not None:
                 result.add(portion)
             else:
-                logger.warning(f'InfoPortion not found {portion_id}')
+                logger.warning(f"InfoPortion not found {portion_id}")
         return result

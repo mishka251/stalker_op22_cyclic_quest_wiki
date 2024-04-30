@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0060_dialog_comments_raw'),
+        ("game_parser", "0060_dialog_comments_raw"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='dialogphrase',
-            name='dont_has_info_raw',
+            model_name="dialogphrase",
+            name="dont_has_info_raw",
             field=models.TextField(null=True),
         ),
         migrations.AddField(
-            model_name='dialogphrase',
-            name='has_info_raw',
+            model_name="dialogphrase",
+            name="has_info_raw",
             field=models.TextField(null=True),
         ),
     ]
