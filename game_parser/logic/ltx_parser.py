@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import Union
+from typing import Union, Optional
 
 LtxBlock = Union[list[str], dict[str, str]]
 LtxParserResults = dict[str, LtxBlock]
@@ -10,13 +10,13 @@ MULTILINE_BLOCK_END = "END"
 
 
 class BaseLtxParser:
-    _parsed_blocks: LtxParserResults = None
-    _known_extends: LtxParserResults = None
+    _parsed_blocks: LtxParserResults
+    _known_extends: LtxParserResults
 
     BLOCK_CAPTION_START = "["
     BLOCK_CAPTION_END = "]"
 
-    def __init__(self, file_path: Path, lines_generator,  known_extends: LtxParserResults = None):
+    def __init__(self, file_path: Path, lines_generator,  known_extends: Optional[LtxParserResults] = None):
         self._path = file_path
         self._known_extends = known_extends or {}
         self._parse(lines_generator)
@@ -98,7 +98,10 @@ class BaseLtxParser:
 
     def _parse_include(self, line: str) -> LtxParserResults:
         pattern = re.compile(r'#include "(?P<file_path>.*)"')
-        file_path = pattern.match(line).groupdict()["file_path"]
+        if rm:=pattern.match(line):
+            file_path = rm.groupdict()["file_path"]
+        else:
+            raise ValueError("incorrect include")
         current_dir = self._path.parent
         file_path = current_dir / file_path
 
@@ -111,7 +114,7 @@ class BaseLtxParser:
         return nested_parsed.get_parsed_blocks()
 
     def _get_bases(self, bases: tuple[str, ...]) -> dict:
-        merged_bases = {}
+        merged_bases : dict= {}
         try:
             for base in bases:
                 if base in self._parsed_blocks:
@@ -154,7 +157,7 @@ class BaseLtxParser:
             return dict(self._parse_line_key_value(line) for line in lines)
         # raise ValueError(f'Не должно быть больше 1 =, {name=}')
 
-    def _parse_line_key_value(self, line: str) -> tuple[str, str]:
+    def _parse_line_key_value(self, line: str) -> tuple[str, str | None]:
         if "=" in line:
             (key, value) = (s.strip() for s in line.split("=", 1))
         else:

@@ -154,7 +154,7 @@ class ReceptInline(ReadOnlyNestedTable):
 
 @register(BaseItem)
 class BaseItemAdmin(ModelAdmin):
-    list_display = (
+    list_display: tuple[str, ...] = (
         'name_translation_rus',
         'description_translation_rus',
         'inv_icon_view',

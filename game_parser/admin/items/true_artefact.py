@@ -6,7 +6,7 @@ from game_parser.models import TrueArtefact
 
 @register(TrueArtefact)
 class TrueArtefactAdmin(BaseItemAdmin):
-    list_display = (
+    list_display: tuple[str, ...] = (
         *BaseItemAdmin.list_display,
         'health_restore_speed',
         'burn_immunity',

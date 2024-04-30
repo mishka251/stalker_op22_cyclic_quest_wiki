@@ -1,3 +1,5 @@
+from typing import Any
+
 from stalker_op22_cyclic_quest_wiki.views.cyclic_quests.tasks_grouping import CharacterQuests, TaskReward, TaskMoneyReward, TaskAmmoReward, \
     TaskItemReward, AmmoTarget, LagerTarget, StalkerTarget, QuestItemTarget, QuestItemWithStateTarget, TreasureReward, \
     TaskRandomReward
@@ -39,7 +41,7 @@ def render_reward(reward: TaskReward):
 @register.simple_tag
 def render_target(target: TaskReward):
     template_name = None
-    context = {
+    context: dict[str, Any] = {
         'target': target
     }
     if isinstance(target, AmmoTarget):
