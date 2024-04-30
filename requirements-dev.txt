@@ -5,3 +5,7 @@ lupa==2.1
 chardet==5.2.0
 pylint==3.1.0
 pylint-django
+mypy
+django-stubs[compatible-mypy]
+lxml-stubs
+types-cffi
