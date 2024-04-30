@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   django:
-    image: mishka251/stalker_op22_cyclic_quest_wiki-django:v0.1.0
+    image: mishka251/stalker_op22_cyclic_quest_wiki-django:v0.2.0
     restart: unless-stopped
     depends_on:
       db:
@@ -15,7 +15,7 @@ services:
       - "media:/app/media"
 
   update:
-    image: mishka251/stalker_op22_cyclic_quest_wiki-django:v0.1.0
+    image: mishka251/stalker_op22_cyclic_quest_wiki-django:v0.2.0
     command:
       - /app/update.sh
     depends_on:
@@ -44,7 +44,7 @@ services:
       retries: 5
       start_period: 10s
   nginx:
-    image: mishka251/stalker_op22_cyclic_quest_wiki-nginx:v0.1.0
+    image: mishka251/stalker_op22_cyclic_quest_wiki-nginx:v0.2.0
     restart: unless-stopped
     volumes:
       - "media:/mediafiles"
