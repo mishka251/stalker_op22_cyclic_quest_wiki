@@ -11,9 +11,16 @@ class Translation(models.Model):
     class Meta:
         verbose_name = "Перевод"
         verbose_name_plural = "Переводы"
+
     objects = TranslationManager()
 
-    code = models.CharField(max_length=128, null=False, verbose_name="Код названия", unique=True, db_index=True)
+    code = models.CharField(
+        max_length=128,
+        null=False,
+        verbose_name="Код названия",
+        unique=True,
+        db_index=True,
+    )
     rus = models.TextField(verbose_name="Русский", null=False)
     eng = models.TextField(verbose_name="Английский", null=False)
     ukr = models.TextField(verbose_name="Украинский", null=False)

@@ -11,7 +11,12 @@ from game_parser.models import SingleStalkerSpawnItem, SpawnItem
 from game_parser.models import Weapon as ParserWeapon
 from game_parser.models.quest import QuestKinds as ParserQuestKinds
 from stalker_op22_cyclic_quest_wiki.models import Community as WikiCommunity
-from stalker_op22_cyclic_quest_wiki.models import CycleTaskTargetCamp, CycleTaskTargetItem, CycleTaskTargetStalker, MapPosition
+from stalker_op22_cyclic_quest_wiki.models import (
+    CycleTaskTargetCamp,
+    CycleTaskTargetItem,
+    CycleTaskTargetStalker,
+    MapPosition,
+)
 from stalker_op22_cyclic_quest_wiki.models import CycleTaskVendor as WikiVendor
 from stalker_op22_cyclic_quest_wiki.models import CyclicQuest as WikiQuest
 from stalker_op22_cyclic_quest_wiki.models import Icon as WikiIcon
@@ -19,7 +24,9 @@ from stalker_op22_cyclic_quest_wiki.models import Item as WikiItem
 from stalker_op22_cyclic_quest_wiki.models import ItemReward as WikiItemReward
 from stalker_op22_cyclic_quest_wiki.models import Location as WikiLocation
 from stalker_op22_cyclic_quest_wiki.models import MoneyReward as WikiMoneyReward
-from stalker_op22_cyclic_quest_wiki.models import QuestRandomReward as WikiQuestRandomReward
+from stalker_op22_cyclic_quest_wiki.models import (
+    QuestRandomReward as WikiQuestRandomReward,
+)
 from stalker_op22_cyclic_quest_wiki.models import RandomRewardInfo as WikiRandomReward
 from stalker_op22_cyclic_quest_wiki.models import StalkerRank as WikiRank
 from stalker_op22_cyclic_quest_wiki.models import Translation as WikiTranslation
@@ -41,7 +48,9 @@ class Command(BaseCommand):
             profile = vendor.get_npc_profile()
             tmp = vendor.game_story_id
             name_translation = (
-                WikiTranslation.objects.filter(code=profile.name_translation.code).first()
+                WikiTranslation.objects.filter(
+                    code=profile.name_translation.code
+                ).first()
                 if profile.name_translation
                 else None
             )
@@ -68,7 +77,9 @@ class Command(BaseCommand):
         cnt = ParserRandomReward.objects.count()
         for i, random_reward in enumerate(ParserRandomReward.objects.all()):
             name_translation = (
-                WikiTranslation.objects.filter(code=random_reward.name_translation.code).first()
+                WikiTranslation.objects.filter(
+                    code=random_reward.name_translation.code
+                ).first()
                 if random_reward.name_translation
                 else None
             )
@@ -91,7 +102,8 @@ class Command(BaseCommand):
             raw_count = len(random_reward.possible_items_str.split(";"))
             if raw_count != len(possible_items):
                 raise ValueError(
-                    f"Items not found. Expected: {random_reward.possible_items_str}, actual: {possible_items}")
+                    f"Items not found. Expected: {random_reward.possible_items_str}, actual: {possible_items}"
+                )
             wiki_random_reward.possible_items.set(possible_items)
             if i % 100 == 0:
                 print(f"{i}/{cnt}")
@@ -128,7 +140,9 @@ class Command(BaseCommand):
                 print(f"{i}/{cnt}")
         print("end quests")
 
-    def _update_quest_rewards(self, quest: ParserCyclicQuest, wiki_quest: WikiQuest) -> None:
+    def _update_quest_rewards(
+        self, quest: ParserCyclicQuest, wiki_quest: WikiQuest
+    ) -> None:
         WikiMoneyReward.objects.filter(quest=wiki_quest).delete()
         if quest.reward_money is not None:
             WikiMoneyReward.objects.update_or_create(
@@ -161,7 +175,9 @@ class Command(BaseCommand):
                 },
             )
 
-    def _update_quest_target(self, quest: ParserCyclicQuest, wiki_quest: WikiQuest) -> None:
+    def _update_quest_target(
+        self, quest: ParserCyclicQuest, wiki_quest: WikiQuest
+    ) -> None:
         item_target_quest_types = {
             ParserQuestKinds.chain,
             ParserQuestKinds.monster_part,
@@ -181,7 +197,9 @@ class Command(BaseCommand):
             wiki_item = WikiItem.objects.get(name=quest.target_item.name)
             target_cond_str = quest.target_cond_str
             items_with_condition = (ParserWeapon, ParserOutfit, ParserSilencer)
-            if target_cond_str is None and isinstance(quest.target_item, items_with_condition):
+            if target_cond_str is None and isinstance(
+                quest.target_item, items_with_condition
+            ):
                 target_cond_str = "50"
             CycleTaskTargetItem.objects.update_or_create(
                 quest=wiki_quest,
@@ -193,18 +211,20 @@ class Command(BaseCommand):
             )
         elif quest.type in camp_target_quest_types:
             target_camp = quest.target_camp
-            communities_raw = [s.strip() for s in (target_camp.communities_raw or "").split(",")]
+            communities_raw = [
+                s.strip() for s in (target_camp.communities_raw or "").split(",")
+            ]
             print(communities_raw)
             communities = [
                 WikiCommunity.objects.filter(name=community).first()
                 for community in communities_raw
             ]
             communities = [
-                community
-                for community in communities
-                if community is not None
+                community for community in communities if community is not None
             ]
-            map_position = self._spawn_item_to_map_position(quest.target_camp.spawn_item)
+            map_position = self._spawn_item_to_map_position(
+                quest.target_camp.spawn_item
+            )
             camp = CycleTaskTargetCamp.objects.update_or_create(
                 quest=wiki_quest,
                 defaults={
@@ -213,7 +233,9 @@ class Command(BaseCommand):
             )[0]
             camp.communities.set(communities)
         elif quest.type in stalker_target_quest_types:
-            community = WikiCommunity.objects.get(name=quest.target_stalker.community_str)
+            community = WikiCommunity.objects.get(
+                name=quest.target_stalker.community_str
+            )
             rank = WikiRank.objects.get(name=quest.target_stalker.spec_rank_str)
             stalker = CycleTaskTargetStalker.objects.update_or_create(
                 quest=wiki_quest,
@@ -222,8 +244,12 @@ class Command(BaseCommand):
                     "community": community,
                 },
             )[0]
-            single_spawn_items = SingleStalkerSpawnItem.objects.filter(stalker_section=quest.target_stalker)
-            single_spawn_items_ids = single_spawn_items.values_list("spawn_item_id", flat=True)
+            single_spawn_items = SingleStalkerSpawnItem.objects.filter(
+                stalker_section=quest.target_stalker
+            )
+            single_spawn_items_ids = single_spawn_items.values_list(
+                "spawn_item_id", flat=True
+            )
             respawns = quest.target_stalker.respawn_set.all()
             respawns_spawn_items = respawns.values_list("spawn_item_id", flat=True)
             possible_spawn_items = SpawnItem.objects.filter(

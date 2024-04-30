@@ -12,6 +12,7 @@ from game_parser.models import EncyclopediaArticle, EncyclopediaGroup
 
 logger = logging.getLogger(__name__)
 
+
 class Command(BaseCommand):
     TMP_DIR = Path("tmp")
 
@@ -27,4 +28,3 @@ class Command(BaseCommand):
         fixed_file_path = fixer.fix(self.get_file_path())
         root_node = parse(fixed_file_path).getroot()
         EncyclopediaArticleLoader().load_bulk(root_node)
-

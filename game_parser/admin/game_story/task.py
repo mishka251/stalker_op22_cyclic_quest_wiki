@@ -65,6 +65,7 @@ class TaskObjectiveAdmin(ModelAdmin):
     def article_view(self, character: TaskObjective) -> str:
         return character.get_article
 
+
 @register(MapLocationType)
 class MapLocationTypeAdmin(ModelAdmin):
     autocomplete_fields = [

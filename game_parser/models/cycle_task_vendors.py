@@ -11,9 +11,15 @@ class CycleTaskVendor(models.Model):
         verbose_name = "ID НПС, выдающий циклические задания"
         verbose_name_plural = "ID Выдающих ЦЗ НПС"
 
-    game_story_id_raw = models.PositiveSmallIntegerField(null=False, verbose_name="game id", unique=True)
-    vendor_id = models.PositiveSmallIntegerField(null=False, verbose_name="game id", unique=True)
-    game_story_id = models.ForeignKey(null=True, to="GameStoryId", on_delete=models.SET_NULL, unique=True)
+    game_story_id_raw = models.PositiveSmallIntegerField(
+        null=False, verbose_name="game id", unique=True
+    )
+    vendor_id = models.PositiveSmallIntegerField(
+        null=False, verbose_name="game id", unique=True
+    )
+    game_story_id = models.ForeignKey(
+        null=True, to="GameStoryId", on_delete=models.SET_NULL, unique=True
+    )
 
     def __str__(self):
         return f"{self.game_story_id}, {self.vendor_id}"
@@ -24,7 +30,7 @@ class CycleTaskVendor(models.Model):
             return None
         return game_story_id.spawn_section
 
-    def _get_game_story_character_profile(self)-> "StorylineCharacter | None":
+    def _get_game_story_character_profile(self) -> "StorylineCharacter | None":
         game_story_id = self.game_story_id
         if not game_story_id:
             return None
@@ -37,4 +43,7 @@ class CycleTaskVendor(models.Model):
         return spawn_section.character_profile
 
     def get_npc_profile(self) -> "StorylineCharacter | None":
-        return self._get_spawn_section_npc_profile() or self._get_game_story_character_profile()
+        return (
+            self._get_spawn_section_npc_profile()
+            or self._get_game_story_character_profile()
+        )

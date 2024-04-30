@@ -8,7 +8,7 @@ class CommunityResource(resources.ModelResource):
     class Meta:
         model = Community
         use_natural_foreign_keys = True
-        import_id_fields=["name"]
+        import_id_fields = ["name"]
         exclude = {"id"}
 
 
@@ -17,7 +17,7 @@ class StalkerRankResource(resources.ModelResource):
     class Meta:
         model = StalkerRank
         use_natural_foreign_keys = True
-        import_id_fields=["name"]
+        import_id_fields = ["name"]
         exclude = {"id"}
 
 

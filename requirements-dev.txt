@@ -10,3 +10,4 @@ django-stubs[compatible-mypy]
 lxml-stubs
 types-cffi
 ruff
+black

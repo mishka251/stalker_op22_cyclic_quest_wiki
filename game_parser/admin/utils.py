@@ -19,13 +19,14 @@ class SpawnItemMapRenderer:
             return None
         return obj.location.locationmapinfo_set.first()
 
-
     def _map(self, obj: SpawnItem) -> str | None:
         location = obj.location
         location_info = LocationMapInfo.objects.get(location=location)
         if not location_info.bound_rect_raw or not location_info.map_image:
             return None
-        offset_re = re.compile(r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)")
+        offset_re = re.compile(
+            r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
+        )
         rm = offset_re.match(location_info.bound_rect_raw)
         (min_x, min_y, max_x, max_y) = (
             float(rm.group("min_x")),
@@ -63,10 +64,12 @@ class SpawnItemMapRenderer:
             "section_name": section_name,
         }
 
+
 def _item_link(item: Model) -> str:
     href = f"/admin/{item._meta.app_label}/{item._meta.model_name}/{item.pk}"
     str_ = str(item)
     return f"<a href='{href}'> {str_} </a>"
+
 
 def links_list(items: Iterable[Model]) -> str:
     return "\n".join(map(_item_link, items))

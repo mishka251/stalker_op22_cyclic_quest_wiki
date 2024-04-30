@@ -9,25 +9,43 @@ from typing import Any
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
-from luaparser.ast import ASTVisitor, Call, Function, Index, Invoke, Name, Nil, Number, Op, String, UnaryOp, parse, to_lua_source
+from luaparser.ast import (
+    ASTVisitor,
+    Call,
+    Function,
+    Index,
+    Invoke,
+    Name,
+    Nil,
+    Number,
+    Op,
+    String,
+    UnaryOp,
+    parse,
+    to_lua_source,
+)
 
 from game_parser.models import ItemReward, MoneyReward, ScriptFunction, SpawnReward
 
 logger = logging.getLogger(__name__)
 
-def log_parse_error(func: Callable[[Any,Any], None]) -> Callable[[Any,Any], None]:
+
+def log_parse_error(func: Callable[[Any, Any], None]) -> Callable[[Any, Any], None]:
     def wrapper(self, node) -> None:
         try:
             func(self, node)
         except Exception:
             logger.exception(f"Ошибка при парсинге {to_lua_source(node)}")
             raise
+
     return wrapper
+
 
 @dataclasses.dataclass
 class ItemRewardDto:
     item_name: str
     count: int
+
 
 @dataclasses.dataclass
 class SpawnDto:
@@ -51,29 +69,31 @@ class NestedCallsVisitor(ASTVisitor):
         self._spawn_rewards = []
 
     @log_parse_error
-    def visit_Call(self, node: Call) -> None: # noqa: N802
+    def visit_Call(self, node: Call) -> None:  # noqa: N802
         node_func = node.func
 
         if isinstance(node.func, Call):
             return
 
-        func_name = to_lua_source(node_func) if isinstance(node_func, Index) else node_func.id
+        func_name = (
+            to_lua_source(node_func) if isinstance(node_func, Index) else node_func.id
+        )
 
         if func_name == "got":
-            if len(node.args) ==1:
+            if len(node.args) == 1:
                 name = self._parse_value(node.args[0])
                 self._item_rewards.append(ItemRewardDto(name, 1))
-            elif len(node.args) ==2: # noqa: PLR2004
+            elif len(node.args) == 2:  # noqa: PLR2004
                 name = self._parse_value(node.args[0])
-                count =  self._parse_value(node.args[1])
+                count = self._parse_value(node.args[1])
                 self._item_rewards.append(ItemRewardDto(name, count))
             else:
                 raise NotImplementedError(f"Unknown got {to_lua_source(node)}")
         elif func_name == "got_money":
             self._money_rewards.append([self._parse_value(arg) for arg in node.args])
         elif func_name == "create":
-            if len(node.args) == 4:# noqa: PLR2004
-                name= self._parse_value(node.args[0])
+            if len(node.args) == 4:  # noqa: PLR2004
+                name = self._parse_value(node.args[0])
                 xyz = node.args[1]
                 xyz_raw = to_lua_source(xyz)
                 x = None
@@ -81,22 +101,45 @@ class NestedCallsVisitor(ASTVisitor):
                 z = None
                 level_vertex = self._parse_value(node.args[2])
                 game_vertex_id = self._parse_value(node.args[3])
-                self._spawn_rewards.append(SpawnDto(name, x, y, z, level_vertex, game_vertex_id, to_lua_source(node),xyz_raw))
-            elif len(node.args) == 5: # noqa: PLR2004
-                name= self._parse_value(node.args[0])
+                self._spawn_rewards.append(
+                    SpawnDto(
+                        name,
+                        x,
+                        y,
+                        z,
+                        level_vertex,
+                        game_vertex_id,
+                        to_lua_source(node),
+                        xyz_raw,
+                    )
+                )
+            elif len(node.args) == 5:  # noqa: PLR2004
+                name = self._parse_value(node.args[0])
                 xyz = node.args[1]
                 xyz_raw = to_lua_source(xyz)
                 x = None
                 y = None
                 z = None
-                if isinstance(xyz, Call) and len(xyz.args) == 3: # noqa: PLR2004
+                if isinstance(xyz, Call) and len(xyz.args) == 3:  # noqa: PLR2004
                     x = self._parse_value(xyz.args[0])
                     y = self._parse_value(xyz.args[1])
                     z = self._parse_value(xyz.args[2])
                 level_vertex = self._parse_value(node.args[2])
                 game_vertex_id = self._parse_value(node.args[3])
                 target_id = self._parse_value(node.args[4])
-                self._spawn_rewards.append(SpawnDto(name, x, y, z, level_vertex, game_vertex_id, to_lua_source(node),xyz_raw,target_id))
+                self._spawn_rewards.append(
+                    SpawnDto(
+                        name,
+                        x,
+                        y,
+                        z,
+                        level_vertex,
+                        game_vertex_id,
+                        to_lua_source(node),
+                        xyz_raw,
+                        target_id,
+                    )
+                )
             elif len(node.args) == 1:
                 return
             else:
@@ -140,7 +183,7 @@ class FunctionsVisitor(ASTVisitor):
         self._function_rewards = {}
 
     @log_parse_error
-    def visit_Function(self, node: Function) -> None:    # noqa: N802
+    def visit_Function(self, node: Function) -> None:  # noqa: N802
         current_function_name = to_lua_source(node.name)
         nested_visitor = NestedCallsVisitor()
         nested_visitor.visit(node)
@@ -148,6 +191,7 @@ class FunctionsVisitor(ASTVisitor):
 
     def rewards(self) -> dict:
         return self._function_rewards
+
 
 class Command(BaseCommand):
 
@@ -165,7 +209,7 @@ class Command(BaseCommand):
     def _get_namespace(self, file_path: Path) -> str:
         path = file_path.relative_to(self.get_files_dir_path())
         path = str(path)
-        path = path[:-len(".script")]
+        path = path[: -len(".script")]
         return path.replace("\\", ".")
 
     @atomic
@@ -176,7 +220,7 @@ class Command(BaseCommand):
         ScriptFunction.objects.all().delete()
 
         script_files = self.get_files_paths(self.get_files_dir_path())
-        exclude_files = {self.get_files_dir_path()/"lua_help.script"}
+        exclude_files = {self.get_files_dir_path() / "lua_help.script"}
 
         functions_by_aliases: dict[str, ScriptFunction] = {}
 
@@ -194,11 +238,17 @@ class Command(BaseCommand):
             visitor.visit(tree)
             rewards = visitor.rewards()
             for function_name, reward in rewards.items():
-                func = ScriptFunction.objects.create(name=function_name, namespace=file_namespace)
-                function_aliases = self._create_function_aliases(function_name, file_namespace)
+                func = ScriptFunction.objects.create(
+                    name=function_name, namespace=file_namespace
+                )
+                function_aliases = self._create_function_aliases(
+                    function_name, file_namespace
+                )
                 for alias in function_aliases:
                     if alias in functions_by_aliases:
-                        logger.warning(f"Для {alias} несколько функций {functions_by_aliases[alias]}, {func} ")
+                        logger.warning(
+                            f"Для {alias} несколько функций {functions_by_aliases[alias]}, {func} "
+                        )
                     functions_by_aliases[alias] = func
 
                 func.raw_nested_function = ";".join(reward["nested"])
@@ -212,7 +262,9 @@ class Command(BaseCommand):
                     except (TypeError, ValueError, decimal.InvalidOperation):
                         logger.warning(f"Decimal parsing error {raw_value=}")
 
-                    MoneyReward.objects.create(function=func, raw_count=raw_value, count=value)
+                    MoneyReward.objects.create(
+                        function=func, raw_count=raw_value, count=value
+                    )
 
                 for item in reward["items"]:
                     item_name = item.item_name
@@ -223,7 +275,12 @@ class Command(BaseCommand):
                     except (TypeError, ValueError, decimal.InvalidOperation):
                         logger.warning(f"int parsing error {items_count_str=}")
 
-                    ItemReward.objects.create(function=func, raw_count=items_count_str, raw_item=item_name, count=items_count)
+                    ItemReward.objects.create(
+                        function=func,
+                        raw_count=items_count_str,
+                        raw_item=item_name,
+                        count=items_count,
+                    )
 
                 for item in reward["spawn"]:
                     level_vertex = None
@@ -255,7 +312,9 @@ class Command(BaseCommand):
 
         for func in ScriptFunction.objects.all():
             nested_func_names = func.raw_nested_function.split(";")
-            nested_functions = [functions_by_aliases.get(func_name) for func_name in nested_func_names]
+            nested_functions = [
+                functions_by_aliases.get(func_name) for func_name in nested_func_names
+            ]
             nested_functions = [f for f in nested_functions if f is not None]
             if len(nested_func_names) != len(nested_functions):
                 founded = {str(f) for f in nested_functions}
@@ -268,6 +327,6 @@ class Command(BaseCommand):
         names = [name]
         namespace_parts = list(reversed(file_namespace.split(".")))
         for part in namespace_parts:
-            name=f"{part}.{name}"
+            name = f"{part}.{name}"
             names.append(name)
         return names

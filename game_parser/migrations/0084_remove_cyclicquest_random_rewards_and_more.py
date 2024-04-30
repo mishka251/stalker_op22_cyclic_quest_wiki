@@ -7,7 +7,10 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("game_parser", "0083_alter_cyclicquest_type_questrandomrewardthrough_and_more"),
+        (
+            "game_parser",
+            "0083_alter_cyclicquest_type_questrandomrewardthrough_and_more",
+        ),
     ]
 
     operations = [
@@ -23,11 +26,21 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="questrandomrewardthrough",
             name="quest",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="random_rewards", to="game_parser.cyclicquest", verbose_name="ЦЗ"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="random_rewards",
+                to="game_parser.cyclicquest",
+                verbose_name="ЦЗ",
+            ),
         ),
         migrations.AlterField(
             model_name="questrandomrewardthrough",
             name="reward",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="quests", to="game_parser.questrandomreward", verbose_name="Тип награды"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="quests",
+                to="game_parser.questrandomreward",
+                verbose_name="Тип награды",
+            ),
         ),
     ]

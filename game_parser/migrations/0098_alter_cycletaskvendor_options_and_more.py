@@ -13,11 +13,18 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name="cycletaskvendor",
-            options={"verbose_name": "ID НПС, выдающий циклические задания", "verbose_name_plural": "ID Выдающих ЦЗ НПС"},
+            options={
+                "verbose_name": "ID НПС, выдающий циклические задания",
+                "verbose_name_plural": "ID Выдающих ЦЗ НПС",
+            },
         ),
         migrations.AddField(
             model_name="gamestoryid",
             name="spawn_section",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.spawnitem"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.spawnitem",
+            ),
         ),
     ]

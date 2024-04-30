@@ -14,16 +14,34 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="cyclicquest",
             name="target_camp_to_defeat",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.spawnitem", verbose_name="Лагерь нужно защитить"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="+",
+                to="game_parser.spawnitem",
+                verbose_name="Лагерь нужно защитить",
+            ),
         ),
         migrations.AddField(
             model_name="cyclicquest",
             name="target_camp_to_destroy",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.spawnitem", verbose_name="Лагерь нужно уничтожить"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="+",
+                to="game_parser.spawnitem",
+                verbose_name="Лагерь нужно уничтожить",
+            ),
         ),
         migrations.AddField(
             model_name="cyclicquest",
             name="target_stalker",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.spawnitem", verbose_name="Сталкер цель"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="+",
+                to="game_parser.spawnitem",
+                verbose_name="Сталкер цель",
+            ),
         ),
     ]

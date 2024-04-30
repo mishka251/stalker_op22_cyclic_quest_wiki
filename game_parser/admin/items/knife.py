@@ -6,6 +6,4 @@ from game_parser.models import Knife
 
 @register(Knife)
 class KnifeAdmin(BaseItemAdmin):
-    list_display = (
-        *BaseItemAdmin.list_display,
-    )
+    list_display = (*BaseItemAdmin.list_display,)

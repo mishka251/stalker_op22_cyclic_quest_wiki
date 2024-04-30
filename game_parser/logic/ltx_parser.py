@@ -15,7 +15,12 @@ class BaseLtxParser:
     BLOCK_CAPTION_START = "["
     BLOCK_CAPTION_END = "]"
 
-    def __init__(self, file_path: Path, lines_generator,  known_extends: LtxParserResults | None = None):
+    def __init__(
+        self,
+        file_path: Path,
+        lines_generator,
+        known_extends: LtxParserResults | None = None,
+    ):
         self._path = file_path
         self._known_extends = known_extends or {}
         self._parse(lines_generator)
@@ -47,7 +52,9 @@ class BaseLtxParser:
                             self._parsed_blocks[block_code] = block_lines
                         else:
                             self._parsed_blocks[block_code] = {}
-                            self._parsed_blocks[block_code] |= self._get_bases(blocks_bases[block_code])
+                            self._parsed_blocks[block_code] |= self._get_bases(
+                                blocks_bases[block_code]
+                            )
                             self._parsed_blocks[block_code] |= block_lines
                     current_block_header, bases = self._get_block_caption(line)
                     raw_blocks[current_block_header] = []
@@ -59,12 +66,12 @@ class BaseLtxParser:
                 current_multiline_block = line
                 continue
             if current_multiline_block:
-                current_multiline_block += "\n"+line
+                current_multiline_block += "\n" + line
                 if line.strip() == MULTILINE_BLOCK_END:
                     key, value = current_multiline_block.split("=", 1)
                     value = value.strip()
-                    value = value[len(MULTILINE_BLOCK_START):]
-                    value = value[:-len(MULTILINE_BLOCK_END)]
+                    value = value[len(MULTILINE_BLOCK_START) :]
+                    value = value[: -len(MULTILINE_BLOCK_END)]
                     current_multiline_block = f"{key}= {value}"
                     raw_blocks[current_block_header].append(current_multiline_block)
                     current_multiline_block = None
@@ -78,7 +85,9 @@ class BaseLtxParser:
                 self._parsed_blocks[block_code] = block_lines
             else:
                 self._parsed_blocks[block_code] = {}
-                self._parsed_blocks[block_code] |= self._get_bases(blocks_bases[block_code])
+                self._parsed_blocks[block_code] |= self._get_bases(
+                    blocks_bases[block_code]
+                )
                 self._parsed_blocks[block_code] |= block_lines
 
     def _line_is_include(self, line: str) -> bool:
@@ -86,7 +95,7 @@ class BaseLtxParser:
 
     def _parse_include(self, line: str) -> LtxParserResults:
         pattern = re.compile(r'#include "(?P<file_path>.*)"')
-        if rm:=pattern.match(line):
+        if rm := pattern.match(line):
             file_path = rm.groupdict()["file_path"]
         else:
             raise ValueError("incorrect include")
@@ -105,18 +114,22 @@ class BaseLtxParser:
         try:
             return self._get_bases_inner(bases)
         except Exception:
-            print(f"Error while get_bases  {bases=}, {[self._parsed_blocks[base] for base in bases]=}")
+            print(
+                f"Error while get_bases  {bases=}, {[self._parsed_blocks[base] for base in bases]=}"
+            )
             raise
 
     def _get_bases_inner(self, bases: tuple[str, ...]) -> dict:
-        merged_bases : dict= {}
+        merged_bases: dict = {}
         for base in bases:
             if base in self._parsed_blocks:
                 merged_bases |= self._parsed_blocks[base]
             elif base in self._known_extends:
                 merged_bases |= self._known_extends[base]
             else:
-                raise ValueError(f"Unknown {base=} in file={self._path}. {merged_bases=}")
+                raise ValueError(
+                    f"Unknown {base=} in file={self._path}. {merged_bases=}"
+                )
 
         return merged_bases
 
@@ -135,7 +148,7 @@ class BaseLtxParser:
     def _get_block_caption(self, line: str) -> tuple[str, tuple[str, ...]]:
         end_index = line.index(self.BLOCK_CAPTION_END)
         caption = line[1:end_index]
-        bases_str = line[end_index + 2:len(line)]
+        bases_str = line[end_index + 2 : len(line)]
         bases = () if not bases_str else tuple(s.strip() for s in bases_str.split(","))
         return caption, bases
 
@@ -146,7 +159,6 @@ class BaseLtxParser:
         if cnt == 0:
             return lines
         return dict(self._parse_line_key_value(line) for line in lines)
-
 
     def _parse_line_key_value(self, line: str) -> tuple[str, str | None]:
         if "=" in line:
@@ -167,10 +179,13 @@ class LtxParser(BaseLtxParser):
             lines = file.readlines()
             super().__init__(file_path, lines, known_extends)
 
+
 class TextLtxParser(BaseLtxParser):
     _encoding = "cp1251"
 
-    def __init__(self, file_path: Path, content: str, known_extends: LtxParserResults = None):
+    def __init__(
+        self, file_path: Path, content: str, known_extends: LtxParserResults = None
+    ):
         self._path = file_path
 
         lines = content.split("\n")

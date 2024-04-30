@@ -13,11 +13,39 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="QuestRandomReward",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("name", models.CharField(max_length=255, verbose_name="Игровое название")),
-                ("caption", models.CharField(max_length=255, null=True, verbose_name="Человекочитабельное название")),
-                ("possible_items_str", models.CharField(max_length=2000, verbose_name="Названия возможных предметов")),
-                ("possible_items", models.ManyToManyField(to="game_parser.baseitem", verbose_name="Возможные предметы")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=255, verbose_name="Игровое название"),
+                ),
+                (
+                    "caption",
+                    models.CharField(
+                        max_length=255,
+                        null=True,
+                        verbose_name="Человекочитабельное название",
+                    ),
+                ),
+                (
+                    "possible_items_str",
+                    models.CharField(
+                        max_length=2000, verbose_name="Названия возможных предметов"
+                    ),
+                ),
+                (
+                    "possible_items",
+                    models.ManyToManyField(
+                        to="game_parser.baseitem", verbose_name="Возможные предметы"
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Случайная награда за квест",

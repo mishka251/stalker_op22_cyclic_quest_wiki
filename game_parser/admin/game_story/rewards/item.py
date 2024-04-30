@@ -19,6 +19,7 @@ class ItemRewardAdmin(ModelAdmin):
         "item",
     ]
 
+
 __all__ = [
     "ItemRewardAdmin",
 ]

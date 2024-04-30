@@ -17,8 +17,9 @@ class Command(BaseCommand):
             translation_id = f"task_item_type_{item.index}"
             icon_id = f"random_{item.index}"
             item.name = translation_id
-            item.name_translation = Translation.objects.filter(code__iexact=translation_id).first()
+            item.name_translation = Translation.objects.filter(
+                code__iexact=translation_id
+            ).first()
             item.icon = Icon.objects.filter(name__iexact=icon_id).first()
             item.save()
             print(f"{index+1}/{count}")
-

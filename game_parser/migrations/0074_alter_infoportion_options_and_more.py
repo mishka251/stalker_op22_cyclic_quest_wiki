@@ -13,7 +13,10 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name="infoportion",
-            options={"verbose_name": "Инфопоршень", "verbose_name_plural": "Инфопоршни"},
+            options={
+                "verbose_name": "Инфопоршень",
+                "verbose_name_plural": "Инфопоршни",
+            },
         ),
         migrations.RemoveField(
             model_name="cyclicquest",
@@ -27,12 +30,19 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="gametask",
             name="game_id",
-            field=models.CharField(max_length=256, unique=True, verbose_name="Игровой id"),
+            field=models.CharField(
+                max_length=256, unique=True, verbose_name="Игровой id"
+            ),
         ),
         migrations.AlterField(
             model_name="gametask",
             name="title",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.translation", verbose_name="Заголовок(перевод)"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.translation",
+                verbose_name="Заголовок(перевод)",
+            ),
         ),
         migrations.AlterField(
             model_name="gametask",
@@ -42,12 +52,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="infoportion",
             name="actions_raw",
-            field=models.TextField(null=True, verbose_name="Запускаемые функции(сырые)"),
+            field=models.TextField(
+                null=True, verbose_name="Запускаемые функции(сырые)"
+            ),
         ),
         migrations.AlterField(
             model_name="infoportion",
             name="article_raw",
-            field=models.CharField(max_length=256, null=True, verbose_name="Статьи(сырые id)"),
+            field=models.CharField(
+                max_length=256, null=True, verbose_name="Статьи(сырые id)"
+            ),
         ),
         migrations.AlterField(
             model_name="infoportion",
@@ -57,12 +71,19 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="infoportion",
             name="game_id",
-            field=models.CharField(max_length=512, verbose_name="Игровой идентификатор"),
+            field=models.CharField(
+                max_length=512, verbose_name="Игровой идентификатор"
+            ),
         ),
         migrations.AlterField(
             model_name="infoportion",
             name="task",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.gametask", verbose_name="Задание"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.gametask",
+                verbose_name="Задание",
+            ),
         ),
         migrations.AlterField(
             model_name="infoportion",
@@ -72,46 +93,99 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="itemreward",
             name="item",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="got_in_functions", to="game_parser.baseitem", verbose_name="Предмет"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="got_in_functions",
+                to="game_parser.baseitem",
+                verbose_name="Предмет",
+            ),
         ),
         migrations.AlterField(
             model_name="taskobjective",
             name="article_id_raw",
-            field=models.CharField(max_length=256, null=True, verbose_name="Статья(энциклопедия)"),
+            field=models.CharField(
+                max_length=256, null=True, verbose_name="Статья(энциклопедия)"
+            ),
         ),
         migrations.AlterField(
             model_name="taskobjective",
             name="icon",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.icon", verbose_name="Иконка"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="+",
+                to="game_parser.icon",
+                verbose_name="Иконка",
+            ),
         ),
         migrations.AlterField(
             model_name="taskobjective",
             name="icon_raw",
-            field=models.CharField(max_length=512, null=True, verbose_name="Название иконки"),
+            field=models.CharField(
+                max_length=512, null=True, verbose_name="Название иконки"
+            ),
         ),
         migrations.AlterField(
             model_name="taskobjective",
             name="task",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.gametask", verbose_name="Задание"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="game_parser.gametask",
+                verbose_name="Задание",
+            ),
         ),
         migrations.AlterField(
             model_name="taskobjective",
             name="text",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation", verbose_name="Текст(перевод)"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="+",
+                to="game_parser.translation",
+                verbose_name="Текст(перевод)",
+            ),
         ),
         migrations.AlterField(
             model_name="taskobjective",
             name="text_id_raw",
-            field=models.CharField(max_length=256, null=True, verbose_name="Сырой текст"),
+            field=models.CharField(
+                max_length=256, null=True, verbose_name="Сырой текст"
+            ),
         ),
         migrations.CreateModel(
             name="CyclicQuestItemReward",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("raw_item", models.CharField(max_length=255)),
                 ("count", models.IntegerField(default=1)),
-                ("item", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="cyclic_quests_when_needed", to="game_parser.baseitem", verbose_name="Целевой предмет")),
-                ("quest", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="item_rewards", to="game_parser.baseitem", verbose_name="Предмет")),
+                (
+                    "item",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="cyclic_quests_when_needed",
+                        to="game_parser.baseitem",
+                        verbose_name="Целевой предмет",
+                    ),
+                ),
+                (
+                    "quest",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="item_rewards",
+                        to="game_parser.baseitem",
+                        verbose_name="Предмет",
+                    ),
+                ),
             ],
         ),
     ]

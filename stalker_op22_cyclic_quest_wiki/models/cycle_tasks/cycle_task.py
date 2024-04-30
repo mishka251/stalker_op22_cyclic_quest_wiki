@@ -4,7 +4,7 @@ from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.vendor import CycleTaskVe
 
 
 class QuestKinds(models.TextChoices):
-    eliminate_lager = ("eliminate_lager",  "Уничтожить лагерь")
+    eliminate_lager = ("eliminate_lager", "Уничтожить лагерь")
     chain = "chain", "Цепочка"
     kill_stalker = "kill_stalker", "Убить сталкера"
     monster_part = "monster_part", "Часть мутанта"
@@ -25,24 +25,42 @@ class CyclicQuest(models.Model):
 
     objects = CyclicQuestManager()
 
-    game_code = models.CharField(null=False, max_length=255, verbose_name="Игровой код в файле", unique=True)
-    type = models.CharField(choices=QuestKinds.choices, null=False, max_length=255,
-                            verbose_name="Тип задания(тип цели задания)")
-    prior = models.IntegerField(default=0, null=False, verbose_name=" Типа очередность задания")
+    game_code = models.CharField(
+        null=False, max_length=255, verbose_name="Игровой код в файле", unique=True
+    )
+    type = models.CharField(
+        choices=QuestKinds.choices,
+        null=False,
+        max_length=255,
+        verbose_name="Тип задания(тип цели задания)",
+    )
+    prior = models.IntegerField(
+        default=0, null=False, verbose_name=" Типа очередность задания"
+    )
     once = models.BooleanField(default=False, verbose_name="Одноразовый ли квест")
 
-    vendor = models.ForeignKey(CycleTaskVendor, null=False, on_delete=models.PROTECT,
-                               verbose_name="Кквестодатель")
+    vendor = models.ForeignKey(
+        CycleTaskVendor,
+        null=False,
+        on_delete=models.PROTECT,
+        verbose_name="Кквестодатель",
+    )
 
-    text = models.ForeignKey("Translation", on_delete=models.PROTECT, null=False, verbose_name="Текст задания",
-                             related_name="+")
+    text = models.ForeignKey(
+        "Translation",
+        on_delete=models.PROTECT,
+        null=False,
+        verbose_name="Текст задания",
+        related_name="+",
+    )
 
     def natural_key(self) -> tuple:
-        return (self.game_code, )
+        return (self.game_code,)
 
     def __str__(self):
         type_caption = QuestKinds[self.type].label
         return f"{type_caption}({self.prior}) для {self.vendor}"
+
 
 __all__ = [
     "CyclicQuest",

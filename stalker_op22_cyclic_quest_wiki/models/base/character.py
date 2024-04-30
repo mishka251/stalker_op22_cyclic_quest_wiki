@@ -14,13 +14,15 @@ class Community(models.Model):
     objects = CommunityManager()
 
     name = models.CharField(max_length=128, null=False, unique=True, verbose_name="Код")
-    translation = models.ForeignKey("Translation", null=False, on_delete=models.PROTECT, verbose_name="Название")
+    translation = models.ForeignKey(
+        "Translation", null=False, on_delete=models.PROTECT, verbose_name="Название"
+    )
 
     def __str__(self):
         return self.translation.rus
 
     def natural_key(self) -> tuple:
-        return (self.name, )
+        return (self.name,)
 
 
 class StalkerRankManager(models.Manager):
@@ -36,13 +38,15 @@ class StalkerRank(models.Model):
     objects = StalkerRankManager()
 
     name = models.CharField(max_length=128, null=False, unique=True, verbose_name="Код")
-    translation = models.ForeignKey("Translation", null=False, on_delete=models.PROTECT, verbose_name="Название")
+    translation = models.ForeignKey(
+        "Translation", null=False, on_delete=models.PROTECT, verbose_name="Название"
+    )
 
     def __str__(self):
         return self.translation.rus
 
     def natural_key(self) -> tuple:
-        return (self.name, )
+        return (self.name,)
 
 
 __all__ = [

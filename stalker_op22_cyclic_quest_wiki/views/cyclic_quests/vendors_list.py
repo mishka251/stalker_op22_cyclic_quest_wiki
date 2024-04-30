@@ -21,4 +21,3 @@ class TaskVendorsList(TemplateView):
             "has_chain": vendor.cyclicquest_set.filter(type=QuestKinds.chain).exists(),
             "quests_link": reverse("vendor_tasks", kwargs={"vendor_id": vendor.id}),
         }
-

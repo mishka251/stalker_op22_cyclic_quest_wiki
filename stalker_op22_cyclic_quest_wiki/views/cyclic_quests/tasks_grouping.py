@@ -19,8 +19,9 @@ from stalker_op22_cyclic_quest_wiki.models import (
 from stalker_op22_cyclic_quest_wiki.models import TreasureReward as TreasureRewardModel
 
 position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
-offset_re = re.compile(r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)")
-
+offset_re = re.compile(
+    r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
+)
 
 
 @dataclasses.dataclass
@@ -36,10 +37,12 @@ class ItemInfo:
     item_label: str
     icon: Icon | None
 
+
 @dataclasses.dataclass
 class MapPointItem:
     position: tuple[float, float]
     info_str: str
+
 
 @dataclasses.dataclass
 class MapPointInfo:
@@ -141,26 +144,37 @@ class CharacterQuests:
 
 # class CyclicTasksView(TemplateView):
 
+
 def collect_info() -> list[CharacterQuests]:
     all_tasks = list(CyclicQuest.objects.all().order_by("vendor"))
     result = []
-    for vendor, _vendor_tasks in groupby(all_tasks, lambda task: task.get_vendor_character):
+    for vendor, _vendor_tasks in groupby(
+        all_tasks, lambda task: task.get_vendor_character
+    ):
         result += [collect_vendor_tasks(_vendor_tasks, vendor)]
 
     return result
 
 
-def collect_vendor_tasks(_vendor_tasks: list[CyclicQuest], vendor: CycleTaskVendor) -> CharacterQuests:
+def collect_vendor_tasks(
+    _vendor_tasks: list[CyclicQuest], vendor: CycleTaskVendor
+) -> CharacterQuests:
     vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
     vendor_id = vendor.game_story_id
 
     vendor_name = vendor.name_translation.rus
     quest_group_by_type = {}
-    for _task_kind, _vendor_kind_tasks in groupby(vendor_tasks, key=lambda task: task.type):
+    for _task_kind, _vendor_kind_tasks in groupby(
+        vendor_tasks, key=lambda task: task.type
+    ):
         task_kind = QuestKinds[_task_kind]
-        vendor_kind_tasks = list(sorted(_vendor_kind_tasks, key=lambda task: task.prior))
+        vendor_kind_tasks = list(
+            sorted(_vendor_kind_tasks, key=lambda task: task.prior)
+        )
         tasks_by_prior = {}
-        for prior, _prior_tasks in groupby(vendor_kind_tasks, key=lambda task: task.prior):
+        for prior, _prior_tasks in groupby(
+            vendor_kind_tasks, key=lambda task: task.prior
+        ):
             prior_tasks = list(_prior_tasks)
 
             prior_quests = [parse_task(task) for task in prior_tasks]
@@ -172,8 +186,7 @@ def collect_vendor_tasks(_vendor_tasks: list[CyclicQuest], vendor: CycleTaskVend
 def parse_task(db_task: CyclicQuest) -> Quest:
     target = parse_target(db_task)
     rewards = [
-        parse_item_reward(reward)
-        for reward in ItemReward.objects.filter(quest=db_task)
+        parse_item_reward(reward) for reward in ItemReward.objects.filter(quest=db_task)
     ]
     if (reward_money := MoneyReward.objects.filter(quest=db_task).first()) is not None:
         rewards.append(TaskMoneyReward(reward_money.money))
@@ -212,7 +225,10 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
     if db_task.type in stalker:
         stalker = CycleTaskTargetStalker.objects.get(quest=db_task)
         possible_spawn_items = stalker.map_positions.all()
-        maybe_map_points =[_spawn_item_to_map_info(item, f"{db_task.game_code}_stalker_{i}") for i, item in enumerate(possible_spawn_items)]
+        maybe_map_points = [
+            _spawn_item_to_map_info(item, f"{db_task.game_code}_stalker_{i}")
+            for i, item in enumerate(possible_spawn_items)
+        ]
         return StalkerTarget(
             str(stalker),
             [point for point in maybe_map_points if point is not None],
@@ -221,7 +237,9 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         )
     if db_task.type in lager_types:
         target_camp = CycleTaskTargetCamp.objects.get(quest=db_task)
-        camp_map_info = _spawn_item_to_map_info(target_camp.map_position, f"{db_task.game_code}_target_camp")
+        camp_map_info = _spawn_item_to_map_info(
+            target_camp.map_position, f"{db_task.game_code}_target_camp"
+        )
         return LagerTarget(camp_map_info)
 
     if db_task.type in items_types:
@@ -230,11 +248,19 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         target_cond_str: str | None = target.cond_str
         item_icon = None
         if target_item.icon:
-            item_icon = Icon(target_item.icon.icon.url, target_item.icon.icon.width, target_item.icon.icon.height)
+            item_icon = Icon(
+                target_item.icon.icon.url,
+                target_item.icon.icon.width,
+                target_item.icon.icon.height,
+            )
 
         item_info = ItemInfo(
             item_id=target_item.name,
-            item_label=target_item.name_translation.rus if target_item.name_translation else target_item.inv_name,
+            item_label=(
+                target_item.name_translation.rus
+                if target_item.name_translation
+                else target_item.inv_name
+            ),
             icon=item_icon,
         )
         target_count = target.count or 1
@@ -256,7 +282,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
             return AmmoTarget(
                 item=item_info,
                 items_count=target_count,
-                ammo_count=target_count*target_item.box_size,
+                ammo_count=target_count * target_item.box_size,
             )
         return QuestItemTarget(
             item=item_info,
@@ -267,8 +293,8 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
 
 
 def _spawn_item_to_map_info(
-        target_camp: MapPosition,
-        unique_map_id: str,
+    target_camp: MapPosition,
+    unique_map_id: str,
 ) -> MapPointInfo | None:
     map_info = target_camp.location.map_info
     if map_info:
@@ -277,8 +303,9 @@ def _spawn_item_to_map_info(
             image_url=map_info.map_image.url,
             bounds=(map_info.min_x, map_info.min_y, map_info.max_x, map_info.max_y),
             y_level_offset=-(map_info.max_y + map_info.min_y),
-            item=MapPointItem(position=(target_camp.x, target_camp.z), info_str=target_camp.spawn_id),
-
+            item=MapPointItem(
+                position=(target_camp.x, target_camp.z), info_str=target_camp.spawn_id
+            ),
         )
     return None
 
@@ -286,10 +313,18 @@ def _spawn_item_to_map_info(
 def parse_item_reward(reward: ItemReward) -> TaskReward:
     item_icon = None
     if reward.item.icon:
-        item_icon = Icon(reward.item.icon.icon.url, reward.item.icon.icon.width, reward.item.icon.icon.height)
+        item_icon = Icon(
+            reward.item.icon.icon.url,
+            reward.item.icon.icon.width,
+            reward.item.icon.icon.height,
+        )
     item_info = ItemInfo(
         item_id=reward.item.name,
-        item_label=reward.item.name_translation.rus if reward.item.name_translation else reward.item.inv_name,
+        item_label=(
+            reward.item.name_translation.rus
+            if reward.item.name_translation
+            else reward.item.inv_name
+        ),
         icon=item_icon,
     )
     if isinstance(reward.item, Ammo):

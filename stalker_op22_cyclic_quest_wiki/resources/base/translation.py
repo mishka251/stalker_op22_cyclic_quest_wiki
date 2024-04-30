@@ -8,10 +8,10 @@ class TranslationResource(resources.ModelResource):
     class Meta:
         model = Translation
         use_natural_foreign_keys = True
-        import_id_fields=["code"]
+        import_id_fields = ["code"]
         exclude = {"id"}
+
 
 __all__ = [
     "TranslationResource",
 ]
-

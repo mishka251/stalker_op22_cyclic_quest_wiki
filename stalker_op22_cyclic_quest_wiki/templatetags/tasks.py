@@ -64,7 +64,7 @@ def render_target(target: TaskReward) -> str:
     elif isinstance(target, QuestItemWithStateTarget):
 
         context["before_width"] = int(target.state.min)
-        context["target_width"] = int(target.state.max-target.state.min)
+        context["target_width"] = int(target.state.max - target.state.min)
         context["after_width"] = int(100 - target.state.max)
         target_cond_str = None
         if target.state.min >= NEW_MIN_STATE:

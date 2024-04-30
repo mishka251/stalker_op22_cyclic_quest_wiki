@@ -15,20 +15,34 @@ class Command(BaseCommand):
     @atomic
     def handle(self, **options) -> None:
         count = TaskObjective.objects.count()
-        functions = ScriptFunction.objects.all().annotate(fullname=Concat("namespace", Value("."), "name"))
+        functions = ScriptFunction.objects.all().annotate(
+            fullname=Concat("namespace", Value("."), "name")
+        )
         for index, item in enumerate(TaskObjective.objects.all()):
             if item.function_complete_raw and not item.function_complete:
-                item.function_complete = functions.filter(fullname=item.function_complete_raw).first()
+                item.function_complete = functions.filter(
+                    fullname=item.function_complete_raw
+                ).first()
             if item.infoportion_complete_raw:
-                item.infoportion_complete = InfoPortion.objects.filter(game_id=item.infoportion_complete_raw).first()
+                item.infoportion_complete = InfoPortion.objects.filter(
+                    game_id=item.infoportion_complete_raw
+                ).first()
             if item.infoportion_set_complete_raw:
-                item.infoportion_set_complete = InfoPortion.objects.filter(game_id=item.infoportion_set_complete_raw).first()
+                item.infoportion_set_complete = InfoPortion.objects.filter(
+                    game_id=item.infoportion_set_complete_raw
+                ).first()
             if item.function_fail_raw and not item.function_fail:
-                item.function_fail = functions.filter(fullname=item.function_fail_raw).first()
+                item.function_fail = functions.filter(
+                    fullname=item.function_fail_raw
+                ).first()
             if item.infoportion_set_fail_raw:
-                item.infoportion_set_fail = InfoPortion.objects.filter(game_id=item.infoportion_set_fail_raw).first()
+                item.infoportion_set_fail = InfoPortion.objects.filter(
+                    game_id=item.infoportion_set_fail_raw
+                ).first()
             if item.function_call_complete_raw and not item.function_call_complete:
-                item.function_call_complete = functions.filter(fullname=item.function_call_complete_raw).first()
+                item.function_call_complete = functions.filter(
+                    fullname=item.function_call_complete_raw
+                ).first()
 
             item.save()
             print(f"{index + 1}/{count}")

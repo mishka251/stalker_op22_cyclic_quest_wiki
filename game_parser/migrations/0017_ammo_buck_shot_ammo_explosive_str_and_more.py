@@ -6,14 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("game_parser", "0016_ammo_box_size_ammo_impair_ammo_k_disp_ammo_k_dist_and_more"),
+        (
+            "game_parser",
+            "0016_ammo_box_size_ammo_impair_ammo_k_disp_ammo_k_dist_and_more",
+        ),
     ]
 
     operations = [
         migrations.AddField(
             model_name="ammo",
             name="buck_shot",
-            field=models.PositiveIntegerField(null=True, verbose_name="Дроби в выстреле?"),
+            field=models.PositiveIntegerField(
+                null=True, verbose_name="Дроби в выстреле?"
+            ),
         ),
         migrations.AddField(
             model_name="ammo",

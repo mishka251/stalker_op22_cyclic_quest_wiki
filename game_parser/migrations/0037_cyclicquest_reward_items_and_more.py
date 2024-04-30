@@ -14,11 +14,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="cyclicquest",
             name="reward_items",
-            field=models.ManyToManyField(related_name="quests_when_giving", to="game_parser.baseitem"),
+            field=models.ManyToManyField(
+                related_name="quests_when_giving", to="game_parser.baseitem"
+            ),
         ),
         migrations.AlterField(
             model_name="cyclicquest",
             name="target_item",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="quests_when_needed", to="game_parser.baseitem", verbose_name="Целевой предмет"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="quests_when_needed",
+                to="game_parser.baseitem",
+                verbose_name="Целевой предмет",
+            ),
         ),
     ]

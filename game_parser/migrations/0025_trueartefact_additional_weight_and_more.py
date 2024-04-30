@@ -13,21 +13,35 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="trueartefact",
             name="additional_weight",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Переносимый вес"),
+            field=models.DecimalField(
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Переносимый вес",
+            ),
         ),
         migrations.AddField(
             model_name="trueartefact",
             name="bleeding_restore_speed",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Кровотечение?"),
+            field=models.DecimalField(
+                decimal_places=3, max_digits=5, null=True, verbose_name="Кровотечение?"
+            ),
         ),
         migrations.AddField(
             model_name="trueartefact",
             name="power_restore_speed",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Восстановление сил"),
+            field=models.DecimalField(
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Восстановление сил",
+            ),
         ),
         migrations.AddField(
             model_name="trueartefact",
             name="radiation_restore_speed",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Радиация?"),
+            field=models.DecimalField(
+                decimal_places=3, max_digits=5, null=True, verbose_name="Радиация?"
+            ),
         ),
     ]

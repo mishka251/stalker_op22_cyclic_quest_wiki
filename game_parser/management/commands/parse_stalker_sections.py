@@ -37,6 +37,7 @@ class Command(BaseCommand):
             dir_path / "spawn_sections_snp.ltx",
             dir_path / "vol_spawn.ltx",
         ]
+
     @atomic
     def handle(self, **options) -> None:
         print("Start cleaning")
@@ -57,7 +58,6 @@ class Command(BaseCommand):
 
         existing_sections_keys = [k for k in results if isinstance(results[k], dict)]
 
-
         grouped_by_cls_dict = defaultdict(set)
         for section_name in existing_sections_keys:
             cls_name = results[section_name].get("class", "None")
@@ -68,16 +68,21 @@ class Command(BaseCommand):
         # TODO Проверить все секции на то, что всё есть в БД
         print("START FILLING")
 
-        stalker_keys, stalkers = self._get_sections_by_class(results, grouped_by_cls_dict, self.STALKER_CLASSES)
+        stalker_keys, stalkers = self._get_sections_by_class(
+            results, grouped_by_cls_dict, self.STALKER_CLASSES
+        )
 
         self._load_sections(stalkers, StalkerResource())
 
-    def _load_sections(self, sections: dict[str, dict], resource: BaseModelResource) -> None:
+    def _load_sections(
+        self, sections: dict[str, dict], resource: BaseModelResource
+    ) -> None:
         for section_name, section in sections.items():
             resource.create_instance_from_data(section_name, section)
 
-    def _get_sections_by_class(self, results, grouped_by_cls_dict, classes: set[str]) -> tuple[
-        set[str], dict[str, dict]]:
+    def _get_sections_by_class(
+        self, results, grouped_by_cls_dict, classes: set[str]
+    ) -> tuple[set[str], dict[str, dict]]:
         ammo_keys = set()
         for key in classes:
             ammo_keys |= set(grouped_by_cls_dict[key])

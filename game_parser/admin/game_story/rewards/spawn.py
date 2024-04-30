@@ -21,6 +21,7 @@ class SpawnRewardAdmin(ModelAdmin):
     def item_view(self, character: SpawnReward) -> str:
         return character.get_item
 
+
 __all__ = [
     "SpawnRewardAdmin",
 ]

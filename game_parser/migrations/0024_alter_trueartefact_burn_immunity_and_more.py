@@ -13,46 +13,76 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="trueartefact",
             name="burn_immunity",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"),
+            field=models.DecimalField(
+                decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"
+            ),
         ),
         migrations.AlterField(
             model_name="trueartefact",
             name="chemical_burn_immunity",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Защита от химии"),
+            field=models.DecimalField(
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Защита от химии",
+            ),
         ),
         migrations.AlterField(
             model_name="trueartefact",
             name="explosion_immunity",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Защита от взрыва"),
+            field=models.DecimalField(
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Защита от взрыва",
+            ),
         ),
         migrations.AlterField(
             model_name="trueartefact",
             name="fire_wound_immunity",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"),
+            field=models.DecimalField(
+                decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"
+            ),
         ),
         migrations.AlterField(
             model_name="trueartefact",
             name="radiation_immunity",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Защита от радиации"),
+            field=models.DecimalField(
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Защита от радиации",
+            ),
         ),
         migrations.AlterField(
             model_name="trueartefact",
             name="shock_immunity",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"),
+            field=models.DecimalField(
+                decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"
+            ),
         ),
         migrations.AlterField(
             model_name="trueartefact",
             name="strike_immunity",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"),
+            field=models.DecimalField(
+                decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"
+            ),
         ),
         migrations.AlterField(
             model_name="trueartefact",
             name="telepatic_immunity",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Защита от телепатии"),
+            field=models.DecimalField(
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Защита от телепатии",
+            ),
         ),
         migrations.AlterField(
             model_name="trueartefact",
             name="wound_immunity",
-            field=models.DecimalField(decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"),
+            field=models.DecimalField(
+                decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"
+            ),
         ),
     ]

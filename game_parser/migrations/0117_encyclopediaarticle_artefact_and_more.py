@@ -14,12 +14,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="encyclopediaarticle",
             name="artefact",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="articles", to="game_parser.artefact"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="articles",
+                to="game_parser.artefact",
+            ),
         ),
         migrations.AlterField(
             model_name="encyclopediaarticle",
             name="game_id",
-            field=models.CharField(max_length=255, unique=True, verbose_name="Игровой id"),
+            field=models.CharField(
+                max_length=255, unique=True, verbose_name="Игровой id"
+            ),
         ),
         migrations.AlterField(
             model_name="encyclopediaarticle",
@@ -29,6 +36,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="encyclopediaarticle",
             name="ltx_str",
-            field=models.CharField(max_length=255, null=True, unique=True, verbose_name="Иконка"),
+            field=models.CharField(
+                max_length=255, null=True, unique=True, verbose_name="Иконка"
+            ),
         ),
     ]

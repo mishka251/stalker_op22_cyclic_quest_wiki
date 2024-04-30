@@ -14,7 +14,6 @@ from game_parser.models import Icon
 logger = logging.getLogger(__name__)
 
 
-
 class Command(BaseCommand):
     TMP_DIR = Path("tmp")
     IMAGE_PART_WIDTH = 50
@@ -27,8 +26,7 @@ class Command(BaseCommand):
     def get_files_paths(self, path: Path) -> list[Path]:
         paths = []
         for aub_path in path.iterdir():
-            if aub_path.name.startswith("ui_npc")\
-                    or aub_path.name in {
+            if aub_path.name.startswith("ui_npc") or aub_path.name in {
                 "ui_arhara_unique.xml",
                 "ui_icons_npc.xml",
                 "ui_iconstotal.xml",
@@ -39,7 +37,7 @@ class Command(BaseCommand):
                 "ui_npc_unique.xml",
                 "ui_npc_unique_2.xml",
             }:
-                paths.append(aub_path) # noqa: PERF401
+                paths.append(aub_path)  # noqa: PERF401
 
         return paths
 
@@ -58,7 +56,11 @@ class Command(BaseCommand):
             image = None
             for child_node in root_node:
                 if child_node.tag == "file_name":
-                    image_file_path = settings.OP22_GAME_DATA_PATH/"textures"/(child_node.text+".dds")
+                    image_file_path = (
+                        settings.OP22_GAME_DATA_PATH
+                        / "textures"
+                        / (child_node.text + ".dds")
+                    )
                     image = Image.open(image_file_path)
             if image is None:
                 raise ValueError(f"No image in {file_path}")

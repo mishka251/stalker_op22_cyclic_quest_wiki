@@ -14,7 +14,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="LocationMapInfo",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("name", models.CharField(max_length=255)),
                 ("texture_raw", models.CharField(max_length=255)),
                 ("bound_rect_raw", models.CharField(max_length=255)),
@@ -22,7 +30,14 @@ class Migration(migrations.Migration):
                 ("weathers", models.CharField(max_length=255)),
                 ("music_tracks", models.CharField(max_length=255)),
                 ("map_image", models.ImageField(null=True, upload_to="")),
-                ("location", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.location")),
+                (
+                    "location",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.location",
+                    ),
+                ),
             ],
         ),
     ]

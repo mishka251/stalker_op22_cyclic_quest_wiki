@@ -1,4 +1,8 @@
-from game_parser.logic.model_resources.base_resource import SECTION_NAME, BaseModelResource, CharField
+from game_parser.logic.model_resources.base_resource import (
+    SECTION_NAME,
+    BaseModelResource,
+    CharField,
+)
 from game_parser.models import Treasure
 
 

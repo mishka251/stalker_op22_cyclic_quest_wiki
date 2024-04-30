@@ -14,11 +14,23 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="baseitem",
             name="description_translation",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation", verbose_name="Перевод описания"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="+",
+                to="game_parser.translation",
+                verbose_name="Перевод описания",
+            ),
         ),
         migrations.AddField(
             model_name="baseitem",
             name="name_translation",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation", verbose_name="Перевод названия"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="+",
+                to="game_parser.translation",
+                verbose_name="Перевод названия",
+            ),
         ),
     ]

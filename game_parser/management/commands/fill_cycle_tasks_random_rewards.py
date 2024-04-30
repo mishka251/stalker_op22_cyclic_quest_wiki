@@ -22,7 +22,7 @@ class Command(BaseCommand):
             parts = [item.strip() for item in quest.random_rewards_string.split(",")]
             items = list(zip(parts[::2], parts[1::2], strict=True))
 
-            for (reward_index, reward_count) in items:
+            for reward_index, reward_count in items:
                 reward_id = f"random_{reward_index}"
                 QuestRandomRewardThrough.objects.create(
                     quest=quest,
@@ -30,4 +30,3 @@ class Command(BaseCommand):
                     reward=QuestRandomReward.objects.get(name=reward_id),
                 )
             print(f"{index+1}/{count}")
-

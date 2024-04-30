@@ -14,6 +14,8 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         count = GameStoryId.objects.count()
         for index, item in enumerate(GameStoryId.objects.all()):
-            item.spawn_section_custom = CustomSpawnItem.objects.filter(name=item.section_name).first()
+            item.spawn_section_custom = CustomSpawnItem.objects.filter(
+                name=item.section_name
+            ).first()
             item.save()
             print(f"{index + 1}/{count}")

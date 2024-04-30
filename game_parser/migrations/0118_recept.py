@@ -14,7 +14,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Recept",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("anomaly_id", models.CharField(max_length=255)),
                 ("anomaly_name", models.CharField(max_length=255)),
                 ("condition_raw", models.CharField(max_length=255)),
@@ -29,10 +37,39 @@ class Migration(migrations.Migration):
                 ("remove_anomaly", models.BooleanField()),
                 ("not_for_mutator", models.BooleanField()),
                 ("info_raw", models.CharField(max_length=255)),
-                ("cel", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="cooking_in_recepts", to="game_parser.baseitem")),
-                ("components", models.ManyToManyField(related_name="use_in_recepts", to="game_parser.baseitem")),
-                ("condition", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="opening_recepts", to="game_parser.infoportion")),
-                ("info", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="get_from_recept", to="game_parser.infoportion")),
+                (
+                    "cel",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="cooking_in_recepts",
+                        to="game_parser.baseitem",
+                    ),
+                ),
+                (
+                    "components",
+                    models.ManyToManyField(
+                        related_name="use_in_recepts", to="game_parser.baseitem"
+                    ),
+                ),
+                (
+                    "condition",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="opening_recepts",
+                        to="game_parser.infoportion",
+                    ),
+                ),
+                (
+                    "info",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="get_from_recept",
+                        to="game_parser.infoportion",
+                    ),
+                ),
             ],
         ),
     ]

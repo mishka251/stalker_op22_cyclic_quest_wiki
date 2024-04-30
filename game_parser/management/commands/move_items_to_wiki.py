@@ -29,7 +29,9 @@ class Command(BaseCommand):
                 else None
             )
             description_translation = (
-                WikiTranslation.objects.filter(code=ammo.description_translation.code).first()
+                WikiTranslation.objects.filter(
+                    code=ammo.description_translation.code
+                ).first()
                 if ammo.description_translation
                 else None
             )
@@ -53,8 +55,14 @@ class Command(BaseCommand):
 
     def _update_items(self):
         print("start items")
-        cnt = ParserItem.objects.exclude(polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo)).count()
-        for i, item in enumerate(ParserItem.objects.exclude(polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo)).all()):
+        cnt = ParserItem.objects.exclude(
+            polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo)
+        ).count()
+        for i, item in enumerate(
+            ParserItem.objects.exclude(
+                polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo)
+            ).all()
+        ):
             icon = self._update_or_create_item_icon(item)
             name_translation = (
                 WikiTranslation.objects.filter(code=item.name_translation.code).first()
@@ -62,7 +70,9 @@ class Command(BaseCommand):
                 else None
             )
             description_translation = (
-                WikiTranslation.objects.filter(code=item.description_translation.code).first()
+                WikiTranslation.objects.filter(
+                    code=item.description_translation.code
+                ).first()
                 if item.description_translation
                 else None
             )
@@ -76,10 +86,10 @@ class Command(BaseCommand):
                     "inv_weight": item.inv_weight,
                     "icon": icon,
                     "name_translation": name_translation,
-                    "description_translation":  description_translation,
+                    "description_translation": description_translation,
                 },
             )
-            if i%100==0:
+            if i % 100 == 0:
                 print(f"{i}/{cnt}")
         print("end items")
 

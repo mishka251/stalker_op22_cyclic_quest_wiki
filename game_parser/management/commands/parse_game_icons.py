@@ -18,7 +18,9 @@ class Command(BaseCommand):
 
     @atomic
     def handle(self, **options) -> None:
-        base_image_path = settings.OP22_GAME_DATA_PATH / "textures" / "ui" / "ui_icon_equipment.dds"
+        base_image_path = (
+            settings.OP22_GAME_DATA_PATH / "textures" / "ui" / "ui_icon_equipment.dds"
+        )
         image = Image.open(base_image_path)
         count = BaseItem.objects.count()
         for index, item in enumerate(BaseItem.objects.all()):
@@ -41,12 +43,12 @@ class Command(BaseCommand):
 
     def _item_has_icon(self, item: BaseItem) -> bool:
         return (
-                item.inv_grid_height is not None and
-                item.inv_grid_width is not None and
-                item.inv_grid_y is not None and
-                item.inv_grid_x is not None and
-                item.inv_grid_width > 0 and
-                item.inv_grid_height > 0
+            item.inv_grid_height is not None
+            and item.inv_grid_width is not None
+            and item.inv_grid_y is not None
+            and item.inv_grid_x is not None
+            and item.inv_grid_width > 0
+            and item.inv_grid_height > 0
         )
 
     def _get_item_image_coordinates(self, item: BaseItem) -> tuple[int, int, int, int]:

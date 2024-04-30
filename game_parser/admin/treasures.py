@@ -36,8 +36,18 @@ class TreasureAdmin(ModelAdmin):
 
     @display(description="Описание", ordering="description_translation__rus")
     def description_view(self, treasure: Treasure) -> str:
-        return treasure.description_translation.rus if treasure.description_translation else treasure.description_str
+        return (
+            treasure.description_translation.rus
+            if treasure.description_translation
+            else treasure.description_str
+        )
 
-    @display(description="Название(кастомное?)", ordering="custom_name_translation__rus")
+    @display(
+        description="Название(кастомное?)", ordering="custom_name_translation__rus"
+    )
     def custom_name_view(self, treasure: Treasure) -> str | None:
-        return treasure.custom_name_translation.rus if treasure.custom_name_translation else treasure.custom_name
+        return (
+            treasure.custom_name_translation.rus
+            if treasure.custom_name_translation
+            else treasure.custom_name
+        )

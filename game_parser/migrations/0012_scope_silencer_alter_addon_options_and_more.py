@@ -14,7 +14,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Scope",
             fields=[
-                ("addon_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.addon")),
+                (
+                    "addon_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.addon",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Прицел",
@@ -25,7 +35,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Silencer",
             fields=[
-                ("addon_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.addon")),
+                (
+                    "addon_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.addon",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Глушитель",
@@ -43,7 +63,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name="cyclicquest",
-            options={"verbose_name": "Циклический квест", "verbose_name_plural": "Циклические квесты"},
+            options={
+                "verbose_name": "Циклический квест",
+                "verbose_name_plural": "Циклические квесты",
+            },
         ),
         migrations.AlterModelOptions(
             name="explosive",
@@ -55,7 +78,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name="grenadelauncher",
-            options={"verbose_name": "Подствольный гранатомёт", "verbose_name_plural": "Подствольные гранатомёты"},
+            options={
+                "verbose_name": "Подствольный гранатомёт",
+                "verbose_name_plural": "Подствольные гранатомёты",
+            },
         ),
         migrations.AlterModelOptions(
             name="knife",

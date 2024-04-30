@@ -14,9 +14,12 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         count = Treasure.objects.count()
         for index, item in enumerate(Treasure.objects.all()):
-            item.description_translation = Translation.objects.filter(code__iexact=item.description_str.lower()).first()
+            item.description_translation = Translation.objects.filter(
+                code__iexact=item.description_str.lower()
+            ).first()
             if item.custom_name:
-                item.custom_name_translation = Translation.objects.filter(code__iexact=item.custom_name.lower()).first()
+                item.custom_name_translation = Translation.objects.filter(
+                    code__iexact=item.custom_name.lower()
+                ).first()
             item.save()
             print(f"{index+1}/{count}")
-

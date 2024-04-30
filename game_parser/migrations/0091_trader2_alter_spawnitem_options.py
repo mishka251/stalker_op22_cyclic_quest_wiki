@@ -30,7 +30,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Trader2",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("game_code", models.CharField(max_length=255)),
                 ("name", models.CharField(max_length=255, null=True)),
                 ("source_file", models.CharField(max_length=255, null=True)),
@@ -42,7 +50,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name="spawnitem",
-            options={"verbose_name": "Секция спавна", "verbose_name_plural": "Секции спавна"},
+            options={
+                "verbose_name": "Секция спавна",
+                "verbose_name_plural": "Секции спавна",
+            },
         ),
         migrations.RunPython(move_trader_data),
     ]

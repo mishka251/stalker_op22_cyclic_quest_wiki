@@ -14,11 +14,21 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="npclogicconfig",
             name="trade_config",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.trader", verbose_name="Конфиг торговли"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.trader",
+                verbose_name="Конфиг торговли",
+            ),
         ),
         migrations.AddField(
             model_name="spawnitem",
             name="npc_logic",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.npclogicconfig", verbose_name="Конфиг НПС"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.npclogicconfig",
+                verbose_name="Конфиг НПС",
+            ),
         ),
     ]

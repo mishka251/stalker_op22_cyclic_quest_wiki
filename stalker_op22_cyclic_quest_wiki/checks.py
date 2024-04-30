@@ -8,7 +8,9 @@ from django.db import models
 
 
 @checks.register()
-def check_model_admin_fields(app_configs: Apps | None, **kwargs) -> list[checks.CheckMessage]:
+def check_model_admin_fields(
+    app_configs: Apps | None, **kwargs
+) -> list[checks.CheckMessage]:
     errors = []
     apps_: Apps = app_configs or apps
     for app_config in apps_.get_app_configs():
@@ -19,7 +21,9 @@ def check_model_admin_fields(app_configs: Apps | None, **kwargs) -> list[checks.
             model_fk_field_names = {
                 field.name
                 for field in model._meta.get_fields()
-                if isinstance(field, models.ForeignKey) and field.editable and not field.auto_created
+                if isinstance(field, models.ForeignKey)
+                and field.editable
+                and not field.auto_created
             }
             autocomplete_fields = set(model_admin.autocomplete_fields or [])
             not_autocomplete_fields = model_fk_field_names - autocomplete_fields

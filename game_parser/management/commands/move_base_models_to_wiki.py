@@ -40,9 +40,10 @@ class Command(BaseCommand):
                     "fra": translation.fra,
                 },
             )
-            if i%100==0:
+            if i % 100 == 0:
                 print(f"{i}/{cnt}")
         print("end translations")
+
     def _update_icons(self):
         print("start icons")
         cnt = ParserIcon.objects.count()
@@ -53,16 +54,19 @@ class Command(BaseCommand):
                     "icon": translation.icon,
                 },
             )
-            if i%100==0:
+            if i % 100 == 0:
                 print(f"{i}/{cnt}")
         print("end icons")
+
     def _update_communities(self):
         print("start communities")
         for translation in ParserCommunity.objects.filter(translation__isnull=False):
             WikiCommunity.objects.update_or_create(
                 name=translation.code,
                 defaults={
-                    "translation": WikiTranslation.objects.get(code=translation.translation.code),
+                    "translation": WikiTranslation.objects.get(
+                        code=translation.translation.code
+                    ),
                 },
             )
         print("end communities")
@@ -73,21 +77,27 @@ class Command(BaseCommand):
             WikiRank.objects.update_or_create(
                 name=translation.name,
                 defaults={
-                    "translation": WikiTranslation.objects.get(code=translation.translation.code),
+                    "translation": WikiTranslation.objects.get(
+                        code=translation.translation.code
+                    ),
                 },
             )
         print("end ranks")
 
     def _update_locations(self):
-        offset_re = re.compile(r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)")
+        offset_re = re.compile(
+            r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
+        )
         for parser_location in ParserLocation.objects.all():
             wiki_location_map_info = None
-            parser_location_map_info = ParserLocationMapInfo.objects.filter(location=parser_location).first()
+            parser_location_map_info = ParserLocationMapInfo.objects.filter(
+                location=parser_location
+            ).first()
             if (
-                    parser_location_map_info
-                    and parser_location_map_info.map_image
-                    and parser_location_map_info.bound_rect_raw
-                    and (rm := offset_re.match(parser_location_map_info.bound_rect_raw))
+                parser_location_map_info
+                and parser_location_map_info.map_image
+                and parser_location_map_info.bound_rect_raw
+                and (rm := offset_re.match(parser_location_map_info.bound_rect_raw))
             ):
 
                 (min_x, min_y, max_x, max_y) = (
@@ -106,13 +116,18 @@ class Command(BaseCommand):
                         "max_x": max_x,
                         "max_y": max_y,
                     },
-
                 )[0]
 
             WikiLocation.objects.update_or_create(
                 name=parser_location.name,
                 defaults={
-                    "name_translation": WikiTranslation.objects.filter(code=parser_location.name_translation.code).first() if parser_location.name_translation is not None else None,
+                    "name_translation": (
+                        WikiTranslation.objects.filter(
+                            code=parser_location.name_translation.code
+                        ).first()
+                        if parser_location.name_translation is not None
+                        else None
+                    ),
                     "map_info": wiki_location_map_info,
                 },
             )

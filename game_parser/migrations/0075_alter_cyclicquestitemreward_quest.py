@@ -14,6 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="cyclicquestitemreward",
             name="quest",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="item_rewards", to="game_parser.cyclicquest", verbose_name="Предмет"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="item_rewards",
+                to="game_parser.cyclicquest",
+                verbose_name="Предмет",
+            ),
         ),
     ]

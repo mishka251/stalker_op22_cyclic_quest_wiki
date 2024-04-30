@@ -13,13 +13,13 @@ class BaseResourceField:
     _default: Any = None
 
     def __init__(
-            self,
-            data_field_name: str,
-            model_field_name: str | None = None,
-            /,
-            *,
-            required: bool = True,
-            default=None,
+        self,
+        data_field_name: str,
+        model_field_name: str | None = None,
+        /,
+        *,
+        required: bool = True,
+        default=None,
     ):
         self._data_field_name = data_field_name
         if model_field_name:
@@ -69,15 +69,17 @@ class BooleanField(BaseResourceField):
     TRUE_VALUE = "true"
 
     def __init__(
-            self,
-            data_field_name: str,
-            model_field_name: str | None = None,
-            /,
-            *,
-            required: bool = False,
-            default=False,
+        self,
+        data_field_name: str,
+        model_field_name: str | None = None,
+        /,
+        *,
+        required: bool = False,
+        default=False,
     ):
-        super().__init__(data_field_name, model_field_name, required=required, default=default)
+        super().__init__(
+            data_field_name, model_field_name, required=required, default=default
+        )
 
     def _parse_non_empty_value(self, value: Any) -> Any:
         return value == BooleanField.TRUE_VALUE
@@ -99,13 +101,17 @@ class BaseModelResource:
             value = field.get_value(data)
             field.fill_instance(instance, value)
 
-    def create_instance_from_data(self, section_name: str, data: dict[str, Any]) -> Model:
+    def create_instance_from_data(
+        self, section_name: str, data: dict[str, Any]
+    ) -> Model:
         try:
             return self._create_instance_from_data(section_name, data)
         except Exception as ex:
             raise type(ex)(f"Ошибка при парсинге {section_name}") from ex
 
-    def _create_instance_from_data(self, section_name: str, data: dict[str, Any]) -> Model:
+    def _create_instance_from_data(
+        self, section_name: str, data: dict[str, Any]
+    ) -> Model:
         data[SECTION_NAME] = section_name
         instance = self._init_instance()
         self._apply_data(data, instance)

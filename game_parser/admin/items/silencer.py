@@ -6,6 +6,4 @@ from game_parser.models import Silencer
 
 @register(Silencer)
 class SilencerAdmin(BaseItemAdmin):
-    list_display = (
-        *BaseItemAdmin.list_display,
-    )
+    list_display = (*BaseItemAdmin.list_display,)

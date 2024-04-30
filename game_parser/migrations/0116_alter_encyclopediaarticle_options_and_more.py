@@ -12,7 +12,10 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name="encyclopediaarticle",
-            options={"verbose_name": "Статья в энциклопедии", "verbose_name_plural": "Статьи в энциклопедии"},
+            options={
+                "verbose_name": "Статья в энциклопедии",
+                "verbose_name_plural": "Статьи в энциклопедии",
+            },
         ),
         migrations.AlterField(
             model_name="encyclopediaarticle",
@@ -22,7 +25,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="encyclopediaarticle",
             name="ltx_str",
-            field=models.CharField(max_length=255, null=True, unique=True, verbose_name="Название"),
+            field=models.CharField(
+                max_length=255, null=True, unique=True, verbose_name="Название"
+            ),
         ),
         migrations.AlterField(
             model_name="encyclopediaarticle",

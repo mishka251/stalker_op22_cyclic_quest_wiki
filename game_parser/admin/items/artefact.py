@@ -6,6 +6,4 @@ from game_parser.models import Artefact
 
 @register(Artefact)
 class ArtefactAdmin(BaseItemAdmin):
-    list_display = (
-        *BaseItemAdmin.list_display,
-    )
+    list_display = (*BaseItemAdmin.list_display,)

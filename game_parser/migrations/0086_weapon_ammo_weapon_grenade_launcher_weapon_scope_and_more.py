@@ -19,16 +19,31 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="weapon",
             name="grenade_launcher",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.grenadelauncher", verbose_name="Подствольник"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.grenadelauncher",
+                verbose_name="Подствольник",
+            ),
         ),
         migrations.AddField(
             model_name="weapon",
             name="scope",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.scope", verbose_name="Прицел"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.scope",
+                verbose_name="Прицел",
+            ),
         ),
         migrations.AddField(
             model_name="weapon",
             name="silencer",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.silencer", verbose_name="Глушитель"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.silencer",
+                verbose_name="Глушитель",
+            ),
         ),
     ]

@@ -14,6 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="cycletasktargetitem",
             name="item",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name="quests_when_needed", to="stalker_op22_cyclic_quest_wiki.item", verbose_name="Целевой предмет"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="quests_when_needed",
+                to="stalker_op22_cyclic_quest_wiki.item",
+                verbose_name="Целевой предмет",
+            ),
         ),
     ]

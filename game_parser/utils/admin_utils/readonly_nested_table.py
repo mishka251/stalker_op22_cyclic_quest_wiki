@@ -14,11 +14,14 @@ class ReadOnlyMixin:
     def has_delete_permission(self, request, obj=None) -> bool:
         return False
 
+
 class ReadOnlyNestedTable(ReadOnlyMixin, TabularInline):
     pass
 
+
 class ReadOnlyPolymorphicInline(ReadOnlyMixin, StackedPolymorphicInline):
     pass
+
 
 class ReadOnlyPolymorphicChildInline(ReadOnlyMixin, StackedPolymorphicInline.Child):
     pass

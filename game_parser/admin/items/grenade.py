@@ -6,6 +6,4 @@ from game_parser.models import Grenade
 
 @register(Grenade)
 class GrenadeAdmin(BaseItemAdmin):
-    list_display = (
-        *BaseItemAdmin.list_display,
-    )
+    list_display = (*BaseItemAdmin.list_display,)

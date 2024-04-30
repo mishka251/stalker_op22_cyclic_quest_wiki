@@ -7,11 +7,17 @@ from game_parser.models.items.base_item import BaseItem
 
 
 class SpawnReward(BaseScriptReward):
-    class Meta:
-        ...
-    item = models.ForeignKey(BaseItem, verbose_name="Предмет", null=True, on_delete=models.SET_NULL)
-    raw_maybe_item = models.CharField(max_length=512, null=False) # МБ заспавнен не предмет, а НПС или мутант
-    raw_call = models.TextField(max_length=2048, null=False) # спавн сложнее, сохраним всю строку
+    class Meta: ...
+
+    item = models.ForeignKey(
+        BaseItem, verbose_name="Предмет", null=True, on_delete=models.SET_NULL
+    )
+    raw_maybe_item = models.CharField(
+        max_length=512, null=False
+    )  # МБ заспавнен не предмет, а НПС или мутант
+    raw_call = models.TextField(
+        max_length=2048, null=False
+    )  # спавн сложнее, сохраним всю строку
 
     x = models.FloatField(null=True)
     y = models.FloatField(null=True)
@@ -23,8 +29,12 @@ class SpawnReward(BaseScriptReward):
     level_vertex = models.IntegerField(null=True)
     game_vertex_id = models.IntegerField(null=True)
 
-    xyz_raw = models.CharField(max_length=512, null=False) # спавн сложнее, сохраним всю строку
-    raw_target = models.CharField(max_length=512, null=True) # спавн сложнее, сохраним всю строку
+    xyz_raw = models.CharField(
+        max_length=512, null=False
+    )  # спавн сложнее, сохраним всю строку
+    raw_target = models.CharField(
+        max_length=512, null=True
+    )  # спавн сложнее, сохраним всю строку
 
     @property
     def get_coords(self) -> Any:

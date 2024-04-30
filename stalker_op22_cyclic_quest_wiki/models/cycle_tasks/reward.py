@@ -10,7 +10,9 @@ class QuestReward(PolymorphicModel):
         verbose_name = "Награда за ЦЗ"
         verbose_name_plural = "Награды за ЦЗ"
 
-    quest = models.ForeignKey("CyclicQuest", null=False, on_delete=models.CASCADE, verbose_name="ЦЗ")
+    quest = models.ForeignKey(
+        "CyclicQuest", null=False, on_delete=models.CASCADE, verbose_name="ЦЗ"
+    )
 
 
 class MoneyReward(QuestReward):
@@ -38,14 +40,19 @@ class ItemReward(QuestReward):
         verbose_name = "Предмет за ЦЗ"
         verbose_name_plural = "Предметы за ЦЗ"
 
-    item = models.ForeignKey("Item", null=False, on_delete=models.PROTECT, verbose_name="Предмет")
-    count = models.PositiveIntegerField(default=1, null=False, verbose_name="Кол-во предметов")
+    item = models.ForeignKey(
+        "Item", null=False, on_delete=models.PROTECT, verbose_name="Предмет"
+    )
+    count = models.PositiveIntegerField(
+        default=1, null=False, verbose_name="Кол-во предметов"
+    )
 
     def natural_key(self) -> tuple:
         return (*self.quest.natural_key(), *self.item.natural_key())
 
     def __str__(self):
         return f"{self.count} {self.item} за квест {self.quest}"
+
 
 class QuestRandomReward(QuestReward):
     class Meta:
@@ -55,8 +62,15 @@ class QuestRandomReward(QuestReward):
         verbose_name = "Случайная награда за ЦЗ"
         verbose_name_plural = "Случайная награда за ЦЗ"
 
-    reward = models.ForeignKey("RandomRewardInfo", null=False, on_delete=models.PROTECT, verbose_name="Описание случайной награды")
-    count = models.PositiveIntegerField(default=1, null=False, verbose_name="Количество")
+    reward = models.ForeignKey(
+        "RandomRewardInfo",
+        null=False,
+        on_delete=models.PROTECT,
+        verbose_name="Описание случайной награды",
+    )
+    count = models.PositiveIntegerField(
+        default=1, null=False, verbose_name="Количество"
+    )
 
     def natural_key(self) -> tuple:
         return (*self.quest.natural_key(), *self.reward.natural_key())
@@ -69,9 +83,14 @@ class RandomRewardInfo(models.Model):
     class Meta:
         verbose_name = "Описание случайной награды"
         verbose_name_plural = "Описание случайных наград"
+
     index = models.IntegerField(null=False, unique=True, verbose_name="Индекс")
-    icon = models.ForeignKey(Icon, null=False, on_delete=models.PROTECT, verbose_name="Иконка")
-    description = models.ForeignKey("Translation", null=False, on_delete=models.PROTECT, verbose_name="Описание")
+    icon = models.ForeignKey(
+        Icon, null=False, on_delete=models.PROTECT, verbose_name="Иконка"
+    )
+    description = models.ForeignKey(
+        "Translation", null=False, on_delete=models.PROTECT, verbose_name="Описание"
+    )
     possible_items = models.ManyToManyField("Item", verbose_name="Возможные предметы")
 
     def natural_key(self) -> tuple:
@@ -79,6 +98,7 @@ class RandomRewardInfo(models.Model):
 
     def __str__(self):
         return self.description.rus or self.description.code
+
 
 class TreasureReward(QuestReward):
     class Meta:
@@ -93,6 +113,7 @@ class TreasureReward(QuestReward):
 
     def __str__(self):
         return f"Тайник за квест {self.quest}"
+
 
 __all__ = [
     "ItemReward",

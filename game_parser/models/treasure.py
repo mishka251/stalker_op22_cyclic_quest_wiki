@@ -9,12 +9,24 @@ class Treasure(models.Model):
         verbose_name = "Тайник"
         verbose_name_plural = "Тайники"
 
-    target = models.CharField(null=False, max_length=10, verbose_name="spawn_id для поиска в спавне")
-    name_str = models.CharField(null=False, max_length=255, verbose_name="Название(код перевода)")
-    description_str = models.CharField(null=False, max_length=255, verbose_name="Описание(код перевода)")
-    items_str = models.CharField(null=False, max_length=1_000, verbose_name="Предметы в тайнике(строкой)")
-    condlist_str = models.CharField(null=False, max_length=1_000, verbose_name="Условия")
-    custom_name = models.CharField(null=True, max_length=255, verbose_name="Название(2)(код перевода)")
+    target = models.CharField(
+        null=False, max_length=10, verbose_name="spawn_id для поиска в спавне"
+    )
+    name_str = models.CharField(
+        null=False, max_length=255, verbose_name="Название(код перевода)"
+    )
+    description_str = models.CharField(
+        null=False, max_length=255, verbose_name="Описание(код перевода)"
+    )
+    items_str = models.CharField(
+        null=False, max_length=1_000, verbose_name="Предметы в тайнике(строкой)"
+    )
+    condlist_str = models.CharField(
+        null=False, max_length=1_000, verbose_name="Условия"
+    )
+    custom_name = models.CharField(
+        null=True, max_length=255, verbose_name="Название(2)(код перевода)"
+    )
 
     custom_name_translation = models.ForeignKey(
         Translation,
@@ -31,8 +43,9 @@ class Treasure(models.Model):
         related_name="+",
     )
 
-    spawn_item = models.ForeignKey("SpawnItem", null=True, on_delete=models.SET_NULL, verbose_name="Секция спавна")
-
+    spawn_item = models.ForeignKey(
+        "SpawnItem", null=True, on_delete=models.SET_NULL, verbose_name="Секция спавна"
+    )
 
     def __str__(self):
         treasure_str = ""
@@ -50,8 +63,12 @@ class ItemInTreasure(models.Model):
             ["item", "treasure"],
         ]
 
-    item = models.ForeignKey(BaseItem,  null=False, on_delete=models.CASCADE, verbose_name="Предмет")
-    treasure = models.ForeignKey(Treasure,  null=False, on_delete=models.CASCADE, verbose_name="Тайник")
+    item = models.ForeignKey(
+        BaseItem, null=False, on_delete=models.CASCADE, verbose_name="Предмет"
+    )
+    treasure = models.ForeignKey(
+        Treasure, null=False, on_delete=models.CASCADE, verbose_name="Тайник"
+    )
     count = models.PositiveIntegerField(verbose_name="Кол-во предметов", default=1)
 
     def __str__(self):

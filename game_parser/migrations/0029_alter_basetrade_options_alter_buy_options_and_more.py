@@ -20,11 +20,17 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name="iteminbuy",
-            options={"verbose_name": "Предмет в покупке", "verbose_name_plural": "Предметы в покупке"},
+            options={
+                "verbose_name": "Предмет в покупке",
+                "verbose_name_plural": "Предметы в покупке",
+            },
         ),
         migrations.AlterModelOptions(
             name="iteminsell",
-            options={"verbose_name": "Предмет в продаже", "verbose_name_plural": "Предметы в продаже"},
+            options={
+                "verbose_name": "Предмет в продаже",
+                "verbose_name_plural": "Предметы в продаже",
+            },
         ),
         migrations.AlterModelOptions(
             name="sell",

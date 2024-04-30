@@ -21,7 +21,7 @@ class MonsterInline(ReadOnlyNestedTable):
         "inv_icon_view",
     ]
 
-    @display(description="Иконка" )
+    @display(description="Иконка")
     def inv_icon_view(self, obj: Monster) -> str | None:
         if not obj.icon:
             return None
@@ -30,9 +30,7 @@ class MonsterInline(ReadOnlyNestedTable):
 
 @register(MonsterPart)
 class MonsterPartAdmin(BaseItemAdmin):
-    list_display = (
-        *BaseItemAdmin.list_display,
-    )
+    list_display = (*BaseItemAdmin.list_display,)
 
     inlines = [
         *BaseItemAdmin.inlines,

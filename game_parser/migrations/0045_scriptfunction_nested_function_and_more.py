@@ -6,14 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("game_parser", "0044_basescriptreward_dialog_moneyreward_scriptfunction_and_more"),
+        (
+            "game_parser",
+            "0044_basescriptreward_dialog_moneyreward_scriptfunction_and_more",
+        ),
     ]
 
     operations = [
         migrations.AddField(
             model_name="scriptfunction",
             name="nested_function",
-            field=models.ManyToManyField(to="game_parser.scriptfunction", verbose_name="Функции, вызываемые в этой"),
+            field=models.ManyToManyField(
+                to="game_parser.scriptfunction",
+                verbose_name="Функции, вызываемые в этой",
+            ),
         ),
         migrations.AddField(
             model_name="scriptfunction",

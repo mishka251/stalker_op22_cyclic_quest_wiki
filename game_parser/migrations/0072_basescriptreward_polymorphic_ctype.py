@@ -15,7 +15,10 @@ def set_reward_content_type(apps, schema_editor) -> None:
     for model in models:
         MyModel = apps.get_model("game_parser", model)
         new_ct = ContentType.objects.get_for_model(MyModel)
-        MyModel.objects.filter(polymorphic_ctype__isnull=True).update(polymorphic_ctype=new_ct)
+        MyModel.objects.filter(polymorphic_ctype__isnull=True).update(
+            polymorphic_ctype=new_ct
+        )
+
 
 class Migration(migrations.Migration):
 
@@ -28,7 +31,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="basescriptreward",
             name="polymorphic_ctype",
-            field=models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name="polymorphic_%(app_label)s.%(class)s_set+", to="contenttypes.contenttype"),
+            field=models.ForeignKey(
+                editable=False,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="polymorphic_%(app_label)s.%(class)s_set+",
+                to="contenttypes.contenttype",
+            ),
         ),
         migrations.RunPython(set_reward_content_type, migrations.RunPython.noop),
     ]

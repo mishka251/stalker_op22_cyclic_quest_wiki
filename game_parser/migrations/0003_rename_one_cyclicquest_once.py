@@ -6,7 +6,10 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("game_parser", "0002_cyclicquest_condlist_str_cyclicquest_map_location_and_more"),
+        (
+            "game_parser",
+            "0002_cyclicquest_condlist_str_cyclicquest_map_location_and_more",
+        ),
     ]
 
     operations = [

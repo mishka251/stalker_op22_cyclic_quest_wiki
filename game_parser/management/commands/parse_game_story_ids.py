@@ -32,5 +32,3 @@ class Command(BaseCommand):
                 story_id=game_id,
                 section_name=section_name,
             )
-
-

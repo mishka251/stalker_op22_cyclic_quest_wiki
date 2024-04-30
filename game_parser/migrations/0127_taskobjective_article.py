@@ -14,6 +14,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="taskobjective",
             name="article",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="task_objectives", to="game_parser.encyclopediaarticle", verbose_name="Статья"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="task_objectives",
+                to="game_parser.encyclopediaarticle",
+                verbose_name="Статья",
+            ),
         ),
     ]

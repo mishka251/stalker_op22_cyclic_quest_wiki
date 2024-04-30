@@ -13,6 +13,7 @@ from game_parser.models import Buy, ItemInBuy, ItemInSell, Sell, Trader
 
 logger = logging.getLogger(__name__)
 
+
 class Command(BaseCommand):
 
     def get_files_dir_path(self) -> Path:
@@ -59,7 +60,7 @@ class Command(BaseCommand):
             supplies_str = main_block.pop("buy_supplies")
 
             sells = [s.strip() for s in sell_str.split(",")]
-            supplies = [ s.strip() for s in supplies_str.split(",")]
+            supplies = [s.strip() for s in supplies_str.split(",")]
             for sell, supply in zip(sells, supplies, strict=True):
                 sell_condition, sell_section_name = self._parse_condition(sell)
                 supply_condition, supply_section_name = self._parse_condition(supply)
@@ -69,7 +70,13 @@ class Command(BaseCommand):
                 print(f"\t{sell_section_name=}, {supply_section_name=}")
                 supply_section = self._clean_section(results.pop(supply_section_name))
                 sell_section = self._clean_section(results.pop(sell_section_name))
-                self._create_sell(trader, sell_section_name, supply_section, sell_section, sell_condition)
+                self._create_sell(
+                    trader,
+                    sell_section_name,
+                    supply_section,
+                    sell_section,
+                    sell_condition,
+                )
             print(f"end {file}")
 
     def _parse_condition(self, trade_with_condition_str: str) -> tuple[str | None, str]:
@@ -81,16 +88,32 @@ class Command(BaseCommand):
             return condition, section_name
         return None, trade_with_condition_str
 
-    def _create_buy(self, trader: Trader, section_name: str, data: dict[str, str]) -> None:
+    def _create_buy(
+        self, trader: Trader, section_name: str, data: dict[str, str]
+    ) -> None:
         buy = Buy.objects.create(trader=trader, name=section_name)
         for item_name, item_str in data.items():
             min_price_str, max_price_str = item_str.split(",")
             min_price = Decimal(min_price_str.strip())
             max_price = Decimal(max_price_str.strip())
-            ItemInBuy.objects.create(min_price_modifier=min_price, max_price_modifier=max_price, trade=buy, item_name=item_name)
+            ItemInBuy.objects.create(
+                min_price_modifier=min_price,
+                max_price_modifier=max_price,
+                trade=buy,
+                item_name=item_name,
+            )
 
-    def _create_sell(self, trader: Trader, section_name: str, supply_data: dict[str, str], price_section: dict[str, str], condition: str) -> None:
-        sell = Sell.objects.create(trader=trader, name=section_name, condition=condition)
+    def _create_sell(
+        self,
+        trader: Trader,
+        section_name: str,
+        supply_data: dict[str, str],
+        price_section: dict[str, str],
+        condition: str,
+    ) -> None:
+        sell = Sell.objects.create(
+            trader=trader, name=section_name, condition=condition
+        )
         possible_keys = set(supply_data.keys()) & set(price_section.keys())
         for item_name in possible_keys:
             try:
@@ -102,19 +125,26 @@ class Command(BaseCommand):
                 count_str, probability_str = item_str.split(",")
                 probability = Decimal(probability_str.strip())
                 count = int(count_str.strip())
-                ItemInSell.objects.create(min_price_modifier=min_price, max_price_modifier=max_price,probability=probability, count=count, trade=sell, item_name=item_name)
+                ItemInSell.objects.create(
+                    min_price_modifier=min_price,
+                    max_price_modifier=max_price,
+                    probability=probability,
+                    count=count,
+                    trade=sell,
+                    item_name=item_name,
+                )
             except Exception as ex:
                 print(f"{item_name=}, {ex=}")
                 raise
 
         if price_section:
-            logger.warning(f"Not in supply, but in prices {price_section}, {trader.game_code}, {section_name=}")
+            logger.warning(
+                f"Not in supply, but in prices {price_section}, {trader.game_code}, {section_name=}"
+            )
         if supply_data:
-            logger.warning(f"Not in prices, but in supply {supply_data}, {trader.game_code}, {section_name=}")
+            logger.warning(
+                f"Not in prices, but in supply {supply_data}, {trader.game_code}, {section_name=}"
+            )
 
     def _clean_section(self, section: dict[str, str | None]) -> dict[str, str]:
-        return {
-            key: value
-            for key, value in section.items()
-            if value is not None
-        }
+        return {key: value for key, value in section.items() if value is not None}

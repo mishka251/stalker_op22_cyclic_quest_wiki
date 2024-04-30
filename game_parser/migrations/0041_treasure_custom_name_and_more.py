@@ -14,11 +14,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="treasure",
             name="custom_name",
-            field=models.CharField(max_length=255, null=True, verbose_name="Название(2)(код перевода)"),
+            field=models.CharField(
+                max_length=255, null=True, verbose_name="Название(2)(код перевода)"
+            ),
         ),
         migrations.AddField(
             model_name="treasure",
             name="custom_name_translation",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation", verbose_name="Перевод названия"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="+",
+                to="game_parser.translation",
+                verbose_name="Перевод названия",
+            ),
         ),
     ]

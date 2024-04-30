@@ -14,21 +14,76 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Weapon",
             fields=[
-                ("baseitem_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.baseitem")),
+                (
+                    "baseitem_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.baseitem",
+                    ),
+                ),
                 ("ef_main_weapon_type", models.CharField(max_length=10)),
                 ("ef_weapon_type", models.CharField(max_length=10)),
                 ("weapon_class", models.CharField(max_length=255)),
-                ("ammo_mag_size", models.PositiveIntegerField(verbose_name="Размер магазина")),
-                ("fire_modes_str", models.CharField(max_length=255, verbose_name="Режимы стрельбы(сырая строка)")),
-                ("ammo_class_str", models.CharField(max_length=1000, verbose_name="Боеприпасы")),
-                ("grenade_class_str", models.CharField(max_length=1000, verbose_name="Типы гранат для подствольника")),
-                ("rpm", models.IntegerField(verbose_name="Скорострельность выстрелов в минуту")),
-                ("scope_status_str", models.CharField(max_length=5, verbose_name="Возможность установки прицела")),
-                ("silencer_status_str", models.CharField(max_length=5, verbose_name="Возможность установки глушителя")),
-                ("grenade_launcher_status", models.CharField(max_length=5, verbose_name="Возможность установки ГП")),
-                ("scope_name", models.CharField(max_length=255, verbose_name="Название прицела")),
-                ("silencer_name", models.CharField(max_length=255, verbose_name="Название глушителя")),
-                ("grenade_launcher_name", models.CharField(max_length=255, verbose_name="Название ГП")),
+                (
+                    "ammo_mag_size",
+                    models.PositiveIntegerField(verbose_name="Размер магазина"),
+                ),
+                (
+                    "fire_modes_str",
+                    models.CharField(
+                        max_length=255, verbose_name="Режимы стрельбы(сырая строка)"
+                    ),
+                ),
+                (
+                    "ammo_class_str",
+                    models.CharField(max_length=1000, verbose_name="Боеприпасы"),
+                ),
+                (
+                    "grenade_class_str",
+                    models.CharField(
+                        max_length=1000, verbose_name="Типы гранат для подствольника"
+                    ),
+                ),
+                (
+                    "rpm",
+                    models.IntegerField(
+                        verbose_name="Скорострельность выстрелов в минуту"
+                    ),
+                ),
+                (
+                    "scope_status_str",
+                    models.CharField(
+                        max_length=5, verbose_name="Возможность установки прицела"
+                    ),
+                ),
+                (
+                    "silencer_status_str",
+                    models.CharField(
+                        max_length=5, verbose_name="Возможность установки глушителя"
+                    ),
+                ),
+                (
+                    "grenade_launcher_status",
+                    models.CharField(
+                        max_length=5, verbose_name="Возможность установки ГП"
+                    ),
+                ),
+                (
+                    "scope_name",
+                    models.CharField(max_length=255, verbose_name="Название прицела"),
+                ),
+                (
+                    "silencer_name",
+                    models.CharField(max_length=255, verbose_name="Название глушителя"),
+                ),
+                (
+                    "grenade_launcher_name",
+                    models.CharField(max_length=255, verbose_name="Название ГП"),
+                ),
             ],
             bases=("game_parser.baseitem",),
         ),

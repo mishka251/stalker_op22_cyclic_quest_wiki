@@ -12,12 +12,13 @@ class Command(BaseCommand):
 
     def get_file_paths(self) -> list[Path]:
         base_path = settings.OP22_GAME_DATA_PATH
-        dir_path =base_path / "config"/"creatures"
+        dir_path = base_path / "config" / "creatures"
         return [
-                dir_path/"spawn_sections.ltx",
-                dir_path/"spawn_sections_snp.ltx",
-                dir_path/"vol_spawn.ltx",
-            ]
+            dir_path / "spawn_sections.ltx",
+            dir_path / "spawn_sections_snp.ltx",
+            dir_path / "vol_spawn.ltx",
+        ]
+
     base_sections = {
         "stalker_sniper": {"__parent": "stalker_sniper"},
         "stalker": {"__parent": "stalker"},
@@ -109,7 +110,9 @@ class Command(BaseCommand):
                 spawn_items.append(item)
         CustomSpawnItem.objects.bulk_create(spawn_items, batch_size=2_000)
 
-    def _create_item(self, name: str, section_parent: str, section: dict[str, str]) -> CustomSpawnItem:
+    def _create_item(
+        self, name: str, section_parent: str, section: dict[str, str]
+    ) -> CustomSpawnItem:
         return CustomSpawnItem(
             section_name=section_parent,
             name=name,

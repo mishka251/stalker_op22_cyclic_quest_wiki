@@ -13,7 +13,10 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name="community",
-            options={"verbose_name": "Группировка", "verbose_name_plural": "Группировки"},
+            options={
+                "verbose_name": "Группировка",
+                "verbose_name_plural": "Группировки",
+            },
         ),
         migrations.RemoveField(
             model_name="community",
@@ -22,41 +25,92 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="community",
             name="code",
-            field=models.CharField(default="", max_length=128, verbose_name="Код в игре"),
+            field=models.CharField(
+                default="", max_length=128, verbose_name="Код в игре"
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="community",
             name="index",
-            field=models.PositiveSmallIntegerField(default=1, unique=True, verbose_name="ID группировки"),
+            field=models.PositiveSmallIntegerField(
+                default=1, unique=True, verbose_name="ID группировки"
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="community",
             name="translation",
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.PROTECT, to="game_parser.translation", verbose_name="Перевод названия"),
+            field=models.ForeignKey(
+                default=0,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="game_parser.translation",
+                verbose_name="Перевод названия",
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="community",
             name="type",
-            field=models.CharField(choices=[("monster", "Мутант"), ("stalker", "Сталкер")], default="", max_length=128, verbose_name="Тип"),
+            field=models.CharField(
+                choices=[("monster", "Мутант"), ("stalker", "Сталкер")],
+                default="",
+                max_length=128,
+                verbose_name="Тип",
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
             model_name="community",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.CreateModel(
             name="Rank",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("name", models.CharField(max_length=128, unique=True, verbose_name="Код")),
-                ("type", models.CharField(choices=[("monster", "Мутант"), ("stalker", "Сталкер")], max_length=128, verbose_name="Тип")),
-                ("min_score", models.PositiveSmallIntegerField(null=True, verbose_name="Нижний порог ранга")),
-                ("max_score", models.PositiveSmallIntegerField(null=True, verbose_name="Верхний порог ранга")),
-                ("translation", models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to="game_parser.translation", verbose_name="Название")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=128, unique=True, verbose_name="Код"),
+                ),
+                (
+                    "type",
+                    models.CharField(
+                        choices=[("monster", "Мутант"), ("stalker", "Сталкер")],
+                        max_length=128,
+                        verbose_name="Тип",
+                    ),
+                ),
+                (
+                    "min_score",
+                    models.PositiveSmallIntegerField(
+                        null=True, verbose_name="Нижний порог ранга"
+                    ),
+                ),
+                (
+                    "max_score",
+                    models.PositiveSmallIntegerField(
+                        null=True, verbose_name="Верхний порог ранга"
+                    ),
+                ),
+                (
+                    "translation",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="game_parser.translation",
+                        verbose_name="Название",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Ранг сталкера",

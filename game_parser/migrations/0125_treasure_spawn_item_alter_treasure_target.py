@@ -14,11 +14,18 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="treasure",
             name="spawn_item",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.spawnitem", verbose_name="Секция спавна"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.spawnitem",
+                verbose_name="Секция спавна",
+            ),
         ),
         migrations.AlterField(
             model_name="treasure",
             name="target",
-            field=models.CharField(max_length=10, verbose_name="spawn_id для поиска в спавне"),
+            field=models.CharField(
+                max_length=10, verbose_name="spawn_id для поиска в спавне"
+            ),
         ),
     ]

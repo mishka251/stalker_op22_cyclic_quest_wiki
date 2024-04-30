@@ -13,7 +13,6 @@ from game_parser.models import InfoPortion
 logger = logging.getLogger(__name__)
 
 
-
 class Command(BaseCommand):
     TMP_DIR = Path("tmp")
 
@@ -23,11 +22,8 @@ class Command(BaseCommand):
 
     def get_files_paths(self, path: Path) -> list[Path]:
         return [
-            sub_path
-            for sub_path in path.iterdir()
-            if sub_path.name.startswith("info")
+            sub_path for sub_path in path.iterdir() if sub_path.name.startswith("info")
         ]
-
 
     @atomic
     def handle(self, **options) -> None:
@@ -38,4 +34,3 @@ class Command(BaseCommand):
             fixed_file_path = fixer.fix(file_path)
             root_node = parse(fixed_file_path).getroot()
             InfoPortionLoader().load_bulk(root_node)
-

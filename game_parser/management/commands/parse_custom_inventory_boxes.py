@@ -16,8 +16,7 @@ class Command(BaseCommand):
 
     def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / "config"/"scripts"/"treasure"
-
+        return base_path / "config" / "scripts" / "treasure"
 
     @atomic
     def handle(self, **options) -> None:
@@ -34,10 +33,7 @@ class Command(BaseCommand):
                 continue
             item_with_count: dict[str, int] = {}
             if isinstance(spawn, list):
-                item_with_count = {
-                    item: 1
-                    for item in spawn
-                }
+                item_with_count = {item: 1 for item in spawn}
             elif isinstance(spawn, dict):
                 item_with_count = {
                     item: item_count if item_count is not None else 1
@@ -45,13 +41,16 @@ class Command(BaseCommand):
                 }
             raw_items_str = json.dumps(item_with_count)
             box = InventoryBox.objects.create(
-                section_name=file.name[:-len(file.suffix)],
+                section_name=file.name[: -len(file.suffix)],
                 source_file_name=str(file.relative_to(settings.OP22_GAME_DATA_PATH)),
                 items_raw=raw_items_str,
             )
 
             for item_name, items_count in item_with_count.items():
-                item = BaseItem.objects.filter(name=item_name).first() or BaseItem.objects.filter(inv_name=item_name).first()
+                item = (
+                    BaseItem.objects.filter(name=item_name).first()
+                    or BaseItem.objects.filter(inv_name=item_name).first()
+                )
                 if not item:
                     print(f"Not found item {item_name=}")
                     continue

@@ -17,4 +17,3 @@ class Command(BaseCommand):
             item.item = BaseItem.objects.filter(name=item.raw_item).first()
             item.save()
             print(f"{index+1}/{count}")
-

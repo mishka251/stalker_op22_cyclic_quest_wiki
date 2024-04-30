@@ -13,7 +13,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="silencer",
             name="condition_shot_dec",
-            field=models.DecimalField(decimal_places=8, default=0, max_digits=12, verbose_name="знос за 1 выстрел"),
+            field=models.DecimalField(
+                decimal_places=8,
+                default=0,
+                max_digits=12,
+                verbose_name="знос за 1 выстрел",
+            ),
             preserve_default=False,
         ),
         migrations.AddField(

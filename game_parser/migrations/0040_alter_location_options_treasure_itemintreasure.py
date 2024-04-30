@@ -18,23 +18,94 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Treasure",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("target", models.CharField(max_length=10, verbose_name="???")),
-                ("name_str", models.CharField(max_length=255, verbose_name="Название(код перевода)")),
-                ("description_str", models.CharField(max_length=255, verbose_name="Описание(код перевода)")),
-                ("items_str", models.CharField(max_length=1000, verbose_name="Предметы в тайнике(строкой)")),
-                ("condlist_str", models.CharField(max_length=1000, verbose_name="Условия")),
-                ("description_translation", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation", verbose_name="Перевод описания")),
-                ("name_translation", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation", verbose_name="Перевод названия")),
+                (
+                    "name_str",
+                    models.CharField(
+                        max_length=255, verbose_name="Название(код перевода)"
+                    ),
+                ),
+                (
+                    "description_str",
+                    models.CharField(
+                        max_length=255, verbose_name="Описание(код перевода)"
+                    ),
+                ),
+                (
+                    "items_str",
+                    models.CharField(
+                        max_length=1000, verbose_name="Предметы в тайнике(строкой)"
+                    ),
+                ),
+                (
+                    "condlist_str",
+                    models.CharField(max_length=1000, verbose_name="Условия"),
+                ),
+                (
+                    "description_translation",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="game_parser.translation",
+                        verbose_name="Перевод описания",
+                    ),
+                ),
+                (
+                    "name_translation",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="game_parser.translation",
+                        verbose_name="Перевод названия",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name="ItemInTreasure",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("count", models.PositiveIntegerField(default=1, verbose_name="Кол-во предметов")),
-                ("item", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.baseitem", verbose_name="Предмет")),
-                ("treasure", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.treasure", verbose_name="Тайник")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "count",
+                    models.PositiveIntegerField(
+                        default=1, verbose_name="Кол-во предметов"
+                    ),
+                ),
+                (
+                    "item",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="game_parser.baseitem",
+                        verbose_name="Предмет",
+                    ),
+                ),
+                (
+                    "treasure",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="game_parser.treasure",
+                        verbose_name="Тайник",
+                    ),
+                ),
             ],
         ),
     ]

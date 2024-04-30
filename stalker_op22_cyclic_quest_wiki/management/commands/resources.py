@@ -64,15 +64,18 @@ to_export: list[ModelToExport] = [
     ModelToExport(Item, ItemResource, "items.csv"),
     ModelToExport(Ammo, AmmoResource, "ammo.csv"),
     ModelToExport(MapPosition, MapPositionResource, "map_points.csv"),
-
     ModelToExport(CycleTaskVendor, CycleTaskVendorResource, "vendors.csv"),
     ModelToExport(CyclicQuest, CyclicQuestResource, "quests.csv"),
     ModelToExport(ItemReward, ItemRewardResource, "item_rewards.csv"),
     ModelToExport(MoneyReward, MoneyRewardResource, "money_rewards.csv"),
     ModelToExport(RandomRewardInfo, RandomRewardInfoResource, "random_rewards.csv"),
-    ModelToExport(QuestRandomReward, QuestRandomRewardResource, "quest_random_rewards.csv"),
+    ModelToExport(
+        QuestRandomReward, QuestRandomRewardResource, "quest_random_rewards.csv"
+    ),
     ModelToExport(TreasureReward, TreasureRewardResource, "treasure_rewards.csv"),
     ModelToExport(CycleTaskTargetCamp, CycleTaskTargetCampResource, "target_camps.csv"),
     ModelToExport(CycleTaskTargetItem, CycleTaskTargetItemResource, "target_items.csv"),
-    ModelToExport(CycleTaskTargetStalker, CycleTaskTargetStalkerResource, "target_stalkers.csv"),
+    ModelToExport(
+        CycleTaskTargetStalker, CycleTaskTargetStalkerResource, "target_stalkers.csv"
+    ),
 ]

@@ -33,11 +33,7 @@ class Command(BaseCommand):
         parser = LtxParser(self.get_file_path(), known_extends=known_bases)
         results = parser.get_parsed_blocks()
 
-        quest_blocks = {
-            k: v
-            for k, v in results.items()
-            if k not in self._exclude_keys
-        }
+        quest_blocks = {k: v for k, v in results.items() if k not in self._exclude_keys}
 
         resource = MonsterPartResource()
 

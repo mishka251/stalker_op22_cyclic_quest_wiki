@@ -16,6 +16,7 @@ class MoneyRewardAdmin(ModelAdmin):
         "function",
     ]
 
+
 __all__ = [
     "MoneyRewardAdmin",
 ]

@@ -45,7 +45,7 @@ class Command(BaseCommand):
             item = item_.strip()
             if i % 2 == 0:
                 rank = Rank(
-                    name = item,
+                    name=item,
                     type=type_,
                     translation=Translation.objects.filter(code=item).first(),
                 )

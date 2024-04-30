@@ -14,11 +14,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="monster",
             name="icon",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.icon"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.icon",
+            ),
         ),
         migrations.AddField(
             model_name="monster",
             name="monster_part",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.monsterpart"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.monsterpart",
+            ),
         ),
     ]

@@ -8,8 +8,9 @@ class CycleTaskVendorResource(resources.ModelResource):
     class Meta:
         model = CycleTaskVendor
         use_natural_foreign_keys = True
-        import_id_fields=["section_name"]
+        import_id_fields = ["section_name"]
         exclude = {"id"}
+
 
 __all__ = [
     "CycleTaskVendorResource",

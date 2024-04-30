@@ -13,6 +13,7 @@ from game_parser.models.game_story.dialog import DialogPhrase
 
 logger = logging.getLogger(__name__)
 
+
 class Command(BaseCommand):
     TMP_DIR = Path("tmp")
 

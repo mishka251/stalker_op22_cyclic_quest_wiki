@@ -6,10 +6,16 @@ class ScriptFunction(models.Model):
         verbose_name = "Функция из скриптов"
 
     name = models.CharField(max_length=512, null=False, verbose_name="Название")
-    namespace = models.CharField(max_length=512, null=False, verbose_name="Название файла")
+    namespace = models.CharField(
+        max_length=512, null=False, verbose_name="Название файла"
+    )
 
-    dialog = models.ForeignKey("Dialog", related_name="actions", on_delete=models.SET_NULL, null=True)
-    nested_function = models.ManyToManyField("self", symmetrical=False, verbose_name="Функции, вызываемые в этой")
+    dialog = models.ForeignKey(
+        "Dialog", related_name="actions", on_delete=models.SET_NULL, null=True
+    )
+    nested_function = models.ManyToManyField(
+        "self", symmetrical=False, verbose_name="Функции, вызываемые в этой"
+    )
 
     raw_nested_function = models.TextField(null=True)
 

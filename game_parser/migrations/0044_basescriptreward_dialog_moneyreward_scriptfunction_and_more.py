@@ -14,15 +14,34 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="BaseScriptReward",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name="Dialog",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("name", models.CharField(max_length=512, verbose_name="Название")),
-                ("namespace", models.CharField(max_length=512, verbose_name="Название файла")),
+                (
+                    "namespace",
+                    models.CharField(max_length=512, verbose_name="Название файла"),
+                ),
             ],
             options={
                 "verbose_name": "Диалог",
@@ -31,7 +50,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="MoneyReward",
             fields=[
-                ("basescriptreward_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.basescriptreward")),
+                (
+                    "basescriptreward_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.basescriptreward",
+                    ),
+                ),
                 ("count", models.DecimalField(decimal_places=2, max_digits=20)),
                 ("raw_count", models.CharField(max_length=512)),
             ],
@@ -40,10 +69,29 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="ScriptFunction",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("name", models.CharField(max_length=512, verbose_name="Название")),
-                ("namespace", models.CharField(max_length=512, verbose_name="Название файла")),
-                ("dialog", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="actions", to="game_parser.dialog")),
+                (
+                    "namespace",
+                    models.CharField(max_length=512, verbose_name="Название файла"),
+                ),
+                (
+                    "dialog",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="actions",
+                        to="game_parser.dialog",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Функция из скриптов",
@@ -52,12 +100,27 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="basescriptreward",
             name="function",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="rewards", to="game_parser.scriptfunction"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="rewards",
+                to="game_parser.scriptfunction",
+            ),
         ),
         migrations.CreateModel(
             name="SpawnReward",
             fields=[
-                ("basescriptreward_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.basescriptreward")),
+                (
+                    "basescriptreward_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.basescriptreward",
+                    ),
+                ),
                 ("raw_maybe_item", models.CharField(max_length=512)),
                 ("raw_call", models.CharField(max_length=512)),
                 ("x", models.FloatField(null=True)),
@@ -65,18 +128,44 @@ class Migration(migrations.Migration):
                 ("z", models.FloatField(null=True)),
                 ("level_vertex", models.IntegerField(null=True)),
                 ("game_vertex_id", models.IntegerField(null=True)),
-                ("item", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.baseitem", verbose_name="Предмет")),
+                (
+                    "item",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.baseitem",
+                        verbose_name="Предмет",
+                    ),
+                ),
             ],
             bases=("game_parser.basescriptreward",),
         ),
         migrations.CreateModel(
             name="ItemReward",
             fields=[
-                ("basescriptreward_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.basescriptreward")),
+                (
+                    "basescriptreward_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.basescriptreward",
+                    ),
+                ),
                 ("raw_item", models.CharField(max_length=512)),
                 ("count", models.IntegerField()),
                 ("raw_count", models.CharField(max_length=512)),
-                ("item", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.baseitem", verbose_name="Предмет")),
+                (
+                    "item",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.baseitem",
+                        verbose_name="Предмет",
+                    ),
+                ),
             ],
             bases=("game_parser.basescriptreward",),
         ),

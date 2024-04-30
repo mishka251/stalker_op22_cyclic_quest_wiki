@@ -42,7 +42,7 @@ class Command(BaseCommand):
                         self._print_error(error)
                 if result.row_errors():
                     print("row_errors")
-                    for (row_num, row_errors) in result.row_errors():
+                    for row_num, row_errors in result.row_errors():
                         print(row_num)
                         for error in row_errors:
                             self._print_error(error)
@@ -55,7 +55,9 @@ class Command(BaseCommand):
         media_dir.mkdir(exist_ok=True)
         for icon_path in icons_dir.iterdir():
             if icon_path.is_dir():
-                shutil.copytree(icon_path, media_dir / icon_path.name, dirs_exist_ok=True)
+                shutil.copytree(
+                    icon_path, media_dir / icon_path.name, dirs_exist_ok=True
+                )
             else:
                 shutil.copyfile(icon_path, media_dir / icon_path.name)
         print("End import icons")

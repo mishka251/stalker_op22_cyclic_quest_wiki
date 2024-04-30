@@ -18,6 +18,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="cyclicquest",
             name="vendor",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.cycletaskvendor", verbose_name="Персонаж квестодатель"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.cycletaskvendor",
+                verbose_name="Персонаж квестодатель",
+            ),
         ),
     ]

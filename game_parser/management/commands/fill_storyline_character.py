@@ -14,8 +14,9 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         count = StorylineCharacter.objects.count()
         for index, item in enumerate(StorylineCharacter.objects.all()):
-            item.name_translation = Translation.objects.filter(code__iexact=item.name_raw.lower()).first()
+            item.name_translation = Translation.objects.filter(
+                code__iexact=item.name_raw.lower()
+            ).first()
             item.icon = Icon.objects.filter(name__iexact=item.icon_raw.lower()).first()
             item.save()
             print(f"{index+1}/{count}")
-

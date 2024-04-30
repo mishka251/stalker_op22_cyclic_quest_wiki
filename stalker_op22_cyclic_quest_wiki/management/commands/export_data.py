@@ -21,22 +21,22 @@ class Command(BaseCommand):
             print(f"End export {model_info.model_cls.__name__} data")
 
         print("Start export icons")
-        icons_dir = tmp_dir/"icons"
+        icons_dir = tmp_dir / "icons"
         icons_dir.mkdir(exist_ok=True)
         for icon in Icon.objects.all():
             icon_path = icon.icon.path
-            target_path = icons_dir/icon.icon.name
+            target_path = icons_dir / icon.icon.name
             if target_path.parent != icons_dir:
                 target_path.parent.mkdir(exist_ok=True)
             shutil.copyfile(icon_path, target_path)
         print("End export icons")
 
         print("Start export maps")
-        maps_dir = tmp_dir/"maps"
+        maps_dir = tmp_dir / "maps"
         maps_dir.mkdir(exist_ok=True)
         for location_map in LocationMapInfo.objects.all():
             map_path = location_map.map_image.path
-            target_path = maps_dir/location_map.map_image.name
+            target_path = maps_dir / location_map.map_image.name
             if target_path.parent != maps_dir:
                 target_path.parent.mkdir(exist_ok=True)
             shutil.copyfile(map_path, target_path)

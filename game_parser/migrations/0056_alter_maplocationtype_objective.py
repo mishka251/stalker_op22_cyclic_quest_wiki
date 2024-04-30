@@ -14,6 +14,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="maplocationtype",
             name="objective",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.taskobjective"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="game_parser.taskobjective",
+            ),
         ),
     ]

@@ -14,7 +14,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="questrandomreward",
             name="icon",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.icon", verbose_name="Иконка"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.icon",
+                verbose_name="Иконка",
+            ),
         ),
         migrations.AddField(
             model_name="questrandomreward",
@@ -24,11 +29,20 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="questrandomreward",
             name="name_translation",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.translation", verbose_name="Перевод названия"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.translation",
+                verbose_name="Перевод названия",
+            ),
         ),
         migrations.AlterField(
             model_name="questrandomreward",
             name="caption",
-            field=models.CharField(max_length=255, null=True, verbose_name="Человекочитабельное название(из комментария)"),
+            field=models.CharField(
+                max_length=255,
+                null=True,
+                verbose_name="Человекочитабельное название(из комментария)",
+            ),
         ),
     ]

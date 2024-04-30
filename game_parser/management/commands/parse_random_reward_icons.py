@@ -30,12 +30,16 @@ class Command(BaseCommand):
         (icon_left, icon_top) = tips_icons[name]
         icon_w = 100
         icon_h = 50
-        icon_file: Path = settings.OP22_GAME_DATA_PATH/"textures"/"ui"/"ui_icon_equipment.dds"
+        icon_file: Path = (
+            settings.OP22_GAME_DATA_PATH / "textures" / "ui" / "ui_icon_equipment.dds"
+        )
         image = Image.open(icon_file)
         icon = self._get_image(image, icon_left, icon_top, icon_w, icon_h, name)
         reward.icon = icon
 
-    def _get_image(self, image: Image, x: int, y: int, width: int, height: int, name: str) -> Icon:
+    def _get_image(
+        self, image: Image, x: int, y: int, width: int, height: int, name: str
+    ) -> Icon:
         instance: Icon = Icon(name=name)
         box = self._get_item_image_coordinates(x, y, width, height)
 
@@ -48,7 +52,9 @@ class Command(BaseCommand):
             instance.save()
         return instance
 
-    def _get_item_image_coordinates(self, x: int, y: int, width: int, height: int) -> tuple[int, int, int, int]:
+    def _get_item_image_coordinates(
+        self, x: int, y: int, width: int, height: int
+    ) -> tuple[int, int, int, int]:
         inv_grid_x = x
         inv_grid_y = y
 
@@ -57,7 +63,7 @@ class Command(BaseCommand):
 
         left = inv_grid_x  # * self.IMAGE_PART_WIDTH
         top = inv_grid_y  # * self.IMAGE_PART_HEIGHT
-        right = (inv_grid_x + inv_grid_width)  # * self.IMAGE_PART_WIDTH
-        bottom = (inv_grid_y + inv_grid_height)  # * self.IMAGE_PART_HEIGHT
+        right = inv_grid_x + inv_grid_width  # * self.IMAGE_PART_WIDTH
+        bottom = inv_grid_y + inv_grid_height  # * self.IMAGE_PART_HEIGHT
 
         return (left, top, right, bottom)

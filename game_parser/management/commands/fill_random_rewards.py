@@ -19,4 +19,3 @@ class Command(BaseCommand):
             if len(raw_items) != item.possible_items.count():
                 print(f"warn {len(raw_items)=} != {item.possible_items.count()=}")
             print(f"{index+1}/{count}")
-

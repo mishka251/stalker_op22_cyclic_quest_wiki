@@ -3,7 +3,13 @@ import logging
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.models import CyclicQuest, Respawn, SingleStalkerSpawnItem, StalkerSection, StorylineCharacter
+from game_parser.models import (
+    CyclicQuest,
+    Respawn,
+    SingleStalkerSpawnItem,
+    StalkerSection,
+    StorylineCharacter,
+)
 from game_parser.models.quest import QuestKinds
 
 logger = logging.getLogger(__name__)
@@ -16,8 +22,12 @@ class Command(BaseCommand):
         count = StalkerSection.objects.count()
         for index, item in enumerate(StalkerSection.objects.all()):
             item.character_profile = (
-                StorylineCharacter.objects.filter(game_id__exact=item.character_profile_str.lower()).first()
-                or StorylineCharacter.objects.filter(game_code__exact=item.character_profile_str.lower()).first()
+                StorylineCharacter.objects.filter(
+                    game_id__exact=item.character_profile_str.lower()
+                ).first()
+                or StorylineCharacter.objects.filter(
+                    game_code__exact=item.character_profile_str.lower()
+                ).first()
             )
             item.save()
             if index % 100 == 0:
@@ -26,8 +36,12 @@ class Command(BaseCommand):
         count = SingleStalkerSpawnItem.objects.count()
         for index, item in enumerate(SingleStalkerSpawnItem.objects.all()):
             item.stalker_section = (
-                StalkerSection.objects.filter(section_name__exact=item.character_profile_raw.lower()).first()
-                or StalkerSection.objects.filter(character_profile_str__exact=item.character_profile_raw.lower()).first()
+                StalkerSection.objects.filter(
+                    section_name__exact=item.character_profile_raw.lower()
+                ).first()
+                or StalkerSection.objects.filter(
+                    character_profile_str__exact=item.character_profile_raw.lower()
+                ).first()
             )
             item.save()
             if index % 100 == 0:
@@ -47,6 +61,8 @@ class Command(BaseCommand):
         for index, item in enumerate(CyclicQuest.objects.all()):
             if item.type != QuestKinds.kill_stalker:
                 continue
-            item.target_stalker = (StalkerSection.objects.filter(section_name__exact=item.target_str.lower()).first()            )
+            item.target_stalker = StalkerSection.objects.filter(
+                section_name__exact=item.target_str.lower()
+            ).first()
             item.save()
             print(f"{index + 1}/{count}")

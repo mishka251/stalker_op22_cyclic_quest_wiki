@@ -19,7 +19,6 @@ class InventoryBoxAdmin(ModelAdmin):
     ]
 
 
-
 @register(ItemInTreasureBox)
 class ItemInTreasureBoxAdmin(ModelAdmin):
     autocomplete_fields = [

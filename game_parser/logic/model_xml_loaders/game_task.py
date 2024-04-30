@@ -6,6 +6,7 @@ from game_parser.models import GameTask, MapLocationType, TaskObjective
 
 class GameTaskLoader(BaseModelXmlLoader[GameTask]):
     expected_tag = "game_task"
+
     def _load(self, game_task_node: Element, comments: list[str]) -> GameTask:
         task_id = game_task_node.attrib.pop("id")
         prio = game_task_node.attrib.pop("prio", None)
@@ -16,7 +17,9 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
             elif child_node.tag == "objective":
                 self._parse_task_objective(task, child_node)
             else:
-                raise ValueError(f"Unexpected game task child {child_node.tag} in {task_id}")
+                raise ValueError(
+                    f"Unexpected game task child {child_node.tag} in {task_id}"
+                )
         task.save()
         return task
 
@@ -59,12 +62,17 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
             elif child_node.tag == "object_story_id" and object_story_id is None:
                 object_story_id = child_node.text
             elif child_node.tag == "map_location_type":
-                map_location_type = {"name": child_node.text, "hint": child_node.attrib.pop("hint", None)}
+                map_location_type = {
+                    "name": child_node.text,
+                    "hint": child_node.attrib.pop("hint", None),
+                }
                 map_location_types.append(map_location_type)
             elif child_node.tag == "function_call_fail":
                 print("Skip function_call_fail")
             else:
-                raise ValueError(f"Unexpected objective child {child_node.tag} in {task.game_id}")
+                raise ValueError(
+                    f"Unexpected objective child {child_node.tag} in {task.game_id}"
+                )
         objective = TaskObjective.objects.create(
             task=task,
             text_id_raw=text,

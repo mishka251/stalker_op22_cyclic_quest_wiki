@@ -43,7 +43,7 @@ class EncyclopediaArticleAdmin(ModelAdmin):
         "artefact",
     ]
 
-    @display(description="Иконка" )
+    @display(description="Иконка")
     def inv_icon_view(self, obj: EncyclopediaArticle) -> str | None:
         if not obj.icon:
             return None

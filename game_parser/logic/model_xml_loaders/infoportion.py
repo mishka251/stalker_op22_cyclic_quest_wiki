@@ -30,7 +30,9 @@ class InfoPortionLoader(BaseModelXmlLoader[InfoPortion]):
             elif isinstance(child_node, _Comment):
                 pass
             else:
-                logger.warning(f"Unexpected game info_portion child {child_node.tag} in {info_portion_id}")
+                logger.warning(
+                    f"Unexpected game info_portion child {child_node.tag} in {info_portion_id}"
+                )
         info_portion.article_raw = ";".join(article_raw)
         info_portion.disable_raw = ";".join(disable_raw)
         info_portion.task_raw = ";".join(task_raw)

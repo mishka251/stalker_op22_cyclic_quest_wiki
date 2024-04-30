@@ -6,6 +6,4 @@ from game_parser.models import Explosive
 
 @register(Explosive)
 class ExplosiveAdmin(BaseItemAdmin):
-    list_display = (
-        *BaseItemAdmin.list_display,
-    )
+    list_display = (*BaseItemAdmin.list_display,)

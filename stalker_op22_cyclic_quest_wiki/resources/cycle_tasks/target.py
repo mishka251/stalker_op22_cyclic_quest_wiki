@@ -1,7 +1,13 @@
 from import_export import fields, resources
 from import_export.widgets import ManyToManyWidget
 
-from stalker_op22_cyclic_quest_wiki.models import Community, CycleTaskTargetCamp, CycleTaskTargetItem, CycleTaskTargetStalker, MapPosition
+from stalker_op22_cyclic_quest_wiki.models import (
+    Community,
+    CycleTaskTargetCamp,
+    CycleTaskTargetItem,
+    CycleTaskTargetStalker,
+    MapPosition,
+)
 
 
 class CycleTaskTargetCampResource(resources.ModelResource):

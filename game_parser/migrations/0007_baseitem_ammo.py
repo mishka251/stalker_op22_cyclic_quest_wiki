@@ -14,20 +14,67 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="BaseItem",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("visual_str", models.CharField(max_length=255, verbose_name="Название иконки?")),
-                ("description_code", models.CharField(max_length=255, verbose_name="Код названия(ссылка на переводы)")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "visual_str",
+                    models.CharField(max_length=255, verbose_name="Название иконки?"),
+                ),
+                (
+                    "description_code",
+                    models.CharField(
+                        max_length=255, verbose_name="Код названия(ссылка на переводы)"
+                    ),
+                ),
                 ("cost", models.PositiveIntegerField(verbose_name="Базовая цена")),
-                ("name", models.CharField(max_length=255, verbose_name="Название(код в игре)")),
-                ("inv_name", models.CharField(max_length=255, verbose_name="Название в инвентаре?")),
-                ("inv_name_short", models.CharField(max_length=255, verbose_name="Название в инвентаре(сокращенное)?")),
-                ("inv_weight", models.DecimalField(decimal_places=3, max_digits=6, verbose_name="Вес")),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=255, verbose_name="Название(код в игре)"
+                    ),
+                ),
+                (
+                    "inv_name",
+                    models.CharField(
+                        max_length=255, verbose_name="Название в инвентаре?"
+                    ),
+                ),
+                (
+                    "inv_name_short",
+                    models.CharField(
+                        max_length=255,
+                        verbose_name="Название в инвентаре(сокращенное)?",
+                    ),
+                ),
+                (
+                    "inv_weight",
+                    models.DecimalField(
+                        decimal_places=3, max_digits=6, verbose_name="Вес"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name="Ammo",
             fields=[
-                ("baseitem_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.baseitem")),
+                (
+                    "baseitem_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.baseitem",
+                    ),
+                ),
             ],
             bases=("game_parser.baseitem",),
         ),

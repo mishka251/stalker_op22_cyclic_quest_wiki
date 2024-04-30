@@ -23,6 +23,9 @@ class Command(BaseCommand):
             if not match:
                 continue
             location_name = match.group("location")
-            item.location = Location.objects.annotate(name_lower=Lower("name")).filter(name_lower=location_name.lower()).first()
+            item.location = (
+                Location.objects.annotate(name_lower=Lower("name"))
+                .filter(name_lower=location_name.lower())
+                .first()
+            )
             item.save()
-

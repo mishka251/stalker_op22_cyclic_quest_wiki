@@ -13,11 +13,15 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="spawnitem",
             name="spawn_story_id",
-            field=models.PositiveBigIntegerField(null=True, unique=True, verbose_name="spawn_story_id"),
+            field=models.PositiveBigIntegerField(
+                null=True, unique=True, verbose_name="spawn_story_id"
+            ),
         ),
         migrations.AddField(
             model_name="spawnitem",
             name="story_id",
-            field=models.PositiveBigIntegerField(null=True, unique=True, verbose_name="story_id"),
+            field=models.PositiveBigIntegerField(
+                null=True, unique=True, verbose_name="story_id"
+            ),
         ),
     ]

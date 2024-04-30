@@ -21,8 +21,12 @@ class Monster(models.Model):
     spec_rank = models.CharField(max_length=255, null=True)
 
     icon = models.ForeignKey("Icon", on_delete=models.SET_NULL, null=True)
-    monster_part = models.ForeignKey("MonsterPart", on_delete=models.SET_NULL, null=True)
-    name_translation = models.ForeignKey("Translation", on_delete=models.SET_NULL, null=True)
+    monster_part = models.ForeignKey(
+        "MonsterPart", on_delete=models.SET_NULL, null=True
+    )
+    name_translation = models.ForeignKey(
+        "Translation", on_delete=models.SET_NULL, null=True
+    )
 
     def __str__(self) -> str:
         name = self.name_translation.rus if self.name_translation else None

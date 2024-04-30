@@ -12,7 +12,10 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name="cyclicquestitemreward",
-            options={"verbose_name": "Предмет в награду за ЦЗ", "verbose_name_plural": "Предметы в наградах за ЦЗ"},
+            options={
+                "verbose_name": "Предмет в награду за ЦЗ",
+                "verbose_name_plural": "Предметы в наградах за ЦЗ",
+            },
         ),
         migrations.AlterUniqueTogether(
             name="cyclicquestitemreward",

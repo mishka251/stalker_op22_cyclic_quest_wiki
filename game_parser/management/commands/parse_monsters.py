@@ -37,7 +37,6 @@ class Command(BaseCommand):
             if isinstance(v, dict) and v.get("monster", "false") == "true"
         }
 
-
         for quest_name, quest_data in quest_blocks.items():
             print(quest_name)
             Monster.objects.create(
@@ -46,8 +45,12 @@ class Command(BaseCommand):
                 visual_str=quest_data.get("visual"),
                 corpse_visual_str=quest_data.get("corpse_visual"),
                 icon_str=quest_data.get("icon"),
-                Spawn_Inventory_Item_Section=quest_data.get("Spawn_Inventory_Item_Section"),
-                Spawn_Inventory_Item_Probability=quest_data.get("Spawn_Inventory_Item_Probability"),
+                Spawn_Inventory_Item_Section=quest_data.get(
+                    "Spawn_Inventory_Item_Section"
+                ),
+                Spawn_Inventory_Item_Probability=quest_data.get(
+                    "Spawn_Inventory_Item_Probability"
+                ),
                 class_name=quest_data.get("class"),
                 terrain=quest_data.get("terrain"),
                 species=quest_data.get("species"),

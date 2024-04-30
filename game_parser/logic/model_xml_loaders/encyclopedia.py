@@ -4,11 +4,18 @@ from lxml.etree import Element, _Comment
 from PIL import Image
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
-from game_parser.models import Artefact, EncyclopediaArticle, EncyclopediaGroup, Icon, Translation
+from game_parser.models import (
+    Artefact,
+    EncyclopediaArticle,
+    EncyclopediaGroup,
+    Icon,
+    Translation,
+)
 
 
 class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
     expected_tag = "article"
+
     def _load(self, article_node: Element, comments: list[str]) -> EncyclopediaArticle:
         game_id = article_node.attrib.pop("id", None)
         name = article_node.attrib.pop("name", None)
@@ -26,11 +33,17 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
             elif isinstance(child_node, _Comment):
                 pass
             else:
-                raise ValueError(f"Unexpected game info_portion child {child_node.tag} in {game_id}")
+                raise ValueError(
+                    f"Unexpected game info_portion child {child_node.tag} in {game_id}"
+                )
         if group_name is not None:
             group = EncyclopediaGroup.objects.get_or_create(
                 name=group_name,
-                defaults={"name_translation": Translation.objects.filter(code=group_name).first()},
+                defaults={
+                    "name_translation": Translation.objects.filter(
+                        code=group_name
+                    ).first()
+                },
             )[0]
         else:
             group = None
@@ -76,7 +89,16 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         self._get_image(image, x, y, width, height, texture_id, icon)
         return icon
 
-    def _get_image(self, image: Image, x: int, y: int, width: int, height: int, name: str, instance: Icon):
+    def _get_image(
+        self,
+        image: Image,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        name: str,
+        instance: Icon,
+    ):
         box = self._get_item_image_coordinates(x, y, width, height)
         part = image.crop(box)
         tmp_file_name = "tmp.png"
@@ -87,7 +109,9 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
             instance.save()
         return instance
 
-    def _get_item_image_coordinates(self, x: int, y: int, width: int, height: int) -> tuple[int, int, int, int]:
+    def _get_item_image_coordinates(
+        self, x: int, y: int, width: int, height: int
+    ) -> tuple[int, int, int, int]:
         inv_grid_x = x
         inv_grid_y = y
 
@@ -96,8 +120,7 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
 
         left = inv_grid_x  # * self.IMAGE_PART_WIDTH
         top = inv_grid_y  # * self.IMAGE_PART_HEIGHT
-        right = (inv_grid_x + inv_grid_width)  # * self.IMAGE_PART_WIDTH
-        bottom = (inv_grid_y + inv_grid_height)  # * self.IMAGE_PART_HEIGHT
+        right = inv_grid_x + inv_grid_width  # * self.IMAGE_PART_WIDTH
+        bottom = inv_grid_y + inv_grid_height  # * self.IMAGE_PART_HEIGHT
 
         return (left, top, right, bottom)
-

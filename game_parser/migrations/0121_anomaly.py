@@ -14,12 +14,27 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Anomaly",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("section_name", models.CharField(max_length=255)),
                 ("class_name", models.CharField(max_length=255)),
                 ("visual_str", models.CharField(max_length=255)),
                 ("hit_type", models.CharField(max_length=255)),
-                ("article", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.encyclopediaarticle")),
+                (
+                    "article",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.encyclopediaarticle",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Аномалия",

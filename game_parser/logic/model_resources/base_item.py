@@ -1,5 +1,26 @@
-from game_parser.logic.model_resources.base_resource import SECTION_NAME, BaseModelResource, BooleanField, CharField, DecimalField, IntegerField
-from game_parser.models import Addon, Ammo, Artefact, Explosive, Grenade, GrenadeLauncher, Knife, MonsterPart, Other, Outfit, Scope, Silencer, Weapon
+from game_parser.logic.model_resources.base_resource import (
+    SECTION_NAME,
+    BaseModelResource,
+    BooleanField,
+    CharField,
+    DecimalField,
+    IntegerField,
+)
+from game_parser.models import (
+    Addon,
+    Ammo,
+    Artefact,
+    Explosive,
+    Grenade,
+    GrenadeLauncher,
+    Knife,
+    MonsterPart,
+    Other,
+    Outfit,
+    Scope,
+    Silencer,
+    Weapon,
+)
 from game_parser.models.items.artefact import CapsAnom, MonsterEmbrion, TrueArtefact
 from game_parser.models.items.base_item import BaseItem
 
@@ -97,11 +118,9 @@ class ExplosiveResource(BaseItemResource):
         "explode_duration",
         "snd_explode",
         "immunities_sect",
-
         "can_take",
         "time_to_explode",
         "snd_checkout",
-
         "radius",
         "bomba",
         "script_binding",
@@ -191,7 +210,6 @@ class GrenadeResource(BaseItemResource):
         "hide_in_explosion",
         "explode_hide_duration",
         "dynamic_explosion_particles",
-
         "box_size",
         "k_dist",
         "k_disp",
@@ -203,13 +221,11 @@ class GrenadeResource(BaseItemResource):
         "tracer",
         "jump_height",
         "fake_grenade_name",
-
         "condition_to_explode",
         "time_to_explode",
         "set_timer_particles",
         "blowout_light",
         "light_height",
-
         "ph_mass",
         "snd_fly_sound",
         "engine_present",
@@ -310,7 +326,6 @@ class WeaponResource(BaseItemResource):
         "position",
         "orientation",
         "strap_position",
-
         "light_color",
         "light_range",
         "light_var_color",
@@ -513,7 +528,6 @@ class OutfitResource(BaseItemResource):
         "power_restore_speed",
         "health_restore_speed",
         "satiety_restore_speed",
-
     }
 
 
@@ -527,6 +541,7 @@ class BaseArtefactResource(BaseItemResource):
         "trail_light_color",
         "trail_light_range",
     }
+
 
 class TrueArtefactResource(BaseArtefactResource):
     _model_cls = TrueArtefact
@@ -581,6 +596,7 @@ class CapsAnomResource(BaseArtefactResource):
         "hud",
         "npc_put_in_slot",
     }
+
 
 class MonsterEmbrionResource(BaseArtefactResource):
     _model_cls = MonsterEmbrion

@@ -1,4 +1,8 @@
-from game_parser.logic.model_resources.base_resource import SECTION_NAME, BaseModelResource, CharField
+from game_parser.logic.model_resources.base_resource import (
+    SECTION_NAME,
+    BaseModelResource,
+    CharField,
+)
 from game_parser.models import Monster
 
 
@@ -10,8 +14,18 @@ class MonsterResource(BaseModelResource):
         CharField("visual", "visual_str", required=False, default=None),
         CharField("corpse_visual", "corpse_visual_str", required=False, default=None),
         CharField("icon", "icon_str", required=False, default=None),
-        CharField("Spawn_Inventory_Item_Section", "Spawn_Inventory_Item_Section", required=False, default=None),
-        CharField("Spawn_Inventory_Item_Probability", "Spawn_Inventory_Item_Probability", required=False, default=None),
+        CharField(
+            "Spawn_Inventory_Item_Section",
+            "Spawn_Inventory_Item_Section",
+            required=False,
+            default=None,
+        ),
+        CharField(
+            "Spawn_Inventory_Item_Probability",
+            "Spawn_Inventory_Item_Probability",
+            required=False,
+            default=None,
+        ),
         CharField("class", "class_name", required=False, default=None),
         CharField("terrain", "terrain", required=False, default=None),
         CharField("species", "species", required=False, default=None),

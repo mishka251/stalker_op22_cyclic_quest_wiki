@@ -29,11 +29,7 @@ class Command(BaseCommand):
         parser = LtxParser(self.get_file_path())
         results = parser.get_parsed_blocks()
 
-        blocks = {
-            k: v
-            for k, v in results.items()
-            if not self._should_exclude(k)
-        }
+        blocks = {k: v for k, v in results.items() if not self._should_exclude(k)}
 
         for quest_name, quest_data in blocks.items():
             print(quest_name)

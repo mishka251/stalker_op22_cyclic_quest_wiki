@@ -14,7 +14,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="MonsterPart",
             fields=[
-                ("baseitem_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.baseitem")),
+                (
+                    "baseitem_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.baseitem",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Часть мутанта",

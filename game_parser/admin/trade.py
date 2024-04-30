@@ -38,11 +38,11 @@ class ItemInByline(ReadOnlyNestedTable):
 
     @display(description="Цена(ОТ)", ordering="min_price_modifier")
     def price_from(self, trade: ItemInBuy) -> Decimal:
-        return trade.item.cost*trade.min_price_modifier
+        return trade.item.cost * trade.min_price_modifier
 
     @display(description="Цена(ДО)", ordering="max_price_modifier")
     def price_to(self, trade: ItemInBuy) -> Decimal:
-        return trade.item.cost*trade.max_price_modifier
+        return trade.item.cost * trade.max_price_modifier
 
 
 @register(Buy)
@@ -73,11 +73,11 @@ class ItemInSellInline(ReadOnlyNestedTable):
 
     @display(description="Цена(ОТ)", ordering="min_price_modifier")
     def price_from(self, trade: ItemInSell) -> Decimal:
-        return trade.item.cost*trade.min_price_modifier
+        return trade.item.cost * trade.min_price_modifier
 
     @display(description="Цена(ДО)", ordering="max_price_modifier")
     def price_to(self, trade: ItemInSell) -> Decimal:
-        return trade.item.cost*trade.max_price_modifier
+        return trade.item.cost * trade.max_price_modifier
 
 
 @register(Sell)
@@ -91,8 +91,6 @@ class SellAdmin(ModelAdmin):
         "trader",
         "name",
     ]
-
-
 
 
 @register(ItemInBuy)

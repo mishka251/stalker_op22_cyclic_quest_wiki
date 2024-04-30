@@ -21,15 +21,24 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name="dialogphrase",
-            options={"verbose_name": "Фраза диалога", "verbose_name_plural": "Фразы диалогов"},
+            options={
+                "verbose_name": "Фраза диалога",
+                "verbose_name_plural": "Фразы диалогов",
+            },
         ),
         migrations.AlterModelOptions(
             name="gamestoryid",
-            options={"verbose_name": "Связь id с секциями", "verbose_name_plural": "Связи id с секциями"},
+            options={
+                "verbose_name": "Связь id с секциями",
+                "verbose_name_plural": "Связи id с секциями",
+            },
         ),
         migrations.AlterModelOptions(
             name="gametask",
-            options={"verbose_name": "Сюжетное задание", "verbose_name_plural": "Сюжетные задания"},
+            options={
+                "verbose_name": "Сюжетное задание",
+                "verbose_name_plural": "Сюжетные задания",
+            },
         ),
         migrations.AlterModelOptions(
             name="icon",
@@ -41,15 +50,24 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name="itemintreasurebox",
-            options={"verbose_name": "Предметы в тайнике", "verbose_name_plural": "Предметы в тайниках"},
+            options={
+                "verbose_name": "Предметы в тайнике",
+                "verbose_name_plural": "Предметы в тайниках",
+            },
         ),
         migrations.AlterModelOptions(
             name="locationmapinfo",
-            options={"verbose_name": "Дополнительная информация о локации", "verbose_name_plural": "Дополнительные данные о локациях"},
+            options={
+                "verbose_name": "Дополнительная информация о локации",
+                "verbose_name_plural": "Дополнительные данные о локациях",
+            },
         ),
         migrations.AlterModelOptions(
             name="taskobjective",
-            options={"verbose_name": "Цель задания", "verbose_name_plural": "Цели заданий"},
+            options={
+                "verbose_name": "Цель задания",
+                "verbose_name_plural": "Цели заданий",
+            },
         ),
         migrations.AlterField(
             model_name="dialog",
@@ -69,7 +87,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="dialogphrase",
             name="dialog",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.dialog", verbose_name="Диалог"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="game_parser.dialog",
+                verbose_name="Диалог",
+            ),
         ),
         migrations.AlterField(
             model_name="dialogphrase",
@@ -84,17 +106,29 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="dialogphrase",
             name="next_ids_raw",
-            field=models.CharField(max_length=512, verbose_name="id следующих фраз диалога"),
+            field=models.CharField(
+                max_length=512, verbose_name="id следующих фраз диалога"
+            ),
         ),
         migrations.AlterField(
             model_name="dialogphrase",
             name="previous",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.dialogphrase", verbose_name="Предыдущая фраза"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.dialogphrase",
+                verbose_name="Предыдущая фраза",
+            ),
         ),
         migrations.AlterField(
             model_name="dialogphrase",
             name="text",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.translation", verbose_name="Перевод текста"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.translation",
+                verbose_name="Перевод текста",
+            ),
         ),
         migrations.AlterField(
             model_name="dialogphrase",
@@ -104,22 +138,46 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="gamestoryid",
             name="character",
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.storylinecharacter", verbose_name="Предмет"),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.storylinecharacter",
+                verbose_name="Предмет",
+            ),
         ),
         migrations.AlterField(
             model_name="gamestoryid",
             name="item",
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.baseitem", verbose_name="Предмет"),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.baseitem",
+                verbose_name="Предмет",
+            ),
         ),
         migrations.AlterField(
             model_name="gamestoryid",
             name="spawn_section",
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.spawnitem", verbose_name="Секция спавна"),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.spawnitem",
+                verbose_name="Секция спавна",
+            ),
         ),
         migrations.AlterField(
             model_name="gamestoryid",
             name="spawn_section_custom",
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.customspawnitem", verbose_name="Кастоная секция спавна"),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.customspawnitem",
+                verbose_name="Кастоная секция спавна",
+            ),
         ),
         migrations.AlterField(
             model_name="gamestoryid",
@@ -129,7 +187,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="gamestoryid",
             name="treasure",
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.treasure", verbose_name="Тайник"),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.treasure",
+                verbose_name="Тайник",
+            ),
         ),
         migrations.AlterField(
             model_name="inventorybox",
@@ -139,7 +203,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="itemintreasurebox",
             name="box",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.inventorybox", verbose_name="Тайник"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="game_parser.inventorybox",
+                verbose_name="Тайник",
+            ),
         ),
         migrations.AlterField(
             model_name="itemintreasurebox",
@@ -149,22 +217,39 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="itemintreasurebox",
             name="item",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.baseitem", verbose_name="Предмет"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="game_parser.baseitem",
+                verbose_name="Предмет",
+            ),
         ),
         migrations.AlterField(
             model_name="locationmapinfo",
             name="bound_rect_raw",
-            field=models.CharField(max_length=255, null=True, verbose_name="Границы локации(границы картинки?)"),
+            field=models.CharField(
+                max_length=255,
+                null=True,
+                verbose_name="Границы локации(границы картинки?)",
+            ),
         ),
         migrations.AlterField(
             model_name="locationmapinfo",
             name="global_rect_raw",
-            field=models.CharField(max_length=255, null=True, verbose_name="Границы локации(относительно глобальной карты?)"),
+            field=models.CharField(
+                max_length=255,
+                null=True,
+                verbose_name="Границы локации(относительно глобальной карты?)",
+            ),
         ),
         migrations.AlterField(
             model_name="locationmapinfo",
             name="location",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.location", verbose_name="локация"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.location",
+                verbose_name="локация",
+            ),
         ),
         migrations.AlterField(
             model_name="locationmapinfo",
@@ -174,7 +259,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="locationmapinfo",
             name="music_tracks",
-            field=models.CharField(max_length=255, null=True, verbose_name="Информация о фоновой музыке"),
+            field=models.CharField(
+                max_length=255, null=True, verbose_name="Информация о фоновой музыке"
+            ),
         ),
         migrations.AlterField(
             model_name="locationmapinfo",
@@ -184,12 +271,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="locationmapinfo",
             name="texture_raw",
-            field=models.CharField(max_length=255, null=True, verbose_name="Название картинки с картой"),
+            field=models.CharField(
+                max_length=255, null=True, verbose_name="Название картинки с картой"
+            ),
         ),
         migrations.AlterField(
             model_name="locationmapinfo",
             name="weathers",
-            field=models.CharField(max_length=255, null=True, verbose_name="Информация о погоде"),
+            field=models.CharField(
+                max_length=255, null=True, verbose_name="Информация о погоде"
+            ),
         ),
         migrations.AlterField(
             model_name="spawnreward",
@@ -198,6 +289,9 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="dialogphrase",
-            constraint=models.UniqueConstraint(fields=("local_id", "dialog"), name="unique_dialog_phrase_by_local_id_and_dialog"),
+            constraint=models.UniqueConstraint(
+                fields=("local_id", "dialog"),
+                name="unique_dialog_phrase_by_local_id_and_dialog",
+            ),
         ),
     ]

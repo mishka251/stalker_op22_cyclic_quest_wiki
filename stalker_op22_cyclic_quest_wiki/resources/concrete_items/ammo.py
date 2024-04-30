@@ -8,9 +8,10 @@ class AmmoResource(resources.ModelResource):
     class Meta:
         model = Ammo
         use_natural_foreign_keys = True
-        import_id_fields=["name"]
+        import_id_fields = ["name"]
 
         exclude = {"id", "item_ptr", "polymorphic_ctype"}
+
 
 __all__ = [
     "AmmoResource",

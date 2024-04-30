@@ -1,7 +1,15 @@
 from django.contrib.admin import ModelAdmin, display, register
 
 from game_parser.admin.utils import SpawnItemMapRenderer
-from game_parser.models import CampInfo, CustomSpawnItem, NpcLogicConfig, Respawn, SingleStalkerSpawnItem, SpawnItem, StalkerSection
+from game_parser.models import (
+    CampInfo,
+    CustomSpawnItem,
+    NpcLogicConfig,
+    Respawn,
+    SingleStalkerSpawnItem,
+    SpawnItem,
+    StalkerSection,
+)
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 
@@ -39,8 +47,7 @@ class SpawnItemAdmin(ModelAdmin):
         "map",
     ]
 
-
-    @display(description="Карта" )
+    @display(description="Карта")
     def map(self, obj: SpawnItem) -> str:
         renderer = SpawnItemMapRenderer(obj)
         return renderer.render()
@@ -101,7 +108,6 @@ class CustomSpawnItemAdmin(ModelAdmin):
     ]
 
 
-
 @register(CampInfo)
 class CampInfoAdmin(ModelAdmin):
     autocomplete_fields = [
@@ -138,6 +144,7 @@ class RespawnAdmin(ModelAdmin):
         "spawn_item__name",
     ]
 
+
 @register(SingleStalkerSpawnItem)
 class SingleStalkerSpawnItemAdmin(ModelAdmin):
     autocomplete_fields = [
@@ -159,6 +166,7 @@ class SingleStalkerSpawnItemAdmin(ModelAdmin):
 
 class RespawnsInline(ReadOnlyNestedTable):
     model = Respawn.respawn_section.through
+
 
 class SingleStalkerSpawnItemInline(ReadOnlyNestedTable):
     model = SingleStalkerSpawnItem

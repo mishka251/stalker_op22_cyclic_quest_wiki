@@ -12,7 +12,10 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name="itemintreasure",
-            options={"verbose_name": "Предмет в тайнике", "verbose_name_plural": "Предметы в тайниках"},
+            options={
+                "verbose_name": "Предмет в тайнике",
+                "verbose_name_plural": "Предметы в тайниках",
+            },
         ),
         migrations.AlterModelOptions(
             name="treasure",

@@ -13,11 +13,15 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="inventorybox",
             name="visual_str",
-            field=models.CharField(max_length=255, null=True, verbose_name="Внешний вид(название - visual)"),
+            field=models.CharField(
+                max_length=255, null=True, verbose_name="Внешний вид(название - visual)"
+            ),
         ),
         migrations.AlterField(
             model_name="inventorybox",
             name="source_file_name",
-            field=models.CharField(max_length=255, verbose_name="Путь к файлу(custom_data)"),
+            field=models.CharField(
+                max_length=255, verbose_name="Путь к файлу(custom_data)"
+            ),
         ),
     ]

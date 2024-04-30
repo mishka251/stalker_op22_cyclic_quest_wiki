@@ -14,9 +14,29 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="EncyclopediaGroup",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("name", models.CharField(max_length=255, unique=True, verbose_name="Название")),
-                ("name_translation", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.translation")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Название"
+                    ),
+                ),
+                (
+                    "name_translation",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.translation",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Группа в энциклопедии",
@@ -26,16 +46,74 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="EncyclopediaArticle",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("game_id", models.CharField(max_length=255, unique=True, verbose_name="Название")),
-                ("name", models.CharField(max_length=255, unique=True, verbose_name="Название")),
-                ("group_name", models.CharField(max_length=255, unique=True, verbose_name="Название")),
-                ("ltx_str", models.CharField(max_length=255, unique=True, verbose_name="Название")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "game_id",
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Название"
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Название"
+                    ),
+                ),
+                (
+                    "group_name",
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Название"
+                    ),
+                ),
+                (
+                    "ltx_str",
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Название"
+                    ),
+                ),
                 ("text", models.TextField()),
-                ("group", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.encyclopediagroup")),
-                ("icon", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.icon")),
-                ("name_translation", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation")),
-                ("text_translation", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation")),
+                (
+                    "group",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.encyclopediagroup",
+                    ),
+                ),
+                (
+                    "icon",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.icon",
+                    ),
+                ),
+                (
+                    "name_translation",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="game_parser.translation",
+                    ),
+                ),
+                (
+                    "text_translation",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="game_parser.translation",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Группа в энциклопедии",

@@ -17,4 +17,3 @@ class Command(BaseCommand):
             item.title = Translation.objects.filter(code=item.title_id_raw).first()
             item.save()
             print(f"{index+1}/{count}")
-

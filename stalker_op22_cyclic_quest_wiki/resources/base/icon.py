@@ -8,8 +8,9 @@ class IconResource(resources.ModelResource):
     class Meta:
         model = Icon
         use_natural_foreign_keys = True
-        import_id_fields=["name"]
+        import_id_fields = ["name"]
         exclude = {"id"}
+
 
 __all__ = [
     "IconResource",

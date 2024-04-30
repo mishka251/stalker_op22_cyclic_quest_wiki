@@ -20,10 +20,12 @@ class DialogPhrasesWhereGiving(ReadOnlyNestedTable):
     model = DialogPhrase.give_info.through
     verbose_name_plural = "Получаем во фразах диалогов"
 
+
 class SetThenTaskObjectiveComplete(ReadOnlyNestedTable):
     model = TaskObjective
     verbose_name_plural = "Получаем при выполнении задания"
     fk_name = "infoportion_set_complete"
+
 
 class SetThenTaskObjectiveFailing(ReadOnlyNestedTable):
     model = TaskObjective
@@ -35,9 +37,6 @@ class ThenTaskObjectiveComplete(ReadOnlyNestedTable):
     model = TaskObjective
     verbose_name_plural = "Получаем при выполнении задания(2)"
     fk_name = "infoportion_complete"
-
-
-
 
 
 @register(InfoPortion)
@@ -62,6 +61,7 @@ class InfoPortionAdmin(ModelAdmin):
         SetThenTaskObjectiveFailing,
         ThenTaskObjectiveComplete,
     ]
+
 
 __all__ = [
     "InfoPortionAdmin",

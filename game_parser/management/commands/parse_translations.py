@@ -56,4 +56,3 @@ class Command(BaseCommand):
                 logger.warning(f"Wrong root {file}, {root}")
                 continue
             TranslationLoader().load_bulk(root)
-

@@ -17,13 +17,11 @@ class Command(BaseCommand):
 
     def get_files_dir_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / "config"/"gameplay"
+        return base_path / "config" / "gameplay"
 
     def get_files_paths(self, path: Path) -> list[Path]:
         return [
-            sub_path
-            for sub_path in path.iterdir()
-            if sub_path.name.startswith("tasks")
+            sub_path for sub_path in path.iterdir() if sub_path.name.startswith("tasks")
         ]
 
     @atomic

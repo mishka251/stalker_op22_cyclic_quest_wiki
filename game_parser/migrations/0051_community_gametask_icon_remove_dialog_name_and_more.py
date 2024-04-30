@@ -14,24 +14,45 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Community",
             fields=[
-                ("id", models.CharField(max_length=10, primary_key=True, serialize=False)),
+                (
+                    "id",
+                    models.CharField(max_length=10, primary_key=True, serialize=False),
+                ),
                 ("name", models.CharField(max_length=512, null=True)),
             ],
         ),
         migrations.CreateModel(
             name="GameTask",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("game_id", models.CharField(max_length=256)),
                 ("title_id_raw", models.CharField(max_length=256)),
                 ("prio", models.IntegerField(null=True)),
-                ("title", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.translation")),
+                (
+                    "title",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.translation",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name="Icon",
             fields=[
-                ("id", models.CharField(max_length=10, primary_key=True, serialize=False)),
+                (
+                    "id",
+                    models.CharField(max_length=10, primary_key=True, serialize=False),
+                ),
                 ("name", models.CharField(max_length=512, null=True)),
                 ("icon", models.ImageField(null=True, upload_to="")),
             ],
@@ -73,7 +94,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="TaskObjective",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("text_id_raw", models.CharField(max_length=256)),
                 ("icon_raw", models.CharField(max_length=512)),
                 ("article_id_raw", models.CharField(max_length=256, null=True)),
@@ -81,16 +110,56 @@ class Migration(migrations.Migration):
                 ("infoportion_complete_raw", models.TextField(null=True)),
                 ("infoportion_set_complete_raw", models.TextField(null=True)),
                 ("object_story_id_raw", models.TextField(null=True)),
-                ("article", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation")),
-                ("icon", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.icon")),
-                ("task", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.gametask")),
-                ("text", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="+", to="game_parser.translation")),
+                (
+                    "article",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="game_parser.translation",
+                    ),
+                ),
+                (
+                    "icon",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="game_parser.icon",
+                    ),
+                ),
+                (
+                    "task",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="game_parser.gametask",
+                    ),
+                ),
+                (
+                    "text",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="game_parser.translation",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name="StorylineCharacter",
             fields=[
-                ("character_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.character")),
+                (
+                    "character_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.character",
+                    ),
+                ),
                 ("community_default_raw", models.CharField(max_length=10)),
                 ("icon_raw", models.CharField(max_length=512)),
                 ("class_raw", models.CharField(max_length=512)),
@@ -98,23 +167,65 @@ class Migration(migrations.Migration):
                 ("reputation", models.IntegerField(null=True)),
                 ("supplies_raw", models.TextField(null=True)),
                 ("dialogs_raw", models.TextField(null=True)),
-                ("community", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.community")),
-                ("icon", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.icon")),
+                (
+                    "community",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.community",
+                    ),
+                ),
+                (
+                    "icon",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.icon",
+                    ),
+                ),
             ],
             bases=("game_parser.character",),
         ),
         migrations.CreateModel(
             name="DialogPhrase",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("local_id", models.CharField(max_length=10)),
                 ("text_id_raw", models.CharField(max_length=256, null=True)),
                 ("next_ids_raw", models.CharField(max_length=512)),
                 ("give_info_raw", models.TextField(null=True)),
                 ("actions_raw", models.TextField(null=True)),
-                ("dialog", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.dialog")),
-                ("previous", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.dialogphrase")),
-                ("text", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.translation")),
+                (
+                    "dialog",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="game_parser.dialog",
+                    ),
+                ),
+                (
+                    "previous",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.dialogphrase",
+                    ),
+                ),
+                (
+                    "text",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="game_parser.translation",
+                    ),
+                ),
             ],
         ),
     ]

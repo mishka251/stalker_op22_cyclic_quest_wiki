@@ -7,6 +7,7 @@ from game_parser.models import StorylineCharacter
 
 logger = logging.getLogger(__name__)
 
+
 class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
     expected_tag = "specific_character"
 
@@ -66,13 +67,19 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
             elif child_node.tag == "actor_dialog":
                 dialogs_raw.append(child_node.text)
             elif child_node.tag == "start_dialog":
-                start_dialog = (child_node.text)
-            elif isinstance(child_node, _Comment) or child_node.tag in {"panic_threshold", "panic_treshold", "map_icon"}:# WTF misstype??
+                start_dialog = child_node.text
+            elif isinstance(child_node, _Comment) or child_node.tag in {
+                "panic_threshold",
+                "panic_treshold",
+                "map_icon",
+            }:  # WTF misstype??
                 pass
             elif child_node.tag == "team":
                 team = child_node.text
             else:
-                logger.warning(f"Unexpected node %s in character %s", child_node.tag, character_id)
+                logger.warning(
+                    f"Unexpected node %s in character %s", child_node.tag, character_id
+                )
         return StorylineCharacter.objects.create(
             game_code=character_id,
             game_id=character_id,

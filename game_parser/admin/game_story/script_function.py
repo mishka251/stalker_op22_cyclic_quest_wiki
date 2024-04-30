@@ -1,10 +1,20 @@
 from django.contrib.admin import ModelAdmin, register
 from polymorphic.admin import PolymorphicInlineSupportMixin
 
-from game_parser.models import BaseScriptReward, InfoPortion, ItemReward, MoneyReward, SpawnReward
+from game_parser.models import (
+    BaseScriptReward,
+    InfoPortion,
+    ItemReward,
+    MoneyReward,
+    SpawnReward,
+)
 from game_parser.models.game_story import ScriptFunction
 from game_parser.models.game_story.dialog import DialogPhrase
-from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable, ReadOnlyPolymorphicChildInline, ReadOnlyPolymorphicInline
+from game_parser.utils.admin_utils.readonly_nested_table import (
+    ReadOnlyNestedTable,
+    ReadOnlyPolymorphicChildInline,
+    ReadOnlyPolymorphicInline,
+)
 
 
 class RewardsInline(ReadOnlyPolymorphicInline):
@@ -31,9 +41,11 @@ class RewardsInline(ReadOnlyPolymorphicInline):
         ItemRewardInline,
     )
 
+
 class DialogPhrasesCallsFunction(ReadOnlyNestedTable):
     model = DialogPhrase.actions.through
     verbose_name = "Используется в фразах диалогов"
+
 
 class InfoportionCallsFunction(ReadOnlyNestedTable):
     model = InfoPortion.actions.through
@@ -68,6 +80,7 @@ class ScriptFunctionAdmin(PolymorphicInlineSupportMixin, ModelAdmin):
 
     def rewards(self, func: ScriptFunction) -> str:
         return "\n".join([str(reward) for reward in func.rewards.all()])
+
 
 __all__ = [
     "ScriptFunctionAdmin",

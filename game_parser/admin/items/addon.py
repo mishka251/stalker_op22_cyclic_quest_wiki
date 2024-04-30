@@ -6,6 +6,4 @@ from game_parser.models import Addon
 
 @register(Addon)
 class AddonAdmin(BaseItemAdmin):
-    list_display = (
-        *BaseItemAdmin.list_display,
-    )
+    list_display = (*BaseItemAdmin.list_display,)

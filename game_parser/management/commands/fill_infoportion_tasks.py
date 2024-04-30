@@ -17,4 +17,3 @@ class Command(BaseCommand):
             item.task = GameTask.objects.filter(game_id=item.task_raw).first()
             item.save()
             print(f"{index+1}/{count}")
-

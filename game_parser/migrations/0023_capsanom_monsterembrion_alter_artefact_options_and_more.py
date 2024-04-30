@@ -14,7 +14,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="CapsAnom",
             fields=[
-                ("artefact_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.artefact")),
+                (
+                    "artefact_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.artefact",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Капсула аномалии",
@@ -25,7 +35,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="MonsterEmbrion",
             fields=[
-                ("artefact_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.artefact")),
+                (
+                    "artefact_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.artefact",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Эмбрион мутанта",
@@ -35,7 +55,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name="artefact",
-            options={"verbose_name": "Базовый артефакт", "verbose_name_plural": "Артефакты/Капсулы аномалий/Эмбрионы мутантов"},
+            options={
+                "verbose_name": "Базовый артефакт",
+                "verbose_name_plural": "Артефакты/Капсулы аномалий/Эмбрионы мутантов",
+            },
         ),
         migrations.RemoveField(
             model_name="artefact",
@@ -84,18 +107,93 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="TrueArtefact",
             fields=[
-                ("artefact_ptr", models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to="game_parser.artefact")),
-                ("inventory_radiation", models.DecimalField(decimal_places=6, max_digits=10, null=True, verbose_name="Радиоактивность")),
-                ("health_restore_speed", models.DecimalField(decimal_places=6, max_digits=10, null=True, verbose_name="Восстановление здоровья?")),
-                ("burn_immunity", models.DecimalField(decimal_places=3, max_digits=5, verbose_name="Защита от ???")),
-                ("strike_immunity", models.DecimalField(decimal_places=3, max_digits=5, verbose_name="Защита от ???")),
-                ("shock_immunity", models.DecimalField(decimal_places=3, max_digits=5, verbose_name="Защита от ???")),
-                ("wound_immunity", models.DecimalField(decimal_places=3, max_digits=5, verbose_name="Защита от ???")),
-                ("radiation_immunity", models.DecimalField(decimal_places=3, max_digits=5, verbose_name="Защита от радиации")),
-                ("telepatic_immunity", models.DecimalField(decimal_places=3, max_digits=5, verbose_name="Защита от телепатии")),
-                ("chemical_burn_immunity", models.DecimalField(decimal_places=3, max_digits=5, verbose_name="Защита от химии")),
-                ("explosion_immunity", models.DecimalField(decimal_places=3, max_digits=5, verbose_name="Защита от взрыва")),
-                ("fire_wound_immunity", models.DecimalField(decimal_places=3, max_digits=5, verbose_name="Защита от ???")),
+                (
+                    "artefact_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="game_parser.artefact",
+                    ),
+                ),
+                (
+                    "inventory_radiation",
+                    models.DecimalField(
+                        decimal_places=6,
+                        max_digits=10,
+                        null=True,
+                        verbose_name="Радиоактивность",
+                    ),
+                ),
+                (
+                    "health_restore_speed",
+                    models.DecimalField(
+                        decimal_places=6,
+                        max_digits=10,
+                        null=True,
+                        verbose_name="Восстановление здоровья?",
+                    ),
+                ),
+                (
+                    "burn_immunity",
+                    models.DecimalField(
+                        decimal_places=3, max_digits=5, verbose_name="Защита от ???"
+                    ),
+                ),
+                (
+                    "strike_immunity",
+                    models.DecimalField(
+                        decimal_places=3, max_digits=5, verbose_name="Защита от ???"
+                    ),
+                ),
+                (
+                    "shock_immunity",
+                    models.DecimalField(
+                        decimal_places=3, max_digits=5, verbose_name="Защита от ???"
+                    ),
+                ),
+                (
+                    "wound_immunity",
+                    models.DecimalField(
+                        decimal_places=3, max_digits=5, verbose_name="Защита от ???"
+                    ),
+                ),
+                (
+                    "radiation_immunity",
+                    models.DecimalField(
+                        decimal_places=3,
+                        max_digits=5,
+                        verbose_name="Защита от радиации",
+                    ),
+                ),
+                (
+                    "telepatic_immunity",
+                    models.DecimalField(
+                        decimal_places=3,
+                        max_digits=5,
+                        verbose_name="Защита от телепатии",
+                    ),
+                ),
+                (
+                    "chemical_burn_immunity",
+                    models.DecimalField(
+                        decimal_places=3, max_digits=5, verbose_name="Защита от химии"
+                    ),
+                ),
+                (
+                    "explosion_immunity",
+                    models.DecimalField(
+                        decimal_places=3, max_digits=5, verbose_name="Защита от взрыва"
+                    ),
+                ),
+                (
+                    "fire_wound_immunity",
+                    models.DecimalField(
+                        decimal_places=3, max_digits=5, verbose_name="Защита от ???"
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Артефакт",

@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / "spawns"/"all_cs"/"all.ltx"
+        return base_path / "spawns" / "all_cs" / "all.ltx"
 
     @atomic
     def handle(self, **options) -> None:
@@ -37,13 +37,13 @@ class Command(BaseCommand):
 
     def _create_item(self, level_file_name: str, section: dict[str, str]) -> SpawnItem:
         return SpawnItem(
-            section_name = section["section_name"],
-            name = section["name"],
-            position_raw = section["position"],
-            spawn_id = section["spawn_id"],
-            game_vertex_id = section["game_vertex_id"],
+            section_name=section["section_name"],
+            name=section["name"],
+            position_raw=section["position"],
+            spawn_id=section["spawn_id"],
+            game_vertex_id=section["game_vertex_id"],
             location_txt=level_file_name,
-            custom_data = section.get("custom_data"),
+            custom_data=section.get("custom_data"),
             character_profile_str=section.get("character_profile"),
             story_id=section.get("story_id"),
             spawn_story_id=section.get("spawn_story_id"),

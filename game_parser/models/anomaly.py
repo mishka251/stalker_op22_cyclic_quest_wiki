@@ -6,7 +6,9 @@ class Anomaly(models.Model):
     class_name = models.CharField(max_length=255, null=False)
     visual_str = models.CharField(max_length=255, null=True)
     hit_type = models.CharField(max_length=255, null=True)
-    article = models.ForeignKey("EncyclopediaArticle", null=True, on_delete=models.SET_NULL)
+    article = models.ForeignKey(
+        "EncyclopediaArticle", null=True, on_delete=models.SET_NULL
+    )
 
     class Meta:
         verbose_name = "Аномалия"

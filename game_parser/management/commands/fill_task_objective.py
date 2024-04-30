@@ -22,4 +22,3 @@ class Command(BaseCommand):
             item.icon = Icon.objects.filter(name=item.icon_raw).first()
             item.save()
             print(f"{index+1}/{count}")
-

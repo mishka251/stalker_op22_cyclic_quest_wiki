@@ -12,7 +12,12 @@ class Icon(models.Model):
         verbose_name_plural = "Иконки"
 
     objects = IconManager()
-    name = models.CharField(max_length=512, null=False, unique=True, verbose_name="Код иконки для связи с объектами")
+    name = models.CharField(
+        max_length=512,
+        null=False,
+        unique=True,
+        verbose_name="Код иконки для связи с объектами",
+    )
     icon = models.ImageField(null=False, verbose_name="Иконка")
 
     def natural_key(self) -> tuple:
@@ -20,6 +25,7 @@ class Icon(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
 
 __all__ = [
     "Icon",

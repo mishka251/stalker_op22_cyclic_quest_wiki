@@ -32,14 +32,10 @@ class Command(BaseCommand):
         results = parser.get_parsed_blocks()
 
         locations_list = [
-            level_name.lower()
-            for level_name in results["level_maps_single"]
+            level_name.lower() for level_name in results["level_maps_single"]
         ]
 
-        results_lower = {
-            key.lower(): value
-            for key, value in results.items()
-        }
+        results_lower = {key.lower(): value for key, value in results.items()}
 
         for level_name in locations_list:
             location_data = results_lower[level_name]
@@ -47,7 +43,9 @@ class Command(BaseCommand):
 
             location = LocationMapInfo.objects.create(
                 name=level_name,
-                location=Location.objects.annotate(lower_name=Lower("name")).filter(lower_name=level_name).first(),
+                location=Location.objects.annotate(lower_name=Lower("name"))
+                .filter(lower_name=level_name)
+                .first(),
                 texture_raw=location_data.get("texture"),
                 bound_rect_raw=location_data.get("bound_rect"),
                 global_rect_raw=location_data.get("global_rect"),
@@ -61,7 +59,6 @@ class Command(BaseCommand):
             tmp_file_name = Path("tmp.png")
             image.save(tmp_file_name)
             with tmp_file_name.open("rb") as tmp_image:
-                image_file = ImageFile(tmp_image, name=level_name+ ".png")
+                image_file = ImageFile(tmp_image, name=level_name + ".png")
                 location.map_image = image_file
                 location.save()
-

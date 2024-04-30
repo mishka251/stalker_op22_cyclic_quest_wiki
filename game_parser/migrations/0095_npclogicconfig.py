@@ -13,10 +13,33 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="NpcLogicConfig",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("name", models.CharField(max_length=255, verbose_name="Название файла")),
-                ("source_file_name", models.CharField(max_length=255, unique=True, verbose_name="Исходный файл")),
-                ("trade_file_name", models.CharField(max_length=255, null=True, verbose_name="Название файла торговли")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=255, verbose_name="Название файла"),
+                ),
+                (
+                    "source_file_name",
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Исходный файл"
+                    ),
+                ),
+                (
+                    "trade_file_name",
+                    models.CharField(
+                        max_length=255,
+                        null=True,
+                        verbose_name="Название файла торговли",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Логики НПС",

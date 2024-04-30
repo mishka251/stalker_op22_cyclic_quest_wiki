@@ -14,15 +14,47 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="cyclicquest",
             name="type",
-            field=models.CharField(choices=[("eliminate_lager", "Уничтожить лагерь"), ("chain", "Цепочка"), ("kill_stalker", "Убить сталкера"), ("monster_part", "Часть мутанта"), ("artefact", "Принести артефакт"), ("find_item", "Принести предмет"), ("defend_lager", "Защитить лагерь")], max_length=255, verbose_name="Тип задания(тип цели задания)"),
+            field=models.CharField(
+                choices=[
+                    ("eliminate_lager", "Уничтожить лагерь"),
+                    ("chain", "Цепочка"),
+                    ("kill_stalker", "Убить сталкера"),
+                    ("monster_part", "Часть мутанта"),
+                    ("artefact", "Принести артефакт"),
+                    ("find_item", "Принести предмет"),
+                    ("defend_lager", "Защитить лагерь"),
+                ],
+                max_length=255,
+                verbose_name="Тип задания(тип цели задания)",
+            ),
         ),
         migrations.CreateModel(
             name="QuestRandomRewardThrough",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("count", models.IntegerField(default=1)),
-                ("quest", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.cyclicquest")),
-                ("reward", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.questrandomreward")),
+                (
+                    "quest",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="game_parser.cyclicquest",
+                    ),
+                ),
+                (
+                    "reward",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="game_parser.questrandomreward",
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "Рандомная награда в ЦЗ",
@@ -33,6 +65,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="cyclicquest",
             name="random_rewards",
-            field=models.ManyToManyField(related_name="quests", through="game_parser.QuestRandomRewardThrough", to="game_parser.questrandomreward", verbose_name="Рандомные награды"),
+            field=models.ManyToManyField(
+                related_name="quests",
+                through="game_parser.QuestRandomRewardThrough",
+                to="game_parser.questrandomreward",
+                verbose_name="Рандомные награды",
+            ),
         ),
     ]

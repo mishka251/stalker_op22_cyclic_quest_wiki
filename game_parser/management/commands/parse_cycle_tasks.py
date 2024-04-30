@@ -42,9 +42,7 @@ class Command(BaseCommand):
         results = parser.get_parsed_blocks()
 
         quest_blocks = {
-            k: v
-            for k, v in results.items()
-            if k not in self._not_quest_keys
+            k: v for k, v in results.items() if k not in self._not_quest_keys
         }
 
         for quest_name, quest_data in quest_blocks.items():
@@ -53,7 +51,6 @@ class Command(BaseCommand):
             else:
                 model = self._model_from_dict(quest_name, quest_data)
             model.save()
-
 
     def _model_from_dict(self, name: str, data: dict[str, str]) -> CyclicQuest:
         game_code = name
@@ -71,7 +68,7 @@ class Command(BaseCommand):
         if "reward_random" in data:
             quest.random_rewards_string = data.pop("reward_random")
         if "once" in data:
-            quest.once = (data.pop("once") == "true")
+            quest.once = data.pop("once") == "true"
         if "target_cond" in data:
             quest.target_cond_str = data.pop("target_cond")
         if "map_location" in data:
@@ -83,9 +80,9 @@ class Command(BaseCommand):
         if "condlist" in data:
             quest.condlist_str = data.pop("condlist")
         if "hide_reward" in data:
-            quest.hide_reward = (data.pop("hide_reward") == "true")
+            quest.hide_reward = data.pop("hide_reward") == "true"
         if "reward_treasure" in data:
-            quest.reward_treasure = (data.pop("reward_treasure") == "true")
+            quest.reward_treasure = data.pop("reward_treasure") == "true"
         if "reward_relation" in data:
             quest.reward_relation_str = data.pop("reward_relation")
         if "defend_target" in data:
@@ -98,7 +95,7 @@ class Command(BaseCommand):
 
     def _create_random_reward(self, name: str, data: list[str]) -> QuestRandomReward:
         possible_items_str = ";".join(data)
-        reward =  QuestRandomReward(name=name, possible_items_str=possible_items_str)
+        reward = QuestRandomReward(name=name, possible_items_str=possible_items_str)
         self._set_reward_icon(reward)
         self._set_reward_translation(reward)
         return reward
@@ -106,10 +103,12 @@ class Command(BaseCommand):
     def _set_reward_translation(self, reward: QuestRandomReward) -> None:
         name = reward.name
         prefix = "random_"
-        index_str = name[len(prefix):]
+        index_str = name[len(prefix) :]
         index = int(index_str)
         translation_prefix = "task_item_type_"
-        translation = Translation.objects.filter(code=f"{translation_prefix}{index}").first()
+        translation = Translation.objects.filter(
+            code=f"{translation_prefix}{index}"
+        ).first()
         reward.name_translation = translation
         reward.index = index
 
@@ -129,12 +128,16 @@ class Command(BaseCommand):
         (icon_left, icon_top) = tips_icons[name]
         icon_w = 100
         icon_h = 50
-        icon_file: Path = settings.OP22_GAME_DATA_PATH/"textures"/"ui"/"ui_icon_equipment.dds"
+        icon_file: Path = (
+            settings.OP22_GAME_DATA_PATH / "textures" / "ui" / "ui_icon_equipment.dds"
+        )
         image = Image.open(icon_file)
         icon = self._get_image(image, icon_left, icon_top, icon_w, icon_h, name)
         reward.icon = icon
 
-    def _get_image(self, image: Image, x: int, y: int, width: int, height: int, name: str) -> Icon:
+    def _get_image(
+        self, image: Image, x: int, y: int, width: int, height: int, name: str
+    ) -> Icon:
         instance: Icon = Icon(name=name)
         box = self._get_item_image_coordinates(x, y, width, height)
         part = image.crop(box)
@@ -146,7 +149,9 @@ class Command(BaseCommand):
             instance.save()
         return instance
 
-    def _get_item_image_coordinates(self, x: int, y: int, width: int, height: int) -> tuple[int, int, int, int]:
+    def _get_item_image_coordinates(
+        self, x: int, y: int, width: int, height: int
+    ) -> tuple[int, int, int, int]:
         inv_grid_x = x
         inv_grid_y = y
 
@@ -155,7 +160,7 @@ class Command(BaseCommand):
 
         left = inv_grid_x  # * self.IMAGE_PART_WIDTH
         top = inv_grid_y  # * self.IMAGE_PART_HEIGHT
-        right = (inv_grid_x + inv_grid_width)  # * self.IMAGE_PART_WIDTH
-        bottom = (inv_grid_y + inv_grid_height)  # * self.IMAGE_PART_HEIGHT
+        right = inv_grid_x + inv_grid_width  # * self.IMAGE_PART_WIDTH
+        bottom = inv_grid_y + inv_grid_height  # * self.IMAGE_PART_HEIGHT
 
         return (left, top, right, bottom)

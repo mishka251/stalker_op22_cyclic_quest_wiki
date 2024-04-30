@@ -6,6 +6,4 @@ from game_parser.models import Scope
 
 @register(Scope)
 class ScopeAdmin(BaseItemAdmin):
-    list_display = (
-        *BaseItemAdmin.list_display,
-    )
+    list_display = (*BaseItemAdmin.list_display,)

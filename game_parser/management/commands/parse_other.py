@@ -81,7 +81,9 @@ class Command(BaseCommand):
                     logger.warning(f"unused data {quest_data} in {quest_name} {item=}")
 
     def _should_exclude(self, key: str, data: dict[str, str]) -> bool:
-        if key in self._exclude_keys or key.endswith(("immunities", "hud", "absorbation")):
+        if key in self._exclude_keys or key.endswith(
+            ("immunities", "hud", "absorbation")
+        ):
             return True
         cls = data.get("class")
         excluded_classes = {

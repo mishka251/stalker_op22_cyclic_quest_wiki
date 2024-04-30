@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="baseitem",
             name="inv_weight",
-            field=models.DecimalField(decimal_places=3, max_digits=12, verbose_name="Вес"),
+            field=models.DecimalField(
+                decimal_places=3, max_digits=12, verbose_name="Вес"
+            ),
         ),
     ]

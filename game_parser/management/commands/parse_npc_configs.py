@@ -17,7 +17,7 @@ class Command(BaseCommand):
 
     def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / "config"/"scripts"
+        return base_path / "config" / "scripts"
 
     @atomic
     def handle(self, **options) -> None:
@@ -29,7 +29,7 @@ class Command(BaseCommand):
         for walk in os.walk(root_dir):
             (dirpath, dirnames, filenames) = walk
             for filename in filenames:
-                file_path = root_dir/dirpath/filename
+                file_path = root_dir / dirpath / filename
                 file_paths.append(file_path)
         print(f"Collected {len(file_paths)} files")
         for i, file_path in enumerate(file_paths):
@@ -44,7 +44,9 @@ class Command(BaseCommand):
         print(f"Creating {len(spawn_items)} possible npc configs")
         NpcLogicConfig.objects.bulk_create(spawn_items, batch_size=2_000)
 
-    def _create_item(self, file_path: Path, section: dict[str, dict[str, str]]) -> NpcLogicConfig:
+    def _create_item(
+        self, file_path: Path, section: dict[str, dict[str, str]]
+    ) -> NpcLogicConfig:
         trade_file_name = section["logic"].get("trade")
         return NpcLogicConfig(
             name=file_path.name,

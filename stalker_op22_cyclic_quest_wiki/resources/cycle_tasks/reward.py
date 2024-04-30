@@ -1,7 +1,14 @@
 from import_export import fields, resources
 from import_export.widgets import ManyToManyWidget
 
-from stalker_op22_cyclic_quest_wiki.models import Item, ItemReward, MoneyReward, QuestRandomReward, RandomRewardInfo, TreasureReward
+from stalker_op22_cyclic_quest_wiki.models import (
+    Item,
+    ItemReward,
+    MoneyReward,
+    QuestRandomReward,
+    RandomRewardInfo,
+    TreasureReward,
+)
 
 
 class ItemRewardResource(resources.ModelResource):

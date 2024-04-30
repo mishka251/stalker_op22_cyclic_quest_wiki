@@ -30,7 +30,9 @@ class IconLoader(BaseModelXmlLoader[Icon]):
         self._get_image(x, y, width, height, texture_id, icon)
         return icon
 
-    def _get_item_image_coordinates(self, x: int, y: int, width: int, height: int) -> tuple[int, int, int, int]:
+    def _get_item_image_coordinates(
+        self, x: int, y: int, width: int, height: int
+    ) -> tuple[int, int, int, int]:
         inv_grid_x = x
         inv_grid_y = y
 
@@ -44,7 +46,9 @@ class IconLoader(BaseModelXmlLoader[Icon]):
 
         return (left, top, right, bottom)
 
-    def _get_image(self, x: int, y: int, width: int, height: int, name: str, instance: Icon):
+    def _get_image(
+        self, x: int, y: int, width: int, height: int, name: str, instance: Icon
+    ):
         box = self._get_item_image_coordinates(x, y, width, height)
         part = self.image.crop(box)
         tmp_file_name = Path("tmp.png")

@@ -22,12 +22,16 @@ class Command(BaseCommand):
                     partial_updated.add(weapon)
 
             if weapon.silencer_name:
-                weapon.silencer = Silencer.objects.filter(name=weapon.silencer_name).first()
+                weapon.silencer = Silencer.objects.filter(
+                    name=weapon.silencer_name
+                ).first()
                 if not weapon.silencer:
                     partial_updated.add(weapon)
 
             if weapon.grenade_launcher_name:
-                weapon.grenade_launcher = GrenadeLauncher.objects.filter(name=weapon.grenade_launcher_name).first()
+                weapon.grenade_launcher = GrenadeLauncher.objects.filter(
+                    name=weapon.grenade_launcher_name
+                ).first()
                 if not weapon.grenade_launcher:
                     partial_updated.add(weapon)
             ammo_names = [ammo.strip() for ammo in weapon.ammo_class_str.split(",")]
@@ -38,5 +42,5 @@ class Command(BaseCommand):
             weapon.save()
             print(f"{index+1}/{count}")
 
-        unfounded_items = {item.name  for item in partial_updated}
+        unfounded_items = {item.name for item in partial_updated}
         print(f"Not found = {unfounded_items}")

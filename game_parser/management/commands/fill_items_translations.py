@@ -14,11 +14,21 @@ class Command(BaseCommand):
 
     @atomic
     def handle(self, **options) -> None:
-        count = BaseItem.objects.filter(Q(description_translation__isnull=True)|Q(name_translation__isnull=True)).count()
-        for index, item in enumerate(BaseItem.objects.filter(Q(description_translation__isnull=True)|Q(name_translation__isnull=True))):
+        count = BaseItem.objects.filter(
+            Q(description_translation__isnull=True) | Q(name_translation__isnull=True)
+        ).count()
+        for index, item in enumerate(
+            BaseItem.objects.filter(
+                Q(description_translation__isnull=True)
+                | Q(name_translation__isnull=True)
+            )
+        ):
 
-            item.description_translation = Translation.objects.filter(code=item.description_code).first()
-            item.name_translation = Translation.objects.filter(code=item.inv_name).first()
+            item.description_translation = Translation.objects.filter(
+                code=item.description_code
+            ).first()
+            item.name_translation = Translation.objects.filter(
+                code=item.inv_name
+            ).first()
             item.save()
             print(f"{index+1}/{count}")
-

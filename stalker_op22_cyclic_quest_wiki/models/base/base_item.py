@@ -14,13 +14,29 @@ class Item(PolymorphicModel):
 
     objects = ItemManager()
     cost = models.PositiveIntegerField(verbose_name="Базовая цена")
-    name = models.CharField(max_length=255, verbose_name="Название(код в игре)", unique=True, null=False)
-    inv_weight = models.DecimalField(verbose_name="Вес", decimal_places=3, max_digits=12)
-    icon = models.ForeignKey("Icon", on_delete=models.PROTECT, null=False, verbose_name="Иконка")
-    name_translation = models.ForeignKey("Translation", on_delete=models.PROTECT, null=False,
-                                         verbose_name="Перевод названия", related_name="+")
-    description_translation = models.ForeignKey("Translation", on_delete=models.PROTECT, null=True,
-                                                verbose_name="Перевод описания", related_name="+")
+    name = models.CharField(
+        max_length=255, verbose_name="Название(код в игре)", unique=True, null=False
+    )
+    inv_weight = models.DecimalField(
+        verbose_name="Вес", decimal_places=3, max_digits=12
+    )
+    icon = models.ForeignKey(
+        "Icon", on_delete=models.PROTECT, null=False, verbose_name="Иконка"
+    )
+    name_translation = models.ForeignKey(
+        "Translation",
+        on_delete=models.PROTECT,
+        null=False,
+        verbose_name="Перевод названия",
+        related_name="+",
+    )
+    description_translation = models.ForeignKey(
+        "Translation",
+        on_delete=models.PROTECT,
+        null=True,
+        verbose_name="Перевод описания",
+        related_name="+",
+    )
 
     def natural_key(self) -> tuple:
         return (self.name,)
@@ -29,6 +45,7 @@ class Item(PolymorphicModel):
         if self.name_translation:
             return self.name_translation.rus
         return self.name
+
 
 __all__ = [
     "Item",

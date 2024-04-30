@@ -20,4 +20,3 @@ class Command(BaseCommand):
             )
             item.save()
             print(f"{index+1}/{count}")
-

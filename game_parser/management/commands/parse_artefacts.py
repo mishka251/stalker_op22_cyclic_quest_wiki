@@ -6,7 +6,12 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.logic.model_resources.base_item import BaseItemResource, CapsAnomResource, MonsterEmbrionResource, TrueArtefactResource
+from game_parser.logic.model_resources.base_item import (
+    BaseItemResource,
+    CapsAnomResource,
+    MonsterEmbrionResource,
+    TrueArtefactResource,
+)
 from game_parser.models.items.artefact import CapsAnom, MonsterEmbrion, TrueArtefact
 
 logger = logging.getLogger(__name__)
@@ -94,18 +99,16 @@ class Command(BaseCommand):
             keys_to_exclude = set()
             for block_name in block_names:
                 if "hit_absorbation_sect" in blocks[block_name]:
-                    hit_absorbation_sect_block_name = blocks[block_name].pop("hit_absorbation_sect")
+                    hit_absorbation_sect_block_name = blocks[block_name].pop(
+                        "hit_absorbation_sect"
+                    )
                     hit_absorbation_sect = blocks.get(hit_absorbation_sect_block_name)
                     blocks[block_name] |= hit_absorbation_sect
                     keys_to_exclude |= {hit_absorbation_sect_block_name}
             for key_to_exclude in keys_to_exclude:
                 blocks.pop(key_to_exclude)
 
-            blocks = {
-                k: v
-                for k, v in blocks.items()
-                if not self._should_exclude(k)
-            }
+            blocks = {k: v for k, v in blocks.items() if not self._should_exclude(k)}
 
             for quest_name, quest_data in blocks.items():
                 print(quest_name)

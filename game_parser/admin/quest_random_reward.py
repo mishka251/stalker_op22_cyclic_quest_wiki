@@ -30,7 +30,7 @@ class RandomRewardItemInline(ReadOnlyNestedTable):
             return obj.name_translation.rus
         return obj.inv_name
 
-    @display(description="Иконка" )
+    @display(description="Иконка")
     def inv_icon_view(self, obj: Any) -> str | None:
         obj = obj.baseitem
         return icon_view(obj.inv_icon)
@@ -59,7 +59,7 @@ class QuestRandomRewardAdmin(ModelAdmin):
         "inv_icon_view",
     ]
 
-    @display(description="Иконка" )
+    @display(description="Иконка")
     def inv_icon_view(self, obj: QuestRandomReward) -> str | None:
         if obj.icon:
             return icon_view(obj.icon.icon)

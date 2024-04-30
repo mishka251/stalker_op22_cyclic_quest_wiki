@@ -6,7 +6,9 @@ class Translation(models.Model):
         verbose_name = "Перевод"
         verbose_name_plural = "Переводы"
 
-    code = models.CharField(max_length=128, null=False, verbose_name="Код названия", unique=True)
+    code = models.CharField(
+        max_length=128, null=False, verbose_name="Код названия", unique=True
+    )
     rus = models.TextField(verbose_name="Русский", null=False)
     eng = models.TextField(verbose_name="Английский", null=False)
     ukr = models.TextField(verbose_name="Украинский", null=False)

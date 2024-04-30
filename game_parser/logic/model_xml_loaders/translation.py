@@ -7,6 +7,7 @@ from game_parser.models import Translation
 
 logger = logging.getLogger(__name__)
 
+
 class TranslationLoader(BaseModelXmlLoader[Translation]):
     expected_tag = "string"
 

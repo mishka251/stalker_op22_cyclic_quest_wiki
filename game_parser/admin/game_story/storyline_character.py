@@ -17,7 +17,7 @@ class IconCharacterAdmin(ModelAdmin):
     )
     search_fields = ["name"]
 
-    @display(description="Иконка" )
+    @display(description="Иконка")
     def icon_view(self, obj: Icon) -> str | None:
         return mark_safe(f'<img src="{obj.icon.url}" alt="{obj.icon.name}">')
 
@@ -41,6 +41,7 @@ class CommunityAdmin(ModelAdmin):
         "translation",
     ]
 
+
 @register(Rank)
 class RandAdmin(ModelAdmin):
     search_fields = [
@@ -50,6 +51,7 @@ class RandAdmin(ModelAdmin):
     autocomplete_fields = [
         "translation",
     ]
+
 
 @register(StorylineCharacter)
 class StorylineCharacterAdmin(ModelAdmin):
@@ -75,11 +77,12 @@ class StorylineCharacterAdmin(ModelAdmin):
     def name_view(self, character: StorylineCharacter) -> str:
         return character.get_name
 
-    @display(description="Иконка" )
+    @display(description="Иконка")
     def icon_view(self, obj: StorylineCharacter) -> str | None:
         if not obj.icon:
             return None
         return mark_safe(f'<img src="{obj.icon.icon.url}" alt="{obj.icon.icon.name}">')
+
 
 __all__ = [
     "IconCharacterAdmin",

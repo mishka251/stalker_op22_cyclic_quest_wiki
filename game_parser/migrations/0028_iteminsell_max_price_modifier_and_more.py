@@ -13,13 +13,23 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="iteminsell",
             name="max_price_modifier",
-            field=models.DecimalField(decimal_places=2, default=0, max_digits=5, verbose_name="Множитель цены(до)"),
+            field=models.DecimalField(
+                decimal_places=2,
+                default=0,
+                max_digits=5,
+                verbose_name="Множитель цены(до)",
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="iteminsell",
             name="min_price_modifier",
-            field=models.DecimalField(decimal_places=2, default=0, max_digits=5, verbose_name="Множитель цены(от)"),
+            field=models.DecimalField(
+                decimal_places=2,
+                default=0,
+                max_digits=5,
+                verbose_name="Множитель цены(от)",
+            ),
             preserve_default=False,
         ),
     ]

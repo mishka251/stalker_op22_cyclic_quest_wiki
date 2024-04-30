@@ -19,21 +19,38 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="icon",
             name="name",
-            field=models.CharField(max_length=512, unique=True, verbose_name="Код иконки для связи с объектами"),
+            field=models.CharField(
+                max_length=512,
+                unique=True,
+                verbose_name="Код иконки для связи с объектами",
+            ),
         ),
         migrations.AlterField(
             model_name="item",
             name="icon",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to="stalker_op22_cyclic_quest_wiki.icon", verbose_name="Иконка"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to="stalker_op22_cyclic_quest_wiki.icon",
+                verbose_name="Иконка",
+            ),
         ),
         migrations.AlterField(
             model_name="location",
             name="map_info",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to="stalker_op22_cyclic_quest_wiki.locationmapinfo", verbose_name="Карта локации"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="stalker_op22_cyclic_quest_wiki.locationmapinfo",
+                verbose_name="Карта локации",
+            ),
         ),
         migrations.AlterField(
             model_name="mapposition",
             name="location",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to="stalker_op22_cyclic_quest_wiki.location", verbose_name="Локация"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to="stalker_op22_cyclic_quest_wiki.location",
+                verbose_name="Локация",
+            ),
         ),
     ]

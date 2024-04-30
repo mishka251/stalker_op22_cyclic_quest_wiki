@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="location",
             name="offset_str",
-            field=models.CharField(max_length=255, null=True, verbose_name="Сдвиг на глобальной карте??"),
+            field=models.CharField(
+                max_length=255, null=True, verbose_name="Сдвиг на глобальной карте??"
+            ),
         ),
     ]

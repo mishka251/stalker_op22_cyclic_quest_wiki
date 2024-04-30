@@ -19,7 +19,15 @@ from game_parser.logic.model_resources.base_item import (
     SilencerResource,
     WeaponResource,
 )
-from game_parser.models import Addon, Ammo, Explosive, Grenade, GrenadeLauncher, Knife, Weapon
+from game_parser.models import (
+    Addon,
+    Ammo,
+    Explosive,
+    Grenade,
+    GrenadeLauncher,
+    Knife,
+    Weapon,
+)
 from game_parser.models.items.base_item import BaseItem
 
 base_path = settings.OP22_GAME_DATA_PATH
@@ -113,7 +121,6 @@ class Command(BaseCommand):
         "grenade_rgd5_test",
         "grenade_flash_test",
         "gl_test_shell",
-
         "gl_test_shell_ammo_m209",
         "gl_fake_missile",
         "gl_fake_missile_ammo_m209",
@@ -125,7 +132,13 @@ class Command(BaseCommand):
         "gl_fake_missile_ammo_vog-25p",
     }
 
-    _excluded_keys = _excluded_keys__bolts | _excluded_keys__stationary_guns | _excluded_keys__soulcube | _excluded_other | _excluded_fake
+    _excluded_keys = (
+        _excluded_keys__bolts
+        | _excluded_keys__stationary_guns
+        | _excluded_keys__soulcube
+        | _excluded_other
+        | _excluded_fake
+    )
 
     def get_files_from_dir(self, path: Path) -> list[Path]:
         files = []
@@ -240,31 +253,24 @@ class Command(BaseCommand):
             "G_F1": {
                 "model_type": ModelTypes.GRENADE,
             },
-
             "G_RGD5": {
                 "model_type": ModelTypes.GRENADE,
             },
-
             "A_VOG25": {
                 "model_type": ModelTypes.GRENADE,
             },
-
             "A_M209": {
                 "model_type": ModelTypes.GRENADE,
             },
-
             "II_BOLT": {
                 "model_type": ModelTypes.UNKNOWN,
             },
-
             "O_PHYS_S": {
                 "model_type": ModelTypes.UNKNOWN,
             },
-
             "II_FOOD": {
                 "model_type": ModelTypes.UNKNOWN,
             },
-
             "II_EXPLO": {
                 "model_type": ModelTypes.EXPLOSIVE,
             },
@@ -288,9 +294,13 @@ class Command(BaseCommand):
                 continue
             instance, resource = maybe_instance
             if quest_data:
-                logger.warning(f"Для секции {quest_name=} ({resource}) не использованы данные {quest_data}")
+                logger.warning(
+                    f"Для секции {quest_name=} ({resource}) не использованы данные {quest_data}"
+                )
 
-    def _parse_data_to_model(self, name: str, data: dict[str, str]) -> tuple[BaseItem, BaseItemResource] | None:
+    def _parse_data_to_model(
+        self, name: str, data: dict[str, str]
+    ) -> tuple[BaseItem, BaseItemResource] | None:
         model_type: ModelTypes = data.pop("model_type", None)
         if not model_type:
             logger.warning(f"ERROR: no model_type, {name=}")

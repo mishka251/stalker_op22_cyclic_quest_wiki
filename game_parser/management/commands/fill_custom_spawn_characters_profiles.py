@@ -15,6 +15,8 @@ class Command(BaseCommand):
         count = CustomSpawnItem.objects.count()
         for index, item in enumerate(CustomSpawnItem.objects.all()):
             if item.character_profile_str:
-                item.character_profile = StorylineCharacter.objects.filter(game_id=item.character_profile_str).first()
+                item.character_profile = StorylineCharacter.objects.filter(
+                    game_id=item.character_profile_str
+                ).first()
                 item.save()
             print(f"{index + 1}/{count}")

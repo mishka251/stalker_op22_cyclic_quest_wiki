@@ -14,7 +14,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="CampInfo",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("type", models.CharField(max_length=128)),
                 ("capacity", models.PositiveIntegerField()),
                 ("cond_raw", models.CharField(max_length=512, null=True)),
@@ -22,7 +30,13 @@ class Migration(migrations.Migration):
                 ("stay_str", models.CharField(max_length=32, null=True)),
                 ("groups", models.PositiveIntegerField(default=1)),
                 ("communities", models.ManyToManyField(to="game_parser.community")),
-                ("spawn_item", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.spawnitem")),
+                (
+                    "spawn_item",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="game_parser.spawnitem",
+                    ),
+                ),
             ],
         ),
     ]

@@ -26,10 +26,14 @@ class EscapeMap(TemplateView):
 
     def get_context_data(self, **kwargs) -> dict:
         location_name = kwargs.get("location", self.location_name)
-        location = Location.objects.annotate(name_lowe=Lower("name")).get(name_lowe=location_name.lower())
+        location = Location.objects.annotate(name_lowe=Lower("name")).get(
+            name_lowe=location_name.lower()
+        )
         spawn_items = SpawnItem.objects.filter(location=location)
         location_info = LocationMapInfo.objects.get(location=location)
-        offset_re = re.compile(r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)")
+        offset_re = re.compile(
+            r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
+        )
         rm = offset_re.match(location_info.bound_rect_raw)
         (min_x, min_y, max_x, max_y) = (
             float(rm.group("min_x")),
@@ -76,11 +80,19 @@ class TaskVendorsList(TemplateView):
     def _vendor_to_dict(self, vendor: CycleTaskVendor) -> dict:
         npc_profile = vendor.get_npc_profile()
         return {
-            "image_path": self._get_npc_profile_icon(npc_profile) if npc_profile else None,
-            "name": npc_profile.name_translation.rus if npc_profile and npc_profile.name_translation else None,
+            "image_path": (
+                self._get_npc_profile_icon(npc_profile) if npc_profile else None
+            ),
+            "name": (
+                npc_profile.name_translation.rus
+                if npc_profile and npc_profile.name_translation
+                else None
+            ),
             "tasks_count": vendor.cyclicquest_set.count(),
             "has_chain": vendor.cyclicquest_set.filter(type=QuestKinds.chain).exists(),
-            "quests_link": reverse("game_parser:vendor_tasks", kwargs={"vendor_id": vendor.id}),
+            "quests_link": reverse(
+                "game_parser:vendor_tasks", kwargs={"vendor_id": vendor.id}
+            ),
         }
 
     def _get_npc_profile_icon(self, npc_profile):
@@ -107,6 +119,4 @@ class IndexView(TemplateView):
     template_name = "parser_index.html"
 
     def get_context_data(self, **kwargs) -> dict:
-        return {
-
-        }
+        return {}

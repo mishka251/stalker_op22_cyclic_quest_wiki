@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="baseitem",
             name="inv_icon",
-            field=models.ImageField(null=True, upload_to="item_icons/", verbose_name="Иконка в инвентаре"),
+            field=models.ImageField(
+                null=True, upload_to="item_icons/", verbose_name="Иконка в инвентаре"
+            ),
         ),
     ]

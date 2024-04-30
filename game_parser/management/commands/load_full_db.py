@@ -23,7 +23,6 @@ class Command(BaseCommand):
         "parse_translations",
         "parse_treasures",
         "parse_weapon",
-
         # fill
         "fill_cyclic_quest_items",
         "fill_items_in_trade",

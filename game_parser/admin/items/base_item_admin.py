@@ -4,7 +4,17 @@ from typing import Optional
 from django.contrib.admin import ModelAdmin, display, register
 
 from game_parser.admin.utils import SpawnItemMapRenderer
-from game_parser.models import CyclicQuest, ItemInBuy, ItemInSell, ItemInTreasure, ItemReward, QuestRandomReward, Recept, SpawnItem, SpawnReward
+from game_parser.models import (
+    CyclicQuest,
+    ItemInBuy,
+    ItemInSell,
+    ItemInTreasure,
+    ItemReward,
+    QuestRandomReward,
+    Recept,
+    SpawnItem,
+    SpawnReward,
+)
 from game_parser.models.items.base_item import BaseItem
 from game_parser.models.quest import CyclicQuestItemReward
 from game_parser.utils.admin_utils.icon_view import icon_view
@@ -69,11 +79,11 @@ class TradingWhereSell(ReadOnlyNestedTable):
 
     @display(description="Цена(ОТ)", ordering="min_price_modifier")
     def price_from(self, trade: ItemInSell) -> Decimal:
-        return trade.item.cost*trade.min_price_modifier
+        return trade.item.cost * trade.min_price_modifier
 
     @display(description="Цена(ДО)", ordering="max_price_modifier")
     def price_to(self, trade: ItemInSell) -> Decimal:
-        return trade.item.cost*trade.max_price_modifier
+        return trade.item.cost * trade.max_price_modifier
 
 
 class TradingWhereBuy(ReadOnlyNestedTable):
@@ -93,11 +103,11 @@ class TradingWhereBuy(ReadOnlyNestedTable):
 
     @display(description="Цена(ОТ)", ordering="min_price_modifier")
     def price_from(self, trade: ItemInBuy) -> Decimal:
-        return trade.item.cost*trade.min_price_modifier
+        return trade.item.cost * trade.min_price_modifier
 
     @display(description="Цена(ДО)", ordering="max_price_modifier")
     def price_to(self, trade: ItemInBuy) -> Decimal:
-        return trade.item.cost*trade.max_price_modifier
+        return trade.item.cost * trade.max_price_modifier
 
 
 class RandomReward(ReadOnlyNestedTable):
@@ -136,12 +146,10 @@ class SpawnInline(ReadOnlyNestedTable):
         "map",
     ]
 
-
     @display(description="Карта")
     def map(self, item: SpawnItem) -> str | None:
         renderer = SpawnItemMapRenderer(item)
         return renderer.render()
-
 
 
 class ReceptInline(ReadOnlyNestedTable):
@@ -193,6 +201,6 @@ class BaseItemAdmin(ModelAdmin):
             return obj.description_translation.rus
         return obj.description_code
 
-    @display(description="Иконка" )
+    @display(description="Иконка")
     def inv_icon_view(self, obj: BaseItem) -> str | None:
         return icon_view(obj.inv_icon)

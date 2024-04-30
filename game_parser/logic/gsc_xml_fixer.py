@@ -15,8 +15,8 @@ class GSCXmlFixer:
     """
 
     def __init__(
-            self,
-            encoding: str | None = None,
+        self,
+        encoding: str | None = None,
     ):
         self._encoding = encoding
 
@@ -47,7 +47,9 @@ class GSCXmlFixer:
         return encoding
 
     def _get_encoding_from_header(self, header: str) -> str | None:
-        header_conding_re = re.compile(r'<\?xml .*encoding="(?P<encoding>([\w\d\-_]+))".*\?>')
+        header_conding_re = re.compile(
+            r'<\?xml .*encoding="(?P<encoding>([\w\d\-_]+))".*\?>'
+        )
         rm = header_conding_re.match(header)
         if rm:
             return rm.group("encoding")
@@ -55,7 +57,7 @@ class GSCXmlFixer:
 
     def _get_file_header(self, source: Path) -> str | None:
         with source.open("rb") as file:
-            line1 =file.readline()
+            line1 = file.readline()
             line = line1.decode("utf-8-sig")
         if line.startswith("<?xml"):
             return line
@@ -84,7 +86,9 @@ class GSCXmlFixer:
         xml_comment_re = re.compile(r"<!--(?P<before>.*?)-{2,}(?P<after>.*)-->")
         while fixed_content != current_content:
             current_content = fixed_content
-            fixed_content = re.sub(xml_comment_re, r"<!--\g<before> \g<after>-->", current_content)
+            fixed_content = re.sub(
+                xml_comment_re, r"<!--\g<before> \g<after>-->", current_content
+            )
         xml_comment2_re = re.compile(r"<!--[\s-]*(?P<comment>.*?)[\s-]*-->")
         return re.sub(xml_comment2_re, r"<!-- \g<comment> -->", fixed_content)
 
@@ -106,6 +110,7 @@ class GSCXmlFixer:
                 return self._replace_includes(content)
         except Exception as e:
             raise FixerError(f"При парсинге {target_path} {encoding=}") from e
+
 
 class FixerError(Exception):
     pass

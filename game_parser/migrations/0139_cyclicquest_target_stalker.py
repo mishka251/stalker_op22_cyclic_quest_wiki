@@ -14,6 +14,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="cyclicquest",
             name="target_stalker",
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="game_parser.stalkersection", verbose_name="Сталкер цель"),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="game_parser.stalkersection",
+                verbose_name="Сталкер цель",
+            ),
         ),
     ]

@@ -13,7 +13,10 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name="campinfo",
-            options={"verbose_name": "Лагерь НПС/мутантов", "verbose_name_plural": "Лагеря НПС/мутантов"},
+            options={
+                "verbose_name": "Лагерь НПС/мутантов",
+                "verbose_name_plural": "Лагеря НПС/мутантов",
+            },
         ),
         migrations.RemoveField(
             model_name="campinfo",
@@ -27,6 +30,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="campinfo",
             name="spawn_item",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="game_parser.spawnitem", unique=True),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="game_parser.spawnitem",
+                unique=True,
+            ),
         ),
     ]

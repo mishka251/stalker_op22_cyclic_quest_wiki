@@ -4,7 +4,14 @@ from django.http.request import HttpRequest
 from django.http.response import HttpResponse, JsonResponse
 from django.views.generic import View
 
-from game_parser.models import BaseItem, CycleTaskVendor, CyclicQuest, LocationMapInfo, QuestRandomReward, SpawnItem
+from game_parser.models import (
+    BaseItem,
+    CycleTaskVendor,
+    CyclicQuest,
+    LocationMapInfo,
+    QuestRandomReward,
+    SpawnItem,
+)
 from game_parser.models.quest import CyclicQuestItemReward, QuestRandomRewardThrough
 
 
@@ -56,12 +63,24 @@ class VendorCyclicQuests(View):
                     ],
                 },
                 "targets": {
-                    "item": {
-                        "item": self._item_to_json(quest.target_item),
-                        "count": quest.target_count,
-                    } if quest.target_item is not None else None,
-                    "camp_destroy": self._camp_to_dict(quest.target_camp_to_destroy) if quest.target_camp_to_destroy is not None else None,
-                    "camp_defeat": self._camp_to_dict(quest.target_camp_to_defeat)if quest.target_camp_to_defeat is not None else None,
+                    "item": (
+                        {
+                            "item": self._item_to_json(quest.target_item),
+                            "count": quest.target_count,
+                        }
+                        if quest.target_item is not None
+                        else None
+                    ),
+                    "camp_destroy": (
+                        self._camp_to_dict(quest.target_camp_to_destroy)
+                        if quest.target_camp_to_destroy is not None
+                        else None
+                    ),
+                    "camp_defeat": (
+                        self._camp_to_dict(quest.target_camp_to_defeat)
+                        if quest.target_camp_to_defeat is not None
+                        else None
+                    ),
                 },
                 "once": quest.once,
                 "hide_reward": quest.hide_reward,
@@ -94,16 +113,20 @@ class VendorCyclicQuests(View):
             "reward_item": self._random_reward_item_to_json(item.reward),
         }
 
-    def _random_reward_item_to_json(self, reward:QuestRandomReward):
+    def _random_reward_item_to_json(self, reward: QuestRandomReward):
         return {
             "index": reward.index,
-            "name": {
-                "rus": reward.name_translation.rus,
-                "eng": reward.name_translation.eng,
-                "ukr": reward.name_translation.ukr,
-                "pln": reward.name_translation.pln,
-                "fra": reward.name_translation.fra,
-            } if reward.name_translation else None,
+            "name": (
+                {
+                    "rus": reward.name_translation.rus,
+                    "eng": reward.name_translation.eng,
+                    "ukr": reward.name_translation.ukr,
+                    "pln": reward.name_translation.pln,
+                    "fra": reward.name_translation.fra,
+                }
+                if reward.name_translation
+                else None
+            ),
             "icon_url": reward.icon.icon.url,
         }
 
@@ -112,9 +135,11 @@ class VendorCyclicQuests(View):
         rm = position_re.match(camp.position_raw)
         (x, _, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
         position = (x, z)
-        location_info =  LocationMapInfo.objects.get(location=camp.location)
+        location_info = LocationMapInfo.objects.get(location=camp.location)
         if location_info.bound_rect_raw:
-            offset_re = re.compile(r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)")
+            offset_re = re.compile(
+                r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
+            )
             rm = offset_re.match(location_info.bound_rect_raw)
             (min_x, min_y, max_x, max_y) = (
                 float(rm.group("min_x")),
@@ -126,8 +151,14 @@ class VendorCyclicQuests(View):
         else:
             map_offset = None
         map_info = None
-        location_map_image_url = location_info.map_image.url if location_info.map_image else None
-        map_size = (location_info.map_image.width, location_info.map_image.height)if location_info.map_image else None
+        location_map_image_url = (
+            location_info.map_image.url if location_info.map_image else None
+        )
+        map_size = (
+            (location_info.map_image.width, location_info.map_image.height)
+            if location_info.map_image
+            else None
+        )
         if map_size and location_map_image_url and map_offset:
             map_info = {
                 "size": map_size,
@@ -135,13 +166,17 @@ class VendorCyclicQuests(View):
                 "offset": map_offset,
             }
         translation = camp.location.name_translation
-        location_name = {
-            "rus": translation.rus,
-            "eng": translation.eng,
-            "ukr": translation.ukr,
-            "pln": translation.pln,
-            "fra": translation.fra,
-        } if translation is not None else None
+        location_name = (
+            {
+                "rus": translation.rus,
+                "eng": translation.eng,
+                "ukr": translation.ukr,
+                "pln": translation.pln,
+                "fra": translation.fra,
+            }
+            if translation is not None
+            else None
+        )
         return {
             "name": camp.name,
             "location_name": location_name,

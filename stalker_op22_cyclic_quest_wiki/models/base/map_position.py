@@ -13,23 +13,36 @@ class MapPosition(models.Model):
 
     objects = MapPositionManager()
 
-    name = models.CharField(max_length=255, verbose_name="Название", unique=False, null=False)
+    name = models.CharField(
+        max_length=255, verbose_name="Название", unique=False, null=False
+    )
     x = models.FloatField(null=False)
     y = models.FloatField(null=False)
     z = models.FloatField(null=False)
     spawn_id = models.PositiveBigIntegerField(verbose_name="ID", unique=True)
-    story_id = models.PositiveBigIntegerField(verbose_name="story_id", unique=True, null=True)
+    story_id = models.PositiveBigIntegerField(
+        verbose_name="story_id", unique=True, null=True
+    )
 
-    spawn_story_id = models.PositiveBigIntegerField(verbose_name="spawn_story_id", unique=True, null=True)
+    spawn_story_id = models.PositiveBigIntegerField(
+        verbose_name="spawn_story_id", unique=True, null=True
+    )
     game_vertex_id = models.PositiveBigIntegerField(verbose_name="vertexID")
 
-    location = models.ForeignKey("Location", on_delete=models.PROTECT, null=False, blank=False, verbose_name="Локация")
+    location = models.ForeignKey(
+        "Location",
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        verbose_name="Локация",
+    )
 
     def __str__(self):
         return f"{self.name} - {self.x}, {self.y}, {self.z} на локации {self.location}"
 
     def natural_key(self) -> tuple:
         return (self.spawn_id,)
+
 
 __all__ = [
     "MapPosition",
