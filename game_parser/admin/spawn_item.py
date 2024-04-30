@@ -1,13 +1,14 @@
-import re
-from typing import Optional
-
 from django.contrib.admin import ModelAdmin, register, display
-from django.template import loader
 
 from game_parser.admin.utils import SpawnItemMapRenderer
-from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem, LocationMapInfo, CampInfo, StalkerSection, \
+from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem, CampInfo, StalkerSection, \
     Respawn, SingleStalkerSpawnItem
-from game_parser.utils.admin_utils.icon_view import icon_view
+from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
+from django.contrib.admin import ModelAdmin, register, display
+
+from game_parser.admin.utils import SpawnItemMapRenderer
+from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem, CampInfo, StalkerSection, \
+    Respawn, SingleStalkerSpawnItem
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 

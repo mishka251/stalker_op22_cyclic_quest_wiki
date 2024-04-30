@@ -1,17 +1,14 @@
 import re
-from typing import Optional
 
-from django.contrib.contenttypes.models import ContentType
 from django.core.management import BaseCommand
 
-from game_parser.models import Ammo as ParserAmmo, SingleStalkerSpawnItem, SpawnItem
-from game_parser.models import BaseItem as ParserItem
 from game_parser.models import CycleTaskVendor as ParserVendor
 from game_parser.models import CyclicQuest as ParserCyclicQuest
 from game_parser.models import Outfit as ParserOutfit
-from game_parser.models import Weapon as ParserWeapon
-from game_parser.models import Silencer as ParserSilencer
 from game_parser.models import QuestRandomReward as ParserRandomReward
+from game_parser.models import Silencer as ParserSilencer
+from game_parser.models import SingleStalkerSpawnItem, SpawnItem
+from game_parser.models import Weapon as ParserWeapon
 from game_parser.models.quest import QuestKinds as ParserQuestKinds
 from stalker_op22_cyclic_quest_wiki.models import Community as WikiCommunity
 from stalker_op22_cyclic_quest_wiki.models import CycleTaskTargetItem, CycleTaskTargetCamp, \

@@ -2,18 +2,18 @@ import re
 
 from django.core.management import BaseCommand
 
-from game_parser.models import Translation as ParserTranslation
-from game_parser.models import Icon as ParserIcon
 from game_parser.models import Community as ParserCommunity
-from game_parser.models import Rank as ParserRank
+from game_parser.models import Icon as ParserIcon
 from game_parser.models import Location as ParserLocation
 from game_parser.models import LocationMapInfo as ParserLocationMapInfo
-from stalker_op22_cyclic_quest_wiki.models import Translation as WikiTranslation
-from stalker_op22_cyclic_quest_wiki.models import Icon as WikiIcon
+from game_parser.models import Rank as ParserRank
+from game_parser.models import Translation as ParserTranslation
 from stalker_op22_cyclic_quest_wiki.models import Community as WikiCommunity
-from stalker_op22_cyclic_quest_wiki.models import StalkerRank as WikiRank
+from stalker_op22_cyclic_quest_wiki.models import Icon as WikiIcon
 from stalker_op22_cyclic_quest_wiki.models import Location as WikiLocation
 from stalker_op22_cyclic_quest_wiki.models import LocationMapInfo as WikiLocationMapInfo
+from stalker_op22_cyclic_quest_wiki.models import StalkerRank as WikiRank
+from stalker_op22_cyclic_quest_wiki.models import Translation as WikiTranslation
 
 
 class Command(BaseCommand):

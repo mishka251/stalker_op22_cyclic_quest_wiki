@@ -1,14 +1,10 @@
-import re
 from typing import Optional
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.management import BaseCommand
 
 from game_parser.models import Ammo as ParserAmmo
-from game_parser.models import Icon as ParserIcon
 from game_parser.models import BaseItem as ParserItem
-
-
 from stalker_op22_cyclic_quest_wiki.models import Ammo as WikiAmmo
 from stalker_op22_cyclic_quest_wiki.models import Icon as WikiIcon
 from stalker_op22_cyclic_quest_wiki.models import Item as WikiItem

@@ -1,11 +1,12 @@
 from typing import Any
 
-from stalker_op22_cyclic_quest_wiki.views.cyclic_quests.tasks_grouping import CharacterQuests, TaskReward, TaskMoneyReward, TaskAmmoReward, \
+from django.template import Library
+from django.template.loader import render_to_string
+
+from stalker_op22_cyclic_quest_wiki.views.cyclic_quests.tasks_grouping import CharacterQuests, TaskReward, \
+    TaskMoneyReward, TaskAmmoReward, \
     TaskItemReward, AmmoTarget, LagerTarget, StalkerTarget, QuestItemTarget, QuestItemWithStateTarget, TreasureReward, \
     TaskRandomReward
-from django.template.loader import render_to_string
-from django.template import Library
-from django.template.defaultfilters import stringfilter
 
 register = Library()
 

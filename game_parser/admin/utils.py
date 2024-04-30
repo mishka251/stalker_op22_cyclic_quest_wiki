@@ -1,18 +1,10 @@
 import re
-from decimal import Decimal
 from typing import Optional, Iterable
 
-from django.template import loader
 from django.db.models import Model
-from django.contrib.admin import ModelAdmin, register, display, TabularInline
-from django.utils.safestring import mark_safe
+from django.template import loader
 
-from game_parser.models import ItemReward, SpawnReward, CyclicQuest, ItemInSell, ItemInBuy, QuestRandomReward, \
-    ItemInTreasure, SpawnItem, Recept, LocationMapInfo
-from game_parser.models.items.base_item import BaseItem
-from game_parser.models.quest import CyclicQuestItemReward
-from game_parser.utils.admin_utils.icon_view import icon_view
-from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
+from game_parser.models import SpawnItem, LocationMapInfo
 
 
 class SpawnItemMapRenderer:

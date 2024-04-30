@@ -1,6 +1,7 @@
 from typing import Optional, TYPE_CHECKING
 
 from django.db import models
+
 if TYPE_CHECKING:
     from game_parser.models import StorylineCharacter, SpawnItem
 

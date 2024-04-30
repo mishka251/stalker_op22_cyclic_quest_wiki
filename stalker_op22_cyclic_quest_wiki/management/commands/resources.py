@@ -1,7 +1,5 @@
 import dataclasses
-from pathlib import Path
 
-from django.core.management import BaseCommand
 from django.db.models import Model
 from import_export.resources import ModelResource
 
@@ -13,7 +11,6 @@ from stalker_op22_cyclic_quest_wiki.resources import TranslationResource, IconRe
     CyclicQuestResource, ItemRewardResource, MoneyRewardResource, QuestRandomRewardResource, RandomRewardInfoResource, \
     TreasureRewardResource, CycleTaskVendorResource, CycleTaskTargetCampResource, CycleTaskTargetItemResource, \
     CycleTaskTargetStalkerResource
-
 
 
 @dataclasses.dataclass

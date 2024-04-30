@@ -1,13 +1,8 @@
-from typing import Optional
-
-from django.contrib.admin import ModelAdmin, register, display, TabularInline
-from django.utils.html import mark_safe
+from django.contrib.admin import ModelAdmin, register
+from polymorphic.admin import PolymorphicInlineSupportMixin
 
 from game_parser.models import BaseScriptReward, SpawnReward, MoneyReward, ItemReward, InfoPortion
-from game_parser.models.game_story import ScriptFunction, TaskObjective, MapLocationType
-
-from polymorphic.admin import PolymorphicInlineSupportMixin, StackedPolymorphicInline
-
+from game_parser.models.game_story import ScriptFunction
 from game_parser.models.game_story.dialog import DialogPhrase
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyPolymorphicInline, \
     ReadOnlyPolymorphicChildInline, ReadOnlyNestedTable
@@ -75,3 +70,6 @@ class ScriptFunctionAdmin(PolymorphicInlineSupportMixin, ModelAdmin):
     def rewards(self, func: ScriptFunction) -> str:
         return '\n'.join([str(reward) for reward in func.rewards.all()])
 
+__all__ = [
+    "ScriptFunctionAdmin",
+]

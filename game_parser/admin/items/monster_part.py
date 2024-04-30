@@ -1,6 +1,6 @@
 from typing import Optional
 
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import register, display
 
 from game_parser.admin.items.base_item_admin import BaseItemAdmin
 from game_parser.models import MonsterPart, Monster

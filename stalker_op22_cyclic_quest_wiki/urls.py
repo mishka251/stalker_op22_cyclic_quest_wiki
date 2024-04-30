@@ -1,7 +1,4 @@
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from django.urls import path
 
 from stalker_op22_cyclic_quest_wiki.views.cyclic_quests.vendor_quests import VendorQuestsList
 from stalker_op22_cyclic_quest_wiki.views.cyclic_quests.vendors_list import TaskVendorsList

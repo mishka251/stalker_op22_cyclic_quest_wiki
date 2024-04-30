@@ -1,5 +1,7 @@
-from game_parser.models.items.addon import Addon
 from django.db import models
+
+from game_parser.models.items.addon import Addon
+
 
 class Silencer(Addon):
     class Meta:

@@ -1,4 +1,5 @@
 import logging
+
 from lxml.etree import Element, _Comment
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader

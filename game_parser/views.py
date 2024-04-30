@@ -1,10 +1,10 @@
 import re
+from typing import Any
 
-from django.views.generic import TemplateView
 from django.db.models.functions import Lower
-from django.http.response import HttpResponseBadRequest, Http404
+from django.http.response import Http404
 from django.urls import reverse
-from django.core.validators import ValidationError
+from django.views.generic import TemplateView
 
 from game_parser.logic.tasks_grouping import collect_info, collect_vendor_tasks
 from game_parser.models import SpawnItem, Location, LocationMapInfo, CycleTaskVendor
@@ -90,7 +90,7 @@ class TaskVendorsList(TemplateView):
 class VendorQuestsList(TemplateView):
     template_name = "vendor_quests_list/tasks_list.html"
 
-    def get_context_data(self, vendor_id: int):
+    def get_context_data(self, vendor_id: int) -> dict[str, Any]:
         try:
             vendor = CycleTaskVendor.objects.get(id=vendor_id)
         except Exception as ex:

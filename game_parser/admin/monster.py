@@ -2,11 +2,8 @@ from typing import Optional
 
 from django.contrib.admin import ModelAdmin, register, display
 
-from game_parser.models import QuestRandomReward, Monster
-from game_parser.models.quest import QuestRandomRewardThrough
+from game_parser.models import Monster
 from game_parser.utils.admin_utils.icon_view import icon_view
-from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
-
 
 
 @register(Monster)

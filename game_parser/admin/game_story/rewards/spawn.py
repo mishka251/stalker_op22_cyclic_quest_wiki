@@ -1,9 +1,6 @@
-from typing import Optional
-
 from django.contrib.admin import ModelAdmin, register, display
-from django.utils.html import mark_safe
 
-from game_parser.models.game_story import SpawnReward, TaskObjective, MapLocationType
+from game_parser.models.game_story import SpawnReward
 
 
 @register(SpawnReward)
@@ -23,3 +20,7 @@ class SpawnRewardAdmin(ModelAdmin):
     @display(description='Предмет')
     def item_view(self, character: SpawnReward) -> str:
         return character.get_item
+
+__all__ = [
+    "SpawnRewardAdmin",
+]

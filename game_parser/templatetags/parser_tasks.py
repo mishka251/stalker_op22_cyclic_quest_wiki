@@ -1,9 +1,9 @@
+from django.template import Library
+from django.template.loader import render_to_string
+
 from game_parser.logic.tasks_grouping import CharacterQuests, TaskReward, TaskMoneyReward, TaskAmmoReward, \
     TaskItemReward, AmmoTarget, LagerTarget, StalkerTarget, QuestItemTarget, QuestItemWithStateTarget, TreasureReward, \
     TaskRandomReward
-from django.template.loader import render_to_string
-from django.template import Library
-from django.template.defaultfilters import stringfilter
 
 register = Library()
 

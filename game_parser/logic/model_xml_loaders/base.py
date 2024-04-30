@@ -1,6 +1,6 @@
 from typing import Generic, TypeVar, Optional
 
-from lxml.etree import Element, _Comment, _Element
+from lxml.etree import _Comment, _Element
 
 TModel = TypeVar("TModel")
 

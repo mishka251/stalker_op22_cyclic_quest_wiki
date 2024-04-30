@@ -8,7 +8,6 @@ from game_parser.models import EncyclopediaArticle, EncyclopediaGroup, Translati
 from game_parser.models import Icon
 
 
-
 class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
     expected_tag = "article"
     def _load(self, article_node: Element, comments: list[str]) -> EncyclopediaArticle:

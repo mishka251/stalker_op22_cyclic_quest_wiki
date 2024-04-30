@@ -1,6 +1,9 @@
-from game_parser.models import BaseItem
 from game_parser.models.game_story.base_script_reward import BaseScriptReward
 from django.db import models
+from django.db import models
+
+from game_parser.models.game_story.base_script_reward import BaseScriptReward
+
 
 class MoneyReward(BaseScriptReward):
     class Meta:

@@ -3,6 +3,7 @@ from typing import Optional, TYPE_CHECKING
 from django.db import models
 
 from game_parser.models.items.base_item import BaseItem
+
 if TYPE_CHECKING:
     from game_parser.models import StorylineCharacter
 

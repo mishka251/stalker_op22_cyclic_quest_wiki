@@ -2,33 +2,14 @@ import logging
 from collections import defaultdict
 from pathlib import Path
 
-from PIL import Image
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
-from lxml.etree import parse
 
-from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.logic.model_resources.anomaly import AnomalyResource
-from game_parser.logic.model_resources.base_item import AmmoResource, GrenadeLauncherResource, GrenadeResource, \
-    WeaponResource, ScopeResource, KnifeResource, MonsterEmbrionResource, CapsAnomResource, TrueArtefactResource, \
-    SilencerResource, OutfitResource, MonsterPartResource, ExplosiveResource, OtherResource
 from game_parser.logic.model_resources.base_resource import BaseModelResource
-from game_parser.logic.model_resources.inventory_box import InventoryBoxResource
-from game_parser.logic.model_resources.monster import MonsterResource
 from game_parser.logic.model_resources.stalker import StalkerResource
-from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
-from game_parser.logic.model_xml_loaders.dialog import DialogLoader
-from game_parser.logic.model_xml_loaders.encyclopedia import EncyclopediaArticleLoader
-from game_parser.logic.model_xml_loaders.icon import IconLoader
-from game_parser.logic.model_xml_loaders.infoportion import InfoPortionLoader
-from game_parser.logic.model_xml_loaders.storyline_character import StorylineCharacterLoader
-from game_parser.logic.model_xml_loaders.translation import TranslationLoader
-from game_parser.models import EncyclopediaGroup, EncyclopediaArticle, Icon, Outfit, Explosive, Grenade, Ammo, \
-    Weapon, Silencer, Scope, GrenadeLauncher, MonsterPart, Knife, Other, TrueArtefact, MonsterEmbrion, CapsAnom, \
-    Anomaly, StorylineCharacter, Dialog, InfoPortion, Translation, Monster, InventoryBox, ItemInTreasureBox, \
-    StalkerSection
+from game_parser.models import StalkerSection
 
 logger = logging.getLogger(__name__)
 

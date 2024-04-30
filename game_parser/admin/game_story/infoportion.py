@@ -1,10 +1,7 @@
-from typing import Optional
-
-from django.contrib.admin import ModelAdmin, register, display
-from django.utils.html import mark_safe
+from django.contrib.admin import ModelAdmin, register
 
 from game_parser.models import Dialog
-from game_parser.models.game_story import InfoPortion, TaskObjective, MapLocationType
+from game_parser.models.game_story import InfoPortion, TaskObjective
 from game_parser.models.game_story.dialog import DialogPhrase
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
@@ -65,3 +62,7 @@ class InfoPortionAdmin(ModelAdmin):
         SetThenTaskObjectiveFailing,
         ThenTaskObjectiveComplete,
     ]
+
+__all__ = [
+    "InfoPortionAdmin",
+]

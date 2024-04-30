@@ -85,3 +85,8 @@ class DialogPhraseAdmin(ModelAdmin):
     @display()
     def get_text(self, phrase: DialogPhrase):
         return phrase.get_text
+
+__all__ = [
+    'DialogAdmin',
+    "DialogPhraseAdmin",
+]

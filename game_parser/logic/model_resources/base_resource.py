@@ -1,5 +1,6 @@
 from decimal import Decimal
 from typing import Any, Optional, Type
+
 from django.db.models import Model
 
 SECTION_NAME = '_section_name'

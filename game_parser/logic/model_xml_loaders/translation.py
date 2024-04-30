@@ -1,8 +1,8 @@
 import logging
 
-from lxml.etree import Element, _Comment
+from lxml.etree import _Element
 
-from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader, TModel
+from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.models import Translation
 
 logger = logging.getLogger(__name__)
@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class TranslationLoader(BaseModelXmlLoader[Translation]):
     expected_tag = "string"
 
-    def _load(self, character_node: Element, comments: list[str]) -> Translation:
+    def _load(self, character_node: _Element, comments: list[str]) -> Translation:
         if character_node.tag != 'string':
             logger.warning(f'wrong child  {character_node}, {character_node}')
             raise ValueError(f'wrong child  {character_node}, {character_node}')

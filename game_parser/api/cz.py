@@ -149,15 +149,17 @@ class VendorCyclicQuests(View):
                 "image_url": location_map_image_url,
                 "offset": map_offset
             }
+        translation = camp.location.name_translation
+        location_name = {
+            "rus": translation.rus,
+            "eng": translation.eng,
+            "ukr": translation.ukr,
+            "pln": translation.pln,
+            "fra": translation.fra,
+        } if translation is not None else None
         return {
             "name": camp.name,
-            "location_name": {
-                "rus": camp.location.name_translation.rus,
-                "eng": camp.location.name_translation.eng,
-                "ukr": camp.location.name_translation.ukr,
-                "pln": camp.location.name_translation.pln,
-                "fra": camp.location.name_translation.fra,
-            },
+            "location_name": location_name,
             "map_info": map_info,
             "position": position,
         }

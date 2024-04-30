@@ -1,9 +1,6 @@
-from typing import Optional
+from django.contrib.admin import ModelAdmin, register
 
-from django.contrib.admin import ModelAdmin, register, display
-from django.utils.html import mark_safe
-
-from game_parser.models.game_story import MoneyReward, TaskObjective, MapLocationType
+from game_parser.models.game_story import MoneyReward
 
 
 @register(MoneyReward)
@@ -18,3 +15,7 @@ class MoneyRewardAdmin(ModelAdmin):
     autocomplete_fields = [
         "function",
     ]
+
+__all__ = [
+    "MoneyRewardAdmin",
+]

@@ -1,11 +1,7 @@
-import dataclasses
-import os
 import shutil
-import zipfile
 from pathlib import Path
 
 from django.core.management import BaseCommand
-from django.db.models import Model
 
 from stalker_op22_cyclic_quest_wiki.management.commands.resources import to_export
 from stalker_op22_cyclic_quest_wiki.models import Icon, LocationMapInfo

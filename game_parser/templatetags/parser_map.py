@@ -1,7 +1,7 @@
 from typing import Optional
 
-from django.template.loader import render_to_string
 from django.template import Library
+from django.template.loader import render_to_string
 
 from game_parser.logic.tasks_grouping import MapPointInfo
 

@@ -1,14 +1,11 @@
-import re
 from decimal import Decimal
 from typing import Optional
 
-from django.template import loader
-from django.contrib.admin import ModelAdmin, register, display, TabularInline
-from django.utils.safestring import mark_safe
+from django.contrib.admin import ModelAdmin, register, display
 
 from game_parser.admin.utils import SpawnItemMapRenderer
 from game_parser.models import ItemReward, SpawnReward, CyclicQuest, ItemInSell, ItemInBuy, QuestRandomReward, \
-    ItemInTreasure, SpawnItem, Recept, LocationMapInfo
+    ItemInTreasure, SpawnItem, Recept
 from game_parser.models.items.base_item import BaseItem
 from game_parser.models.quest import CyclicQuestItemReward
 from game_parser.utils.admin_utils.icon_view import icon_view

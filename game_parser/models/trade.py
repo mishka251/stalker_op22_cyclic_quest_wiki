@@ -1,5 +1,4 @@
 from django.db import models
-from game_parser.models import Character
 
 
 class Trader(models.Model):

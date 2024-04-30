@@ -1,5 +1,7 @@
-from game_parser.models import Character, Translation
 from django.db import models
+
+from game_parser.models import Character, Translation
+
 
 class CommunityType(models.TextChoices):
     MUTANT = ("monster", "Мутант")

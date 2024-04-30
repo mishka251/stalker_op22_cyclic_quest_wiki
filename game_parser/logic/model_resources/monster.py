@@ -1,4 +1,4 @@
-from game_parser.logic.model_resources.base_resource import BaseModelResource, SECTION_NAME, CharField, IntegerField
+from game_parser.logic.model_resources.base_resource import BaseModelResource, SECTION_NAME, CharField
 from game_parser.models import Monster
 
 

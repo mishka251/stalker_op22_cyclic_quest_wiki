@@ -1,8 +1,7 @@
 from typing import Optional
-from django.utils.safestring import mark_safe
-from django.db.models.fields.files import ImageFieldFile
 
-from game_parser.models import Icon
+from django.db.models.fields.files import ImageFieldFile
+from django.utils.safestring import mark_safe
 
 
 def icon_view(icon: ImageFieldFile) -> Optional[str]:
