@@ -1,6 +1,6 @@
 from django.db import models
 
-from game_parser.models import Translation
+from game_parser.models.translation import Translation
 from game_parser.models.game_story.infoportion import InfoPortion
 from game_parser.models.game_story.script_function import ScriptFunction
 

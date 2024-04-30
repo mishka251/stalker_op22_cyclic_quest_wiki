@@ -1,6 +1,7 @@
 from django.db import models
 
-from game_parser.models import Character, Translation
+from game_parser.models.character import Character
+from game_parser.models.translation import Translation
 
 
 class CommunityType(models.TextChoices):
