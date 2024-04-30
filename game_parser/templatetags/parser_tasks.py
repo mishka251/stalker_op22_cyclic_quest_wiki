@@ -9,14 +9,14 @@ register = Library()
 
 
 @register.simple_tag
-def render_task(task: CharacterQuests):
+def render_task(task: CharacterQuests) -> str:
     template_name = "task.html"
     context = {"task": task}
     return render_to_string(template_name, context)
 
 
 @register.simple_tag
-def render_reward(reward: TaskReward):
+def render_reward(reward: TaskReward) -> str:
     template_name = None
     if isinstance(reward, TaskMoneyReward):
         template_name = "money_reward.html"
@@ -37,7 +37,7 @@ def render_reward(reward: TaskReward):
 
 
 @register.simple_tag
-def render_target(target: TaskReward):
+def render_target(target: TaskReward) -> str:
     template_name = None
     context = {
         "target": target

@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         count = Treasure.objects.count()
         for index, item in enumerate(Treasure.objects.all()):
             item.spawn_item = SpawnItem.objects.get(spawn_story_id=item.target)

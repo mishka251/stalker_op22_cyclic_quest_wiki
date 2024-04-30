@@ -19,7 +19,7 @@ class Command(BaseCommand):
         return base_path / "config" / "misc" / "zones.ltx"
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         Anomaly.objects.all().delete()
 
         known_bases = {

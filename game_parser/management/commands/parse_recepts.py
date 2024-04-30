@@ -24,7 +24,7 @@ class Command(BaseCommand):
         return base_path / "scripts" / "amk" / "amk_mod.script"
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         Recept.objects.all().delete()
         file_path = self.get_files_dir_path()
         with open(file_path, "r") as file:

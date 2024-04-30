@@ -1,5 +1,6 @@
 import json
 import logging
+from pathlib import Path
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -13,13 +14,13 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
 
-    def get_file_path(self):
+    def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
         return base_path / "config"/"scripts"/"treasure"
 
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         ItemInTreasureBox.objects.all().delete()
         InventoryBox.objects.all().delete()
 

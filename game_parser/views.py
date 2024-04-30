@@ -15,7 +15,7 @@ class TasksListView(TemplateView):
 
     template_name = "vendors_tasks_list.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         data = collect_info()
         return {"vendors_quests": data}
 
@@ -24,7 +24,7 @@ class EscapeMap(TemplateView):
     template_name = "escape_map.html"
     location_name = "L01_escape"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         location_name = kwargs.get("location", self.location_name)
         location = Location.objects.annotate(name_lowe=Lower("name")).get(name_lowe=location_name.lower())
         spawn_items = SpawnItem.objects.filter(location=location)
@@ -67,7 +67,7 @@ class EscapeMap(TemplateView):
 class TaskVendorsList(TemplateView):
     template_name = "task_vendors_list/task_vendor_list.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         vendors = CycleTaskVendor.objects.all()
         return {
             "vendors": [self._vendor_to_dict(vendor) for vendor in vendors]
@@ -106,7 +106,7 @@ class VendorQuestsList(TemplateView):
 class IndexView(TemplateView):
     template_name = "parser_index.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         return {
 
         }

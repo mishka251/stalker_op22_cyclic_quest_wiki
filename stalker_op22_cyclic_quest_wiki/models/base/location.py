@@ -14,7 +14,7 @@ class Location(models.Model):
                                          on_delete=models.SET_NULL)
     map_info = models.ForeignKey("LocationMapInfo", null=True, on_delete=models.PROTECT, verbose_name="Карта локации")
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (self.name, )
 
     def __str__(self):
@@ -38,7 +38,7 @@ class LocationMapInfo(models.Model):
     min_y = models.FloatField(null=False)
     max_y = models.FloatField(null=False)
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (self.location_name, )
 
     def __str__(self):

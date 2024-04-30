@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         count = CustomSpawnItem.objects.filter(section_name="inventory_box").count()
         for index, item in enumerate(CustomSpawnItem.objects.filter(section_name="inventory_box").all()):
             if not item.custom_data:

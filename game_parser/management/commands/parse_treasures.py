@@ -23,7 +23,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         Treasure.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())

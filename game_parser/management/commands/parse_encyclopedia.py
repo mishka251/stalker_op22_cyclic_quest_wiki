@@ -16,12 +16,12 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
     TMP_DIR = Path("tmp")
 
-    def get_file_path(self):
+    def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
         return base_path / "config" / "gameplay" / "encyclopedia.xml"
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         EncyclopediaGroup.objects.all().delete()
         EncyclopediaArticle.objects.all().delete()
         fixer = GSCXmlFixer()

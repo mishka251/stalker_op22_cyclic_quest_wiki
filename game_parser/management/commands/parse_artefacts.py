@@ -73,7 +73,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         TrueArtefact.objects.all().delete()
         MonsterEmbrion.objects.all().delete()
         CapsAnom.objects.all().delete()

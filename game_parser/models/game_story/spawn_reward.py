@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.db import models
 
 from game_parser.models.items.base_item import BaseItem
@@ -25,7 +27,7 @@ class SpawnReward(BaseScriptReward):
     raw_target = models.CharField(max_length=512, null=True) # спавн сложнее, сохраним всю строку
 
     @property
-    def get_coords(self):
+    def get_coords(self) -> Any:
         if self.x and self.y and self.z:
             return f"{self.x} {self.y} {self.z}"
         return self.xyz_raw
@@ -44,7 +46,7 @@ class SpawnReward(BaseScriptReward):
         return bool(self.raw_target)
 
     @property
-    def spawn_target(self):
+    def spawn_target(self) -> str:
         if self.is_spawn_in_inventory:
             return f"Объект {self.raw_target}"
         else:

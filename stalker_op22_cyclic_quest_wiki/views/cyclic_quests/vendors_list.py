@@ -7,7 +7,7 @@ from stalker_op22_cyclic_quest_wiki.models import CycleTaskVendor, QuestKinds
 class TaskVendorsList(TemplateView):
     template_name = "wiki/task_vendors_list/task_vendor_list.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         vendors = CycleTaskVendor.objects.all()
         return {
             "vendors": [self._vendor_to_dict(vendor) for vendor in vendors]

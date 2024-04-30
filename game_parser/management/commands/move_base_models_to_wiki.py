@@ -17,7 +17,7 @@ from stalker_op22_cyclic_quest_wiki.models import Translation as WikiTranslation
 
 
 class Command(BaseCommand):
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         print("START")
         self._update_translation()
         self._update_icons()

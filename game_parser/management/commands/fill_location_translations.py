@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         count = Location.objects.count()
         for index, item in enumerate(Location.objects.all()):
             item.name_translation = Translation.objects.filter(code__iexact=item.name.lower()).first()

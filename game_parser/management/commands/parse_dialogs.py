@@ -30,7 +30,7 @@ class Command(BaseCommand):
         return paths
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         Dialog.objects.all().delete()
         DialogPhrase.objects.all().delete()
 

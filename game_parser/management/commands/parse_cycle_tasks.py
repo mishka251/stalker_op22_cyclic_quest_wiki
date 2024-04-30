@@ -13,7 +13,7 @@ from game_parser.models import Icon
 
 class Command(BaseCommand):
 
-    def get_file_path(self):
+    def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
         return base_path / "config" / "misc" / "cycle_task.ltx"
 
@@ -35,7 +35,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         CyclicQuest.objects.all().delete()
         QuestRandomReward.objects.all().delete()
 

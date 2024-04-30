@@ -50,7 +50,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         Other.objects.all().delete()
 
         main_parser = LtxParser(self.get_main_file_path())

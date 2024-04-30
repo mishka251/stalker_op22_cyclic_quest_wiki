@@ -45,7 +45,7 @@ class BaseResourceField:
         value = self._get_from_data(data)
         return self._parse_value(value)
 
-    def fill_instance(self, instance, value):
+    def fill_instance(self, instance, value) -> None:
         setattr(instance, self._model_field_name, value)
 
 
@@ -84,7 +84,7 @@ class BaseModelResource:
     _model_cls: Type[Model]
     _exclude_fields: set[str] = set()
 
-    def get_fields(self):
+    def get_fields(self) -> list[BaseResourceField]:
         return self._fields
 
     def _init_instance(self):

@@ -28,5 +28,5 @@ class MapPosition(models.Model):
     def __str__(self):
         return f"{self.name} - {self.x}, {self.y}, {self.z} на локации {self.location}"
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (self.spawn_id,)

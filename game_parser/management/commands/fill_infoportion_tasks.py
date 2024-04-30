@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         count = InfoPortion.objects.count()
         for index, item in enumerate(InfoPortion.objects.all()):
             item.task = GameTask.objects.filter(game_id=item.task_raw).first()

@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         count = TaskObjective.objects.count()
         for index, item in enumerate(TaskObjective.objects.all()):
             item.text = Translation.objects.filter(code=item.text_id_raw).first()

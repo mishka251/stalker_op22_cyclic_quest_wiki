@@ -15,7 +15,7 @@ class Command(BaseCommand):
         return base_path / "spawns" / "all_cs" / "all.ltx"
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         Respawn.objects.all().delete()
         SingleStalkerSpawnItem.objects.all().delete()
 

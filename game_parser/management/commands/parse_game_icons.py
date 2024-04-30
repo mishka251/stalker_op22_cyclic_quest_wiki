@@ -16,7 +16,7 @@ class Command(BaseCommand):
     IMAGE_PART_HEIGHT = 50
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         base_image_path = settings.OP22_GAME_DATA_PATH / "textures" / "ui" / "ui_icon_equipment.dds"
         image = Image.open(base_image_path)
         count = BaseItem.objects.count()

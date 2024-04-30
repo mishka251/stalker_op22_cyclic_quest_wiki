@@ -3,7 +3,7 @@ import decimal
 import logging
 import os
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Any, Callable
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -16,8 +16,8 @@ from game_parser.models import ScriptFunction, MoneyReward, ItemReward, \
 
 logger = logging.getLogger(__name__)
 
-def log_parse_error(func):
-    def wrapper(self, node):
+def log_parse_error(func: Callable[[Any,Any], None]) -> Callable[[Any,Any], None]:
+    def wrapper(self, node) -> None:
         try:
             func(self, node)
         except Exception as ex:
@@ -53,7 +53,7 @@ class NestedCallsVisitor(ASTVisitor):
         self._spawn_rewards = []
 
     @log_parse_error
-    def visit_Call(self, node: Call):
+    def visit_Call(self, node: Call) -> None:
         node_func = node.func
 
         if isinstance(node.func, Call):
@@ -129,7 +129,7 @@ class NestedCallsVisitor(ASTVisitor):
             return f"<invoke>{to_lua_source(arg)}"
         raise NotImplementedError(f"{arg.__class__} is not implemented")
 
-    def get_results(self):
+    def get_results(self) -> dict:
         return {
             "items": self._item_rewards,
             "money": self._money_rewards,
@@ -144,13 +144,13 @@ class FunctionsVisitor(ASTVisitor):
         self._function_rewards = {}
 
     @log_parse_error
-    def visit_Function(self, node: Function):
+    def visit_Function(self, node: Function) -> None:
         current_function_name = to_lua_source(node.name)
         nested_visitor = NestedCallsVisitor()
         nested_visitor.visit(node)
         self._function_rewards[current_function_name] = nested_visitor.get_results()
 
-    def rewards(self):
+    def rewards(self) -> dict:
         return self._function_rewards
 
 class Command(BaseCommand):
@@ -174,7 +174,7 @@ class Command(BaseCommand):
         return path.replace("\\", ".")
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         MoneyReward.objects.all().delete()
         ItemReward.objects.all().delete()
         SpawnReward.objects.all().delete()

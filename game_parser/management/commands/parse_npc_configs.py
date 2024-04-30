@@ -20,7 +20,7 @@ class Command(BaseCommand):
         return base_path / "config"/"scripts"
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         NpcLogicConfig.objects.all().delete()
         root_dir = self.get_file_path()
         spawn_items = []

@@ -12,12 +12,12 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
 
-    def get_file_path(self):
+    def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
         return base_path / "config" / "creatures" / "monsters.ltx"
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         Monster.objects.all().delete()
 
         known_bases = {

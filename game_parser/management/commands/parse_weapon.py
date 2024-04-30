@@ -33,7 +33,7 @@ class ModelTypes(Enum):
 
 class Command(BaseCommand):
 
-    def get_root_dir_path(self):
+    def get_root_dir_path(self) -> Path:
         return base_path / "config" / "weapons"
 
     _excluded_files = {
@@ -134,11 +134,11 @@ class Command(BaseCommand):
                 files.extend(self.get_files_from_dir(child))
         return files
 
-    def get_files_paths(self):
+    def get_files_paths(self) -> list[Path]:
         return self.get_files_from_dir(self.get_root_dir_path())
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
 
         Addon.objects.all().delete()
         Ammo.objects.all().delete()

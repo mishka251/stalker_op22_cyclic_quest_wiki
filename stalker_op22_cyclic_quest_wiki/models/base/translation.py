@@ -23,5 +23,5 @@ class Translation(models.Model):
     def __str__(self):
         return f"{self.code} {self.rus}"
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (self.code,)

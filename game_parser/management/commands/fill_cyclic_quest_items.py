@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         CyclicQuestItemReward.objects.all().delete()
         quests_with_items = [
             QuestKinds.chain,

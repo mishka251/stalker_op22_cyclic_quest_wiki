@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
@@ -8,12 +10,12 @@ from game_parser.models import CycleTaskVendor
 
 class Command(BaseCommand):
 
-    def get_file_path(self):
+    def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
         return base_path / "config" / "misc" / "cycle_task.ltx"
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         CycleTaskVendor.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())

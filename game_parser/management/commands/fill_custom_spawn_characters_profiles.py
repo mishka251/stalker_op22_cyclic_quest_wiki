@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         count = CustomSpawnItem.objects.count()
         for index, item in enumerate(CustomSpawnItem.objects.all()):
             if item.character_profile_str:

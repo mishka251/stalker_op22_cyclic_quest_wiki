@@ -1,6 +1,8 @@
+from typing import Optional
+
 from django.contrib.admin import ModelAdmin, register, display
 
-from game_parser.models import CyclicQuest
+from game_parser.models import CyclicQuest, StorylineCharacter
 from game_parser.models.quest import CyclicQuestItemReward, QuestRandomRewardThrough
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
@@ -59,7 +61,7 @@ class QuestAdmin(ModelAdmin):
     ]
 
     @display(description="Квестодатель")
-    def get_vendor_character(self, obj: CyclicQuest):
+    def get_vendor_character(self, obj: CyclicQuest) -> "Optional[StorylineCharacter]":
         return obj.get_vendor_character
 
 

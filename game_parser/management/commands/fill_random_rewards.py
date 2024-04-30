@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         count = QuestRandomReward.objects.count()
         for index, item in enumerate(QuestRandomReward.objects.all()):
             raw_items = item.possible_items_str.split(";")

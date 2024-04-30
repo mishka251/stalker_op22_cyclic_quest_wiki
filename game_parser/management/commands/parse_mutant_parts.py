@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
 
-    def get_file_path(self):
+    def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
         return base_path / "config" / "misc" / "monster_items.ltx"
 
@@ -22,7 +23,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         MonsterPart.objects.all().delete()
 
         known_bases = {

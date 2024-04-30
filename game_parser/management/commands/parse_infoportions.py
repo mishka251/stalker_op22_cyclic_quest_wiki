@@ -30,7 +30,7 @@ class Command(BaseCommand):
         return paths
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         InfoPortion.objects.all().delete()
         for file_path in self.get_files_paths(self.get_files_dir_path()):
             print(file_path)

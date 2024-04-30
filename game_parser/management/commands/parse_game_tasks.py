@@ -28,7 +28,7 @@ class Command(BaseCommand):
         return paths
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         GameTask.objects.all().delete()
         TaskObjective.objects.all().delete()
 

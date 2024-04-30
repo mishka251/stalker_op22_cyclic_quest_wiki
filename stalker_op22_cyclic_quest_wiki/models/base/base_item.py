@@ -24,7 +24,7 @@ class Item(PolymorphicModel):
     description_translation = models.ForeignKey("Translation", on_delete=models.PROTECT, null=True,
                                                 verbose_name="Перевод описания", related_name="+")
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (self.name,)
 
     def __str__(self):

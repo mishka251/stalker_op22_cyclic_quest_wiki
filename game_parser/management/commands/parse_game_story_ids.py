@@ -18,7 +18,7 @@ class Command(BaseCommand):
         return base_path / "config" / "game_story_ids.ltx"
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         GameStoryId.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())

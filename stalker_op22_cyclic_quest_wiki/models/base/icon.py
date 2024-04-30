@@ -15,7 +15,7 @@ class Icon(models.Model):
     name = models.CharField(max_length=512, null=False, unique=True, verbose_name="Код иконки для связи с объектами")
     icon = models.ImageField(null=False, verbose_name="Иконка")
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (self.name,)
 
     def __str__(self):

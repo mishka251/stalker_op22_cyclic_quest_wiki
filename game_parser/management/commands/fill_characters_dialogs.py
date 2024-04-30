@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         count = StorylineCharacter.objects.count()
         for index, item in enumerate(StorylineCharacter.objects.all()):
             item.dialogs.set(self._get_dialogs_by_raw(item.dialogs_raw))

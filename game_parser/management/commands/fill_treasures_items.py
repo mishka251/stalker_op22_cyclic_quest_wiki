@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         treasures_count = Treasure.objects.count()
         for index, treasure in enumerate(Treasure.objects.all()):
             items_names_or_counts: list[str] = [s.strip() for s in treasure.items_str.split(",")]

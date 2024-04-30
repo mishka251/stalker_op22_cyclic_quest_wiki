@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         count = Treasure.objects.count()
         for index, item in enumerate(Treasure.objects.all()):
             item.description_translation = Translation.objects.filter(code__iexact=item.description_str.lower()).first()

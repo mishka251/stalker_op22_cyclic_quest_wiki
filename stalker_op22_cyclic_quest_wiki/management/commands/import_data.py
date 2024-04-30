@@ -11,7 +11,7 @@ from stalker_op22_cyclic_quest_wiki.management.commands.resources import to_expo
 
 
 class Command(BaseCommand):
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--imported_archive",
@@ -20,7 +20,7 @@ class Command(BaseCommand):
             default=Path("data.zip"),
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         imported_archive = options["imported_archive"]
         tmp_dir = Path("import_tmp")
         tmp_dir.mkdir(exist_ok=True)

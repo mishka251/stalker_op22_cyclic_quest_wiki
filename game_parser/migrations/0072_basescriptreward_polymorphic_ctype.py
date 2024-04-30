@@ -4,7 +4,7 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
-def set_reward_content_type(apps, schema_editor):
+def set_reward_content_type(apps, schema_editor) -> None:
     ContentType = apps.get_model("contenttypes", "ContentType")
     models = [
         "MoneyReward",

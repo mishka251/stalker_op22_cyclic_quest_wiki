@@ -33,7 +33,7 @@ class Command(BaseCommand):
         return paths
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         Trader.objects.all().delete()
         Buy.objects.all().delete()
         Sell.objects.all().delete()

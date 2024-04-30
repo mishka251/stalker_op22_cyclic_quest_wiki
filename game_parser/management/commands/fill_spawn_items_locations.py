@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         location_name_re = re.compile(r"alife_(?P<location>.*)\.ltx")
         count = SpawnItem.objects.count()
         for index, item in enumerate(SpawnItem.objects.all()):

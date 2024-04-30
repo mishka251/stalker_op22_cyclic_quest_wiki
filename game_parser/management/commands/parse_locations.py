@@ -23,7 +23,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         Location.objects.all().delete()
 
         known_bases = {

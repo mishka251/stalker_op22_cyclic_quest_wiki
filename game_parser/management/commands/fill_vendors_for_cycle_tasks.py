@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         count = CyclicQuest.objects.count()
         for index, item in enumerate(CyclicQuest.objects.all()):
             item.vendor = CycleTaskVendor.objects.filter(vendor_id=int(item.giver_code_local)).first()

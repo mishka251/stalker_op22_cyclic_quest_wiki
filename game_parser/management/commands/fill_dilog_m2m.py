@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         count = DialogPhrase.objects.count()
         for index, item in enumerate(DialogPhrase.objects.all()):
             item.give_info.set(self._get_info_portions_by_raw(item.give_info_raw))

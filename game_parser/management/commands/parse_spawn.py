@@ -16,7 +16,7 @@ class Command(BaseCommand):
         return base_path / "spawns"/"all_cs"/"all.ltx"
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         SpawnItem.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())

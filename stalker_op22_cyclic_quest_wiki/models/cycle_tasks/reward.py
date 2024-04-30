@@ -23,7 +23,7 @@ class MoneyReward(QuestReward):
 
     money = models.PositiveIntegerField(null=False, verbose_name="Сумма")
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (*self.quest.natural_key(),)
 
     def __str__(self):
@@ -41,7 +41,7 @@ class ItemReward(QuestReward):
     item = models.ForeignKey("Item", null=False, on_delete=models.PROTECT, verbose_name="Предмет")
     count = models.PositiveIntegerField(default=1, null=False, verbose_name="Кол-во предметов")
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (*self.quest.natural_key(), *self.item.natural_key())
 
     def __str__(self):
@@ -58,7 +58,7 @@ class QuestRandomReward(QuestReward):
     reward = models.ForeignKey("RandomRewardInfo", null=False, on_delete=models.PROTECT, verbose_name="Описание случайной награды")
     count = models.PositiveIntegerField(default=1, null=False, verbose_name="Количество")
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (*self.quest.natural_key(), *self.reward.natural_key())
 
     def __str__(self):
@@ -74,7 +74,7 @@ class RandomRewardInfo(models.Model):
     description = models.ForeignKey("Translation", null=False, on_delete=models.PROTECT, verbose_name="Описание")
     possible_items = models.ManyToManyField("Item", verbose_name="Возможные предметы")
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (self.index,)
 
     def __str__(self):
@@ -88,7 +88,7 @@ class TreasureReward(QuestReward):
         verbose_name = "Тайник в награду за ЦЗ"
         verbose_name_plural = "Тайники в награду за ЦЗ"
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (*self.quest.natural_key(),)
 
     def __str__(self):

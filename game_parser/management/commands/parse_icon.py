@@ -44,7 +44,7 @@ class Command(BaseCommand):
         return paths
 
     @atomic
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         Icon.objects.all().delete()
 
         if not self.TMP_DIR.exists():

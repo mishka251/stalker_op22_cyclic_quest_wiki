@@ -3,7 +3,7 @@
 from django.db import migrations, models
 
 
-def move_trader_data(apps, schema_editor):
+def move_trader_data(apps, schema_editor) -> None:
     Trader = apps.get_model("game_parser", "Trader")
     Trader2 = apps.get_model("game_parser", "Trader2")
     db_alias = schema_editor.connection.alias
