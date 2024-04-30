@@ -31,7 +31,7 @@ class Command(BaseCommand):
             print(f"start {model_info.model_cls.__name__}")
             file_path = tmp_dir / model_info.file_name
             resource = model_info.resource_cls()
-            with open(file_path, "r", encoding="utf-8") as file:
+            with file_path.open("r", encoding="utf-8") as file:
                 dataset = tablib.Dataset().load(file.read(), format="csv")
             result = resource.import_data(dataset)
             if result.has_errors():
@@ -47,8 +47,7 @@ class Command(BaseCommand):
                         for error in row_errors:
                             self._print_error(error)
                 raise CommandError("Импорт сломался")
-            else:
-                print(f"end {model_info.model_cls.__name__} OK")
+            print(f"end {model_info.model_cls.__name__} OK")
 
         print("Start import icons")
         icons_dir = tmp_dir / "icons"

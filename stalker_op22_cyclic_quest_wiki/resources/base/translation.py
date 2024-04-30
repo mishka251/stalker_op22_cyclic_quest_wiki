@@ -10,3 +10,8 @@ class TranslationResource(resources.ModelResource):
         use_natural_foreign_keys = True
         import_id_fields=["code"]
         exclude = {"id"}
+
+__all__ = [
+    "TranslationResource",
+]
+

@@ -1,6 +1,6 @@
 import logging
-import xml.etree.ElementTree as ET
 from pathlib import Path
+from xml.etree import ElementTree
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -49,7 +49,7 @@ class Command(BaseCommand):
             if file.name in self._exclude_files:
                 continue
             print(f"{file=}")
-            tree = ET.parse(file)
+            tree = ElementTree.parse(file)
             root = tree.getroot()
 
             if root.tag != "string_table":

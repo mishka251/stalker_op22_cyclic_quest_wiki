@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 from django.conf import settings
 from django.core.files.images import ImageFile
@@ -29,9 +30,9 @@ class Command(BaseCommand):
             box = self._get_item_image_coordinates(item)
             logger.debug(f"{box=}")
             part = image.crop(box)
-            tmp_file_name = "tmp.png"
+            tmp_file_name = Path("tmp.png")
             part.save(tmp_file_name)
-            with open(tmp_file_name, "rb") as tmp_image:
+            with tmp_file_name.open("rb") as tmp_image:
                 item.inv_icon = ImageFile(tmp_image, name=f"{item.name}_icon.png")
                 item.save()
 

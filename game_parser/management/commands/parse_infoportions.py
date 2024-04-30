@@ -22,12 +22,12 @@ class Command(BaseCommand):
         return base_path / "config" / "gameplay"
 
     def get_files_paths(self, path: Path) -> list[Path]:
-        paths = []
-        for path in path.iterdir():
-            if path.name.startswith("info"):
-                paths.append(path)
+        return [
+            sub_path
+            for sub_path in path.iterdir()
+            if sub_path.name.startswith("info")
+        ]
 
-        return paths
 
     @atomic
     def handle(self, **options) -> None:

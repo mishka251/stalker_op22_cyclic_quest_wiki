@@ -16,6 +16,10 @@ from game_parser.logic.tasks_grouping import (
     TreasureReward,
 )
 
+BROKEN_MAX_STATE = 50
+
+NEW_MIN_STATE = 90
+
 register = Library()
 
 
@@ -61,9 +65,9 @@ def render_target(target: TaskReward) -> str:
         context["target_width"] = int(target.state.max-target.state.min)
         context["after_width"] = int(100 - target.state.max)
         target_cond_str = None
-        if target.state.min >= 90:
+        if target.state.min >= NEW_MIN_STATE:
             target_cond_str = "Новый"
-        elif target.state.max <= 50:
+        elif target.state.max <= BROKEN_MAX_STATE:
             target_cond_str = "Сломанный"
         context["target_cond_str"] = target_cond_str
 

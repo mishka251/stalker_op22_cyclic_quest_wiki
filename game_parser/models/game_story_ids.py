@@ -1,4 +1,9 @@
+from typing import TYPE_CHECKING
+
 from django.db import models
+
+if TYPE_CHECKING:
+    from game_parser.models import StorylineCharacter
 
 
 class GameStoryId(models.Model):
@@ -17,11 +22,10 @@ class GameStoryId(models.Model):
     def __str__(self):
         return f"{self.story_id}"
 
-    def get_stalker_profile(self) -> "Optional[StorylineCharacter]":
+    def get_stalker_profile(self) -> "StorylineCharacter | None":
         character = None
         if self.spawn_section:
             character = character or self.spawn_section.character_profile
         if self.spawn_section_custom:
             character = character or self.spawn_section_custom.character_profile
-        character = character or self.character
-        return character
+        return character or self.character

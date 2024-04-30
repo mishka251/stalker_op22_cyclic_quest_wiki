@@ -55,7 +55,7 @@ class Command(BaseCommand):
             parser = LtxParser(path, known_extends=results)
             results |= parser.get_parsed_blocks()
 
-        existing_sections_keys = [k for k in results.keys() if isinstance(results[k], dict)]
+        existing_sections_keys = [k for k in results if isinstance(results[k], dict)]
 
 
         grouped_by_cls_dict = defaultdict(set)

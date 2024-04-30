@@ -52,7 +52,7 @@ class EscapeMap(TemplateView):
         rm = position_re.match(spawn_item.position_raw)
         if not rm:
             return None
-        (x, y, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
+        (x, _, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
         position = (x, z)
         name = spawn_item.name
         section_name = spawn_item.section_name

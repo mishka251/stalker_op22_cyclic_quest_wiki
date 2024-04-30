@@ -140,7 +140,7 @@ class Command(BaseCommand):
         part = image.crop(box)
         tmp_file_name = "tmp.png"
         part.save(tmp_file_name)
-        with open(tmp_file_name, "rb") as tmp_image:
+        with tmp_file_name.open("rb") as tmp_image:
             image_file = ImageFile(tmp_image, name=f"{name}_icon.png")
             instance.icon = image_file
             instance.save()

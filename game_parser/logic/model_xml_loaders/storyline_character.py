@@ -67,13 +67,7 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
                 dialogs_raw.append(child_node.text)
             elif child_node.tag == "start_dialog":
                 start_dialog = (child_node.text)
-            elif isinstance(child_node, _Comment):
-                pass
-            elif child_node.tag == "panic_threshold":
-                pass
-            elif child_node.tag == "panic_treshold":  # WTF??
-                pass
-            elif child_node.tag == "map_icon":
+            elif isinstance(child_node, _Comment) or child_node.tag in {"panic_threshold", "panic_treshold", "map_icon"}:# WTF misstype??
                 pass
             elif child_node.tag == "team":
                 team = child_node.text

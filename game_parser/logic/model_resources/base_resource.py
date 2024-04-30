@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import Any, Optional, Type
+from typing import Any
 
 from django.db.models import Model
 
@@ -16,6 +16,8 @@ class BaseResourceField:
             self,
             data_field_name: str,
             model_field_name: str | None = None,
+            /,
+            *,
             required: bool = True,
             default=None,
     ):
@@ -30,8 +32,7 @@ class BaseResourceField:
     def _get_from_data(self, data: dict[str, Any]) -> Any:
         if self._required:
             return data.pop(self._data_field_name)
-        else:
-            return data.pop(self._data_field_name, self._default)
+        return data.pop(self._data_field_name, self._default)
 
     def _parse_value(self, value: Any) -> Any:
         if value is None:
@@ -39,7 +40,7 @@ class BaseResourceField:
         return self._parse_non_empty_value(value)
 
     def _parse_non_empty_value(self, value: Any):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_value(self, data: dict[str, Any]) -> Any:
         value = self._get_from_data(data)
@@ -65,23 +66,26 @@ class IntegerField(BaseResourceField):
 
 
 class BooleanField(BaseResourceField):
+    TRUE_VALUE = "true"
+
     def __init__(
             self,
             data_field_name: str,
             model_field_name: str | None = None,
+            /,
+            *,
             required: bool = False,
             default=False,
     ):
-        super().__init__(data_field_name, model_field_name, required, default)
+        super().__init__(data_field_name, model_field_name, required=required, default=default)
 
     def _parse_non_empty_value(self, value: Any) -> Any:
-        TRUE_VALUE = "true"
-        return value == TRUE_VALUE
+        return value == BooleanField.TRUE_VALUE
 
 
 class BaseModelResource:
     _fields: list[BaseResourceField]
-    _model_cls: Type[Model]
+    _model_cls: type[Model]
     _exclude_fields: set[str] = set()
 
     def get_fields(self) -> list[BaseResourceField]:

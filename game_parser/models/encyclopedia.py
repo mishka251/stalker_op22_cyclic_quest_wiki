@@ -31,3 +31,5 @@ class EncyclopediaArticle(models.Model):
     text_translation = models.ForeignKey("Translation", null=True, on_delete=models.SET_NULL, related_name="+")
     artefact = models.ForeignKey("Artefact", null=True, on_delete=models.SET_NULL, related_name="articles")
 
+    def __str__(self) -> str:
+        return f"Статья {self.name} в разделе {self.group}"

@@ -11,3 +11,7 @@ class AmmoResource(resources.ModelResource):
         import_id_fields=["name"]
 
         exclude = {"id", "item_ptr", "polymorphic_ctype"}
+
+__all__ = [
+    "AmmoResource",
+]

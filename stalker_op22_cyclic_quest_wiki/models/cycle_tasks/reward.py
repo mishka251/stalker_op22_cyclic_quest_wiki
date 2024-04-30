@@ -93,3 +93,12 @@ class TreasureReward(QuestReward):
 
     def __str__(self):
         return f"Тайник за квест {self.quest}"
+
+__all__ = [
+    "ItemReward",
+    "MoneyReward",
+    "QuestRandomReward",
+    "QuestReward",
+    "RandomRewardInfo",
+    "TreasureReward",
+]

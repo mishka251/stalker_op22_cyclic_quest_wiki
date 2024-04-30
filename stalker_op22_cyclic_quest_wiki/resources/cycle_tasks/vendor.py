@@ -10,3 +10,8 @@ class CycleTaskVendorResource(resources.ModelResource):
         use_natural_foreign_keys = True
         import_id_fields=["section_name"]
         exclude = {"id"}
+
+__all__ = [
+    "CycleTaskVendorResource",
+]
+

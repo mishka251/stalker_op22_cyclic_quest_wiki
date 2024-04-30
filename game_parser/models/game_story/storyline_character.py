@@ -56,7 +56,7 @@ class StorylineCharacter(Character):
 
     no_random = models.IntegerField(null=True)
 
-    community_default_raw = models.CharField(max_length=10, null=True,)
+    community_default_raw = models.CharField(max_length=10, null=True)
     community = models.ForeignKey(Community, null=True, on_delete=models.SET_NULL)
 
     icon_raw = models.CharField(max_length=512)

@@ -27,3 +27,8 @@ class CycleTaskVendor(models.Model):
 
     def natural_key(self) -> tuple:
         return (self.local_id, )
+
+
+__all__ = [
+    "CycleTaskVendor",
+]

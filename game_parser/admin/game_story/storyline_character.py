@@ -17,7 +17,7 @@ class IconCharacterAdmin(ModelAdmin):
     )
     search_fields = ["name"]
 
-    @display(description="Иконка", )
+    @display(description="Иконка" )
     def icon_view(self, obj: Icon) -> str | None:
         return mark_safe(f'<img src="{obj.icon.url}" alt="{obj.icon.name}">')
 
@@ -75,7 +75,7 @@ class StorylineCharacterAdmin(ModelAdmin):
     def name_view(self, character: StorylineCharacter) -> str:
         return character.get_name
 
-    @display(description="Иконка", )
+    @display(description="Иконка" )
     def icon_view(self, obj: StorylineCharacter) -> str | None:
         if not obj.icon:
             return None

@@ -242,7 +242,7 @@ class Command(BaseCommand):
         position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
         rm = position_re.match(spawn_item.position_raw)
         (x, y, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
-        map_position = MapPosition.objects.update_or_create(
+        return MapPosition.objects.update_or_create(
             spawn_id=spawn_item.spawn_id,
             story_id=spawn_item.story_id,
             spawn_story_id=spawn_item.spawn_story_id,
@@ -255,5 +255,3 @@ class Command(BaseCommand):
                 "location": location,
             },
         )[0]
-
-        return map_position

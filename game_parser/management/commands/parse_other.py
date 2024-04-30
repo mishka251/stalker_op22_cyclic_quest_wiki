@@ -78,12 +78,12 @@ class Command(BaseCommand):
                 print(quest_name)
                 item = resource.create_instance_from_data(quest_name, quest_data)
                 if quest_data:
-                    logger.warning(f"unused data {quest_data} in {quest_name}")
+                    logger.warning(f"unused data {quest_data} in {quest_name} {item=}")
 
     def _should_exclude(self, key: str, data: dict[str, str]) -> bool:
-        if key in self._exclude_keys or key.endswith("immunities") or key.endswith("hud") or key.endswith("absorbation"):
+        if key in self._exclude_keys or key.endswith(("immunities", "hud", "absorbation")):
             return True
-        cls = data.get("class", None)
+        cls = data.get("class")
         excluded_classes = {
             "C_HLCP_S",
             "O_INVBOX",

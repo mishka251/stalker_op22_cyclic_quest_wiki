@@ -44,3 +44,8 @@ class LocationMapInfo(models.Model):
 
     def __str__(self):
         return f"Карта {self.location_set.first()}"
+
+__all__ = [
+    "Location",
+    "LocationMapInfo",
+]

@@ -20,12 +20,11 @@ class Command(BaseCommand):
         return base_path / "config"/"gameplay"
 
     def get_files_paths(self, path: Path) -> list[Path]:
-        paths = []
-        for path in path.iterdir():
-            if path.name.startswith("tasks"):
-                paths.append(path)
-
-        return paths
+        return [
+            sub_path
+            for sub_path in path.iterdir()
+            if sub_path.name.startswith("tasks")
+        ]
 
     @atomic
     def handle(self, **options) -> None:
@@ -36,6 +35,6 @@ class Command(BaseCommand):
             print(file_path)
             fixer = GSCXmlFixer()
             fixed_file_path = fixer.fix(file_path)
-            with open(fixed_file_path, "r") as tml_file:
+            with fixed_file_path.open("r") as tml_file:
                 root_node = parse(tml_file).getroot()
             GameTaskLoader().load_bulk(root_node)

@@ -22,8 +22,7 @@ class CycleTaskVendor(models.Model):
         game_story_id = self.game_story_id
         if not game_story_id:
             return None
-        spawn_section = game_story_id.spawn_section
-        return spawn_section
+        return game_story_id.spawn_section
 
     def _get_game_story_character_profile(self)-> "StorylineCharacter | None":
         game_story_id = self.game_story_id

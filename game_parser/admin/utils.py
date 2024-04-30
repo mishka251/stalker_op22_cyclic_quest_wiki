@@ -1,5 +1,5 @@
 import re
-from typing import Iterable, Optional
+from collections.abc import Iterable
 
 from django.db.models import Model
 from django.template import loader
@@ -17,8 +17,7 @@ class SpawnItemMapRenderer:
     def _get_location_map(self, obj: SpawnItem) -> "LocationMapInfo | None":
         if not obj.location:
             return None
-        location_info = obj.location.locationmapinfo_set.first()
-        return location_info
+        return obj.location.locationmapinfo_set.first()
 
 
     def _map(self, obj: SpawnItem) -> str | None:
@@ -53,7 +52,7 @@ class SpawnItemMapRenderer:
         rm = position_re.match(spawn_item.position_raw)
         if not rm:
             return None
-        (x, y, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
+        (x, _, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
         position = (x, z)
         name = spawn_item.name
         section_name = spawn_item.section_name

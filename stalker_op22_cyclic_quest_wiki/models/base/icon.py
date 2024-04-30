@@ -20,3 +20,7 @@ class Icon(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+__all__ = [
+    "Icon",
+]

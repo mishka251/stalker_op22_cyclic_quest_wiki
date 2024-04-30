@@ -58,9 +58,9 @@ class Command(BaseCommand):
                 continue
             image_path = self.get_base_image() / (location_data["texture"] + ".dds")
             image = Image.open(image_path)
-            tmp_file_name = "tmp.png"
+            tmp_file_name = Path("tmp.png")
             image.save(tmp_file_name)
-            with open(tmp_file_name, "rb") as tmp_image:
+            with tmp_file_name.open("rb") as tmp_image:
                 image_file = ImageFile(tmp_image, name=level_name+ ".png")
                 location.map_image = image_file
                 location.save()

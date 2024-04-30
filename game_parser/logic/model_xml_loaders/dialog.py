@@ -60,7 +60,7 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
                     phrase = DialogPhrase.objects.create(dialog=dialog, local_id=phrase_id)
                 except IntegrityError as ex:
                     raise IntegrityError(f"{dialog=}, {phrase_id=}") from ex
-                next = []
+                _next = []
                 precondition = []
                 action = []
                 give_info = []
@@ -71,7 +71,7 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
                 text = None
                 for child_node in phrase_node:
                     if child_node.tag == "next":
-                        next.append(child_node.text)
+                        _next.append(child_node.text)
                     elif child_node.tag == "text":
                         text = child_node.text
                     elif child_node.tag == "precondition":
@@ -94,7 +94,7 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
                         raise ValueError(
                             f"Unexpected dialog phrase child {child_node.tag} in {dialog.game_id} {phrase_id}")
                 phrase.text_id_raw = text
-                phrase.next_ids_raw = ";".join(next)
+                phrase.next_ids_raw = ";".join(_next)
                 phrase.actions_raw = ";".join(action)
                 phrase.precondition_raw = ";".join(precondition)
                 phrase.give_info_raw = ";".join(give_info)

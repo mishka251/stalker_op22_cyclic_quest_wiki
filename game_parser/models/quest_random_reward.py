@@ -24,4 +24,3 @@ class QuestRandomReward(models.Model):
         if self.caption:
             return self.caption
         return self.name
-   

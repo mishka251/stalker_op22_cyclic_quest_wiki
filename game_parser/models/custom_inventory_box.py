@@ -5,6 +5,7 @@ class InventoryBox(models.Model):
     """
     Похоже, это тайник в виде рюкзака, из которого можно достать предметы
     """
+
     class Meta:
         verbose_name = "Тайник"
         verbose_name_plural = "Тайники"

@@ -15,7 +15,8 @@ class Command(BaseCommand):
             print(f"Start export {model_info.model_cls.__name__} data")
             resource = model_info.resource_cls()
             dataset = resource.export()
-            with open(tmp_dir/model_info.file_name, "w", encoding="utf-8") as file:
+            file_name = tmp_dir / model_info.file_name
+            with file_name.open("w", encoding="utf-8") as file:
                 file.write(dataset.csv)
             print(f"End export {model_info.model_cls.__name__} data")
 

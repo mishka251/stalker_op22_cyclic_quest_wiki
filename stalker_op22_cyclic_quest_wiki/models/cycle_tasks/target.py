@@ -53,3 +53,11 @@ class CycleTaskTargetStalker(CycleTaskTarget):
 
     def __str__(self):
         return f"Сталкер {self.rank}, {self.community} для {self.quest}"
+
+__all__ = [
+    "CycleTaskTarget",
+    "CycleTaskTargetCamp",
+    "CycleTaskTargetItem",
+    "CycleTaskTargetStalker",
+]
+

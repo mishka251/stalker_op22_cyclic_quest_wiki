@@ -74,6 +74,9 @@ class CampInfo(models.Model):
         verbose_name_plural = "Лагеря НПС/мутантов"
         verbose_name = "Лагерь НПС/мутантов"
 
+    def __str__(self):
+        return f"{self.type}, {self.communities_raw}"
+
 
 class StalkerSection(models.Model):
     section_name = models.CharField(max_length=255, null=False, unique=True)
@@ -101,6 +104,8 @@ class Respawn(models.Model):
     max_spawn = models.PositiveIntegerField(null=True)
     respawn_section = models.ManyToManyField("StalkerSection")
 
+    def __str__(self) -> str:
+        return f"Респавн в {self.spawn_item}"
 
 class SingleStalkerSpawnItem(models.Model):
     # для section_name = stalker*
@@ -108,3 +113,6 @@ class SingleStalkerSpawnItem(models.Model):
     spawn_item = models.ForeignKey("SpawnItem", null=False, on_delete=models.CASCADE, unique=True)
     character_profile_raw = models.CharField(max_length=512, null=False)
     stalker_section = models.ForeignKey("StalkerSection", null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return f"Спавн сталкера {self.stalker_section}"

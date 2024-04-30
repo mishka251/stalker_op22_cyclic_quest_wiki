@@ -32,7 +32,7 @@ class Command(BaseCommand):
             print(level_file_path)
             level_parser = LtxParser(level_file_path)
 
-            for section_id, section in level_parser.get_parsed_blocks().items():
+            for section in level_parser.get_parsed_blocks().values():
                 if section["section_name"] == "respawn":
                     respawn = self._create_respawn(level_file_name, section, level_file_path)
                     respawns.append(respawn)

@@ -2,8 +2,9 @@ import dataclasses
 import decimal
 import logging
 import os
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -18,9 +19,8 @@ def log_parse_error(func: Callable[[Any,Any], None]) -> Callable[[Any,Any], None
     def wrapper(self, node) -> None:
         try:
             func(self, node)
-        except Exception as ex:
-            logger.error(f"Ошибка при парсинге {to_lua_source(node)}")
-            logger.exception(ex)
+        except Exception:
+            logger.exception(f"Ошибка при парсинге {to_lua_source(node)}")
             raise
     return wrapper
 
@@ -51,21 +51,19 @@ class NestedCallsVisitor(ASTVisitor):
         self._spawn_rewards = []
 
     @log_parse_error
-    def visit_Call(self, node: Call) -> None:
+    def visit_Call(self, node: Call) -> None: # noqa: N802
         node_func = node.func
 
         if isinstance(node.func, Call):
             return
-        if isinstance(node_func, Index):
-            func_name = to_lua_source(node_func)
-        else:
-            func_name = node_func.id
+
+        func_name = to_lua_source(node_func) if isinstance(node_func, Index) else node_func.id
 
         if func_name == "got":
             if len(node.args) ==1:
                 name = self._parse_value(node.args[0])
                 self._item_rewards.append(ItemRewardDto(name, 1))
-            elif len(node.args) ==2:
+            elif len(node.args) ==2: # noqa: PLR2004
                 name = self._parse_value(node.args[0])
                 count =  self._parse_value(node.args[1])
                 self._item_rewards.append(ItemRewardDto(name, count))
@@ -74,7 +72,7 @@ class NestedCallsVisitor(ASTVisitor):
         elif func_name == "got_money":
             self._money_rewards.append([self._parse_value(arg) for arg in node.args])
         elif func_name == "create":
-            if len(node.args) == 4:
+            if len(node.args) == 4:# noqa: PLR2004
                 name= self._parse_value(node.args[0])
                 xyz = node.args[1]
                 xyz_raw = to_lua_source(xyz)
@@ -84,14 +82,14 @@ class NestedCallsVisitor(ASTVisitor):
                 level_vertex = self._parse_value(node.args[2])
                 game_vertex_id = self._parse_value(node.args[3])
                 self._spawn_rewards.append(SpawnDto(name, x, y, z, level_vertex, game_vertex_id, to_lua_source(node),xyz_raw))
-            elif len(node.args) == 5:
+            elif len(node.args) == 5: # noqa: PLR2004
                 name= self._parse_value(node.args[0])
                 xyz = node.args[1]
                 xyz_raw = to_lua_source(xyz)
                 x = None
                 y = None
                 z = None
-                if isinstance(xyz, Call) and len(xyz.args) == 3:
+                if isinstance(xyz, Call) and len(xyz.args) == 3: # noqa: PLR2004
                     x = self._parse_value(xyz.args[0])
                     y = self._parse_value(xyz.args[1])
                     z = self._parse_value(xyz.args[2])
@@ -142,7 +140,7 @@ class FunctionsVisitor(ASTVisitor):
         self._function_rewards = {}
 
     @log_parse_error
-    def visit_Function(self, node: Function) -> None:
+    def visit_Function(self, node: Function) -> None:    # noqa: N802
         current_function_name = to_lua_source(node.name)
         nested_visitor = NestedCallsVisitor()
         nested_visitor.visit(node)
@@ -158,12 +156,11 @@ class Command(BaseCommand):
         return base_path / "scripts"
 
     def get_files_paths(self, path: Path) -> list[Path]:
-        paths = []
-        for (dir, _, files) in os.walk(path):
-            for file_name in files:
-                paths.append(Path(os.path.join(dir, file_name)))
-
-        return paths
+        return [
+            Path(_dir) / file_name
+            for (_dir, _, files) in os.walk(path)
+            for file_name in files
+        ]
 
     def _get_namespace(self, file_path: Path) -> str:
         path = file_path.relative_to(self.get_files_dir_path())
@@ -189,7 +186,7 @@ class Command(BaseCommand):
                 continue
             file_namespace = self._get_namespace(script_file)
             print(f"{file_namespace=}")
-            with open(script_file) as file:
+            with script_file.open() as file:
                 src = file.read()
 
             tree = parse(src)
@@ -258,7 +255,7 @@ class Command(BaseCommand):
 
         for func in ScriptFunction.objects.all():
             nested_func_names = func.raw_nested_function.split(";")
-            nested_functions = [functions_by_aliases.get(func_name, None) for func_name in nested_func_names]
+            nested_functions = [functions_by_aliases.get(func_name) for func_name in nested_func_names]
             nested_functions = [f for f in nested_functions if f is not None]
             if len(nested_func_names) != len(nested_functions):
                 founded = {str(f) for f in nested_functions}

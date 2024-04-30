@@ -16,7 +16,7 @@ class GSCXmlFixer:
 
     def __init__(
             self,
-            encoding: str = None,
+            encoding: str | None = None,
     ):
         self._encoding = encoding
 
@@ -25,14 +25,14 @@ class GSCXmlFixer:
         header = self._get_file_header(source)
         encoding = self._get_encoding(header, source)
         need_add_root_tag = header is None
-        with open(source, "r", encoding=encoding) as file:
+        with source.open("r", encoding=encoding) as file:
             content = file.read()
         fixed_content = self._replace_includes(content)
         fixed_content = self._fix_broken_comments(fixed_content)
         if need_add_root_tag:
             fixed_content = self._add_root_tag(fixed_content, encoding)
         fixed_file_path = self._tml_file_name_for_xml(source)
-        with open(fixed_file_path, "w", encoding=encoding) as tml_file:
+        with fixed_file_path.open("w", encoding=encoding) as tml_file:
             tml_file.write(fixed_content)
         return fixed_file_path
 
@@ -54,7 +54,7 @@ class GSCXmlFixer:
         return None
 
     def _get_file_header(self, source: Path) -> str | None:
-        with open(source, "rb") as file:
+        with source.open("rb") as file:
             line1 =file.readline()
             line = line1.decode("utf-8-sig")
         if line.startswith("<?xml"):
@@ -63,14 +63,13 @@ class GSCXmlFixer:
 
     def _detect_file_encoding_by_content(self, source: Path) -> str:
         detector = UniversalDetector()
-        with open(source, "rb") as file:
+        with source.open("rb") as file:
             for line in file:
                 detector.feed(line)
                 if detector.done:
                     break
         detector.close()
-        encoding = detector.result["encoding"]
-        return encoding
+        return detector.result["encoding"]
 
     def _ensure_tmp_dir(self) -> None:
         if not TMP_DIR.exists():
@@ -87,8 +86,7 @@ class GSCXmlFixer:
             current_content = fixed_content
             fixed_content = re.sub(xml_comment_re, r"<!--\g<before> \g<after>-->", current_content)
         xml_comment2_re = re.compile(r"<!--[\s-]*(?P<comment>.*?)[\s-]*-->")
-        fixed_content = re.sub(xml_comment2_re, r"<!-- \g<comment> -->", fixed_content)
-        return fixed_content
+        return re.sub(xml_comment2_re, r"<!-- \g<comment> -->", fixed_content)
 
     def _add_root_tag(self, content: str, encoding: str) -> str:
         return f'<?xml version="1.0" encoding="{encoding}"?>{content}'
@@ -103,7 +101,7 @@ class GSCXmlFixer:
         target_path = base_path / include_path
         encoding = self._detect_file_encoding_by_content(target_path)
         try:
-            with open(target_path, "r", encoding=encoding) as file:
+            with target_path.open("r", encoding=encoding) as file:
                 content = file.read()
                 return self._replace_includes(content)
         except Exception as e:

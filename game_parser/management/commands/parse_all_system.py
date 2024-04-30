@@ -287,7 +287,7 @@ class Command(BaseCommand):
         print("SPECIFIC_CHARACTERS", all(p.exists() for p in specific_characters_sources), *specific_characters_sources,
               sep="\n", end="\n" * 3)
 
-        existing_sections_keys = [k for k in results.keys() if isinstance(results[k], dict)]
+        existing_sections_keys = [k for k in results if isinstance(results[k], dict)]
 
         grouped_by_cls_dict = defaultdict(set)
         for section_name in existing_sections_keys:
@@ -297,7 +297,6 @@ class Command(BaseCommand):
             print(cls_, len(keys))
 
         # TODO Проверить все секции на то, что всё есть в БД
-        results_lists_keys = [k for k in results.keys() if isinstance(results[k], list)]
         print("START FILLING")
 
         self._load_xml(translation_files_sources, TranslationLoader(), "Translation", GSCXmlFixer(encoding="utf-8"))
@@ -380,7 +379,7 @@ class Command(BaseCommand):
         }
         print(f"UNUSED {len(unused_keys)} {unused_classes=}")
 
-    def _get_explosive(self, results, grouped_by_cls_dict, ):
+    def _get_explosive(self, results, grouped_by_cls_dict ):
         items_keys, items = self._get_sections_by_class(results, grouped_by_cls_dict, self.EXPLOSIVE_CLASSES)
         monster_parts = {
             key: item
@@ -389,7 +388,7 @@ class Command(BaseCommand):
         }
         return set(monster_parts.keys()), monster_parts
 
-    def _get_monster_parts(self, results, grouped_by_cls_dict, ):
+    def _get_monster_parts(self, results, grouped_by_cls_dict ):
         items_keys, items = self._get_sections_by_class(results, grouped_by_cls_dict, {"II_ATTCH", "II_FOOD"})
         monster_parts = {
             key: item
@@ -467,5 +466,4 @@ class Command(BaseCommand):
 
     def _get_paths_list(self, base_path: Path, files_str: str, extension: str) -> list[Path]:
         files_names = [s.strip() for s in files_str.split(",")]
-        paths = [base_path / f"{file}.{extension}" for file in files_names]
-        return paths
+        return [base_path / f"{file}.{extension}" for file in files_names]

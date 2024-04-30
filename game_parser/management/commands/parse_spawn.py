@@ -30,7 +30,7 @@ class Command(BaseCommand):
             print(level_file_path)
             level_parser = LtxParser(level_file_path)
 
-            for section_id, section in level_parser.get_parsed_blocks().items():
+            for section in level_parser.get_parsed_blocks().values():
                 item = self._create_item(level_file_name, section)
                 spawn_items.append(item)
         SpawnItem.objects.bulk_create(spawn_items, batch_size=2_000)
@@ -43,8 +43,8 @@ class Command(BaseCommand):
             spawn_id = section["spawn_id"],
             game_vertex_id = section["game_vertex_id"],
             location_txt=level_file_name,
-            custom_data = section.get("custom_data", None),
+            custom_data = section.get("custom_data"),
             character_profile_str=section.get("character_profile"),
-            story_id=section.get("story_id", None),
-            spawn_story_id=section.get("spawn_story_id", None),
+            story_id=section.get("story_id"),
+            spawn_story_id=section.get("spawn_story_id"),
         )

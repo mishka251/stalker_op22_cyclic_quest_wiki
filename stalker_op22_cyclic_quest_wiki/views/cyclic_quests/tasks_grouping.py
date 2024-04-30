@@ -178,7 +178,7 @@ def parse_task(db_task: CyclicQuest) -> Quest:
     if (reward_money := MoneyReward.objects.filter(quest=db_task).first()) is not None:
         rewards.append(TaskMoneyReward(reward_money.money))
 
-    if (treasure_reward := TreasureRewardModel.objects.filter(quest=db_task).first()) is not None:
+    if TreasureRewardModel.objects.filter(quest=db_task).exists():
         rewards.append(TreasureReward())
 
     for random_reward in QuestRandomReward.objects.filter(quest=db_task):
@@ -258,13 +258,12 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
                 items_count=target_count,
                 ammo_count=target_count*target_item.box_size,
             )
-        else:
-            return QuestItemTarget(
-                item=item_info,
-                items_count=target_count,
-            )
+        return QuestItemTarget(
+            item=item_info,
+            items_count=target_count,
+        )
 
-    raise NotImplementedError()
+    raise NotImplementedError
 
 
 def _spawn_item_to_map_info(
@@ -281,6 +280,7 @@ def _spawn_item_to_map_info(
             item=MapPointItem(position=(target_camp.x, target_camp.z), info_str=target_camp.spawn_id),
 
         )
+    return None
 
 
 def parse_item_reward(reward: ItemReward) -> TaskReward:

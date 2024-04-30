@@ -29,3 +29,7 @@ class Item(PolymorphicModel):
         if self.name_translation:
             return self.name_translation.rus
         return self.name
+
+__all__ = [
+    "Item",
+]

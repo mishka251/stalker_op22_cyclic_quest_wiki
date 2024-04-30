@@ -41,8 +41,8 @@ class Command(BaseCommand):
 
     def _parse_ranks(self, raw_ranks: str, type_: RankType) -> None:
         ranks: list[Rank] = []
-        for i, item in enumerate(raw_ranks.split(",")):
-            item = item.strip()
+        for i, item_ in enumerate(raw_ranks.split(",")):
+            item = item_.strip()
             if i % 2 == 0:
                 rank = Rank(
                     name = item,
@@ -58,8 +58,8 @@ class Command(BaseCommand):
 
     def _parse_communities(self, raw_communities: str, type_: CommunityType) -> None:
         communities: list[Community] = []
-        for i, item in enumerate(raw_communities.split(",")):
-            item = item.strip()
+        for i, item_ in enumerate(raw_communities.split(",")):
+            item = item_.strip()
             if i % 2 == 0:
                 community = Community(
                     code=item,

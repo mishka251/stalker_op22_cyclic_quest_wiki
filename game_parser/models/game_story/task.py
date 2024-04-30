@@ -74,3 +74,6 @@ class MapLocationType(models.Model):
     hint_raw = models.CharField(max_length=256, null=True)
     hint = models.ForeignKey(Translation, null=True, on_delete=models.SET_NULL, related_name="+")
     location_type = models.CharField(max_length=256)
+
+    def __str__(self) -> str:
+        return f"Карта для {self.objective}"

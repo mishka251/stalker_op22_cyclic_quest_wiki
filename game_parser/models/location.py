@@ -32,3 +32,6 @@ class LocationMapInfo(models.Model):
     weathers = models.CharField(max_length=255, null=True, verbose_name="Информация о погоде")
     music_tracks = models.CharField(max_length=255, null=True, verbose_name="Информация о фоновой музыке")
     map_image = models.ImageField(null=True, verbose_name="Карта")
+
+    def __str__(self) -> str:
+        return self.name

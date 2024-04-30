@@ -26,9 +26,9 @@ class Command(BaseCommand):
 
     def get_files_paths(self, path: Path) -> list[Path]:
         paths = []
-        for path in path.iterdir():
-            if path.name.startswith("ui_npc")\
-                    or path.name in {
+        for aub_path in path.iterdir():
+            if aub_path.name.startswith("ui_npc")\
+                    or aub_path.name in {
                 "ui_arhara_unique.xml",
                 "ui_icons_npc.xml",
                 "ui_iconstotal.xml",
@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 "ui_npc_unique.xml",
                 "ui_npc_unique_2.xml",
             }:
-                paths.append(path)
+                paths.append(aub_path) # noqa: PERF401
 
         return paths
 

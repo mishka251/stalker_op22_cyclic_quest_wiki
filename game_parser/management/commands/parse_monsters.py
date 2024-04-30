@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -39,7 +40,7 @@ class Command(BaseCommand):
 
         for quest_name, quest_data in quest_blocks.items():
             print(quest_name)
-            monster = Monster.objects.create(
+            Monster.objects.create(
                 section_name=quest_name,
                 short_name=quest_data.get("short_name"),
                 visual_str=quest_data.get("visual"),

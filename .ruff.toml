@@ -26,6 +26,7 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
+    "tmp.py",
 ]
 
 # Same as Black.
@@ -40,20 +41,82 @@ target-version = "py312"
 select = [
     "ALL",
 ]
+
+#select = [
+#    "RET504",
+#]
+
 ignore = [
     "ANN001",
+    "ANN002",
+    "ANN003",
     "ANN101",
     "ANN202",
+    "ANN204",
+
     "D100",
     "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "D212",
+    "D406",
+    "D407",
+    "D413",
+    "D415",
+    "D400",
+    "D411",
+    "D200",
 
 
     "T201", # tmp
+    "EM101", # tmp
+    "RUF012", # tmp
+    "DJ012", # tmp
+    "INP001", # tmp
+    "E501", # tmp
+    "ANN401", # tmp
+    "SLF001", # tmp
+    "S308", # tmp
+    "C901", # tmp
+    "PLR0912", # tmp
+    "PLR0915", # tmp
+    "PLR0911", # tmp
+    "F405", # tmp
+    "ARG001", # tmp
+    "S105", # tmp
+    "PLR0913", # tmp
+    "C413", # tmp
+    "BLE001", # tmp
+    "S320", # tmp
+    "TD002", # tmp
+    "TD003", # tmp
+    "TD004", # tmp
+    "FIX002", # tmp
+    "S314", # tmp
+
+    "RUF003",
+    "RUF001",
+    "TRY003",
+    "ARG002", # ???
+    "DJ001", # ???
+    "EM102", # ???
+    "G004", # ???
+    "F403", # ???
+    "F401", # ???
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = [
     "Q000",
+    "UP007",
+    "COM812",
+    "W292",
+    "I001",
+    "COM819",
 ]
 unfixable = []
 

@@ -110,7 +110,7 @@ class VendorCyclicQuests(View):
     def _camp_to_dict(self, camp: SpawnItem) -> dict:
         position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
         rm = position_re.match(camp.position_raw)
-        (x, y, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
+        (x, _, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
         position = (x, z)
         location_info =  LocationMapInfo.objects.get(location=camp.location)
         if location_info.bound_rect_raw:

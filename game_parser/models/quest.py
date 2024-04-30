@@ -52,13 +52,12 @@ class CyclicQuest(models.Model):
 
     text_raw = models.CharField(max_length=255, null=True, verbose_name="Код перевода текста задания")
     text = models.ForeignKey("Translation", on_delete=models.SET_NULL, null=True, verbose_name="Текст задания", related_name="+")
-    target_stalker = models.ForeignKey("StalkerSection",  on_delete=models.SET_NULL, null=True, verbose_name="Сталкер цель",)
+    target_stalker = models.ForeignKey("StalkerSection",  on_delete=models.SET_NULL, null=True, verbose_name="Сталкер цель")
 
     @property
     def get_vendor_character(self) -> "StorylineCharacter | None":
         vendor = self.vendor
-        character = vendor.get_npc_profile() if vendor else None
-        return character
+        return vendor.get_npc_profile() if vendor else None
 
     def __str__(self):
         kind_caption = dict(QuestKinds.choices)[self.type]
@@ -82,6 +81,8 @@ class CyclicQuestItemReward(models.Model):
     quest = models.ForeignKey(CyclicQuest, null=False, on_delete=models.CASCADE, verbose_name="Предмет", related_name="item_rewards")
     count = models.IntegerField(default=1, null=False)
 
+    def __str__(self) -> str:
+        return f"{self.item} x {self.count} за {self.quest}"
 
 class QuestRandomRewardThrough(models.Model):
     class Meta:
@@ -94,3 +95,6 @@ class QuestRandomRewardThrough(models.Model):
     quest = models.ForeignKey(CyclicQuest, on_delete=models.CASCADE, null=False, verbose_name="ЦЗ", related_name="random_rewards")
     reward = models.ForeignKey("QuestRandomReward", on_delete=models.CASCADE, null=False, verbose_name="Тип награды", related_name="quests")
     count = models.IntegerField(default=1, null=False, verbose_name="Кол-во")
+
+    def __str__(self) -> str:
+        return f"Случайная награда {self.reward} x {self.count} за квест {self.quest}"

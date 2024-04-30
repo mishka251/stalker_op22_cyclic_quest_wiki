@@ -49,5 +49,4 @@ class SpawnReward(BaseScriptReward):
     def spawn_target(self) -> str:
         if self.is_spawn_in_inventory:
             return f"Объект {self.raw_target}"
-        else:
-            return f"Координаты {self.get_coords}"
+        return f"Координаты {self.get_coords}"

@@ -11,3 +11,6 @@ class Anomaly(models.Model):
     class Meta:
         verbose_name = "Аномалия"
         verbose_name_plural = "Аномалии"
+
+    def __str__(self) -> str:
+        return self.section_name

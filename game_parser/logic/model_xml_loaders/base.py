@@ -14,7 +14,7 @@ class BaseModelXmlLoader(Generic[TModel]):
         return self._load(root_node, comments)
 
     def _load(self, root_node: _Element, comments: list[str]) -> TModel:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def load_bulk(self, root_node: _Element) -> list[TModel]:
         comments = []

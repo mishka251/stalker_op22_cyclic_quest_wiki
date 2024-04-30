@@ -35,8 +35,9 @@ class Command(BaseCommand):
                         if cfg_file_path:
                             npc_config = NpcLogicConfig.objects.filter(source_file_name=cfg_file_path).first()
                             item.npc_logic = npc_config
-                except:
-                    pass
+                except Exception:
+                    logger.exception(f"{item.custom_data}")
+
 
             item.save()
             print(f"{index+1:_}/{count:_}")

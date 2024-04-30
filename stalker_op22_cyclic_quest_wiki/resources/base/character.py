@@ -19,3 +19,9 @@ class StalkerRankResource(resources.ModelResource):
         use_natural_foreign_keys = True
         import_id_fields=["name"]
         exclude = {"id"}
+
+
+__all__ = [
+    "CommunityResource",
+    "StalkerRankResource",
+]

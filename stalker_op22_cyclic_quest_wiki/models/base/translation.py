@@ -25,3 +25,8 @@ class Translation(models.Model):
 
     def natural_key(self) -> tuple:
         return (self.code,)
+
+
+__all__ = [
+    "Translation",
+]

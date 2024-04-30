@@ -193,6 +193,6 @@ class BaseItemAdmin(ModelAdmin):
             return obj.description_translation.rus
         return obj.description_code
 
-    @display(description="Иконка", )
+    @display(description="Иконка" )
     def inv_icon_view(self, obj: BaseItem) -> str | None:
         return icon_view(obj.inv_icon)

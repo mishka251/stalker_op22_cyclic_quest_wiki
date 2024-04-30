@@ -25,6 +25,7 @@ class CycleTaskTargetItemResource(resources.ModelResource):
         import_id_fields = ["quest"]
         exclude = {"id", "polymorphic_ctype", "cycletasktarget_ptr"}
 
+
 class CycleTaskTargetStalkerResource(resources.ModelResource):
     class Meta:
         model = CycleTaskTargetStalker
@@ -38,3 +39,9 @@ class CycleTaskTargetStalkerResource(resources.ModelResource):
         widget=ManyToManyWidget(MapPosition, separator="|", field="spawn_id"),
     )
 
+
+__all__ = [
+    "CycleTaskTargetCampResource",
+    "CycleTaskTargetItemResource",
+    "CycleTaskTargetStalkerResource",
+]

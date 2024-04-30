@@ -44,4 +44,4 @@ class Command(BaseCommand):
         for quest_name, quest_data in quest_blocks.items():
             item = resource.create_instance_from_data(quest_name, quest_data)
             if quest_data:
-                logger.warning(f"unused data {quest_data} in {quest_name}")
+                logger.warning(f"unused data {quest_data} in {quest_name} {item=}")

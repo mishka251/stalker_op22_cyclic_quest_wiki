@@ -43,3 +43,7 @@ class CyclicQuest(models.Model):
     def __str__(self):
         type_caption = QuestKinds[self.type].label
         return f"{type_caption}({self.prior}) для {self.vendor}"
+
+__all__ = [
+    "CyclicQuest",
+]

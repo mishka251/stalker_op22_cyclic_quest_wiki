@@ -51,7 +51,7 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
                 artefact=artefact,
             )
         except Exception as ex:
-            raise Exception(f"{game_id=}, {name=}, {group_name=}") from ex
+            raise ValueError(f"{game_id=}, {name=}, {group_name=}") from ex
         return article
 
     def _parse_icon(self, texture_node: Element) -> Icon:
@@ -81,7 +81,7 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         part = image.crop(box)
         tmp_file_name = "tmp.png"
         part.save(tmp_file_name)
-        with open(tmp_file_name, "rb") as tmp_image:
+        with tmp_file_name.open("rb") as tmp_image:
             image_file = ImageFile(tmp_image, name=f"{name}_icon.png")
             instance.icon = image_file
             instance.save()

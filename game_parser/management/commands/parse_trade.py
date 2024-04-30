@@ -58,9 +58,9 @@ class Command(BaseCommand):
             sell_str = main_block.pop("sell_condition")
             supplies_str = main_block.pop("buy_supplies")
 
-            sells = map(lambda s: s.strip(), sell_str.split(","))
-            supplies = map(lambda s: s.strip(), supplies_str.split(","))
-            for sell, supply in zip(sells, supplies):
+            sells = [s.strip() for s in sell_str.split(",")]
+            supplies = [ s.strip() for s in supplies_str.split(",")]
+            for sell, supply in zip(sells, supplies, strict=True):
                 sell_condition, sell_section_name = self._parse_condition(sell)
                 supply_condition, supply_section_name = self._parse_condition(supply)
 

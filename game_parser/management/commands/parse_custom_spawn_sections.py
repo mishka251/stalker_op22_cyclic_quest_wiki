@@ -113,9 +113,9 @@ class Command(BaseCommand):
         return CustomSpawnItem(
             section_name=section_parent,
             name=name,
-            custom_data=section.get("custom_data", None),
-            character_profile_str=section.get("character_profile", None),
-            spec_rank_str=section.get("spec_rank", None),
-            community_str=section.get("community", None),
-            visual_str=section.get("visual", None),
+            custom_data=section.get("custom_data"),
+            character_profile_str=section.get("character_profile"),
+            spec_rank_str=section.get("spec_rank"),
+            community_str=section.get("community"),
+            visual_str=section.get("visual"),
         )

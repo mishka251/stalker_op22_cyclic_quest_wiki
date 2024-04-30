@@ -43,3 +43,9 @@ class StalkerRank(models.Model):
 
     def natural_key(self) -> tuple:
         return (self.name, )
+
+
+__all__ = [
+    "Community",
+    "StalkerRank",
+]

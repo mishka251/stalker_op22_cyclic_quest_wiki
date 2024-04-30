@@ -10,3 +10,6 @@ class Ammo(Item):
 
     box_size = models.PositiveIntegerField(verbose_name="Кол-во патронов в пачке?")
 
+__all__ = [
+    "Ammo",
+]

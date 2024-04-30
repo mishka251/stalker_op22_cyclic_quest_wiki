@@ -27,7 +27,7 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         Recept.objects.all().delete()
         file_path = self.get_files_dir_path()
-        with open(file_path, "r") as file:
+        with file_path.open( "r") as file:
             parsed = parse(file.read())
         receipt: astnodes.Table | None = None
         for node in ast.walk(parsed):
@@ -38,18 +38,18 @@ class Command(BaseCommand):
             target = node.targets[0]
             if not isinstance(target, astnodes.Name):
                 continue
-            if not target.id == "anom_recept_komp":
+            if target.id != "anom_recept_komp":
                 continue
-            receipt = node.values[0]
+            receipt = node.values[0] # noqa: PD011
 
         lua.execute("function translate(s) return s end")
         t = lua.eval(to_lua_source(receipt))
 
         global_defaults = t["default"]
-        for anom_id, anom_receipts in t["anomalii"].items():
-            anom_default_name = anom_receipts["name"]
-            anom_defaults = anom_receipts["default"]
-            anom_receipts = anom_receipts["recepti"]
+        for anom_id, anom_receipts_ in t["anomalii"].items():
+            anom_default_name = anom_receipts_["name"]
+            anom_defaults = anom_receipts_["default"]
+            anom_receipts = anom_receipts_["recepti"]
             for receipt_condition, receipt in anom_receipts.items():
                 print(anom_id, receipt_condition, receipt)
                 komponents = self._get_value(receipt, anom_defaults, global_defaults, "komp")
@@ -69,7 +69,7 @@ class Command(BaseCommand):
                     raise ValueError(f"unknown {cel=}")
                 (vremya_day,
                  vremya_hour,
-                 vremya_min,) = vremya[1], vremya[2], vremya[3]
+                 vremya_min) = vremya[1], vremya[2], vremya[3]
 
                 recept = Recept.objects.create(
                     anomaly_id=anom_id,

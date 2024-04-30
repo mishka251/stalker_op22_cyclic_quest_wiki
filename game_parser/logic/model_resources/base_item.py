@@ -55,8 +55,6 @@ class ScopeResource(AddonResource):
         "holder_fov_modifier",
         "scope_texture",
         "scope_zoom_factor",
-        "scope_texture",
-        "scope_zoom_factor",
         "scope_zoom_step_count",
     }
 
@@ -138,8 +136,6 @@ class KnifeResource(BaseItemResource):
         "snd_holster",
         "hit_type",
         "hit_type_2",
-        "snd_draw",
-        "snd_holster",
         "rpm",
         "sprint_allowed",
     }
@@ -340,7 +336,6 @@ class WeaponResource(BaseItemResource):
         "silencer_light_time",
         "snd_shoot1",
         "snd_silncer_shot",
-
         "bullet_speed",
         "use_aim_bullet",
         "time_to_aim",
@@ -367,7 +362,6 @@ class WeaponResource(BaseItemResource):
         "ph_mass",
         "snd_zoomdec",
         "snd_zoominc",
-
         "tri_state_reload",
         "startup_ammo",
         "snd_shoot_duplet",
@@ -399,17 +393,10 @@ class WeaponResource(BaseItemResource):
         "snd_shoot4",
         "snd_shoot5",
         "cam_relax_speed_ai",
-        "scope_texture",
-        "scope_zoom_factor",
         "scope_exclude_bones",
         "class",
         "snd_reload_1",
-
         "silencer_flame_particles",
-        "holder_range_modifier",
-        "holder_fov_modifier",
-        "scope_texture",
-        "scope_zoom_factor",
         "snd_shoot_1",
         "lens_texture",
         "lens_texture_x",
@@ -418,13 +405,11 @@ class WeaponResource(BaseItemResource):
         "lens_texture_h",
         "ironsight_zoom_factor",
         "grenade_vel",
-
         "script_description",
         "npc_put_in_slot",
         "tracers",
         "can_trade",
         "sprint_allowed",
-
         "max_zoom_factor",
         "fragment_speed",
         "explode_duration",
@@ -432,21 +417,16 @@ class WeaponResource(BaseItemResource):
         "grenade_bone",
         "rocket_class",
         "wallmark_section",
-        "sprint_allowed",
-
         "cam_dispersion_frac",
         "PDM_disp_crouch",
         "PDM_disp_crouch_no_acc",
-        "sprint_allowed",
         "script_binding",
-
         "light_brightness",
         "light_color_animmator",
         "tracer_trail_scale",
         "tracer_start_length",
         "tracer_width",
         "custom_crosshair",
-
         "use_crosshair",
         "ui_show_condition",
         "attach_angle_offset",
@@ -459,7 +439,6 @@ class WeaponResource(BaseItemResource):
         "vis_script_objects",
         "vis_script_valid",
         "vis_script_color",
-
         "af_medusa",
         "af_cristall_flower",
         "af_night_star",
@@ -478,12 +457,9 @@ class WeaponResource(BaseItemResource):
         "af_ameba_slime",
         "af_ameba_slug",
         "af_ameba_mica",
-
-        "zoom_hide_crosshair",
         "zoom_hide_crosshair",
         "af_soul",
         "grenade_launcher_exclude_bones",
-
         "script_briefinfo",
         "default_to_ruck",
     }

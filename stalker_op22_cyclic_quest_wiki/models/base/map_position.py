@@ -30,3 +30,7 @@ class MapPosition(models.Model):
 
     def natural_key(self) -> tuple:
         return (self.spawn_id,)
+
+__all__ = [
+    "MapPosition",
+]

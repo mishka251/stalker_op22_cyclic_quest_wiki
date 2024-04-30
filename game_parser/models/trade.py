@@ -43,6 +43,9 @@ class ItemInTradeBase(models.Model):
     item_name = models.CharField(max_length=255, verbose_name="Идентификатор предмета")
     item = models.ForeignKey("BaseItem", on_delete=models.SET_NULL, null=True, verbose_name="Предмет")
 
+    def __str__(self) -> str:
+        return f"{self.item}"
+
 
 class ItemInBuy(ItemInTradeBase):
     class Meta:

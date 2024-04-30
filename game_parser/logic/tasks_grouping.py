@@ -143,7 +143,7 @@ def collect_vendor_tasks(_vendor_tasks, vendor: StorylineCharacter) -> Character
     vendor_id = vendor.game_id
     try:
         vendor_name = vendor.name_translation.rus
-    except Exception as e:
+    except Exception:
         vendor_name = "<Неизвестный>"
     quest_group_by_type = {}
     for _task_kind, _vendor_kind_tasks in groupby(vendor_tasks, key=lambda task: task.type):
@@ -264,13 +264,12 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
                 items_count=db_task.target_count,
                 ammo_count=target_count*target_item.box_size,
             )
-        else:
-            return QuestItemTarget(
+        return QuestItemTarget(
                 item=item_info,
                 items_count=target_count,
             )
 
-    raise NotImplementedError()
+    raise NotImplementedError
 
 
 def _spawn_item_to_map_info(target_str: str, target_camp: SpawnItem) -> MapPointInfo | None:
@@ -286,7 +285,7 @@ def _spawn_item_to_map_info(target_str: str, target_camp: SpawnItem) -> MapPoint
                 float(rm.group("max_y")),
             )
 
-            (x, y, z) = float(coords_rm.group("x")), float(coords_rm.group("y")), float(coords_rm.group("z"))
+            (x, _, z) = float(coords_rm.group("x")), float(coords_rm.group("y")), float(coords_rm.group("z"))
             return MapPointInfo(
                 image_url=location_map_info.map_image.url,
                 bounds=(min_x, min_y, max_x, max_y),
