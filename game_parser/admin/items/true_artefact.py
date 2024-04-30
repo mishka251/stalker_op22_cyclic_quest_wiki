@@ -22,8 +22,4 @@ class TrueArtefactAdmin(BaseItemAdmin):
         "additional_weight",
         "radiation_restore_speed",
         "bleeding_restore_speed",
-        # 'psy_health_restore_speed',
-        # 'satiety_restore_speed',
-        # 'jump_speed_delta',
     )
-

@@ -14,4 +14,3 @@ class IconResource(resources.ModelResource):
 __all__ = [
     "IconResource",
 ]
-

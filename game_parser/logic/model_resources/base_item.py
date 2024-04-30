@@ -597,4 +597,3 @@ class MonsterEmbrionResource(BaseArtefactResource):
 
 class OtherResource(BaseItemResource):
     _model_cls = Other
-

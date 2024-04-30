@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.contrib.admin import ModelAdmin, display, register
 
 from game_parser.models import EncyclopediaArticle, EncyclopediaGroup
@@ -50,4 +48,3 @@ class EncyclopediaArticleAdmin(ModelAdmin):
         if not obj.icon:
             return None
         return icon_view(obj.icon.icon)
-

@@ -12,7 +12,7 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
 
     def _load(self, character_node: Element, comments: list[str]) -> StorylineCharacter:
         if character_node.tag != "specific_character":
-            logger.warning(f"Unexpected node {character_node.tag}")
+            logger.warning("Unexpected node %s", character_node.tag)
             raise ValueError
         character_id = character_node.attrib.pop("id")
         character_no_random = bool(character_node.attrib.pop("no_random", None))
@@ -72,7 +72,7 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
             elif child_node.tag == "team":
                 team = child_node.text
             else:
-                logger.warning(f"Unexpected node {child_node.tag} in character {character_id}")
+                logger.warning(f"Unexpected node %s in character %s", child_node.tag, character_id)
         return StorylineCharacter.objects.create(
             game_code=character_id,
             game_id=character_id,

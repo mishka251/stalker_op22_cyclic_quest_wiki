@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.contrib.admin import display, register
 
 from game_parser.admin.items.base_item_admin import BaseItemAdmin

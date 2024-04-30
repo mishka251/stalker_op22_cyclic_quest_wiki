@@ -34,4 +34,3 @@ class MonsterAdmin(ModelAdmin):
         if not obj.icon:
             return None
         return icon_view(obj.icon.icon)
-

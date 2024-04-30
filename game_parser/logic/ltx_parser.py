@@ -1,6 +1,5 @@
 import re
 from pathlib import Path
-from typing import Optional, Union
 
 LtxBlock = list[str] | dict[str, str]
 LtxParserResults = dict[str, LtxBlock]
@@ -143,7 +142,7 @@ class BaseLtxParser:
     def _parse_block_lines(self, lines: list[str], name: str) -> LtxBlock:
         if not lines:
             return {}
-        cnt = max([line.count("=") for line in lines])
+        cnt = max(line.count("=") for line in lines)
         if cnt == 0:
             return lines
         return dict(self._parse_line_key_value(line) for line in lines)

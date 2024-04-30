@@ -14,4 +14,3 @@ class CycleTaskVendorResource(resources.ModelResource):
 __all__ = [
     "CycleTaskVendorResource",
 ]
-
