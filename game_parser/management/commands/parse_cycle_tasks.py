@@ -1,14 +1,13 @@
 from pathlib import Path
 
-from PIL import Image
 from django.conf import settings
 from django.core.files.images import ImageFile
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
+from PIL import Image
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.models import CyclicQuest, QuestRandomReward, Translation
-from game_parser.models import Icon
+from game_parser.models import CyclicQuest, Icon, QuestRandomReward, Translation
 
 
 class Command(BaseCommand):

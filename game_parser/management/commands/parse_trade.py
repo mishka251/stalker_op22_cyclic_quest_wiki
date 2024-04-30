@@ -9,7 +9,7 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.models import Trader, Buy, Sell, ItemInBuy, ItemInSell
+from game_parser.models import Buy, ItemInBuy, ItemInSell, Sell, Trader
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +72,7 @@ class Command(BaseCommand):
                 self._create_sell(trader, sell_section_name, supply_section, sell_section, sell_condition)
             print(f"end {file}")
 
-    def _parse_condition(self, trade_with_condition_str: str) -> tuple[Optional[str], str]:
+    def _parse_condition(self, trade_with_condition_str: str) -> tuple[str | None, str]:
         condition_patter = re.compile(r"\{(?P<condition>.*)} (?P<section_name>\w*)")
         match = condition_patter.match(trade_with_condition_str)
         if match:
@@ -112,7 +112,7 @@ class Command(BaseCommand):
         if supply_data:
             logger.warning(f"Not in prices, but in supply {supply_data}, {trader.game_code}, {section_name=}")
 
-    def _clean_section(self, section: dict[str, Optional[str]]) -> dict[str, str]:
+    def _clean_section(self, section: dict[str, str | None]) -> dict[str, str]:
         return {
             key: value
             for key, value in section.items()

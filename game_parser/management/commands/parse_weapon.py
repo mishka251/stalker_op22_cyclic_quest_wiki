@@ -8,9 +8,18 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.logic.model_resources.base_item import WeaponResource, BaseItemResource, AmmoResource, GrenadeResource, \
-    KnifeResource, ExplosiveResource, GrenadeLauncherResource, SilencerResource, ScopeResource
-from game_parser.models import (Weapon, Ammo, Addon, Knife, Explosive, Grenade, GrenadeLauncher)
+from game_parser.logic.model_resources.base_item import (
+    AmmoResource,
+    BaseItemResource,
+    ExplosiveResource,
+    GrenadeLauncherResource,
+    GrenadeResource,
+    KnifeResource,
+    ScopeResource,
+    SilencerResource,
+    WeaponResource,
+)
+from game_parser.models import Addon, Ammo, Explosive, Grenade, GrenadeLauncher, Knife, Weapon
 from game_parser.models.items.base_item import BaseItem
 
 base_path = settings.OP22_GAME_DATA_PATH
@@ -286,7 +295,7 @@ class Command(BaseCommand):
             if quest_data:
                 logger.warning(f"Для секции {quest_name=} ({resource}) не использованы данные {quest_data}")
 
-    def _parse_data_to_model(self, name: str, data: dict[str, str]) -> Optional[tuple[BaseItem, BaseItemResource]]:
+    def _parse_data_to_model(self, name: str, data: dict[str, str]) -> tuple[BaseItem, BaseItemResource] | None:
         model_type: ModelTypes = data.pop("model_type", None)
         if not model_type:
             logger.warning(f"ERROR: no model_type, {name=}")

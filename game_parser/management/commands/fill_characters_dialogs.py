@@ -19,7 +19,7 @@ class Command(BaseCommand):
             item.dialogs.set(self._get_dialogs_by_raw(item.dialogs_raw))
             print(f"{index + 1}/{count}")
 
-    def _get_dialogs_by_raw(self, raw: Optional[str]) -> set[Dialog]:
+    def _get_dialogs_by_raw(self, raw: str | None) -> set[Dialog]:
         if raw is None:
             return set()
         values = raw.split(";")

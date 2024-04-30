@@ -3,8 +3,7 @@ import logging
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.models import StalkerSection, StorylineCharacter, SingleStalkerSpawnItem, \
-    Respawn, CyclicQuest
+from game_parser.models import CyclicQuest, Respawn, SingleStalkerSpawnItem, StalkerSection, StorylineCharacter
 from game_parser.models.quest import QuestKinds
 
 logger = logging.getLogger(__name__)

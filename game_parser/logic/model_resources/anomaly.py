@@ -1,6 +1,6 @@
 from typing import Any
 
-from game_parser.logic.model_resources.base_resource import BaseModelResource, SECTION_NAME, CharField
+from game_parser.logic.model_resources.base_resource import SECTION_NAME, BaseModelResource, CharField
 from game_parser.models import Anomaly, EncyclopediaArticle
 
 

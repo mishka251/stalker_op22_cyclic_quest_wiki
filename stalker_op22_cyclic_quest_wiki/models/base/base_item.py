@@ -1,7 +1,5 @@
 from django.db import models
-
-from polymorphic.models import PolymorphicModel, PolymorphicManager
-
+from polymorphic.models import PolymorphicManager, PolymorphicModel
 
 
 class ItemManager(PolymorphicManager):

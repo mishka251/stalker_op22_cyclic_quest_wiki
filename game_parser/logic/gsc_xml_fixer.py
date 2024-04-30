@@ -46,14 +46,14 @@ class GSCXmlFixer:
             encoding = self._detect_file_encoding_by_content(source)
         return encoding
 
-    def _get_encoding_from_header(self, header: str) -> Optional[str]:
+    def _get_encoding_from_header(self, header: str) -> str | None:
         header_conding_re = re.compile(r'<\?xml .*encoding="(?P<encoding>([\w\d\-_]+))".*\?>')
         rm = header_conding_re.match(header)
         if rm:
             return rm.group("encoding")
         return None
 
-    def _get_file_header(self, source: Path) -> Optional[str]:
+    def _get_file_header(self, source: Path) -> str | None:
         with open(source, "rb") as file:
             line1 =file.readline()
             line = line1.decode("utf-8-sig")

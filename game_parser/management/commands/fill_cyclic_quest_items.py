@@ -6,7 +6,7 @@ from django.db.transaction import atomic
 
 from game_parser.models import CyclicQuest
 from game_parser.models.items.base_item import BaseItem
-from game_parser.models.quest import QuestKinds, CyclicQuestItemReward
+from game_parser.models.quest import CyclicQuestItemReward, QuestKinds
 
 logger = logging.getLogger(__name__)
 
@@ -48,12 +48,12 @@ class Command(BaseCommand):
         unfounded_targets = set(
             CyclicQuest.objects
             .filter(target_item__isnull=True, type__in=quests_with_items)
-            .values_list("target_str", flat=True)
+            .values_list("target_str", flat=True),
         )
         print(f"{unfounded_targets=}")
         print(f"{unfounded_rewards=}")
 
-    def _get_item_by_name(self, name: str) -> Optional[BaseItem]:
+    def _get_item_by_name(self, name: str) -> BaseItem | None:
         return BaseItem.objects.filter(name=name).first() or BaseItem.objects.filter(inv_name=name).first()
 
     def _parse_item_rewards(self, reward_item_string: str) -> list[tuple[str, int]]:

@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import TextLtxParser
-from game_parser.models import SpawnItem, StorylineCharacter, NpcLogicConfig, Trader
+from game_parser.models import NpcLogicConfig, SpawnItem, StorylineCharacter, Trader
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class Command(BaseCommand):
                 try:
                     info_parser = TextLtxParser(
                         Path(),
-                        item.custom_data
+                        item.custom_data,
                     )
                     custom_data_sections = info_parser.get_parsed_blocks()
                     logic = custom_data_sections.get("logic")

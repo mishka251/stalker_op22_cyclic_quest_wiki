@@ -3,7 +3,7 @@ import logging
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.models import CyclicQuest, SpawnItem, CampInfo
+from game_parser.models import CampInfo, CyclicQuest, SpawnItem
 from game_parser.models.quest import QuestKinds
 
 logger = logging.getLogger(__name__)

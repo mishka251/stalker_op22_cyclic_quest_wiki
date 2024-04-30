@@ -19,7 +19,7 @@ class Command(BaseCommand):
         return base_path / "config" / "misc" / "monster_items.ltx"
 
     _exclude_keys = {
-        "monster_part"
+        "monster_part",
     }
 
     @atomic

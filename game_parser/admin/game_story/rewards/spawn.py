@@ -1,4 +1,4 @@
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 
 from game_parser.models.game_story import SpawnReward
 

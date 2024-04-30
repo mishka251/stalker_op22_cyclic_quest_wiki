@@ -1,8 +1,8 @@
 from decimal import Decimal
 
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 
-from game_parser.models import Trader, Buy, Sell, ItemInBuy, ItemInSell, NpcLogicConfig
+from game_parser.models import Buy, ItemInBuy, ItemInSell, NpcLogicConfig, Sell, Trader
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 

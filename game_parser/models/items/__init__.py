@@ -1,6 +1,6 @@
 from .addon import Addon
 from .ammo import Ammo
-from .artefact import Artefact, TrueArtefact, MonsterEmbrion, CapsAnom
+from .artefact import Artefact, CapsAnom, MonsterEmbrion, TrueArtefact
 from .explosive import Explosive
 from .grenade import Grenade
 from .grenade_launcher import GrenadeLauncher

@@ -1,7 +1,6 @@
 from import_export import resources
 
-from stalker_op22_cyclic_quest_wiki.models import Community
-from stalker_op22_cyclic_quest_wiki.models import StalkerRank
+from stalker_op22_cyclic_quest_wiki.models import Community, StalkerRank
 
 
 class CommunityResource(resources.ModelResource):

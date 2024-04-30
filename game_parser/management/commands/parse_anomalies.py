@@ -25,7 +25,7 @@ class Command(BaseCommand):
         known_bases = {
             "anomaly": {
                 "is_anomaly": True,
-            }
+            },
         }
 
         parser = LtxParser(self.get_file_path(), known_extends=known_bases)

@@ -4,7 +4,7 @@ from django.http.request import HttpRequest
 from django.http.response import HttpResponse, JsonResponse
 from django.views.generic import View
 
-from game_parser.models import CycleTaskVendor, CyclicQuest, BaseItem, QuestRandomReward, SpawnItem, LocationMapInfo
+from game_parser.models import BaseItem, CycleTaskVendor, CyclicQuest, LocationMapInfo, QuestRandomReward, SpawnItem
 from game_parser.models.quest import CyclicQuestItemReward, QuestRandomRewardThrough
 
 
@@ -53,7 +53,7 @@ class VendorCyclicQuests(View):
                     "random": [
                         self._random_reward_to_json(item)
                         for item in quest.random_rewards.all()
-                    ]
+                    ],
                 },
                 "targets": {
                     "item": {
@@ -85,7 +85,7 @@ class VendorCyclicQuests(View):
                 "ukr": item.description_translation.ukr,
                 "pln": item.description_translation.pln,
                 "fra": item.description_translation.fra,
-            }
+            },
         }
 
     def _random_reward_to_json(self, item: QuestRandomRewardThrough) -> dict:
@@ -120,7 +120,7 @@ class VendorCyclicQuests(View):
                 float(rm.group("min_x")),
                 float(rm.group("min_y")),
                 float(rm.group("max_x")),
-                float(rm.group("max_y"))
+                float(rm.group("max_y")),
             )
             map_offset = (min_x, min_y, max_x, max_y)
         else:
@@ -132,7 +132,7 @@ class VendorCyclicQuests(View):
             map_info = {
                 "size": map_size,
                 "image_url": location_map_image_url,
-                "offset": map_offset
+                "offset": map_offset,
             }
         translation = camp.location.name_translation
         location_name = {

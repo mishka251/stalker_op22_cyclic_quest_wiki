@@ -16,7 +16,7 @@ def move_trader_data(apps, schema_editor) -> None:
         for old_trader in Trader.objects.using(db_alias).all()
     ]
     Trader2.objects.using(db_alias).bulk_create(
-        new_traders
+        new_traders,
     )
 
 

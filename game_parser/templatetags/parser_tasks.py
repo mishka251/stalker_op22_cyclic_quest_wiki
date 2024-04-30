@@ -1,9 +1,20 @@
 from django.template import Library
 from django.template.loader import render_to_string
 
-from game_parser.logic.tasks_grouping import CharacterQuests, TaskReward, TaskMoneyReward, TaskAmmoReward, \
-    TaskItemReward, AmmoTarget, LagerTarget, StalkerTarget, QuestItemTarget, QuestItemWithStateTarget, TreasureReward, \
-    TaskRandomReward
+from game_parser.logic.tasks_grouping import (
+    AmmoTarget,
+    CharacterQuests,
+    LagerTarget,
+    QuestItemTarget,
+    QuestItemWithStateTarget,
+    StalkerTarget,
+    TaskAmmoReward,
+    TaskItemReward,
+    TaskMoneyReward,
+    TaskRandomReward,
+    TaskReward,
+    TreasureReward,
+)
 
 register = Library()
 
@@ -31,7 +42,7 @@ def render_reward(reward: TaskReward) -> str:
     else:
         raise NotImplementedError(f"{reward.__class__}")
     context = {
-        "reward": reward
+        "reward": reward,
     }
     return render_to_string(template_name, context)
 
@@ -40,7 +51,7 @@ def render_reward(reward: TaskReward) -> str:
 def render_target(target: TaskReward) -> str:
     template_name = None
     context = {
-        "target": target
+        "target": target,
     }
     if isinstance(target, AmmoTarget):
         template_name = "ammo_target.html"

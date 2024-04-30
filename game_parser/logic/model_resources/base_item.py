@@ -1,8 +1,6 @@
-from game_parser.logic.model_resources.base_resource import BaseModelResource, CharField, IntegerField, DecimalField, \
-    SECTION_NAME, BooleanField
-from game_parser.models import Silencer, Scope, GrenadeLauncher, Explosive, Knife, Grenade, Addon, Ammo, Weapon, \
-    MonsterPart, Outfit, Artefact, Other
-from game_parser.models.items.artefact import TrueArtefact, CapsAnom, MonsterEmbrion
+from game_parser.logic.model_resources.base_resource import SECTION_NAME, BaseModelResource, BooleanField, CharField, DecimalField, IntegerField
+from game_parser.models import Addon, Ammo, Artefact, Explosive, Grenade, GrenadeLauncher, Knife, MonsterPart, Other, Outfit, Scope, Silencer, Weapon
+from game_parser.models.items.artefact import CapsAnom, MonsterEmbrion, TrueArtefact
 from game_parser.models.items.base_item import BaseItem
 
 
@@ -33,7 +31,7 @@ class SilencerResource(AddonResource):
     _model_cls = Silencer
     _fields = [
         *AddonResource._fields,
-        DecimalField("condition_shot_dec", required=False)
+        DecimalField("condition_shot_dec", required=False),
     ]
 
     _exclude_fields = {
@@ -67,7 +65,7 @@ class GrenadeLauncherResource(AddonResource):
     _model_cls = GrenadeLauncher
     _fields = [
         *AddonResource._fields,
-        CharField("ammo_class", required=False)
+        CharField("ammo_class", required=False),
     ]
     _exclude_fields = {
         *AddonResource._exclude_fields,
@@ -570,7 +568,7 @@ class TrueArtefactResource(BaseArtefactResource):
         "hud",
         "can_take",
         "particles_bone",
-        "default_to_ruck"
+        "default_to_ruck",
     }
 
     _fields = [

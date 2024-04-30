@@ -8,7 +8,6 @@ from game_parser.logic.ltx_parser import LtxParser
 from game_parser.models.spawn_item import SpawnItem
 
 
-
 class Command(BaseCommand):
 
     def get_file_path(self) -> Path:

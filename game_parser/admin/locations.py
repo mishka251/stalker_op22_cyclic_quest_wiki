@@ -1,6 +1,6 @@
 from typing import Optional
 
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 
 from game_parser.models import Location, LocationMapInfo
 from game_parser.utils.admin_utils.icon_view import icon_view
@@ -30,5 +30,5 @@ class LocationMapInfoAdmin(ModelAdmin):
     ]
 
     @display(description="Иконка", )
-    def inv_icon_view(self, obj: LocationMapInfo) -> Optional[str]:
+    def inv_icon_view(self, obj: LocationMapInfo) -> str | None:
         return icon_view(obj.map_image)

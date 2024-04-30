@@ -7,8 +7,8 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from game_parser.logic.tasks_grouping import collect_info, collect_vendor_tasks
-from game_parser.models import SpawnItem, Location, LocationMapInfo, CycleTaskVendor
-from game_parser.models.quest import QuestKinds, CyclicQuest
+from game_parser.models import CycleTaskVendor, Location, LocationMapInfo, SpawnItem
+from game_parser.models.quest import CyclicQuest, QuestKinds
 
 
 class TasksListView(TemplateView):
@@ -35,7 +35,7 @@ class EscapeMap(TemplateView):
             float(rm.group("min_x")),
             float(rm.group("min_y")),
             float(rm.group("max_x")),
-            float(rm.group("max_y"))
+            float(rm.group("max_y")),
         )
 
         y_level_offset = -(max_y + min_y)
@@ -70,7 +70,7 @@ class TaskVendorsList(TemplateView):
     def get_context_data(self, **kwargs) -> dict:
         vendors = CycleTaskVendor.objects.all()
         return {
-            "vendors": [self._vendor_to_dict(vendor) for vendor in vendors]
+            "vendors": [self._vendor_to_dict(vendor) for vendor in vendors],
         }
 
     def _vendor_to_dict(self, vendor: CycleTaskVendor) -> dict:

@@ -1,8 +1,8 @@
 from typing import Optional
 
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 
-from game_parser.models import EncyclopediaGroup, EncyclopediaArticle
+from game_parser.models import EncyclopediaArticle, EncyclopediaGroup
 from game_parser.utils.admin_utils.icon_view import icon_view
 
 
@@ -46,7 +46,7 @@ class EncyclopediaArticleAdmin(ModelAdmin):
     ]
 
     @display(description="Иконка", )
-    def inv_icon_view(self, obj: EncyclopediaArticle) -> Optional[str]:
+    def inv_icon_view(self, obj: EncyclopediaArticle) -> str | None:
         if not obj.icon:
             return None
         return icon_view(obj.icon.icon)

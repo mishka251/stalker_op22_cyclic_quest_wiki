@@ -1,6 +1,6 @@
-from PIL import Image
 from django.core.files.images import ImageFile
 from lxml.etree import Element
+from PIL import Image
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.models import Icon

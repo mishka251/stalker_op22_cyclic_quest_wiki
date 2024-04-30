@@ -1,27 +1,27 @@
 import re
-from typing import Optional, Iterable
+from typing import Iterable, Optional
 
 from django.db.models import Model
 from django.template import loader
 
-from game_parser.models import SpawnItem, LocationMapInfo
+from game_parser.models import LocationMapInfo, SpawnItem
 
 
 class SpawnItemMapRenderer:
     def __init__(self, item: SpawnItem):
         self._item = item
 
-    def render(self) -> Optional[str]:
+    def render(self) -> str | None:
         return self._map(self._item)
 
-    def _get_location_map(self, obj: SpawnItem) -> "Optional[LocationMapInfo]":
+    def _get_location_map(self, obj: SpawnItem) -> "LocationMapInfo | None":
         if not obj.location:
             return None
         location_info = obj.location.locationmapinfo_set.first()
         return location_info
 
 
-    def _map(self, obj: SpawnItem) -> Optional[str]:
+    def _map(self, obj: SpawnItem) -> str | None:
         location = obj.location
         location_info = LocationMapInfo.objects.get(location=location)
         if not location_info.bound_rect_raw or not location_info.map_image:
@@ -32,7 +32,7 @@ class SpawnItemMapRenderer:
             float(rm.group("min_x")),
             float(rm.group("min_y")),
             float(rm.group("max_x")),
-            float(rm.group("max_y"))
+            float(rm.group("max_y")),
         )
 
         y_level_offset = -(max_y + min_y)

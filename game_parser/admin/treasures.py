@@ -1,8 +1,8 @@
 from typing import Optional
 
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 
-from game_parser.models import Treasure, ItemInTreasure
+from game_parser.models import ItemInTreasure, Treasure
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 
@@ -39,5 +39,5 @@ class TreasureAdmin(ModelAdmin):
         return treasure.description_translation.rus if treasure.description_translation else treasure.description_str
 
     @display(description="Название(кастомное?)", ordering="custom_name_translation__rus")
-    def custom_name_view(self, treasure: Treasure) -> Optional[str]:
+    def custom_name_view(self, treasure: Treasure) -> str | None:
         return treasure.custom_name_translation.rus if treasure.custom_name_translation else treasure.custom_name

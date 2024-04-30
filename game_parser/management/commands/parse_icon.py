@@ -1,11 +1,11 @@
 import logging
 from pathlib import Path
 
-from PIL import Image
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 from lxml.etree import parse
+from PIL import Image
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.model_xml_loaders.icon import IconLoader

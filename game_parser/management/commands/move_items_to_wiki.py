@@ -45,7 +45,7 @@ class Command(BaseCommand):
                     "icon": icon,
                     "name_translation": name_translation,
                     "description_translation": description_translation,
-                }
+                },
             )
             if i % 100 == 0:
                 print(f"{i}/{cnt}")
@@ -77,18 +77,18 @@ class Command(BaseCommand):
                     "icon": icon,
                     "name_translation": name_translation,
                     "description_translation":  description_translation,
-                }
+                },
             )
             if i%100==0:
                 print(f"{i}/{cnt}")
         print("end items")
 
-    def _update_or_create_item_icon(self, item: ParserItem) -> Optional[WikiIcon]:
+    def _update_or_create_item_icon(self, item: ParserItem) -> WikiIcon | None:
         if not item.inv_icon:
             return None
         return WikiIcon.objects.update_or_create(
             name=f"icon_for_item_{item.name}",
             defaults={
                 "icon": item.inv_icon,
-            }
+            },
         )[0]

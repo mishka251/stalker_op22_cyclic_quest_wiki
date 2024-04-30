@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class EncyclopediaGroup(models.Model):
     class Meta:
         verbose_name = "Группа в энциклопедии"

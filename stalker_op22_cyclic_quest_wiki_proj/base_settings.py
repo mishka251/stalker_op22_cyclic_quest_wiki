@@ -73,7 +73,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
 }
 
 # Password validation
@@ -143,7 +143,7 @@ LOGGING = {
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
-            "formatter": "verbose"
+            "formatter": "verbose",
         },
         "logfile": {
             "level": "DEBUG",
@@ -166,8 +166,8 @@ LOGGING = {
         "stalker_op22_cyclic_quest_wiki": {
             "handlers": ["console", "logfile"],
             "level": "INFO",
-        }
-    }
+        },
+    },
 }
 
 MEDIA_URL = "media/"

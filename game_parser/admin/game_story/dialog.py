@@ -1,4 +1,4 @@
-from django.contrib.admin import ModelAdmin, register, TabularInline, display
+from django.contrib.admin import ModelAdmin, TabularInline, display, register
 from django.utils.safestring import mark_safe
 
 from game_parser.admin.utils import links_list

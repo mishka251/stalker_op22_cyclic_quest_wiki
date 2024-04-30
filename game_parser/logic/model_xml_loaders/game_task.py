@@ -1,7 +1,7 @@
 from lxml.etree import Element
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
-from game_parser.models import GameTask, TaskObjective, MapLocationType
+from game_parser.models import GameTask, MapLocationType, TaskObjective
 
 
 class GameTaskLoader(BaseModelXmlLoader[GameTask]):

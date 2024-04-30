@@ -1,4 +1,4 @@
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from django.db import models
 
@@ -55,7 +55,7 @@ class CyclicQuest(models.Model):
     target_stalker = models.ForeignKey("StalkerSection",  on_delete=models.SET_NULL, null=True, verbose_name="Сталкер цель",)
 
     @property
-    def get_vendor_character(self) -> "Optional[StorylineCharacter]":
+    def get_vendor_character(self) -> "StorylineCharacter | None":
         vendor = self.vendor
         character = vendor.get_npc_profile() if vendor else None
         return character

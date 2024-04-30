@@ -5,7 +5,7 @@ from django.db.models import Value
 from django.db.models.functions import Concat
 from django.db.transaction import atomic
 
-from game_parser.models import TaskObjective, ScriptFunction, InfoPortion
+from game_parser.models import InfoPortion, ScriptFunction, TaskObjective
 
 logger = logging.getLogger(__name__)
 

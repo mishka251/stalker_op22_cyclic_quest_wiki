@@ -1,11 +1,10 @@
 from decimal import Decimal
 from typing import Optional
 
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 
 from game_parser.admin.utils import SpawnItemMapRenderer
-from game_parser.models import ItemReward, SpawnReward, CyclicQuest, ItemInSell, ItemInBuy, QuestRandomReward, \
-    ItemInTreasure, SpawnItem, Recept
+from game_parser.models import CyclicQuest, ItemInBuy, ItemInSell, ItemInTreasure, ItemReward, QuestRandomReward, Recept, SpawnItem, SpawnReward
 from game_parser.models.items.base_item import BaseItem
 from game_parser.models.quest import CyclicQuestItemReward
 from game_parser.utils.admin_utils.icon_view import icon_view
@@ -120,7 +119,7 @@ class TreasureItemsAdmin(ReadOnlyNestedTable):
     ]
 
     @display(description="Карта")
-    def map(self, item: ItemInTreasure) -> Optional[str]:
+    def map(self, item: ItemInTreasure) -> str | None:
         renderer = SpawnItemMapRenderer(item.treasure.spawn_item)
         return renderer.render()
 
@@ -139,7 +138,7 @@ class SpawnInline(ReadOnlyNestedTable):
 
 
     @display(description="Карта")
-    def map(self, item: SpawnItem) -> Optional[str]:
+    def map(self, item: SpawnItem) -> str | None:
         renderer = SpawnItemMapRenderer(item)
         return renderer.render()
 
@@ -195,5 +194,5 @@ class BaseItemAdmin(ModelAdmin):
         return obj.description_code
 
     @display(description="Иконка", )
-    def inv_icon_view(self, obj: BaseItem) -> Optional[str]:
+    def inv_icon_view(self, obj: BaseItem) -> str | None:
         return icon_view(obj.inv_icon)

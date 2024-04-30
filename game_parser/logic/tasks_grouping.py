@@ -1,11 +1,10 @@
 import dataclasses
 import re
 from itertools import groupby
-from typing import Optional, NamedTuple
+from typing import NamedTuple, Optional
 
-from game_parser.models import Ammo, Weapon, Silencer, Outfit, StorylineCharacter, LocationMapInfo, \
-    SingleStalkerSpawnItem, SpawnItem
-from game_parser.models.quest import QuestKinds, CyclicQuest, CyclicQuestItemReward
+from game_parser.models import Ammo, LocationMapInfo, Outfit, Silencer, SingleStalkerSpawnItem, SpawnItem, StorylineCharacter, Weapon
+from game_parser.models.quest import CyclicQuest, CyclicQuestItemReward, QuestKinds
 
 position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
 offset_re = re.compile(r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)")
@@ -23,7 +22,7 @@ class Icon:
 class ItemInfo:
     item_id: str
     item_label: str
-    icon: Optional[Icon]
+    icon: Icon | None
 
 @dataclasses.dataclass
 class MapPointItem:
@@ -67,7 +66,7 @@ class AmmoTarget(QuestItemTarget):
 @dataclasses.dataclass
 class LagerTarget(QuestTarget):
     game_id: str
-    map_info: Optional[MapPointInfo] = None
+    map_info: MapPointInfo | None = None
 
 
 @dataclasses.dataclass
@@ -103,7 +102,7 @@ class TaskRandomReward(TaskReward):
     count: int
     reward_name: str
     reward_id: str
-    icon: Optional[Icon]
+    icon: Icon | None
 
 
 @dataclasses.dataclass
@@ -115,7 +114,7 @@ class TaskAmmoReward(TaskItemReward):
 class Quest:
     target: QuestTarget
     rewards: list[TaskReward]
-    text: Optional[str]
+    text: str | None
 
 
 QuestGroupByPriority = dict[int, list[Quest]]
@@ -210,13 +209,13 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         respawns = stalker.respawn_set.all()
         respawns_spawn_items = respawns.values_list("spawn_item_id", flat=True)
         possible_spawn_items = SpawnItem.objects.filter(
-            id__in=list(single_spawn_items_ids)+list(respawns_spawn_items)
+            id__in=list(single_spawn_items_ids)+list(respawns_spawn_items),
         )
         maybe_map_points =[_spawn_item_to_map_info(db_task.target_str, item) for item in possible_spawn_items]
         return StalkerTarget(
             db_task.target_str,
             str(stalker),
-            [point for point in maybe_map_points if point is not None]
+            [point for point in maybe_map_points if point is not None],
         )
     if db_task.type in lager_types:
         target_camp = db_task.target_camp # or db_task.target_camp_to_destroy
@@ -230,7 +229,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
 
     if db_task.type in items_types:
         target_item = db_task.target_item.get_real_instance()
-        target_cond_str: Optional[str] = db_task.target_cond_str
+        target_cond_str: str | None = db_task.target_cond_str
         items_with_condition = (Weapon, Outfit, Silencer)
         if target_cond_str is None and isinstance(target_item, items_with_condition):
             target_cond_str = "50"
@@ -274,7 +273,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
     raise NotImplementedError()
 
 
-def _spawn_item_to_map_info(target_str: str, target_camp: SpawnItem) -> Optional[MapPointInfo]:
+def _spawn_item_to_map_info(target_str: str, target_camp: SpawnItem) -> MapPointInfo | None:
     if target_camp and target_camp.location:
         location_map_info = LocationMapInfo.objects.filter(location=target_camp.location).first()
         if location_map_info and location_map_info.map_image and (
@@ -284,7 +283,7 @@ def _spawn_item_to_map_info(target_str: str, target_camp: SpawnItem) -> Optional
                 float(rm.group("min_x")),
                 float(rm.group("min_y")),
                 float(rm.group("max_x")),
-                float(rm.group("max_y"))
+                float(rm.group("max_y")),
             )
 
             (x, y, z) = float(coords_rm.group("x")), float(coords_rm.group("y")), float(coords_rm.group("z"))
@@ -292,7 +291,7 @@ def _spawn_item_to_map_info(target_str: str, target_camp: SpawnItem) -> Optional
                 image_url=location_map_info.map_image.url,
                 bounds=(min_x, min_y, max_x, max_y),
                 y_level_offset=-(max_y + min_y),
-                item=MapPointItem(position=(x, z), info_str=target_str)
+                item=MapPointItem(position=(x, z), info_str=target_str),
             )
     return None
 

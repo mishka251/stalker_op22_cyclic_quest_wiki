@@ -8,8 +8,7 @@ from lxml.etree import parse
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.model_xml_loaders.encyclopedia import EncyclopediaArticleLoader
-from game_parser.models import EncyclopediaGroup, EncyclopediaArticle
-
+from game_parser.models import EncyclopediaArticle, EncyclopediaGroup
 
 logger = logging.getLogger(__name__)
 

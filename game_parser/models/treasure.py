@@ -21,14 +21,14 @@ class Treasure(models.Model):
         null=True,
         on_delete=models.SET_NULL,
         verbose_name="Перевод названия",
-        related_name="+"
+        related_name="+",
     )
     description_translation = models.ForeignKey(
         Translation,
         null=True,
         on_delete=models.SET_NULL,
         verbose_name="Перевод описания",
-        related_name="+"
+        related_name="+",
     )
 
     spawn_item = models.ForeignKey("SpawnItem", null=True, on_delete=models.SET_NULL, verbose_name="Секция спавна")
@@ -47,7 +47,7 @@ class ItemInTreasure(models.Model):
         verbose_name = "Предмет в тайнике"
         verbose_name_plural = "Предметы в тайниках"
         unique_together = [
-            ["item", "treasure"]
+            ["item", "treasure"],
         ]
 
     item = models.ForeignKey(BaseItem,  null=False, on_delete=models.CASCADE, verbose_name="Предмет")

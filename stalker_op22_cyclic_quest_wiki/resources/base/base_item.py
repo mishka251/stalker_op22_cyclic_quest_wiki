@@ -2,7 +2,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import QuerySet
 from import_export import resources
 
-from stalker_op22_cyclic_quest_wiki.models import Item, Ammo
+from stalker_op22_cyclic_quest_wiki.models import Ammo, Item
 
 
 class ItemResource(resources.ModelResource):

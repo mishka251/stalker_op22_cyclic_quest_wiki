@@ -1,7 +1,7 @@
 from django.db import models
 
-from game_parser.models.translation import Translation
 from game_parser.models.game_story.storyline_character import Icon
+from game_parser.models.translation import Translation
 
 
 class GameTask(models.Model):

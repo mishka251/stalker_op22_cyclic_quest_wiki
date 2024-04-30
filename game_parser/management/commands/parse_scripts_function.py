@@ -3,16 +3,14 @@ import decimal
 import logging
 import os
 from pathlib import Path
-from typing import Optional, Any, Callable
+from typing import Any, Callable, Optional
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
-from luaparser.ast import ASTVisitor, Op, Call, Number, String, parse, Index, to_lua_source, Nil, Name, Function, \
-    UnaryOp, Invoke
+from luaparser.ast import ASTVisitor, Call, Function, Index, Invoke, Name, Nil, Number, Op, String, UnaryOp, parse, to_lua_source
 
-from game_parser.models import ScriptFunction, MoneyReward, ItemReward, \
-    SpawnReward
+from game_parser.models import ItemReward, MoneyReward, ScriptFunction, SpawnReward
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +39,7 @@ class SpawnDto:
     game_vertex_id: int
     raw: str
     xyz_raw: str
-    target: Optional[str] = None
+    target: str | None = None
 
 
 class NestedCallsVisitor(ASTVisitor):

@@ -5,8 +5,7 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.models import RankType, \
-    CommunityType, Rank, Translation, Community
+from game_parser.models import Community, CommunityType, Rank, RankType, Translation
 
 logger = logging.getLogger(__name__)
 

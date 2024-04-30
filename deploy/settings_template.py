@@ -1,4 +1,5 @@
 import os
+
 import dj_database_url
 
 from .base_settings import *
@@ -11,8 +12,8 @@ SECRET_KEY = ""
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.getenv("DATABASE_URL")
-    )
+        default=os.getenv("DATABASE_URL"),
+    ),
 }
 
 STATIC_ROOT=BASE_DIR/"staticfiles"

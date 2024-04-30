@@ -3,8 +3,7 @@ import logging
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.models import StorylineCharacter, \
-    CustomSpawnItem
+from game_parser.models import CustomSpawnItem, StorylineCharacter
 
 logger = logging.getLogger(__name__)
 

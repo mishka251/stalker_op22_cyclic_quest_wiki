@@ -1,6 +1,6 @@
 from typing import Any, Optional
 
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 
 from game_parser.models import QuestRandomReward
 from game_parser.models.quest import QuestRandomRewardThrough
@@ -31,7 +31,7 @@ class RandomRewardItemInline(ReadOnlyNestedTable):
         return obj.inv_name
 
     @display(description="Иконка", )
-    def inv_icon_view(self, obj: Any) -> Optional[str]:
+    def inv_icon_view(self, obj: Any) -> str | None:
         obj = obj.baseitem
         return icon_view(obj.inv_icon)
 
@@ -60,7 +60,7 @@ class QuestRandomRewardAdmin(ModelAdmin):
     ]
 
     @display(description="Иконка", )
-    def inv_icon_view(self, obj: QuestRandomReward) -> Optional[str]:
+    def inv_icon_view(self, obj: QuestRandomReward) -> str | None:
         if obj.icon:
             return icon_view(obj.icon.icon)
         return None

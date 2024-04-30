@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Optional
+from typing import Generic, Optional, TypeVar
 
 from lxml.etree import _Comment, _Element
 
@@ -9,7 +9,7 @@ class BaseModelXmlLoader(Generic[TModel]):
     expected_tag: str
     skip_tags = set()
 
-    def load(self, root_node: _Element, comments: Optional[list[str]]=None) -> TModel:
+    def load(self, root_node: _Element, comments: list[str] | None=None) -> TModel:
         comments = comments or []
         return self._load(root_node, comments)
 

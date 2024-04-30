@@ -1,10 +1,10 @@
 import logging
 
-from PIL import Image
 from django.conf import settings
 from django.core.files.images import ImageFile
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
+from PIL import Image
 
 from game_parser.models.items.base_item import BaseItem
 

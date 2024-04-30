@@ -9,7 +9,7 @@ from luaparser import ast, astnodes
 from luaparser.ast import parse, to_lua_source
 from lupa import LuaRuntime
 
-from game_parser.models import InfoPortion, BaseItem
+from game_parser.models import BaseItem, InfoPortion
 from game_parser.models.recepti import Recept
 
 lua = LuaRuntime(unpack_returned_tuples=True)
@@ -29,7 +29,7 @@ class Command(BaseCommand):
         file_path = self.get_files_dir_path()
         with open(file_path, "r") as file:
             parsed = parse(file.read())
-        receipt: Optional[astnodes.Table] = None
+        receipt: astnodes.Table | None = None
         for node in ast.walk(parsed):
             if not isinstance(node, astnodes.Assign):
                 continue
@@ -96,7 +96,7 @@ class Command(BaseCommand):
                     if component is None:
                         raise ValueError(f"{comp=} не найден")
                     components.append(
-                        component
+                        component,
                     )
                 recept.components.set(components)
 

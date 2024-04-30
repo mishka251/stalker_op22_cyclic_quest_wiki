@@ -38,7 +38,7 @@ class Command(BaseCommand):
                     "ukr": translation.ukr,
                     "pln": translation.pln,
                     "fra": translation.fra,
-                }
+                },
             )
             if i%100==0:
                 print(f"{i}/{cnt}")
@@ -51,7 +51,7 @@ class Command(BaseCommand):
                 name=translation.name,
                 defaults={
                     "icon": translation.icon,
-                }
+                },
             )
             if i%100==0:
                 print(f"{i}/{cnt}")
@@ -63,7 +63,7 @@ class Command(BaseCommand):
                 name=translation.code,
                 defaults={
                     "translation": WikiTranslation.objects.get(code=translation.translation.code),
-                }
+                },
             )
         print("end communities")
 
@@ -74,7 +74,7 @@ class Command(BaseCommand):
                 name=translation.name,
                 defaults={
                     "translation": WikiTranslation.objects.get(code=translation.translation.code),
-                }
+                },
             )
         print("end ranks")
 
@@ -94,7 +94,7 @@ class Command(BaseCommand):
                     float(rm.group("min_x")),
                     float(rm.group("min_y")),
                     float(rm.group("max_x")),
-                    float(rm.group("max_y"))
+                    float(rm.group("max_y")),
                 )
 
                 wiki_location_map_info = WikiLocationMapInfo.objects.update_or_create(
@@ -105,7 +105,7 @@ class Command(BaseCommand):
                         "min_y": min_y,
                         "max_x": max_x,
                         "max_y": max_y,
-                    }
+                    },
 
                 )[0]
 
@@ -114,5 +114,5 @@ class Command(BaseCommand):
                 defaults={
                     "name_translation": WikiTranslation.objects.filter(code=parser_location.name_translation.code).first() if parser_location.name_translation is not None else None,
                     "map_info": wiki_location_map_info,
-                }
+                },
             )

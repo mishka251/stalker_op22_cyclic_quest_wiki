@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import Union, Optional
+from typing import Optional, Union
 
 LtxBlock = Union[list[str], dict[str, str]]
 LtxParserResults = dict[str, LtxBlock]
@@ -16,7 +16,7 @@ class BaseLtxParser:
     BLOCK_CAPTION_START = "["
     BLOCK_CAPTION_END = "]"
 
-    def __init__(self, file_path: Path, lines_generator,  known_extends: Optional[LtxParserResults] = None):
+    def __init__(self, file_path: Path, lines_generator,  known_extends: LtxParserResults | None = None):
         self._path = file_path
         self._known_extends = known_extends or {}
         self._parse(lines_generator)

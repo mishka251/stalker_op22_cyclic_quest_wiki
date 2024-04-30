@@ -2,18 +2,31 @@ import logging
 from collections import defaultdict
 from pathlib import Path
 
-from PIL import Image
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 from lxml.etree import parse
+from PIL import Image
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.ltx_parser import LtxParser
 from game_parser.logic.model_resources.anomaly import AnomalyResource
-from game_parser.logic.model_resources.base_item import AmmoResource, GrenadeLauncherResource, GrenadeResource, \
-    WeaponResource, ScopeResource, KnifeResource, MonsterEmbrionResource, CapsAnomResource, TrueArtefactResource, \
-    SilencerResource, OutfitResource, MonsterPartResource, ExplosiveResource, OtherResource
+from game_parser.logic.model_resources.base_item import (
+    AmmoResource,
+    CapsAnomResource,
+    ExplosiveResource,
+    GrenadeLauncherResource,
+    GrenadeResource,
+    KnifeResource,
+    MonsterEmbrionResource,
+    MonsterPartResource,
+    OtherResource,
+    OutfitResource,
+    ScopeResource,
+    SilencerResource,
+    TrueArtefactResource,
+    WeaponResource,
+)
 from game_parser.logic.model_resources.base_resource import BaseModelResource
 from game_parser.logic.model_resources.inventory_box import InventoryBoxResource
 from game_parser.logic.model_resources.monster import MonsterResource
@@ -24,9 +37,33 @@ from game_parser.logic.model_xml_loaders.icon import IconLoader
 from game_parser.logic.model_xml_loaders.infoportion import InfoPortionLoader
 from game_parser.logic.model_xml_loaders.storyline_character import StorylineCharacterLoader
 from game_parser.logic.model_xml_loaders.translation import TranslationLoader
-from game_parser.models import EncyclopediaGroup, EncyclopediaArticle, Icon, Outfit, Explosive, Grenade, Ammo, \
-    Weapon, Silencer, Scope, GrenadeLauncher, MonsterPart, Knife, Other, TrueArtefact, MonsterEmbrion, CapsAnom, \
-    Anomaly, StorylineCharacter, Dialog, InfoPortion, Translation, Monster, InventoryBox, ItemInTreasureBox
+from game_parser.models import (
+    Ammo,
+    Anomaly,
+    CapsAnom,
+    Dialog,
+    EncyclopediaArticle,
+    EncyclopediaGroup,
+    Explosive,
+    Grenade,
+    GrenadeLauncher,
+    Icon,
+    InfoPortion,
+    InventoryBox,
+    ItemInTreasureBox,
+    Knife,
+    Monster,
+    MonsterEmbrion,
+    MonsterPart,
+    Other,
+    Outfit,
+    Scope,
+    Silencer,
+    StorylineCharacter,
+    Translation,
+    TrueArtefact,
+    Weapon,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +74,7 @@ class Command(BaseCommand):
 
         "A_M209",
         "A_OG7B",
-        "A_VOG25"
+        "A_VOG25",
     }
     ARTEFACT_classes = {"ARTEFACT"}
     GRENADE_AUNCHED_CLASSES = {
@@ -136,7 +173,7 @@ class Command(BaseCommand):
     }
 
     SILENCER_CLASSES = {
-        "W_SILENC"
+        "W_SILENC",
     }
 
     OUTFITS_CLASSES = {
@@ -163,7 +200,7 @@ class Command(BaseCommand):
     }
 
     PNV_CLASSES = {
-        "D_NVP"
+        "D_NVP",
     }
 
     OTHER_CLASSES = {

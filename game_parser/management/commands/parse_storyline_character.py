@@ -10,7 +10,6 @@ from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
 from game_parser.logic.model_xml_loaders.storyline_character import StorylineCharacterLoader
 from game_parser.models import StorylineCharacter
 
-
 logger = logging.getLogger(__name__)
 
 

@@ -3,7 +3,7 @@ import logging
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.models import Weapon, Scope, Silencer, GrenadeLauncher, Ammo
+from game_parser.models import Ammo, GrenadeLauncher, Scope, Silencer, Weapon
 
 logger = logging.getLogger(__name__)
 

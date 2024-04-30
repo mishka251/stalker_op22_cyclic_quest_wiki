@@ -6,7 +6,7 @@ from stalker_op22_cyclic_quest_wiki.models import Community, StalkerRank
 @register(Community)
 class CommunityAdmin(ModelAdmin):
     autocomplete_fields = [
-        "translation"
+        "translation",
     ]
     search_fields = [
         "name",
@@ -16,7 +16,7 @@ class CommunityAdmin(ModelAdmin):
 @register(StalkerRank)
 class StalkerRankAdmin(ModelAdmin):
     autocomplete_fields = [
-        "translation"
+        "translation",
     ]
 
     search_fields = [

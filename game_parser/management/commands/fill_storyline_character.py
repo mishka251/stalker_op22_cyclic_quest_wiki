@@ -3,7 +3,7 @@ import logging
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.models import Translation, StorylineCharacter, Icon
+from game_parser.models import Icon, StorylineCharacter, Translation
 
 logger = logging.getLogger(__name__)
 

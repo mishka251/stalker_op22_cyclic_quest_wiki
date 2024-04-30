@@ -1,9 +1,9 @@
 from typing import Optional
 
-from django.contrib.admin import register, display
+from django.contrib.admin import display, register
 
 from game_parser.admin.items.base_item_admin import BaseItemAdmin
-from game_parser.models import MonsterPart, Monster
+from game_parser.models import Monster, MonsterPart
 from game_parser.utils.admin_utils.icon_view import icon_view
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
@@ -24,7 +24,7 @@ class MonsterInline(ReadOnlyNestedTable):
     ]
 
     @display(description="Иконка", )
-    def inv_icon_view(self, obj: Monster) -> Optional[str]:
+    def inv_icon_view(self, obj: Monster) -> str | None:
         if not obj.icon:
             return None
         return icon_view(obj.icon.icon)

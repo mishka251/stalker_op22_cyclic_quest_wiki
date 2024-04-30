@@ -1,10 +1,10 @@
 from typing import Optional
 
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 from django.utils.html import mark_safe
 
-from game_parser.models import GameStoryId, Community, Rank
-from game_parser.models.game_story import StorylineCharacter, Icon
+from game_parser.models import Community, GameStoryId, Rank
+from game_parser.models.game_story import Icon, StorylineCharacter
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 
@@ -18,7 +18,7 @@ class IconCharacterAdmin(ModelAdmin):
     search_fields = ["name"]
 
     @display(description="Иконка", )
-    def icon_view(self, obj: Icon) -> Optional[str]:
+    def icon_view(self, obj: Icon) -> str | None:
         return mark_safe(f'<img src="{obj.icon.url}" alt="{obj.icon.name}">')
 
 
@@ -38,7 +38,7 @@ class CommunityAdmin(ModelAdmin):
     ]
 
     autocomplete_fields = [
-        "translation"
+        "translation",
     ]
 
 @register(Rank)
@@ -48,7 +48,7 @@ class RandAdmin(ModelAdmin):
     ]
 
     autocomplete_fields = [
-        "translation"
+        "translation",
     ]
 
 @register(StorylineCharacter)
@@ -76,7 +76,7 @@ class StorylineCharacterAdmin(ModelAdmin):
         return character.get_name
 
     @display(description="Иконка", )
-    def icon_view(self, obj: StorylineCharacter) -> Optional[str]:
+    def icon_view(self, obj: StorylineCharacter) -> str | None:
         if not obj.icon:
             return None
         return mark_safe(f'<img src="{obj.icon.icon.url}" alt="{obj.icon.icon.name}">')

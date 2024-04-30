@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 QuestRandomRewardThrough.objects.create(
                     quest=quest,
                     count=int(reward_count),
-                    reward=QuestRandomReward.objects.get(name=reward_id)
+                    reward=QuestRandomReward.objects.get(name=reward_id),
                 )
             print(f"{index+1}/{count}")
 

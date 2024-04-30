@@ -1,8 +1,8 @@
 from django.db import models
 
-from game_parser.models.translation import Translation
 from game_parser.models.game_story.infoportion import InfoPortion
 from game_parser.models.game_story.script_function import ScriptFunction
+from game_parser.models.translation import Translation
 
 
 class Dialog(models.Model):
@@ -36,7 +36,7 @@ class DialogPhrase(models.Model):
             models.UniqueConstraint(
                 fields=["local_id", "dialog"],
                 name="unique_dialog_phrase_by_local_id_and_dialog",
-            )
+            ),
         ]
 
     local_id = models.CharField(max_length=10, verbose_name="id фразы в диалоге")

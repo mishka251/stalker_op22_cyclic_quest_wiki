@@ -4,8 +4,8 @@ from typing import Any
 from django.conf import settings
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.logic.model_resources.base_resource import BaseModelResource, SECTION_NAME, CharField
-from game_parser.models import InventoryBox, BaseItem, ItemInTreasureBox
+from game_parser.logic.model_resources.base_resource import SECTION_NAME, BaseModelResource, CharField
+from game_parser.models import BaseItem, InventoryBox, ItemInTreasureBox
 
 
 class NoSpawnError(ValueError):

@@ -1,9 +1,7 @@
-from import_export import resources, fields
+from import_export import fields, resources
 from import_export.widgets import ManyToManyWidget
 
-from stalker_op22_cyclic_quest_wiki.models import CycleTaskTargetCamp, MapPosition, Community
-from stalker_op22_cyclic_quest_wiki.models import CycleTaskTargetItem
-from stalker_op22_cyclic_quest_wiki.models import CycleTaskTargetStalker
+from stalker_op22_cyclic_quest_wiki.models import Community, CycleTaskTargetCamp, CycleTaskTargetItem, CycleTaskTargetStalker, MapPosition
 
 
 class CycleTaskTargetCampResource(resources.ModelResource):
@@ -16,7 +14,7 @@ class CycleTaskTargetCampResource(resources.ModelResource):
     communities = fields.Field(
         column_name="communities",
         attribute="communities",
-        widget=ManyToManyWidget(Community, separator="|", field="name")
+        widget=ManyToManyWidget(Community, separator="|", field="name"),
     )
 
 
@@ -37,6 +35,6 @@ class CycleTaskTargetStalkerResource(resources.ModelResource):
     map_positions = fields.Field(
         column_name="map_positions",
         attribute="map_positions",
-        widget=ManyToManyWidget(MapPosition, separator="|", field="spawn_id")
+        widget=ManyToManyWidget(MapPosition, separator="|", field="spawn_id"),
     )
 

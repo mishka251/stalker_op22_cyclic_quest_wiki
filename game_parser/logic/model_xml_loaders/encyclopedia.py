@@ -1,11 +1,10 @@
-from PIL import Image
 from django.conf import settings
 from django.core.files.images import ImageFile
 from lxml.etree import Element, _Comment
+from PIL import Image
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
-from game_parser.models import EncyclopediaArticle, EncyclopediaGroup, Translation, Artefact
-from game_parser.models import Icon
+from game_parser.models import Artefact, EncyclopediaArticle, EncyclopediaGroup, Icon, Translation
 
 
 class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):

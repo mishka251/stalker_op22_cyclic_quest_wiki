@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser, TextLtxParser
-from game_parser.models.spawn_item import SpawnItem, Respawn, SingleStalkerSpawnItem
+from game_parser.models.spawn_item import Respawn, SingleStalkerSpawnItem, SpawnItem
 
 
 class Command(BaseCommand):

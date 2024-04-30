@@ -10,7 +10,7 @@ class TaskVendorsList(TemplateView):
     def get_context_data(self, **kwargs) -> dict:
         vendors = CycleTaskVendor.objects.all()
         return {
-            "vendors": [self._vendor_to_dict(vendor) for vendor in vendors]
+            "vendors": [self._vendor_to_dict(vendor) for vendor in vendors],
         }
 
     def _vendor_to_dict(self, vendor: CycleTaskVendor) -> dict:

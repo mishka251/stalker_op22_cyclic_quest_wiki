@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Monster(models.Model):
     class Meta:
         verbose_name = "Мутант"

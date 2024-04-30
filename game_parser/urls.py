@@ -1,6 +1,6 @@
-from django.urls import path, include
+from django.urls import include, path
 
-from game_parser.views import TasksListView, EscapeMap, TaskVendorsList, VendorQuestsList, IndexView
+from game_parser.views import EscapeMap, IndexView, TasksListView, TaskVendorsList, VendorQuestsList
 
 app_name = "game_parser"
 

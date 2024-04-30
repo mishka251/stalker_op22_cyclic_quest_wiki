@@ -8,7 +8,7 @@ from django.db import models
 
 
 @checks.register()
-def check_model_admin_fields(app_configs: Optional[Apps], **kwargs) -> list[checks.CheckMessage]:
+def check_model_admin_fields(app_configs: Apps | None, **kwargs) -> list[checks.CheckMessage]:
     errors = []
     apps_: Apps = app_configs or apps
     for app_config in apps_.get_app_configs():

@@ -11,7 +11,6 @@ from game_parser.logic.model_xml_loaders.dialog import DialogLoader
 from game_parser.models import Dialog
 from game_parser.models.game_story.dialog import DialogPhrase
 
-
 logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):

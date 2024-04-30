@@ -1,6 +1,6 @@
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 
-from game_parser.models.game_story import GameTask, TaskObjective, MapLocationType
+from game_parser.models.game_story import GameTask, MapLocationType, TaskObjective
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 

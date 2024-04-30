@@ -11,8 +11,7 @@ from game_parser.models import SingleStalkerSpawnItem, SpawnItem
 from game_parser.models import Weapon as ParserWeapon
 from game_parser.models.quest import QuestKinds as ParserQuestKinds
 from stalker_op22_cyclic_quest_wiki.models import Community as WikiCommunity
-from stalker_op22_cyclic_quest_wiki.models import CycleTaskTargetItem, CycleTaskTargetCamp, \
-    MapPosition, CycleTaskTargetStalker
+from stalker_op22_cyclic_quest_wiki.models import CycleTaskTargetCamp, CycleTaskTargetItem, CycleTaskTargetStalker, MapPosition
 from stalker_op22_cyclic_quest_wiki.models import CycleTaskVendor as WikiVendor
 from stalker_op22_cyclic_quest_wiki.models import CyclicQuest as WikiQuest
 from stalker_op22_cyclic_quest_wiki.models import Icon as WikiIcon
@@ -58,7 +57,7 @@ class Command(BaseCommand):
                 defaults={
                     "name_translation": name_translation,
                     "icon": icon,
-                }
+                },
             )
             if i % 100 == 0:
                 print(f"{i}/{cnt}")
@@ -121,7 +120,7 @@ class Command(BaseCommand):
                     "once": quest.once,
                     "vendor": vendor,
                     "text": text_translation,
-                }
+                },
             )[0]
             self._update_quest_rewards(quest, wiki_quest)
             self._update_quest_target(quest, wiki_quest)
@@ -136,7 +135,7 @@ class Command(BaseCommand):
                 quest=wiki_quest,
                 defaults={
                     "money": quest.reward_money,
-                }
+                },
             )
         WikiTreasureReward.objects.filter(quest=wiki_quest).delete()
         if quest.reward_treasure:
@@ -149,7 +148,7 @@ class Command(BaseCommand):
                 item=wiki_item,
                 defaults={
                     "count": item_reward.count,
-                }
+                },
             )
         WikiQuestRandomReward.objects.filter(quest=wiki_quest).delete()
         for random_reward in quest.random_rewards.all():
@@ -159,7 +158,7 @@ class Command(BaseCommand):
                 reward=reward,
                 defaults={
                     "count": random_reward.count,
-                }
+                },
             )
 
     def _update_quest_target(self, quest: ParserCyclicQuest, wiki_quest: WikiQuest) -> None:
@@ -190,7 +189,7 @@ class Command(BaseCommand):
                     "item": wiki_item,
                     "count": quest.target_count,
                     "cond_str": target_cond_str,
-                }
+                },
             )
         elif quest.type in camp_target_quest_types:
             target_camp = quest.target_camp
@@ -210,7 +209,7 @@ class Command(BaseCommand):
                 quest=wiki_quest,
                 defaults={
                     "map_position": map_position,
-                }
+                },
             )[0]
             camp.communities.set(communities)
         elif quest.type in stalker_target_quest_types:
@@ -221,14 +220,14 @@ class Command(BaseCommand):
                 defaults={
                     "rank": rank,
                     "community": community,
-                }
+                },
             )[0]
             single_spawn_items = SingleStalkerSpawnItem.objects.filter(stalker_section=quest.target_stalker)
             single_spawn_items_ids = single_spawn_items.values_list("spawn_item_id", flat=True)
             respawns = quest.target_stalker.respawn_set.all()
             respawns_spawn_items = respawns.values_list("spawn_item_id", flat=True)
             possible_spawn_items = SpawnItem.objects.filter(
-                id__in=list(single_spawn_items_ids) + list(respawns_spawn_items)
+                id__in=list(single_spawn_items_ids) + list(respawns_spawn_items),
             )
             map_positions = [
                 self._spawn_item_to_map_position(spawn_item)
@@ -254,7 +253,7 @@ class Command(BaseCommand):
                 "z": z,
                 "game_vertex_id": spawn_item.game_vertex_id,
                 "location": location,
-            }
+            },
         )[0]
 
         return map_position

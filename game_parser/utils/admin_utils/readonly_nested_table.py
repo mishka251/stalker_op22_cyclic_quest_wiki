@@ -1,6 +1,7 @@
 from django.contrib.admin import TabularInline
 from polymorphic.admin import StackedPolymorphicInline
 
+
 class ReadOnlyMixin:
     show_change_link = True
 

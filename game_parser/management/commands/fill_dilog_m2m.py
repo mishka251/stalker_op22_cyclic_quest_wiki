@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.models import InfoPortion, ScriptFunction
-from game_parser.models.game_story.dialog import DialogPhrase, Dialog
+from game_parser.models.game_story.dialog import Dialog, DialogPhrase
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +36,7 @@ class Command(BaseCommand):
             item.save()
             print(f"Dialog:  {index + 1}/{count}")
 
-    def _get_scripts_by_raw(self, raw: Optional[str]) -> set[ScriptFunction]:
+    def _get_scripts_by_raw(self, raw: str | None) -> set[ScriptFunction]:
         if raw is None:
             return set()
         values = raw.split(";")
@@ -55,7 +55,7 @@ class Command(BaseCommand):
                 logger.warning(f"Function not found {function_full_name}")
         return result
 
-    def _get_info_portions_by_raw(self, raw: Optional[str]) -> set[InfoPortion]:
+    def _get_info_portions_by_raw(self, raw: str | None) -> set[InfoPortion]:
         if raw is None:
             return set()
         values = raw.split(";")

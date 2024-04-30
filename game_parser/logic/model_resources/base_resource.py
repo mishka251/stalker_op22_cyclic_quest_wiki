@@ -15,7 +15,7 @@ class BaseResourceField:
     def __init__(
             self,
             data_field_name: str,
-            model_field_name: Optional[str] = None,
+            model_field_name: str | None = None,
             required: bool = True,
             default=None,
     ):
@@ -68,7 +68,7 @@ class BooleanField(BaseResourceField):
     def __init__(
             self,
             data_field_name: str,
-            model_field_name: Optional[str] = None,
+            model_field_name: str | None = None,
             required: bool = False,
             default=False,
     ):

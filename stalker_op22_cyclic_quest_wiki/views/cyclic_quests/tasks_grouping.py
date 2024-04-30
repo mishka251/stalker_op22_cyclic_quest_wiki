@@ -1,11 +1,22 @@
 import dataclasses
 import re
 from itertools import groupby
-from typing import Optional, NamedTuple
+from typing import NamedTuple, Optional
 
-from stalker_op22_cyclic_quest_wiki.models import Ammo, QuestKinds, CyclicQuest, \
-    CycleTaskVendor, MoneyReward, TreasureReward as TreasureRewardModel, QuestRandomReward, CycleTaskTargetStalker, \
-    MapPosition, CycleTaskTargetCamp, CycleTaskTargetItem, ItemReward
+from stalker_op22_cyclic_quest_wiki.models import (
+    Ammo,
+    CycleTaskTargetCamp,
+    CycleTaskTargetItem,
+    CycleTaskTargetStalker,
+    CycleTaskVendor,
+    CyclicQuest,
+    ItemReward,
+    MapPosition,
+    MoneyReward,
+    QuestKinds,
+    QuestRandomReward,
+)
+from stalker_op22_cyclic_quest_wiki.models import TreasureReward as TreasureRewardModel
 
 position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
 offset_re = re.compile(r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)")
@@ -23,7 +34,7 @@ class Icon:
 class ItemInfo:
     item_id: str
     item_label: str
-    icon: Optional[Icon]
+    icon: Icon | None
 
 @dataclasses.dataclass
 class MapPointItem:
@@ -67,7 +78,7 @@ class AmmoTarget(QuestItemTarget):
 
 @dataclasses.dataclass
 class LagerTarget(QuestTarget):
-    map_info: Optional[MapPointInfo] = None
+    map_info: MapPointInfo | None = None
 
 
 @dataclasses.dataclass
@@ -103,7 +114,7 @@ class TreasureReward(TaskReward):
 class TaskRandomReward(TaskReward):
     count: int
     reward_name: str
-    icon: Optional[Icon]
+    icon: Icon | None
 
 
 @dataclasses.dataclass
@@ -115,7 +126,7 @@ class TaskAmmoReward(TaskItemReward):
 class Quest:
     target: QuestTarget
     rewards: list[TaskReward]
-    text: Optional[str]
+    text: str | None
 
 
 QuestGroupByPriority = dict[int, list[Quest]]
@@ -216,7 +227,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
     if db_task.type in items_types:
         target = CycleTaskTargetItem.objects.get(quest=db_task)
         target_item = target.item.get_real_instance()
-        target_cond_str: Optional[str] = target.cond_str
+        target_cond_str: str | None = target.cond_str
         item_icon = None
         if target_item.icon:
             item_icon = Icon(target_item.icon.icon.url, target_item.icon.icon.width, target_item.icon.icon.height)
@@ -259,7 +270,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
 def _spawn_item_to_map_info(
         target_camp: MapPosition,
         unique_map_id: str,
-) -> Optional[MapPointInfo]:
+) -> MapPointInfo | None:
     map_info = target_camp.location.map_info
     if map_info:
         return MapPointInfo(
@@ -267,7 +278,7 @@ def _spawn_item_to_map_info(
             image_url=map_info.map_image.url,
             bounds=(map_info.min_x, map_info.min_y, map_info.max_x, map_info.max_y),
             y_level_offset=-(map_info.max_y + map_info.min_y),
-            item=MapPointItem(position=(target_camp.x, target_camp.z), info_str=target_camp.spawn_id)
+            item=MapPointItem(position=(target_camp.x, target_camp.z), info_str=target_camp.spawn_id),
 
         )
 

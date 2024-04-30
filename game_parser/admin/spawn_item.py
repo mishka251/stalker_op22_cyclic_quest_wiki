@@ -1,14 +1,7 @@
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 
 from game_parser.admin.utils import SpawnItemMapRenderer
-from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem, CampInfo, StalkerSection, \
-    Respawn, SingleStalkerSpawnItem
-from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
-from django.contrib.admin import ModelAdmin, register, display
-
-from game_parser.admin.utils import SpawnItemMapRenderer
-from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem, CampInfo, StalkerSection, \
-    Respawn, SingleStalkerSpawnItem
+from game_parser.models import CampInfo, CustomSpawnItem, NpcLogicConfig, Respawn, SingleStalkerSpawnItem, SpawnItem, StalkerSection
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 

@@ -3,14 +3,48 @@ import dataclasses
 from django.db.models import Model
 from import_export.resources import ModelResource
 
-from stalker_op22_cyclic_quest_wiki.models import Translation, Icon, Community, StalkerRank, Location, LocationMapInfo, \
-    Item, Ammo, MapPosition, CyclicQuest, ItemReward, MoneyReward, QuestRandomReward, RandomRewardInfo, TreasureReward, \
-    CycleTaskVendor, CycleTaskTargetCamp, CycleTaskTargetItem, CycleTaskTargetStalker
-from stalker_op22_cyclic_quest_wiki.resources import TranslationResource, IconResource, CommunityResource, \
-    StalkerRankResource, LocationResource, LocationMapInfoResource, ItemResource, AmmoResource, MapPositionResource, \
-    CyclicQuestResource, ItemRewardResource, MoneyRewardResource, QuestRandomRewardResource, RandomRewardInfoResource, \
-    TreasureRewardResource, CycleTaskVendorResource, CycleTaskTargetCampResource, CycleTaskTargetItemResource, \
-    CycleTaskTargetStalkerResource
+from stalker_op22_cyclic_quest_wiki.models import (
+    Ammo,
+    Community,
+    CycleTaskTargetCamp,
+    CycleTaskTargetItem,
+    CycleTaskTargetStalker,
+    CycleTaskVendor,
+    CyclicQuest,
+    Icon,
+    Item,
+    ItemReward,
+    Location,
+    LocationMapInfo,
+    MapPosition,
+    MoneyReward,
+    QuestRandomReward,
+    RandomRewardInfo,
+    StalkerRank,
+    Translation,
+    TreasureReward,
+)
+from stalker_op22_cyclic_quest_wiki.resources import (
+    AmmoResource,
+    CommunityResource,
+    CycleTaskTargetCampResource,
+    CycleTaskTargetItemResource,
+    CycleTaskTargetStalkerResource,
+    CycleTaskVendorResource,
+    CyclicQuestResource,
+    IconResource,
+    ItemResource,
+    ItemRewardResource,
+    LocationMapInfoResource,
+    LocationResource,
+    MapPositionResource,
+    MoneyRewardResource,
+    QuestRandomRewardResource,
+    RandomRewardInfoResource,
+    StalkerRankResource,
+    TranslationResource,
+    TreasureRewardResource,
+)
 
 
 @dataclasses.dataclass

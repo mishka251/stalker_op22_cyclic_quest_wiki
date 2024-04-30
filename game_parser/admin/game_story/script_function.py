@@ -1,11 +1,10 @@
 from django.contrib.admin import ModelAdmin, register
 from polymorphic.admin import PolymorphicInlineSupportMixin
 
-from game_parser.models import BaseScriptReward, SpawnReward, MoneyReward, ItemReward, InfoPortion
+from game_parser.models import BaseScriptReward, InfoPortion, ItemReward, MoneyReward, SpawnReward
 from game_parser.models.game_story import ScriptFunction
 from game_parser.models.game_story.dialog import DialogPhrase
-from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyPolymorphicInline, \
-    ReadOnlyPolymorphicChildInline, ReadOnlyNestedTable
+from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable, ReadOnlyPolymorphicChildInline, ReadOnlyPolymorphicInline
 
 
 class RewardsInline(ReadOnlyPolymorphicInline):

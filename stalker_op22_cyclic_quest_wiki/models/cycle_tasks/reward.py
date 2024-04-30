@@ -16,7 +16,7 @@ class QuestReward(PolymorphicModel):
 class MoneyReward(QuestReward):
     class Meta:
         unique_together = [
-            ("quest")
+            ("quest"),
         ]
         verbose_name = "Деньги за ЦЗ"
         verbose_name_plural = "Деньги за ЦЗ"
@@ -33,7 +33,7 @@ class MoneyReward(QuestReward):
 class ItemReward(QuestReward):
     class Meta:
         unique_together = [
-            ("item", "quest")
+            ("item", "quest"),
         ]
         verbose_name = "Предмет за ЦЗ"
         verbose_name_plural = "Предметы за ЦЗ"
@@ -50,7 +50,7 @@ class ItemReward(QuestReward):
 class QuestRandomReward(QuestReward):
     class Meta:
         unique_together = [
-            ("reward", "quest")
+            ("reward", "quest"),
         ]
         verbose_name = "Случайная награда за ЦЗ"
         verbose_name_plural = "Случайная награда за ЦЗ"
@@ -83,7 +83,7 @@ class RandomRewardInfo(models.Model):
 class TreasureReward(QuestReward):
     class Meta:
         unique_together = [
-            ("quest",)
+            ("quest",),
         ]
         verbose_name = "Тайник в награду за ЦЗ"
         verbose_name_plural = "Тайники в награду за ЦЗ"
