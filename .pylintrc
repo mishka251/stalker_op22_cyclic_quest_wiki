@@ -440,6 +440,10 @@ disable=
     missing-class-docstring,
     missing-function-docstring,
     too-few-public-methods,
+    similarities,
+    no-member, # django-plugin troubles?
+    no-name-in-module, # django-plugin troubles?
+    arguments-renamed,
 
 
 # Enable the message, report, category or checker with the given id(s). You can

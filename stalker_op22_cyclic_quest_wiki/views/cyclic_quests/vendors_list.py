@@ -1,7 +1,8 @@
 from django.urls import reverse
 from django.views.generic import TemplateView
 
-from stalker_op22_cyclic_quest_wiki.models import CycleTaskVendor, QuestKinds
+from stalker_op22_cyclic_quest_wiki.models import CycleTaskVendor
+from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import QuestKinds
 
 
 class TaskVendorsList(TemplateView):
