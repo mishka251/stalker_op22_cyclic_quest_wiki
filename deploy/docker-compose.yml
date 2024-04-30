@@ -4,8 +4,6 @@ services:
   django:
     image: mishka251/stalker_op22_cyclic_quest_wiki-django:v0.1.0
     restart: unless-stopped
-    ports:
-      - "8000:8000"
     depends_on:
       db:
        condition: service_healthy
@@ -20,8 +18,6 @@ services:
     image: mishka251/stalker_op22_cyclic_quest_wiki-django:v0.1.0
     command:
       - /app/update.sh
-#      - bash -c "sleep 300s"
-#      - /bin/sh -c "/app/update.sh"
     depends_on:
       db:
         condition: service_healthy
