@@ -8,9 +8,7 @@ from .base import (
     StalkerRank,
     Translation,
 )
-from .concrete_items import (
-    Ammo,
-)
+from .concrete_items import Ammo
 from .cycle_tasks import (
     CycleTaskTarget,
     CycleTaskTargetCamp,

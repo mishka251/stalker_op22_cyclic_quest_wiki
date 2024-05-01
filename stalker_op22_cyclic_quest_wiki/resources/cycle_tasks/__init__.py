@@ -1,6 +1,4 @@
-from .cycle_task import (
-    CyclicQuestResource,
-)
+from .cycle_task import CyclicQuestResource
 from .reward import (
     ItemRewardResource,
     MoneyRewardResource,
@@ -13,9 +11,7 @@ from .target import (
     CycleTaskTargetItemResource,
     CycleTaskTargetStalkerResource,
 )
-from .vendor import (
-    CycleTaskVendorResource,
-)
+from .vendor import CycleTaskVendorResource
 
 __all__ = [
     "CyclicQuestResource",

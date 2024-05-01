@@ -1,6 +1,4 @@
-from .cycle_task import (
-    CyclicQuest,
-)
+from .cycle_task import CyclicQuest
 from .reward import (
     ItemReward,
     MoneyReward,
@@ -15,9 +13,7 @@ from .target import (
     CycleTaskTargetItem,
     CycleTaskTargetStalker,
 )
-from .vendor import (
-    CycleTaskVendor,
-)
+from .vendor import CycleTaskVendor
 
 __all__ = (
     "CycleTaskTarget",

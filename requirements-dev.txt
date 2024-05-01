@@ -11,3 +11,4 @@ lxml-stubs
 types-cffi
 ruff
 black
+isort
