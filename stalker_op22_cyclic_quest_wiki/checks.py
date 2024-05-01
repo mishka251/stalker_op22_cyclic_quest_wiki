@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from typing import Optional
 
 from django.apps import apps
@@ -10,8 +11,8 @@ from django.db import models
 @checks.register()
 def check_model_admin_fields(
     app_configs: Apps | None, **kwargs
-) -> list[checks.CheckMessage]:
-    errors = []
+) -> Sequence[checks.CheckMessage]:
+    errors: list[checks.CheckMessage] = []
     apps_: Apps = app_configs or apps
     for app_config in apps_.get_app_configs():
         for model in app_config.get_models():

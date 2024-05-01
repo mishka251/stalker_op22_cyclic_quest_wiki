@@ -30,7 +30,7 @@ class Location(models.Model):
         return (self.name,)
 
     def __str__(self):
-        return self.name_translation.rus
+        return self.name_translation.rus if self.name_translation else self.name
 
 
 class LocationMapInfoManager(models.Manager):

@@ -50,9 +50,9 @@ class ItemRewardDto:
 @dataclasses.dataclass
 class SpawnDto:
     item_or_npc_name: str
-    x: float
-    y: float
-    z: float
+    x: float | None
+    y: float | None
+    z: float | None
     level_vertex: int
     game_vertex_id: int
     raw: str

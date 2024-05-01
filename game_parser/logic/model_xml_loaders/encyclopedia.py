@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.files.images import ImageFile
-from lxml.etree import Element, _Comment
+from lxml.etree import Element, _Comment, _Element
 from PIL import Image
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
@@ -16,7 +16,7 @@ from game_parser.models import (
 class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
     expected_tag = "article"
 
-    def _load(self, article_node: Element, comments: list[str]) -> EncyclopediaArticle:
+    def _load(self, article_node: _Element, comments: list[str]) -> EncyclopediaArticle:
         game_id = article_node.attrib.pop("id", None)
         name = article_node.attrib.pop("name", None)
         group_name = article_node.attrib.pop("group", None)
@@ -67,7 +67,7 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
             raise ValueError(f"{game_id=}, {name=}, {group_name=}") from ex
         return article
 
-    def _parse_icon(self, texture_node: Element) -> Icon:
+    def _parse_icon(self, texture_node: _Element) -> Icon:
         x = texture_node.attrib.pop("x", None)
         if x is None:
             texture_id = texture_node.text

@@ -1,7 +1,7 @@
 import os
 
 import dj_database_url
-
+import sentry_sdk
 from .base_settings import *
 
 DEBUG = False

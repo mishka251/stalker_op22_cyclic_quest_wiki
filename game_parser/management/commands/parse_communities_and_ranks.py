@@ -26,6 +26,8 @@ class Command(BaseCommand):
 
         parser = LtxParser(system_file, known_extends=known_bases)
         results = parser.get_parsed_blocks()
+        assert isinstance(results["game_relations"], dict)
+        assert isinstance(results["monster_communities"], dict)
         stalker_ranks_raw = results["game_relations"]["rating"]
         monster_ranks_raw = results["game_relations"]["monster_rating"]
 

@@ -61,6 +61,8 @@ class Command(BaseCommand):
     def _update_communities(self):
         print("start communities")
         for translation in ParserCommunity.objects.filter(translation__isnull=False):
+            if translation.translation is None:
+                continue
             WikiCommunity.objects.update_or_create(
                 name=translation.code,
                 defaults={
@@ -74,6 +76,8 @@ class Command(BaseCommand):
     def _update_ranks(self):
         print("start ranks")
         for translation in ParserRank.objects.filter(translation__isnull=False):
+            if translation.translation is None:
+                continue
             WikiRank.objects.update_or_create(
                 name=translation.name,
                 defaults={

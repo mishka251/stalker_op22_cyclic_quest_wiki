@@ -31,9 +31,12 @@ class Command(BaseCommand):
         parser = LtxParser(self.get_file_path(), known_extends=known_bases)
         results = parser.get_parsed_blocks()
 
-        blocks = {k: v for k, v in results.items() if v.get("is_anomaly", False)}
+        blocks: dict[str, dict] = {
+            k: v
+            for k, v in results.items()
+            if isinstance(v, dict) and v.get("is_anomaly", False)
+        }
 
         for quest_name, quest_data in blocks.items():
             print(quest_name)
-
             AnomalyResource().create_instance_from_data(quest_name, quest_data)

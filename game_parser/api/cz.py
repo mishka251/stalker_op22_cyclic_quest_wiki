@@ -10,7 +10,7 @@ from game_parser.models import (
     CyclicQuest,
     LocationMapInfo,
     QuestRandomReward,
-    SpawnItem,
+    SpawnItem, Translation,
 )
 from game_parser.models.quest import CyclicQuestItemReward, QuestRandomRewardThrough
 
@@ -23,6 +23,8 @@ class QuestGiversView(View):
         results = []
         for quest_giver in quest_givers:
             npc_profile = quest_giver.get_npc_profile()
+            if npc_profile is None:
+                raise ValueError("No npc_profile")
             name_translations = npc_profile.name_translation
             quest_giver_json = {
                 "id": str(quest_giver.id),
@@ -32,8 +34,8 @@ class QuestGiversView(View):
                     "ukr": name_translations.ukr,
                     "pln": name_translations.pln,
                     "fra": name_translations.fra,
-                },
-                "icon_url": npc_profile.icon.icon.url,
+                } if name_translations is not None else None,
+                "icon_url": npc_profile.icon.icon.url if npc_profile.icon is not None else None,
             }
             results.append(quest_giver_json)
         return JsonResponse(results, safe=False)
@@ -43,7 +45,7 @@ class VendorCyclicQuests(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         vendor_id = request.GET["vendor_id"]
         vendor = CycleTaskVendor.objects.get(id=vendor_id)
-        quests: list[CyclicQuest] = CyclicQuest.objects.filter(vendor=vendor)
+        quests: list[CyclicQuest] = list(CyclicQuest.objects.filter(vendor=vendor))
         results = []
         for quest in quests:
             quest_giver_json = {
@@ -89,6 +91,8 @@ class VendorCyclicQuests(View):
         return JsonResponse(results, safe=False)
 
     def _reward_item_to_json(self, reward_item: CyclicQuestItemReward) -> dict:
+        if reward_item.item is None:
+            raise ValueError
         return {
             "count": reward_item.count,
             "item": self._item_to_json(reward_item.item),
@@ -104,7 +108,7 @@ class VendorCyclicQuests(View):
                 "ukr": item.description_translation.ukr,
                 "pln": item.description_translation.pln,
                 "fra": item.description_translation.fra,
-            },
+            } if item.description_translation is not None else None,
         }
 
     def _random_reward_to_json(self, item: QuestRandomRewardThrough) -> dict:
@@ -127,20 +131,26 @@ class VendorCyclicQuests(View):
                 if reward.name_translation
                 else None
             ),
-            "icon_url": reward.icon.icon.url,
+            "icon_url": reward.icon.icon.url if reward.icon is not None and reward.icon.icon is not None else None,
         }
 
     def _camp_to_dict(self, camp: SpawnItem) -> dict:
         position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
         rm = position_re.match(camp.position_raw)
+        if rm is None:
+            raise ValueError
         (x, _, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
         position = (x, z)
+        if camp.location is None:
+            raise ValueError("No camp location")
         location_info = LocationMapInfo.objects.get(location=camp.location)
         if location_info.bound_rect_raw:
             offset_re = re.compile(
                 r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
             )
             rm = offset_re.match(location_info.bound_rect_raw)
+            if rm is None:
+                raise ValueError("Не удалось распарсить границы локи")
             (min_x, min_y, max_x, max_y) = (
                 float(rm.group("min_x")),
                 float(rm.group("min_y")),
@@ -165,7 +175,9 @@ class VendorCyclicQuests(View):
                 "image_url": location_map_image_url,
                 "offset": map_offset,
             }
+
         translation = camp.location.name_translation
+        assert isinstance(translation, (None, Translation))
         location_name = (
             {
                 "rus": translation.rus,

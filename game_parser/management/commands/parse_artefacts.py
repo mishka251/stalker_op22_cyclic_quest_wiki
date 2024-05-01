@@ -94,15 +94,17 @@ class Command(BaseCommand):
 
             parser = LtxParser(file_path, known_extends=known_bases)
             results = parser.get_parsed_blocks()
-            blocks = {**results}
+            assert isinstance(results, dict)
+            blocks: dict[str, dict] = {**results}
             block_names = list(blocks.keys())
-            keys_to_exclude = set()
+            keys_to_exclude: set[str] = set()
             for block_name in block_names:
+                assert isinstance(blocks[block_name], dict)
                 if "hit_absorbation_sect" in blocks[block_name]:
-                    hit_absorbation_sect_block_name = blocks[block_name].pop(
+                    hit_absorbation_sect_block_name: dict = blocks[block_name].pop(
                         "hit_absorbation_sect"
                     )
-                    hit_absorbation_sect = blocks.get(hit_absorbation_sect_block_name)
+                    hit_absorbation_sect: dict = blocks.get(hit_absorbation_sect_block_name)
                     blocks[block_name] |= hit_absorbation_sect
                     keys_to_exclude |= {hit_absorbation_sect_block_name}
             for key_to_exclude in keys_to_exclude:
@@ -112,6 +114,7 @@ class Command(BaseCommand):
 
             for quest_name, quest_data in blocks.items():
                 print(quest_name)
+                assert isinstance(quest_data, dict)
                 resource = self._get_resource(quest_name, quest_data)
                 item = resource.create_instance_from_data(quest_name, quest_data)
                 if quest_data:

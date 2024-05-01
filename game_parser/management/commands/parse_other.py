@@ -70,7 +70,7 @@ class Command(BaseCommand):
             quest_blocks = {
                 k: {**v}
                 for k, v in results.items()
-                if not self._should_exclude(k, v)
+                if isinstance(v, dict) and not self._should_exclude(k, v)
                 # if k not in self._exclude_keys and not k.endswith('immunities')
             }
 

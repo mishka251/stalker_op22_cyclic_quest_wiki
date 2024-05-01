@@ -14,7 +14,7 @@ class ManyToManyNaturalKeyField(ManyToManyWidget):
             ids = [value]
         else:
             ids = value.split(self.separator)
-            ids = filter(None, [i.strip() for i in ids])
+            ids = [i.strip() for i in ids if i is not None]
         return [self.model.objects.get_by_natural_key(key) for key in ids]
 
     def render(self, value, obj=None) -> str:

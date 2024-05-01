@@ -1,6 +1,7 @@
 import shutil
 import zipfile
 from pathlib import Path
+from typing import Any
 
 import tablib
 from django.conf import settings
@@ -20,7 +21,7 @@ class Command(BaseCommand):
             default=Path("data.zip"),
         )
 
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         imported_archive = options["imported_archive"]
         tmp_dir = Path("import_tmp")
         tmp_dir.mkdir(exist_ok=True)
@@ -72,5 +73,5 @@ class Command(BaseCommand):
         print("End import maps")
         shutil.rmtree(tmp_dir)
 
-    def _print_error(self, error: Error):
+    def _print_error(self, error: Error) -> None:
         print(f"{error.error} {error.row}\n{error.traceback}")

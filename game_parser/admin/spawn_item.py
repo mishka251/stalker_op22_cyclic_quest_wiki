@@ -48,7 +48,7 @@ class SpawnItemAdmin(ModelAdmin):
     ]
 
     @display(description="Карта")
-    def map(self, obj: SpawnItem) -> str:
+    def map(self, obj: SpawnItem) -> str | None:
         renderer = SpawnItemMapRenderer(obj)
         return renderer.render()
 

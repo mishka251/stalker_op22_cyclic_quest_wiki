@@ -21,6 +21,8 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         count = StalkerSection.objects.count()
         for index, item in enumerate(StalkerSection.objects.all()):
+            if item.character_profile_str is None:
+                continue
             item.character_profile = (
                 StorylineCharacter.objects.filter(
                     game_id__exact=item.character_profile_str.lower()

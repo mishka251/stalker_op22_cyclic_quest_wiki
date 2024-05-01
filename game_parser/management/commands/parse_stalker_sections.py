@@ -51,7 +51,7 @@ class Command(BaseCommand):
         parser = LtxParser(system_file, known_extends=known_bases)
         results = parser.get_parsed_blocks()
         print("all_system parsed")
-
+        assert isinstance(results, dict)
         for path in self.get_file_paths():
             parser = LtxParser(path, known_extends=results)
             results |= parser.get_parsed_blocks()
@@ -60,6 +60,7 @@ class Command(BaseCommand):
 
         grouped_by_cls_dict = defaultdict(set)
         for section_name in existing_sections_keys:
+            assert isinstance(results[section_name], dict)
             cls_name = results[section_name].get("class", "None")
             grouped_by_cls_dict[cls_name].add(section_name)
         for cls_, keys in grouped_by_cls_dict.items():

@@ -23,6 +23,8 @@ class Command(BaseCommand):
         results = parser.get_parsed_blocks()
 
         alife_files = results["alife"]
+        assert isinstance(alife_files, dict)
+        assert isinstance(alife_files["source_files"], str)
         level_files = alife_files["source_files"].split(",\n")
         print(level_files)
         respawns = []
@@ -33,6 +35,7 @@ class Command(BaseCommand):
             level_parser = LtxParser(level_file_path)
 
             for section in level_parser.get_parsed_blocks().values():
+                assert isinstance(section, dict)
                 if section["section_name"] == "respawn":
                     respawn = self._create_respawn(
                         level_file_name, section, level_file_path
@@ -58,6 +61,7 @@ class Command(BaseCommand):
             .get_parsed_blocks()
             .get("respawn", {})
         )
+        assert isinstance(custom_data, dict)
         return Respawn(
             spawn_item=SpawnItem.objects.get(
                 spawn_id=section["spawn_id"], location_txt=level_file_name

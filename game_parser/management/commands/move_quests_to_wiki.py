@@ -46,7 +46,11 @@ class Command(BaseCommand):
         cnt = ParserVendor.objects.count()
         for i, vendor in enumerate(ParserVendor.objects.all()):
             profile = vendor.get_npc_profile()
+            if profile is None:
+                raise ValueError("нет профиля квестодателя")
             tmp = vendor.game_story_id
+            if tmp is None:
+                raise ValueError("No game_story_id")
             name_translation = (
                 WikiTranslation.objects.filter(
                     code=profile.name_translation.code
@@ -156,6 +160,8 @@ class Command(BaseCommand):
             WikiTreasureReward.objects.update_or_create(quest=wiki_quest)
         WikiItemReward.objects.filter(quest=wiki_quest).delete()
         for item_reward in quest.item_rewards.all():
+            if not item_reward.item:
+                raise ValueError("Incorrect reward")
             wiki_item = WikiItem.objects.get(name=item_reward.item.name)
             WikiItemReward.objects.update_or_create(
                 quest=wiki_quest,
@@ -194,6 +200,8 @@ class Command(BaseCommand):
         }
 
         if quest.type in item_target_quest_types:
+            if quest.target_item is None:
+                raise ValueError("Incorrect quest target")
             wiki_item = WikiItem.objects.get(name=quest.target_item.name)
             target_cond_str = quest.target_cond_str
             items_with_condition = (ParserWeapon, ParserOutfit, ParserSilencer)
@@ -211,6 +219,8 @@ class Command(BaseCommand):
             )
         elif quest.type in camp_target_quest_types:
             target_camp = quest.target_camp
+            if target_camp is None:
+                raise ValueError("Нет цели у ЦЗ")
             communities_raw = [
                 s.strip() for s in (target_camp.communities_raw or "").split(",")
             ]
@@ -223,7 +233,7 @@ class Command(BaseCommand):
                 community for community in communities if community is not None
             ]
             map_position = self._spawn_item_to_map_position(
-                quest.target_camp.spawn_item
+                target_camp.spawn_item
             )
             camp = CycleTaskTargetCamp.objects.update_or_create(
                 quest=wiki_quest,
@@ -233,6 +243,8 @@ class Command(BaseCommand):
             )[0]
             camp.communities.set(communities)
         elif quest.type in stalker_target_quest_types:
+            if quest.target_stalker is None:
+                raise ValueError("Нет цели у квеста")
             community = WikiCommunity.objects.get(
                 name=quest.target_stalker.community_str
             )
@@ -264,9 +276,13 @@ class Command(BaseCommand):
             raise ValueError(f"Неизвестный вид квеста {quest.type}")
 
     def _spawn_item_to_map_position(self, spawn_item: SpawnItem) -> MapPosition:
+        if spawn_item.location is None:
+            raise ValueError("No location")
         location = WikiLocation.objects.get(name=spawn_item.location.name)
         position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
         rm = position_re.match(spawn_item.position_raw)
+        if rm is None:
+            raise ValueError("Не удалось распарсить координаты")
         (x, y, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
         return MapPosition.objects.update_or_create(
             spawn_id=spawn_item.spawn_id,

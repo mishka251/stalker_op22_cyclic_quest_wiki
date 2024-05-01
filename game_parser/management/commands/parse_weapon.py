@@ -301,7 +301,7 @@ class Command(BaseCommand):
     def _parse_data_to_model(
         self, name: str, data: dict[str, str]
     ) -> tuple[BaseItem, BaseItemResource] | None:
-        model_type: ModelTypes = data.pop("model_type", None)
+        model_type: ModelTypes | None = data.pop("model_type", None)
         if not model_type:
             logger.warning(f"ERROR: no model_type, {name=}")
             return None

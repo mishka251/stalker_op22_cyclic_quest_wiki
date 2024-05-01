@@ -1,4 +1,4 @@
-from lxml.etree import Element
+from lxml.etree import _Element
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.models import GameTask, MapLocationType, TaskObjective
@@ -7,7 +7,7 @@ from game_parser.models import GameTask, MapLocationType, TaskObjective
 class GameTaskLoader(BaseModelXmlLoader[GameTask]):
     expected_tag = "game_task"
 
-    def _load(self, game_task_node: Element, comments: list[str]) -> GameTask:
+    def _load(self, game_task_node: _Element, comments: list[str]) -> GameTask:
         task_id = game_task_node.attrib.pop("id")
         prio = game_task_node.attrib.pop("prio", None)
         task = GameTask.objects.create(game_id=task_id, prio=prio)
@@ -23,43 +23,43 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
         task.save()
         return task
 
-    def _parse_task_objective(self, task: GameTask, objective_node: Element) -> None:
+    def _parse_task_objective(self, task: GameTask, objective_node: _Element) -> None:
         text = None
         icon = None
-        infoportion_fails = []
-        infoportion_completes = []
-        infoportion_set_completes = []
-        function_complete_raw = []
-        function_fail_raw = []
-        infoportion_set_fail_raw = []
-        function_call_complete_raw = []
+        infoportion_fails: list[str] = []
+        infoportion_completes: list[str] = []
+        infoportion_set_completes: list[str] = []
+        function_complete_raw: list[str] = []
+        function_fail_raw: list[str] = []
+        infoportion_set_fail_raw: list[str] = []
+        function_call_complete_raw: list[str] = []
         article = None
         object_story_id = None
 
         map_location_types = []
 
         for child_node in objective_node:
-            if child_node.tag == "text" and text is None:
+            if child_node.tag == "text" and text is None  and child_node.text:
                 text = child_node.text
-            elif child_node.tag == "icon" and icon is None:
+            elif child_node.tag == "icon" and icon is None  and child_node.text:
                 icon = child_node.text
-            elif child_node.tag == "infoportion_fail":
+            elif child_node.tag == "infoportion_fail"  and child_node.text:
                 infoportion_fails.append(child_node.text)
-            elif child_node.tag == "infoportion_set_fail":
+            elif child_node.tag == "infoportion_set_fail"  and child_node.text:
                 infoportion_set_fail_raw.append(child_node.text)
-            elif child_node.tag == "function_call_complete":
+            elif child_node.tag == "function_call_complete"  and child_node.text:
                 function_call_complete_raw.append(child_node.text)
-            elif child_node.tag == "function_fail":
+            elif child_node.tag == "function_fail"  and child_node.text:
                 function_fail_raw.append(child_node.text)
-            elif child_node.tag == "infoportion_complete":
+            elif child_node.tag == "infoportion_complete"  and child_node.text:
                 infoportion_completes.append(child_node.text)
-            elif child_node.tag == "function_complete":
+            elif child_node.tag == "function_complete"  and child_node.text:
                 function_complete_raw.append(child_node.text)
-            elif child_node.tag == "infoportion_set_complete":
+            elif child_node.tag == "infoportion_set_complete"  and child_node.text:
                 infoportion_set_completes.append(child_node.text)
-            elif child_node.tag == "article" and article is None:
+            elif child_node.tag == "article" and article is None  and child_node.text:
                 article = child_node.text
-            elif child_node.tag == "object_story_id" and object_story_id is None:
+            elif child_node.tag == "object_story_id" and object_story_id is None and child_node.text:
                 object_story_id = child_node.text
             elif child_node.tag == "map_location_type":
                 map_location_type = {

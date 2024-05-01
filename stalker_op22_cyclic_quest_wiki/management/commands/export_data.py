@@ -1,5 +1,6 @@
 import shutil
 from pathlib import Path
+from typing import Any
 
 from django.core.management import BaseCommand
 
@@ -8,7 +9,7 @@ from stalker_op22_cyclic_quest_wiki.models import Icon, LocationMapInfo
 
 
 class Command(BaseCommand):
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         tmp_dir = Path("export_tmp")
         tmp_dir.mkdir(exist_ok=True, parents=True)
         for model_info in to_export:

@@ -28,6 +28,8 @@ class SpawnItemMapRenderer:
             r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
         )
         rm = offset_re.match(location_info.bound_rect_raw)
+        if rm is None:
+            raise ValueError("не удалось распарсить границы локи")
         (min_x, min_y, max_x, max_y) = (
             float(rm.group("min_x")),
             float(rm.group("min_y")),
@@ -48,7 +50,7 @@ class SpawnItemMapRenderer:
         }
         return loader.render_to_string("leaflet_map_field.html", context)
 
-    def _spawn_item_to_dict(self, spawn_item: SpawnItem) -> dict:
+    def _spawn_item_to_dict(self, spawn_item: SpawnItem) -> dict | None:
         position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
         rm = position_re.match(spawn_item.position_raw)
         if not rm:

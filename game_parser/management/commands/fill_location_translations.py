@@ -14,6 +14,8 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         count = Location.objects.count()
         for index, item in enumerate(Location.objects.all()):
+            if item.name is None:
+                continue
             item.name_translation = Translation.objects.filter(
                 code__iexact=item.name.lower()
             ).first()

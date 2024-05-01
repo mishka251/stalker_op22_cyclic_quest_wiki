@@ -84,11 +84,12 @@ class BaseLtxParser:
             if isinstance(block_lines, list):
                 self._parsed_blocks[block_code] = block_lines
             else:
-                self._parsed_blocks[block_code] = {}
-                self._parsed_blocks[block_code] |= self._get_bases(
+                current_block: dict = {}
+                current_block |= self._get_bases(
                     blocks_bases[block_code]
                 )
-                self._parsed_blocks[block_code] |= block_lines
+                current_block |= block_lines
+                self._parsed_blocks[block_code] = current_block
 
     def _line_is_include(self, line: str) -> bool:
         return line.startswith("#include")

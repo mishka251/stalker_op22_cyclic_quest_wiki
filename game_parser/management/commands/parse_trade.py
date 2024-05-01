@@ -50,10 +50,12 @@ class Command(BaseCommand):
 
             main_block_name = "trader"
             main_block = results.pop(main_block_name)
-
+            assert isinstance(main_block, dict)
             buy_section_name = main_block.pop("buy_condition")
             print("\tbuy")
-            buy_section = self._clean_section(results.pop(buy_section_name))
+            buy_section_raw = results.pop(buy_section_name)
+            assert isinstance(buy_section_raw, dict)
+            buy_section = self._clean_section(buy_section_raw)
             self._create_buy(trader, buy_section_name, buy_section)
 
             sell_str = main_block.pop("sell_condition")

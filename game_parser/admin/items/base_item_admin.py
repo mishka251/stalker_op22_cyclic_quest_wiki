@@ -78,12 +78,16 @@ class TradingWhereSell(ReadOnlyNestedTable):
     ]
 
     @display(description="Цена(ОТ)", ordering="min_price_modifier")
-    def price_from(self, trade: ItemInSell) -> Decimal:
-        return trade.item.cost * trade.min_price_modifier
+    def price_from(self, trade: ItemInSell) -> Decimal | None:
+        if trade.item and trade.item.cost is not None and trade.min_price_modifier is not None:
+            return trade.item.cost * trade.min_price_modifier
+        return None
 
     @display(description="Цена(ДО)", ordering="max_price_modifier")
-    def price_to(self, trade: ItemInSell) -> Decimal:
-        return trade.item.cost * trade.max_price_modifier
+    def price_to(self, trade: ItemInSell) -> Decimal | None:
+        if trade.item and trade.item.cost is not None and trade.max_price_modifier is not None:
+            return trade.item.cost * trade.max_price_modifier
+        return None
 
 
 class TradingWhereBuy(ReadOnlyNestedTable):
@@ -102,12 +106,16 @@ class TradingWhereBuy(ReadOnlyNestedTable):
     ]
 
     @display(description="Цена(ОТ)", ordering="min_price_modifier")
-    def price_from(self, trade: ItemInBuy) -> Decimal:
-        return trade.item.cost * trade.min_price_modifier
+    def price_from(self, trade: ItemInBuy) -> Decimal | None:
+        if trade.item and trade.item.cost is not None and trade.min_price_modifier is not None:
+            return trade.item.cost * trade.min_price_modifier
+        return None
 
     @display(description="Цена(ДО)", ordering="max_price_modifier")
-    def price_to(self, trade: ItemInBuy) -> Decimal:
-        return trade.item.cost * trade.max_price_modifier
+    def price_to(self, trade: ItemInBuy) -> Decimal | None:
+        if trade.item and trade.item.cost is not None and trade.max_price_modifier is not None:
+            return trade.item.cost * trade.max_price_modifier
+        return None
 
 
 class RandomReward(ReadOnlyNestedTable):
@@ -130,8 +138,10 @@ class TreasureItemsAdmin(ReadOnlyNestedTable):
 
     @display(description="Карта")
     def map(self, item: ItemInTreasure) -> str | None:
-        renderer = SpawnItemMapRenderer(item.treasure.spawn_item)
-        return renderer.render()
+        if item.treasure and item.treasure.spawn_item:
+            renderer = SpawnItemMapRenderer(item.treasure.spawn_item)
+            return renderer.render()
+        return None
 
 
 class SpawnInline(ReadOnlyNestedTable):
@@ -190,7 +200,7 @@ class BaseItemAdmin(ModelAdmin):
     change_form_template = "admin/game_parser/spawnitem/change_form.html"
 
     @display(description="Название", ordering="name_translation__rus")
-    def name_translation_rus(self, obj: BaseItem) -> str:
+    def name_translation_rus(self, obj: BaseItem) -> str | None:
         if obj.name_translation:
             return obj.name_translation.rus
         return obj.inv_name

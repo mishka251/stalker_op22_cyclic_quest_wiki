@@ -1,6 +1,6 @@
 import logging
 
-from lxml.etree import Element, _Comment
+from lxml.etree import _Element, _Comment
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.models import StorylineCharacter
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
     expected_tag = "specific_character"
 
-    def _load(self, character_node: Element, comments: list[str]) -> StorylineCharacter:
+    def _load(self, character_node: _Element, comments: list[str]) -> StorylineCharacter:
         if character_node.tag != "specific_character":
             logger.warning("Unexpected node %s", character_node.tag)
             raise ValueError

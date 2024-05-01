@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.template import Library
 from django.template.loader import render_to_string
 
@@ -54,7 +56,7 @@ def render_reward(reward: TaskReward) -> str:
 @register.simple_tag
 def render_target(target: TaskReward) -> str:
     template_name = None
-    context = {
+    context: dict[str, Any] = {
         "target": target,
     }
     if isinstance(target, AmmoTarget):

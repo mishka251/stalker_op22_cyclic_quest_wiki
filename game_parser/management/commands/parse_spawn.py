@@ -22,6 +22,8 @@ class Command(BaseCommand):
         results = parser.get_parsed_blocks()
 
         alife_files = results["alife"]
+        assert isinstance(alife_files, dict)
+        assert isinstance(alife_files["source_files"], str)
         level_files = alife_files["source_files"].split(",\n")
         print(level_files)
         spawn_items = []

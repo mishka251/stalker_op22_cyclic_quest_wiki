@@ -34,7 +34,11 @@ class EscapeMap(TemplateView):
         offset_re = re.compile(
             r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
         )
+        if location_info.bound_rect_raw is None:
+            raise ValueError
         rm = offset_re.match(location_info.bound_rect_raw)
+        if rm is None:
+            raise ValueError("не распарсились границы локи")
         (min_x, min_y, max_x, max_y) = (
             float(rm.group("min_x")),
             float(rm.group("min_y")),

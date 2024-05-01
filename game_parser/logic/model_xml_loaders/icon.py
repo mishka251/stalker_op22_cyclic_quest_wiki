@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from django.core.files.images import ImageFile
-from lxml.etree import Element
+from lxml.etree import _Element
 from PIL import Image
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
@@ -17,7 +17,7 @@ class IconLoader(BaseModelXmlLoader[Icon]):
     def __init__(self, image: Image):
         self.image = image
 
-    def _load(self, texture_node: Element, comments: list[str]) -> Icon:
+    def _load(self, texture_node: _Element, comments: list[str]) -> Icon:
         if texture_node.tag != "texture":
             raise ValueError(f"Unexpected node {texture_node.tag}")
 

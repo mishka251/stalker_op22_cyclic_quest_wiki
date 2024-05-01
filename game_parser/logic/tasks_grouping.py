@@ -156,10 +156,7 @@ def collect_info() -> list[CharacterQuests]:
 def collect_vendor_tasks(_vendor_tasks, vendor: StorylineCharacter) -> CharacterQuests:
     vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
     vendor_id = vendor.game_id
-    try:
-        vendor_name = vendor.name_translation.rus
-    except Exception:
-        vendor_name = "<Неизвестный>"
+    vendor_name = vendor.name_translation.rus if vendor.name_translation and vendor.name_translation.rus else "<Неизвестный>"
     quest_group_by_type = {}
     for _task_kind, _vendor_kind_tasks in groupby(
         vendor_tasks, key=lambda task: task.type
@@ -190,13 +187,15 @@ def parse_task(db_task: CyclicQuest) -> Quest:
         rewards.append(TreasureReward())
 
     for random_reward in db_task.random_rewards.all():
+        if random_reward.reward is None:
+            raise ValueError
         icon = None
         if random_reward.reward.icon and random_reward.reward.icon.icon:
             icon_ = random_reward.reward.icon.icon
             icon = Icon(icon_.url, icon_.width, icon_.height)
         reward = TaskRandomReward(
             count=random_reward.count,
-            reward_name=random_reward.reward.name_translation.rus,
+            reward_name=random_reward.reward.name_translation.rus if random_reward.reward.name_translation else None,
             reward_id=random_reward.reward.name,
             icon=icon,
         )
@@ -322,6 +321,8 @@ def _spawn_item_to_map_info(
             and (coords_rm := position_re.match(target_camp.position_raw))
         ):
             rm = offset_re.match(location_map_info.bound_rect_raw)
+            if rm is None:
+                raise ValueError("Err")
             (min_x, min_y, max_x, max_y) = (
                 float(rm.group("min_x")),
                 float(rm.group("min_y")),
@@ -345,6 +346,8 @@ def _spawn_item_to_map_info(
 
 def parse_item_reward(reward: CyclicQuestItemReward) -> TaskReward:
     item_icon = None
+    if reward.item is None:
+        raise ValueError("No item in reward")
     if reward.item.inv_icon:
         item_icon = Icon(
             reward.item.inv_icon.url,

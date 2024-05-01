@@ -216,7 +216,7 @@ class Command(BaseCommand):
         print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
         system_file = base_path / "config" / "system.ltx"
-        known_bases = {}
+        known_bases: dict[str, dict] = {}
         EncyclopediaGroup.objects.all().delete()
         EncyclopediaArticle.objects.all().delete()
         Icon.objects.all().delete()
@@ -251,8 +251,10 @@ class Command(BaseCommand):
 
         parser = LtxParser(system_file, known_extends=known_bases)
         results = parser.get_parsed_blocks()
+        assert isinstance(results, dict)
         print("all_system parsed")
         translation_config = results["string_table"]
+        assert isinstance(translation_config, dict)
         translation_files_sources = self._get_paths_list(
             base_path / "config" / "text", translation_config["files"], "xml"
         )
@@ -266,6 +268,7 @@ class Command(BaseCommand):
         )
 
         texture_desc_config = results["texture_desc"]
+        assert isinstance(texture_desc_config, dict)
         texture_desc_sources = self._get_paths_list(
             base_path / "config" / "ui", texture_desc_config["files"], "xml"
         )
@@ -278,6 +281,7 @@ class Command(BaseCommand):
         )
 
         info_portions_config = results["info_portions"]
+        assert isinstance(info_portions_config, dict)
         info_portions_sources = self._get_paths_list(
             base_path / "config" / "gameplay", info_portions_config["files"], "xml"
         )
@@ -290,6 +294,7 @@ class Command(BaseCommand):
         )
 
         encyclopedia_config = results["encyclopedia"]
+        assert isinstance(encyclopedia_config, dict)
         encyclopedia_sources = self._get_paths_list(
             base_path / "config" / "gameplay", encyclopedia_config["files"], "xml"
         )
@@ -302,6 +307,7 @@ class Command(BaseCommand):
         )
 
         dialogs_config = results["dialogs"]
+        assert isinstance(dialogs_config, dict)
         dialogs_sources = self._get_paths_list(
             base_path / "config" / "gameplay", dialogs_config["files"], "xml"
         )
@@ -314,6 +320,7 @@ class Command(BaseCommand):
         )
 
         profiles_config = results["profiles"]
+        assert isinstance(profiles_config, dict)
         profiles_sources = self._get_paths_list(
             base_path / "config" / "gameplay", profiles_config["files"], "xml"
         )
@@ -342,6 +349,7 @@ class Command(BaseCommand):
 
         grouped_by_cls_dict = defaultdict(set)
         for section_name in existing_sections_keys:
+            assert isinstance(results[section_name], dict)
             cls_name = results[section_name].get("class", "None")
             grouped_by_cls_dict[cls_name].add(section_name)
         for cls_, keys in grouped_by_cls_dict.items():
@@ -470,7 +478,9 @@ class Command(BaseCommand):
 
         unused_keys = set(existing_sections_keys) - used_keys
         unused_classes = {
-            results[section_name].get("class", "None") for section_name in unused_keys
+            results[section_name].get("class", "None")
+            for section_name in unused_keys
+            if isinstance(results[section_name], dict)
         }
         print(f"UNUSED {len(unused_keys)} {unused_classes=}")
 
@@ -544,6 +554,7 @@ class Command(BaseCommand):
             image = None
             for child_node in root_node:
                 if child_node.tag == "file_name":
+                    assert isinstance(child_node.text, str)
                     image_file_path = (
                         settings.OP22_GAME_DATA_PATH
                         / "textures"

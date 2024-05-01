@@ -13,10 +13,10 @@ from stalker_op22_cyclic_quest_wiki.models import (
     ItemReward,
     MapPosition,
     MoneyReward,
-    QuestKinds,
     QuestRandomReward,
 )
 from stalker_op22_cyclic_quest_wiki.models import TreasureReward as TreasureRewardModel
+from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import QuestKinds
 
 position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
 offset_re = re.compile(
@@ -151,7 +151,7 @@ def collect_info() -> list[CharacterQuests]:
     for vendor, _vendor_tasks in groupby(
         all_tasks, lambda task: task.get_vendor_character
     ):
-        result += [collect_vendor_tasks(_vendor_tasks, vendor)]
+        result += [collect_vendor_tasks(list(_vendor_tasks), vendor)]
 
     return result
 
@@ -220,9 +220,9 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         QuestKinds.defend_lager,
     }
 
-    stalker = {QuestKinds.kill_stalker}
+    stalker_types = {QuestKinds.kill_stalker}
 
-    if db_task.type in stalker:
+    if db_task.type in stalker_types:
         stalker = CycleTaskTargetStalker.objects.get(quest=db_task)
         possible_spawn_items = stalker.map_positions.all()
         maybe_map_points = [
@@ -304,7 +304,8 @@ def _spawn_item_to_map_info(
             bounds=(map_info.min_x, map_info.min_y, map_info.max_x, map_info.max_y),
             y_level_offset=-(map_info.max_y + map_info.min_y),
             item=MapPointItem(
-                position=(target_camp.x, target_camp.z), info_str=target_camp.spawn_id
+                position=(target_camp.x, target_camp.z),
+                info_str=str(target_camp.spawn_id)
             ),
         )
     return None
