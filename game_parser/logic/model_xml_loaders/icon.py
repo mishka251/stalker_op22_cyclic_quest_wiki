@@ -6,7 +6,7 @@ from PIL import Image
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.models import Icon
-
+from PIL.Image import Image as ImageCls
 
 class IconLoader(BaseModelXmlLoader[Icon]):
     expected_tag = "texture"
@@ -14,7 +14,7 @@ class IconLoader(BaseModelXmlLoader[Icon]):
         "file_name",
     }
 
-    def __init__(self, image: Image):
+    def __init__(self, image: ImageCls):
         self.image = image
 
     def _load(self, texture_node: _Element, comments: list[str]) -> Icon:

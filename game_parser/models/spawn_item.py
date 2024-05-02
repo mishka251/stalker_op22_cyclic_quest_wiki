@@ -45,7 +45,7 @@ class SpawnItem(models.Model):
         verbose_name="Конфиг логики НПС",
     )
     location = models.ForeignKey(
-        "Location", on_delete=models.SET_NULL, null=True, blank=True
+        "Location", on_delete=models.SET_NULL, null=True, blank=True, related_name="spawn_items",
     )
 
     def __str__(self):
@@ -141,7 +141,7 @@ class StalkerSection(models.Model):
     custom_data_path = models.CharField(max_length=512, null=True)
     community = models.ForeignKey("Community", null=True, on_delete=models.SET_NULL)
     character_profile = models.ForeignKey(
-        "StorylineCharacter", null=True, on_delete=models.SET_NULL
+        "StorylineCharacter", null=True, on_delete=models.SET_NULL, related_name="+",
     )
 
     def __str__(self):

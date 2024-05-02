@@ -18,7 +18,7 @@ class TaskVendorsList(TemplateView):
         return {
             "image_path": vendor.icon.icon.url,
             "name": vendor.name_translation.rus,
-            "tasks_count": vendor.cyclicquest_set.count(),
-            "has_chain": vendor.cyclicquest_set.filter(type=QuestKinds.chain).exists(),
+            "tasks_count": vendor.quests.count(),
+            "has_chain": vendor.quests.filter(type=QuestKinds.chain).exists(),
             "quests_link": reverse("vendor_tasks", kwargs={"vendor_id": vendor.id}),
         }

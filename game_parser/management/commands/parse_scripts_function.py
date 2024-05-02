@@ -311,6 +311,7 @@ class Command(BaseCommand):
                     )
 
         for func in ScriptFunction.objects.all():
+            assert func.raw_nested_function is not None
             nested_func_names = func.raw_nested_function.split(";")
             nested_functions_: "list[ScriptFunction | None]"  = [
                 functions_by_aliases.get(func_name) for func_name in nested_func_names

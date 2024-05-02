@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand
 from PIL import Image
 
 from game_parser.models import Icon, QuestRandomReward
-
+from PIL.Image import Image as ImageCls
 
 class Command(BaseCommand):
     def handle(self, *args, **options) -> None:
@@ -38,7 +38,7 @@ class Command(BaseCommand):
         reward.icon = icon
 
     def _get_image(
-        self, image: Image, x: int, y: int, width: int, height: int, name: str
+        self, image: ImageCls, x: int, y: int, width: int, height: int, name: str
     ) -> Icon:
         instance: Icon = Icon(name=name)
         box = self._get_item_image_coordinates(x, y, width, height)

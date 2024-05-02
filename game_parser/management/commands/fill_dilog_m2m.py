@@ -15,29 +15,29 @@ class Command(BaseCommand):
     @atomic
     def handle(self, **options) -> None:
         count = DialogPhrase.objects.count()
-        for index, item in enumerate(DialogPhrase.objects.all()):
-            item.give_info.set(self._get_info_portions_by_raw(item.give_info_raw))
-            item.actions.set(self._get_scripts_by_raw(item.actions_raw))
-            item.precondition.set(self._get_scripts_by_raw(item.precondition_raw))
-            item.has_info.set(self._get_info_portions_by_raw(item.has_info_raw))
-            item.don_has_info.set(
-                self._get_info_portions_by_raw(item.dont_has_info_raw)
+        for index, dialog_phrase in enumerate(DialogPhrase.objects.all()):
+            dialog_phrase.give_info.set(self._get_info_portions_by_raw(dialog_phrase.give_info_raw))
+            dialog_phrase.actions.set(self._get_scripts_by_raw(dialog_phrase.actions_raw))
+            dialog_phrase.precondition.set(self._get_scripts_by_raw(dialog_phrase.precondition_raw))
+            dialog_phrase.has_info.set(self._get_info_portions_by_raw(dialog_phrase.has_info_raw))
+            dialog_phrase.don_has_info.set(
+                self._get_info_portions_by_raw(dialog_phrase.dont_has_info_raw)
             )
-            item.disable_info.set(self._get_info_portions_by_raw(item.disable_info_raw))
-            item.disable.set(self._get_info_portions_by_raw(item.disable_raw))
-            item.save()
+            dialog_phrase.disable_info.set(self._get_info_portions_by_raw(dialog_phrase.disable_info_raw))
+            dialog_phrase.disable.set(self._get_info_portions_by_raw(dialog_phrase.disable_raw))
+            dialog_phrase.save()
             print(f"DialogPhrase:  {index + 1}/{count}")
 
         count = Dialog.objects.count()
-        for index, item in enumerate(Dialog.objects.all()):
-            item.has_info.set(self._get_info_portions_by_raw(item.has_info_raw))
-            item.dont_has_info.set(
-                self._get_info_portions_by_raw(item.dont_has_info_raw)
+        for index, dialog in enumerate(Dialog.objects.all()):
+            dialog.has_info.set(self._get_info_portions_by_raw(dialog.has_info_raw))
+            dialog.dont_has_info.set(
+                self._get_info_portions_by_raw(dialog.dont_has_info_raw)
             )
-            item.give_info.set(self._get_info_portions_by_raw(item.give_info_raw))
-            item.precondition.set(self._get_scripts_by_raw(item.precondition_raw))
-            item.init_func.set(self._get_scripts_by_raw(item.init_func_raw))
-            item.save()
+            dialog.give_info.set(self._get_info_portions_by_raw(dialog.give_info_raw))
+            dialog.precondition.set(self._get_scripts_by_raw(dialog.precondition_raw))
+            dialog.init_func.set(self._get_scripts_by_raw(dialog.init_func_raw))
+            dialog.save()
             print(f"Dialog:  {index + 1}/{count}")
 
     def _get_scripts_by_raw(self, raw: str | None) -> set[ScriptFunction]:

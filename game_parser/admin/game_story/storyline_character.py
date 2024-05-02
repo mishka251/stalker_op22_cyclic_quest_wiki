@@ -1,7 +1,7 @@
 from typing import Optional
 
 from django.contrib.admin import ModelAdmin, display, register
-from django.utils.html import mark_safe
+from django.utils.safestring import mark_safe
 
 from game_parser.models import Community, GameStoryId, Rank
 from game_parser.models.game_story import Icon, StorylineCharacter

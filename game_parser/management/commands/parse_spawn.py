@@ -33,6 +33,7 @@ class Command(BaseCommand):
             level_parser = LtxParser(level_file_path)
 
             for section in level_parser.get_parsed_blocks().values():
+                assert isinstance(section, dict)
                 item = self._create_item(level_file_name, section)
                 spawn_items.append(item)
         SpawnItem.objects.bulk_create(spawn_items, batch_size=2_000)

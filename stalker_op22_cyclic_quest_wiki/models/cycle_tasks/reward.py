@@ -1,7 +1,12 @@
+from typing import TYPE_CHECKING
+
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
 from stalker_op22_cyclic_quest_wiki.models.base.icon import Icon
+
+if TYPE_CHECKING:
+    from django.db.models.manager import RelatedManager
 
 
 class QuestReward(PolymorphicModel):
@@ -14,7 +19,7 @@ class QuestReward(PolymorphicModel):
         "CyclicQuest",
         null=False,
         on_delete=models.CASCADE,
-        verbose_name="ЦЗ"
+        verbose_name="ЦЗ",
     )
 
 
@@ -44,7 +49,11 @@ class ItemReward(QuestReward):
         verbose_name_plural = "Предметы за ЦЗ"
 
     item = models.ForeignKey(
-        "Item", null=False, on_delete=models.PROTECT, verbose_name="Предмет"
+        "Item",
+        null=False,
+        on_delete=models.PROTECT,
+        verbose_name="Предмет",
+        related_name="use_in_quest_rewards",
     )
     count = models.PositiveIntegerField(
         default=1, null=False, verbose_name="Кол-во предметов"
@@ -70,6 +79,7 @@ class QuestRandomReward(QuestReward):
         null=False,
         on_delete=models.PROTECT,
         verbose_name="Описание случайной награды",
+        related_name="use_in_quests"
     )
     count = models.PositiveIntegerField(
         default=1, null=False, verbose_name="Количество"
@@ -87,12 +97,13 @@ class RandomRewardInfo(models.Model):
         verbose_name = "Описание случайной награды"
         verbose_name_plural = "Описание случайных наград"
 
+    use_in_quests: "RelatedManager[QuestRandomReward]"
     index = models.IntegerField(null=False, unique=True, verbose_name="Индекс")
     icon = models.ForeignKey(
-        Icon, null=False, on_delete=models.PROTECT, verbose_name="Иконка"
+        Icon, null=False, on_delete=models.PROTECT, verbose_name="Иконка", related_name="+",
     )
     description = models.ForeignKey(
-        "Translation", null=False, on_delete=models.PROTECT, verbose_name="Описание"
+        "Translation", null=False, on_delete=models.PROTECT, verbose_name="Описание", related_name="+",
     )
     possible_items = models.ManyToManyField("Item", verbose_name="Возможные предметы")
 

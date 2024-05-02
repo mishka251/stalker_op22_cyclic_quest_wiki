@@ -1,10 +1,16 @@
+from typing import TYPE_CHECKING
+
 from django.db import models
+if TYPE_CHECKING:
+    from django.db.models.manager import RelatedManager
+    from game_parser.models import BaseScriptReward
 
 
 class ScriptFunction(models.Model):
     class Meta:
         verbose_name = "Функция из скриптов"
 
+    rewards: "RelatedManager[BaseScriptReward]"
     name = models.CharField(max_length=512, null=False, verbose_name="Название")
     namespace = models.CharField(
         max_length=512, null=False, verbose_name="Название файла"

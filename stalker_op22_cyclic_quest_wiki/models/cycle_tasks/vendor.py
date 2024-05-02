@@ -28,10 +28,10 @@ class CycleTaskVendor(models.Model):
         null=False, verbose_name="ID квестодателя глобальный(story_id)", unique=True
     )
     name_translation = models.ForeignKey(
-        Translation, null=False, on_delete=models.PROTECT, verbose_name="Имя НПС"
+        Translation, null=False, on_delete=models.PROTECT, verbose_name="Имя НПС", related_name="+",
     )
     icon = models.ForeignKey(
-        Icon, null=False, on_delete=models.PROTECT, verbose_name="Фото НПС"
+        Icon, null=False, on_delete=models.PROTECT, verbose_name="Фото НПС", related_name="+",
     )
 
     def __str__(self):

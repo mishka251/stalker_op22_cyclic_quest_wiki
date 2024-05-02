@@ -8,7 +8,7 @@ from PIL import Image
 
 from game_parser.logic.ltx_parser import LtxParser
 from game_parser.models import CyclicQuest, Icon, QuestRandomReward, Translation
-
+from PIL.Image import Image as ImageCls
 
 class Command(BaseCommand):
 
@@ -48,13 +48,14 @@ class Command(BaseCommand):
         for quest_name, quest_data in quest_blocks.items():
             if quest_name in self._random_rewards_keys:
                 assert isinstance(quest_data, list)
-                model = self._create_random_reward(quest_name, quest_data)
+                random_reward = self._create_random_reward(quest_name, quest_data)
+                random_reward.save()
             else:
                 assert isinstance(quest_data, dict)
-                model = self._model_from_dict(quest_name, quest_data)
-            model.save()
+                quest = self._quest_from_dict(quest_name, quest_data)
+                quest.save()
 
-    def _model_from_dict(self, name: str, data: dict[str, str]) -> CyclicQuest:
+    def _quest_from_dict(self, name: str, data: dict[str, str]) -> CyclicQuest:
         game_code = name
         giver_code = name[:3]
 
@@ -138,14 +139,14 @@ class Command(BaseCommand):
         reward.icon = icon
 
     def _get_image(
-        self, image: Image, x: int, y: int, width: int, height: int, name: str
+        self, image: ImageCls, x: int, y: int, width: int, height: int, name: str
     ) -> Icon:
         instance: Icon = Icon(name=name)
         box = self._get_item_image_coordinates(x, y, width, height)
         part = image.crop(box)
         tmp_file_name = "tmp.png"
         part.save(tmp_file_name)
-        with tmp_file_name.open("rb") as tmp_image:
+        with Path(tmp_file_name).open("rb") as tmp_image:
             image_file = ImageFile(tmp_image, name=f"{name}_icon.png")
             instance.icon = image_file
             instance.save()

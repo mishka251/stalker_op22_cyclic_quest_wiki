@@ -37,10 +37,15 @@ class Command(BaseCommand):
             parser = LtxParser(file_path)
             results = parser.get_parsed_blocks()
             assert isinstance(results, dict)
+            dict_result = {
+                k: v
+                for k, v in results.items()
+                if isinstance(v, dict)
+            }
             if "logic" not in results:
                 continue
 
-            item = self._create_item(file_path, results)
+            item = self._create_item(file_path, dict_result)
             spawn_items.append(item)
         print(f"Creating {len(spawn_items)} possible npc configs")
         NpcLogicConfig.objects.bulk_create(spawn_items, batch_size=2_000)

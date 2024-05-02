@@ -106,13 +106,15 @@ class TaskVendorsList(TemplateView):
 class VendorQuestsList(TemplateView):
     template_name = "vendor_quests_list/tasks_list.html"
 
-    def get_context_data(self, vendor_id: int) -> dict[str, Any]:
+    def get_context_data(self, vendor_id: int) -> dict[str, Any]: # type: ignore[override] # зависит от конфига url-ов. Думаю так лучше
         try:
             vendor = CycleTaskVendor.objects.get(id=vendor_id)
         except Exception as ex:
             raise Http404("Incorrect vendor ID") from ex
         vendor_tasks = CyclicQuest.objects.filter(vendor=vendor)
         vendor_profile = vendor.get_npc_profile()
+        if vendor_profile is None:
+            raise ValueError
         return {
             "vendor_task_info": collect_vendor_tasks(vendor_tasks, vendor_profile),
             "vendor": vendor_profile,

@@ -1,5 +1,10 @@
-from django.db import models
+from typing import TYPE_CHECKING
 
+from django.db import models
+if TYPE_CHECKING:
+    from django.db.models.manager import RelatedManager
+    from stalker_op22_cyclic_quest_wiki.models import MoneyReward, ItemReward, QuestRandomReward, TreasureReward, \
+        CycleTaskTarget
 from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.vendor import CycleTaskVendor
 
 
@@ -23,6 +28,13 @@ class CyclicQuest(models.Model):
         verbose_name = "Циклический квест"
         verbose_name_plural = "Циклические квесты"
 
+    moneyreward: "RelatedManager[MoneyReward]"
+    itemreward: "RelatedManager[ItemReward]"
+    questrandomreward: "RelatedManager[QuestRandomReward]"
+    treasurereward: "RelatedManager[TreasureReward]"
+    target: "RelatedManager[CycleTaskTarget]"
+
+
     objects = CyclicQuestManager()
 
     game_code = models.CharField(
@@ -44,6 +56,7 @@ class CyclicQuest(models.Model):
         null=False,
         on_delete=models.PROTECT,
         verbose_name="Кквестодатель",
+        related_name="quests",
     )
 
     text = models.ForeignKey(

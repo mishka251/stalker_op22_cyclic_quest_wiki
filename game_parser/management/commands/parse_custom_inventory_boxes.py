@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 item_with_count = {item: 1 for item in spawn}
             elif isinstance(spawn, dict):
                 item_with_count = {
-                    item: item_count if item_count is not None else 1
+                    item: int(item_count) if item_count is not None else 1
                     for (item, item_count) in spawn.items()
                 }
             raw_items_str = json.dumps(item_with_count)

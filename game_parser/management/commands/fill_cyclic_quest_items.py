@@ -27,6 +27,7 @@ class Command(BaseCommand):
             CyclicQuest.objects.filter(type__in=quests_with_items)
         ):
             print(f"{index + 1}/{count}")
+            assert quest.target_str is not None
             quest.target_item = self._get_item_by_name(quest.target_str)
             quest.save()
         print("Стадия 2 - M2M")
@@ -37,6 +38,7 @@ class Command(BaseCommand):
         count = quests_with_items_rewards.count()
         for index, quest in enumerate(quests_with_items_rewards):
             print(f"{index + 1}/{count}")
+            assert quest.reward_item_string is not None
             items_info = self._parse_item_rewards(quest.reward_item_string)
             for item_name, item_count in items_info:
                 item = self._get_item_by_name(item_name)
@@ -66,10 +68,11 @@ class Command(BaseCommand):
     def _parse_item_rewards(self, reward_item_string: str) -> list[tuple[str, int]]:
         parts = [s.strip() for s in reward_item_string.split(",")]
         prev_name = None
-        result = []
+        result: list[tuple[str, int]] = []
         for part in parts:
             if part.isdigit():
                 cnt = int(part)
+                assert prev_name is not None
                 result.append((prev_name, cnt))
                 prev_name = None
             else:

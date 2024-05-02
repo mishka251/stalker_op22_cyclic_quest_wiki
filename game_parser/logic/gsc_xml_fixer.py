@@ -71,7 +71,10 @@ class GSCXmlFixer:
                 if detector.done:
                     break
         detector.close()
-        return detector.result["encoding"]
+        encoding = detector.result["encoding"]
+        if not encoding:
+            raise ValueError("Unknown encoding")
+        return encoding
 
     def _ensure_tmp_dir(self) -> None:
         if not TMP_DIR.exists():

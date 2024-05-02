@@ -49,11 +49,22 @@ class Command(BaseCommand):
 
         parser = LtxParser(system_file)
         results = parser.get_parsed_blocks()
-        print("all_system parsed")
         assert isinstance(results, dict)
+        known_extends = {
+            k: v
+            for k, v in results.items()
+            if isinstance(v, dict)
+        }
+        print("all_system parsed")
         for path in self.get_file_paths():
-            parser = LtxParser(path, known_extends=results)
+            assert any(isinstance(v, dict) for v in results.values())
+            parser = LtxParser(path, known_extends=known_extends)
             results |= parser.get_parsed_blocks()
+            known_extends = {
+                k: v
+                for k, v in results.items()
+                if isinstance(v, dict)
+            }
 
         existing_sections_keys = [k for k in results if isinstance(results[k], dict)]
 

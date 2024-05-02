@@ -142,19 +142,6 @@ class CharacterQuests:
     quest_group_by_type: dict[QuestKinds, QuestGroupByPriority]
 
 
-# class CyclicTasksView(TemplateView):
-
-
-def collect_info() -> list[CharacterQuests]:
-    all_tasks = list(CyclicQuest.objects.all().order_by("vendor"))
-    result = []
-    for vendor, _vendor_tasks in groupby(
-        all_tasks, lambda task: task.get_vendor_character
-    ):
-        result += [collect_vendor_tasks(list(_vendor_tasks), vendor)]
-
-    return result
-
 
 def collect_vendor_tasks(
     _vendor_tasks: list[CyclicQuest], vendor: CycleTaskVendor

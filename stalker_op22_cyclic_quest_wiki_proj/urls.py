@@ -30,7 +30,7 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # type: ignore[arg-type] # django-example. Working
 
 if "game_parser" in settings.INSTALLED_APPS:
     urlpatterns += [

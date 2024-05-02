@@ -16,6 +16,7 @@ class GameTask(models.Model):
         null=True,
         on_delete=models.SET_NULL,
         verbose_name="Заголовок(перевод)",
+        related_name="+",
     )
     prio = models.IntegerField(null=True)
 

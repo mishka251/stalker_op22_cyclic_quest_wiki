@@ -36,37 +36,37 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
         bio_raw = None
         team = None
         for child_node in character_node:
-            if child_node.tag == "name":
+            if child_node.tag == "name" and child_node.text is not None:
                 name = child_node.text
-            elif child_node.tag == "icon":
+            elif child_node.tag == "icon" and child_node.text is not None:
                 icon_raw = child_node.text
-            elif child_node.tag == "terrain_sect":
+            elif child_node.tag == "terrain_sect" and child_node.text is not None:
                 terrain_sect_raw = child_node.text
-            elif child_node.tag == "bio":
+            elif child_node.tag == "bio" and child_node.text is not None:
                 bio_raw = child_node.text
-            elif child_node.tag == "crouch_type":
+            elif child_node.tag == "crouch_type" and child_node.text is not None:
                 crouch_type_raw = child_node.text
-            elif child_node.tag == "snd_config":
+            elif child_node.tag == "snd_config" and child_node.text is not None:
                 snd_config_raw = child_node.text
             elif child_node.tag == "money":
                 money_min_raw = child_node.attrib.pop("min")
                 money_max_raw = child_node.attrib.pop("max")
                 money_inf_raw = child_node.attrib.pop("infinitive")
-            elif child_node.tag == "visual":
+            elif child_node.tag == "visual" and child_node.text is not None:
                 visual = child_node.text
-            elif child_node.tag == "class":
+            elif child_node.tag == "class" and child_node.text is not None:
                 class_raw = child_node.text
-            elif child_node.tag == "supplies":
+            elif child_node.tag == "supplies" and child_node.text is not None:
                 supplies_raw = child_node.text
-            elif child_node.tag == "rank":
+            elif child_node.tag == "rank" and child_node.text is not None:
                 rank = int(child_node.text)
-            elif child_node.tag == "reputation":
+            elif child_node.tag == "reputation" and child_node.text is not None:
                 reputation = int(child_node.text)
-            elif child_node.tag == "community":
+            elif child_node.tag == "community" and child_node.text is not None:
                 community_raw = child_node.text
-            elif child_node.tag == "actor_dialog":
+            elif child_node.tag == "actor_dialog" and child_node.text is not None:
                 dialogs_raw.append(child_node.text)
-            elif child_node.tag == "start_dialog":
+            elif child_node.tag == "start_dialog" and child_node.text is not None:
                 start_dialog = child_node.text
             elif isinstance(child_node, _Comment) or child_node.tag in {
                 "panic_threshold",

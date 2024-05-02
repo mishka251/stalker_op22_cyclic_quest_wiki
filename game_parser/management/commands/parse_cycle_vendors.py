@@ -21,8 +21,9 @@ class Command(BaseCommand):
         parser = LtxParser(self.get_file_path())
         results = parser.get_parsed_blocks()
 
-        block: dict[str, str] = results["vendor"]
-        for vendor_id_raw, game_story_id_raw in block.items():
+        vendor = results["vendor"]
+        assert isinstance(vendor, dict)
+        for vendor_id_raw, game_story_id_raw in vendor.items():
             vendor_id = int(vendor_id_raw)
             game_story_id = int(game_story_id_raw)
             CycleTaskVendor.objects.create(

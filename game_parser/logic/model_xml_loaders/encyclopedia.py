@@ -1,7 +1,10 @@
+from pathlib import Path
+
 from django.conf import settings
 from django.core.files.images import ImageFile
 from lxml.etree import Element, _Comment, _Element
 from PIL import Image
+from PIL.Image import Image as ImageCls
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.models import (
@@ -93,7 +96,7 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
 
     def _get_image(
         self,
-        image: Image,
+        image: ImageCls,
         x: int,
         y: int,
         width: int,
@@ -105,7 +108,7 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         part = image.crop(box)
         tmp_file_name = "tmp.png"
         part.save(tmp_file_name)
-        with tmp_file_name.open("rb") as tmp_image:
+        with Path(tmp_file_name).open("rb") as tmp_image:
             image_file = ImageFile(tmp_image, name=f"{name}_icon.png")
             instance.icon = image_file
             instance.save()

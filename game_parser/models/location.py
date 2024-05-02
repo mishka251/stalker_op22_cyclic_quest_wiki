@@ -25,7 +25,7 @@ class Location(models.Model):
         Translation,
         null=True,
         verbose_name="Перевод названия",
-        on_delete=models.SET_NULL,
+        on_delete=models.SET_NULL, related_name="+",
     )
     offset_str = models.CharField(
         null=True, max_length=255, verbose_name="Сдвиг на глобальной карте??"

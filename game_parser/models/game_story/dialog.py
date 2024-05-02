@@ -70,7 +70,8 @@ class DialogPhrase(models.Model):
 
     text_id_raw = models.CharField(max_length=256, null=True, verbose_name="id текста")
     text = models.ForeignKey(
-        Translation, null=True, on_delete=models.SET_NULL, verbose_name="Перевод текста"
+        Translation, null=True, on_delete=models.SET_NULL, verbose_name="Перевод текста",
+        related_name="+",
     )
 
     next_ids_raw = models.CharField(

@@ -30,8 +30,8 @@ class Icon:
 
 @dataclasses.dataclass
 class ItemInfo:
-    item_id: str
-    item_label: str
+    item_id: str | None
+    item_label: str | None
     icon: Icon | None
 
 
@@ -112,7 +112,7 @@ class TreasureReward(TaskReward):
 @dataclasses.dataclass
 class TaskRandomReward(TaskReward):
     count: int
-    reward_name: str
+    reward_name: str | None
     reward_id: str
     icon: Icon | None
 
@@ -217,10 +217,11 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         QuestKinds.defend_lager,
     }
 
-    stalker = {QuestKinds.kill_stalker}
+    stalker_types = {QuestKinds.kill_stalker}
 
-    if db_task.type in stalker:
+    if db_task.type in stalker_types:
         stalker = db_task.target_stalker
+        assert stalker is not None
         single_spawn_items = SingleStalkerSpawnItem.objects.filter(
             stalker_section=stalker
         )
@@ -233,17 +234,17 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
             id__in=list(single_spawn_items_ids) + list(respawns_spawn_items),
         )
         maybe_map_points = [
-            _spawn_item_to_map_info(db_task.target_str, item)
+            _spawn_item_to_map_info(stalker.section_name, item)
             for item in possible_spawn_items
         ]
         return StalkerTarget(
-            db_task.target_str,
+            stalker,
             str(stalker),
             [point for point in maybe_map_points if point is not None],
         )
     if db_task.type in lager_types:
         target_camp = db_task.target_camp  # or db_task.target_camp_to_destroy
-        target_camp = (
+        target_camp_item = (
             target_camp.spawn_item
             if target_camp
             else (
@@ -252,10 +253,13 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
                 else db_task.target_camp_to_defeat
             )
         )
-        camp_map_info = _spawn_item_to_map_info(db_task.target_str, target_camp)
-        return LagerTarget(db_task.target_str, camp_map_info)
+        assert target_camp_item is not None
+        camp_map_info = _spawn_item_to_map_info(target_camp_item.section_name, target_camp_item)
+        return LagerTarget(db_task.target_str or str(db_task.id), camp_map_info)
 
     if db_task.type in items_types:
+        if db_task.target_item is None:
+            raise ValueError
         target_item = db_task.target_item.get_real_instance()
         target_cond_str: str | None = db_task.target_cond_str
         items_with_condition = (Weapon, Outfit, Silencer)
@@ -297,7 +301,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
 
             return AmmoTarget(
                 item=item_info,
-                items_count=db_task.target_count,
+                items_count=target_count,
                 ammo_count=target_count * target_item.box_size,
             )
         return QuestItemTarget(
@@ -318,6 +322,7 @@ def _spawn_item_to_map_info(
         if (
             location_map_info
             and location_map_info.map_image
+            and location_map_info.bound_rect_raw
             and (coords_rm := position_re.match(target_camp.position_raw))
         ):
             rm = offset_re.match(location_map_info.bound_rect_raw)

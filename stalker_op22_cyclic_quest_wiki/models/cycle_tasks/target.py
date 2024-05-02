@@ -13,6 +13,7 @@ class CycleTaskTarget(PolymorphicModel):
         on_delete=models.CASCADE,
         unique=True,
         verbose_name="ЦЗ",
+        related_name="target",
     )
 
     def natural_key(self) -> tuple:
@@ -53,8 +54,9 @@ class CycleTaskTargetCamp(CycleTaskTarget):
         null=False,
         on_delete=models.PROTECT,
         verbose_name="Место на карте",
+        related_name="camps_in_position",
     )
-    communities = models.ManyToManyField("Community", verbose_name="Группы в лагере")
+    communities = models.ManyToManyField("Community", verbose_name="Группы в лагере", related_name="+")
 
     def __str__(self):
 
@@ -76,15 +78,19 @@ class CycleTaskTargetStalker(CycleTaskTarget):
         null=False,
         on_delete=models.PROTECT,
         verbose_name="Ранг сталкера",
+        related_name="+",
     )
     community = models.ForeignKey(
         "Community",
         null=False,
         on_delete=models.PROTECT,
         verbose_name="группа сталкера",
+        related_name="+",
     )
     map_positions = models.ManyToManyField(
-        "MapPosition", verbose_name="Возможные места спавна"
+        "MapPosition",
+        verbose_name="Возможные места спавна",
+        related_name="+",
     )
 
     def __str__(self):

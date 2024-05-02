@@ -54,7 +54,7 @@ class ItemInBuy(ItemInTradeBase):
         verbose_name_plural = "Предметы в покупке"
 
     trade = models.ForeignKey(
-        Buy, on_delete=models.CASCADE, null=False, verbose_name="Торговля"
+        Buy, on_delete=models.CASCADE, null=False, verbose_name="Торговля", related_name="items",
     )
     min_price_modifier = models.DecimalField(
         max_digits=5, decimal_places=2, null=False, verbose_name="Множитель цены(от)"
@@ -73,7 +73,7 @@ class ItemInSell(ItemInTradeBase):
         verbose_name_plural = "Предметы в продаже"
 
     trade = models.ForeignKey(
-        Sell, on_delete=models.CASCADE, null=False, verbose_name="Торговля"
+        Sell, on_delete=models.CASCADE, null=False, verbose_name="Торговля", related_name="items",
     )
     probability = models.DecimalField(
         max_digits=5, decimal_places=2, null=False, verbose_name="Вероятность"

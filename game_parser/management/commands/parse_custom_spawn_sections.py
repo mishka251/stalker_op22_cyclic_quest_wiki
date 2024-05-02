@@ -106,7 +106,7 @@ class Command(BaseCommand):
 
             for section_id, section in parser.get_parsed_blocks().items():
                 assert isinstance(section, dict)
-                section_parent = section.get("__parent")
+                section_parent = section["__parent"]
                 item = self._create_item(section_id, section_parent, section)
                 spawn_items.append(item)
         CustomSpawnItem.objects.bulk_create(spawn_items, batch_size=2_000)

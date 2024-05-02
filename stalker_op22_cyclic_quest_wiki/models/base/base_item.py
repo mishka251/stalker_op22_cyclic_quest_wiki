@@ -21,7 +21,7 @@ class Item(PolymorphicModel):
         verbose_name="Вес", decimal_places=3, max_digits=12
     )
     icon = models.ForeignKey(
-        "Icon", on_delete=models.PROTECT, null=False, verbose_name="Иконка"
+        "Icon", on_delete=models.PROTECT, null=False, verbose_name="Иконка", related_name="+",
     )
     name_translation = models.ForeignKey(
         "Translation",
