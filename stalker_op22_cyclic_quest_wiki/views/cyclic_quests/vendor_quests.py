@@ -15,7 +15,7 @@ class VendorQuestsList(TemplateView):
             vendor = CycleTaskVendor.objects.get(id=vendor_id)
         except Exception as ex:
             raise Http404("Incorrect vendor ID") from ex
-        vendor_tasks = CyclicQuest.objects.filter(vendor=vendor)
+        vendor_tasks = list(CyclicQuest.objects.filter(vendor=vendor))
 
         return {
             "vendor_task_info": collect_vendor_tasks(vendor_tasks, vendor),

@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class MapPositionManager(models.Manager):
+class MapPositionManager(models.Manager["MapPosition"]):
     def get_by_natural_key(self, spawn_id: str) -> "MapPosition":
         return self.get(spawn_id=spawn_id)
 

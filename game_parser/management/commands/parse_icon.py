@@ -56,6 +56,7 @@ class Command(BaseCommand):
             image = None
             for child_node in root_node:
                 if child_node.tag == "file_name":
+                    assert child_node.text is not None
                     image_file_path = (
                         settings.OP22_GAME_DATA_PATH
                         / "textures"

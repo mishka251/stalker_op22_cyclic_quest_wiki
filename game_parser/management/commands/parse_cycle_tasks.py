@@ -47,8 +47,10 @@ class Command(BaseCommand):
 
         for quest_name, quest_data in quest_blocks.items():
             if quest_name in self._random_rewards_keys:
+                assert isinstance(quest_data, list)
                 model = self._create_random_reward(quest_name, quest_data)
             else:
+                assert isinstance(quest_data, dict)
                 model = self._model_from_dict(quest_name, quest_data)
             model.save()
 

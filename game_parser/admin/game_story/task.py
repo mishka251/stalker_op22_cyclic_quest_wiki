@@ -58,11 +58,11 @@ class TaskObjectiveAdmin(ModelAdmin):
     ]
 
     @display(description="Текст")
-    def text_view(self, character: TaskObjective) -> str:
+    def text_view(self, character: TaskObjective) -> str | None:
         return character.get_text
 
     @display(description="Запись")
-    def article_view(self, character: TaskObjective) -> str:
+    def article_view(self, character: TaskObjective) -> str | None:
         return character.get_article
 
 

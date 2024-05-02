@@ -20,51 +20,51 @@ class Command(BaseCommand):
     @atomic
     def handle(self, **options) -> None:
         count = StalkerSection.objects.count()
-        for index, item in enumerate(StalkerSection.objects.all()):
-            if item.character_profile_str is None:
+        for index, stalker_section in enumerate(StalkerSection.objects.all()):
+            if stalker_section.character_profile_str is None:
                 continue
-            item.character_profile = (
+            stalker_section.character_profile = (
                 StorylineCharacter.objects.filter(
-                    game_id__exact=item.character_profile_str.lower()
+                    game_id__exact=stalker_section.character_profile_str.lower()
                 ).first()
                 or StorylineCharacter.objects.filter(
-                    game_code__exact=item.character_profile_str.lower()
+                    game_code__exact=stalker_section.character_profile_str.lower()
                 ).first()
             )
-            item.save()
+            stalker_section.save()
             if index % 100 == 0:
                 print(f"{index+1}/{count}")
 
         count = SingleStalkerSpawnItem.objects.count()
-        for index, item in enumerate(SingleStalkerSpawnItem.objects.all()):
-            item.stalker_section = (
+        for index, stalker_spawn_item in enumerate(SingleStalkerSpawnItem.objects.all()):
+            stalker_spawn_item.stalker_section = (
                 StalkerSection.objects.filter(
-                    section_name__exact=item.character_profile_raw.lower()
+                    section_name__exact=stalker_spawn_item.character_profile_raw.lower()
                 ).first()
                 or StalkerSection.objects.filter(
-                    character_profile_str__exact=item.character_profile_raw.lower()
+                    character_profile_str__exact=stalker_spawn_item.character_profile_raw.lower()
                 ).first()
             )
-            item.save()
+            stalker_spawn_item.save()
             if index % 100 == 0:
                 print(f"{index + 1}/{count}")
 
         count = Respawn.objects.count()
-        for index, item in enumerate(Respawn.objects.all()):
-            if not item.respawn_section_raw:
+        for index, respawn in enumerate(Respawn.objects.all()):
+            if not respawn.respawn_section_raw:
                 continue
-            respawn_sections = [s.strip() for s in item.respawn_section_raw.split(",")]
+            respawn_sections = [s.strip() for s in respawn.respawn_section_raw.split(",")]
             stalkers = StalkerSection.objects.filter(section_name__in=respawn_sections)
-            item.respawn_section.set(stalkers)
+            respawn.respawn_section.set(stalkers)
             if index % 100 == 0:
                 print(f"{index + 1}/{count}")
 
         count = CyclicQuest.objects.count()
-        for index, item in enumerate(CyclicQuest.objects.all()):
-            if item.type != QuestKinds.kill_stalker:
+        for index, quest in enumerate(CyclicQuest.objects.all()):
+            if quest.type != QuestKinds.kill_stalker:
                 continue
-            item.target_stalker = StalkerSection.objects.filter(
-                section_name__exact=item.target_str.lower()
+            quest.target_stalker = StalkerSection.objects.filter(
+                section_name__exact=quest.target_str.lower()
             ).first()
-            item.save()
+            quest.save()
             print(f"{index + 1}/{count}")

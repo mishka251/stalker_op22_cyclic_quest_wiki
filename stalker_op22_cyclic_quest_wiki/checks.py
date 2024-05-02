@@ -1,7 +1,7 @@
-from collections.abc import Sequence
-from typing import Optional
+from collections.abc import Sequence, Iterable
+from typing import Optional, Any
 
-from django.apps import apps
+from django.apps import apps, AppConfig
 from django.apps.registry import Apps
 from django.contrib.admin import site as admin_site
 from django.core import checks
@@ -10,11 +10,14 @@ from django.db import models
 
 @checks.register()
 def check_model_admin_fields(
-    app_configs: Apps | None, **kwargs
-) -> Sequence[checks.CheckMessage]:
+        *,
+        app_configs: Sequence[AppConfig] | None,
+        databases: Sequence[str] | None,
+        **kwargs: Any
+) -> Iterable[checks.CheckMessage]:
     errors: list[checks.CheckMessage] = []
-    apps_: Apps = app_configs or apps
-    for app_config in apps_.get_app_configs():
+    apps_: Iterable[AppConfig] = app_configs or apps.get_app_configs()
+    for app_config in apps_:
         for model in app_config.get_models():
             model_admin = admin_site._registry.get(model)
             if not model_admin:

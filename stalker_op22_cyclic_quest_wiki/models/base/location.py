@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class LocationManager(models.Manager):
+class LocationManager(models.Manager["Location"]):
     def get_by_natural_key(self, name: str) -> "Location":
         return self.get(name=name)
 
@@ -33,7 +33,7 @@ class Location(models.Model):
         return self.name_translation.rus if self.name_translation else self.name
 
 
-class LocationMapInfoManager(models.Manager):
+class LocationMapInfoManager(models.Manager["LocationMapInfo"]):
     def get_by_natural_key(self, location_name: str) -> "LocationMapInfo":
         return self.get(location_name=location_name)
 

@@ -16,7 +16,7 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
             logger.warning("Unexpected node %s", character_node.tag)
             raise ValueError
         character_id = character_node.attrib.pop("id")
-        character_no_random = bool(character_node.attrib.pop("no_random", None))
+        character_no_random = bool(character_node.attrib.get("no_random"))
         name = None
         icon_raw = None
         community_raw = None

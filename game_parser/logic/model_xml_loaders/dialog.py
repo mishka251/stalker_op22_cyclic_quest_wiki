@@ -22,8 +22,8 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
     def _load(self, dialog_node: _Element, dialog_comments: list[str]) -> Dialog:
         if dialog_node.tag != "dialog":
             raise ValueError(f"Unexpected node {dialog_node.tag}")
-        dialog_id = dialog_node.attrib.pop("id", None)
-        if dialog_id is None:
+        dialog_id = dialog_node.attrib.pop("id", "None")
+        if dialog_id is "None":
             raise ValueError(f"Unexpected id is None {dialog_node}")
         dialog = Dialog.objects.create(
             game_id=dialog_id, comments_raw=";".join(dialog_comments)

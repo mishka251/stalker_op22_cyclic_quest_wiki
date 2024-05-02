@@ -18,7 +18,7 @@ def set_reward_content_type(apps: Apps, schema_editor: BaseDatabaseSchemaEditor)
     for model in my_models:
         MyModel: type[models.Model] = apps.get_model("game_parser", model)
         new_ct = ContentType.objects.get_for_model(MyModel)
-        MyModel.objects.filter(polymorphic_ctype__isnull=True).update(
+        MyModel._default_manager.filter(polymorphic_ctype__isnull=True).update(
             polymorphic_ctype=new_ct
         )
 

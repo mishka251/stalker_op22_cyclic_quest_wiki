@@ -133,13 +133,13 @@ class TaskObjective(models.Model):
     )
 
     @property
-    def get_text(self) -> str:
+    def get_text(self) -> str | None:
         if self.text:
             return self.text.rus
         return self.text_id_raw
 
     @property
-    def get_article(self) -> str:
+    def get_article(self) -> str | None:
         return self.article_id_raw
 
     def __str__(self):

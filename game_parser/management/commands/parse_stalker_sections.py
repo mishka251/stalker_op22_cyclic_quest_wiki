@@ -43,12 +43,11 @@ class Command(BaseCommand):
         print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
         system_file = base_path / "config" / "system.ltx"
-        known_bases = {}
         StalkerSection.objects.all().delete()
 
         print("Cleaned")
 
-        parser = LtxParser(system_file, known_extends=known_bases)
+        parser = LtxParser(system_file)
         results = parser.get_parsed_blocks()
         print("all_system parsed")
         assert isinstance(results, dict)
@@ -60,8 +59,9 @@ class Command(BaseCommand):
 
         grouped_by_cls_dict = defaultdict(set)
         for section_name in existing_sections_keys:
-            assert isinstance(results[section_name], dict)
-            cls_name = results[section_name].get("class", "None")
+            section = results[section_name]
+            assert isinstance(section, dict)
+            cls_name = section.get("class", "None")
             grouped_by_cls_dict[cls_name].add(section_name)
         for cls_, keys in grouped_by_cls_dict.items():
             print(cls_, len(keys))

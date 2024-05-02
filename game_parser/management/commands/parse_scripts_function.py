@@ -208,9 +208,9 @@ class Command(BaseCommand):
 
     def _get_namespace(self, file_path: Path) -> str:
         path = file_path.relative_to(self.get_files_dir_path())
-        path = str(path)
-        path = path[: -len(".script")]
-        return path.replace("\\", ".")
+        path_ = str(path)
+        path_ = path_[: -len(".script")]
+        return path_.replace("\\", ".")
 
     @atomic
     def handle(self, **options) -> None:
@@ -312,10 +312,10 @@ class Command(BaseCommand):
 
         for func in ScriptFunction.objects.all():
             nested_func_names = func.raw_nested_function.split(";")
-            nested_functions = [
+            nested_functions_: "list[ScriptFunction | None]"  = [
                 functions_by_aliases.get(func_name) for func_name in nested_func_names
             ]
-            nested_functions = [f for f in nested_functions if f is not None]
+            nested_functions: "list[ScriptFunction]" = [f for f in nested_functions_ if f is not None]
             if len(nested_func_names) != len(nested_functions):
                 founded = {str(f) for f in nested_functions}
                 not_found = set(nested_func_names) - founded

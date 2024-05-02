@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.logic.ltx_parser import LtxParser
+from game_parser.logic.ltx_parser import KnownExtendsType, LtxParser, LtxParserResults
 from game_parser.logic.model_resources.base_item import OtherResource
 from game_parser.models import Other
 
@@ -55,17 +55,29 @@ class Command(BaseCommand):
 
         main_parser = LtxParser(self.get_main_file_path())
 
-        known_bases = main_parser.get_parsed_blocks()
-        known_bases["af_blood"] = {}
-        known_bases["af_night_star"] = {}
-        known_bases["af_gold_fish"] = {}
+        base_blocks: LtxParserResults = main_parser.get_parsed_blocks()
+        known_bases: KnownExtendsType = {
+            **{
+                k: v
+                for k, v in base_blocks.items()
+                if isinstance(v, dict)
+            },
+            "af_blood": {},
+            "af_night_star": {},
+            "af_gold_fish": {},
+        }
+
 
         resource = OtherResource()
 
         for file_path in self._get_other_files_paths():
             parser = LtxParser(file_path, known_extends=known_bases)
-            results = parser.get_parsed_blocks()
-            known_bases |= results
+            results: LtxParserResults = parser.get_parsed_blocks()
+            known_bases |= {
+                k: v
+                for k, v in results.items()
+                if isinstance(v, dict)
+            }
 
             quest_blocks = {
                 k: {**v}
@@ -82,7 +94,7 @@ class Command(BaseCommand):
 
     def _should_exclude(self, key: str, data: dict[str, str]) -> bool:
         if key in self._exclude_keys or key.endswith(
-            ("immunities", "hud", "absorbation")
+            ("immunities", "hud", "absorbation"),
         ):
             return True
         cls = data.get("class")

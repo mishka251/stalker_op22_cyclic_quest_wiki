@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Manager
 
 
-class TranslationManager(Manager):
+class TranslationManager(Manager["Translation"]):
     def get_by_natural_key(self, code: str) -> "Translation":
         return self.get(code=code)
 

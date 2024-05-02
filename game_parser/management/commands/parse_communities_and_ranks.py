@@ -17,14 +17,13 @@ class Command(BaseCommand):
         print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
         system_file = base_path / "config" / "system.ltx"
-        known_bases = {}
 
         Rank.objects.all().delete()
         Community.objects.all().delete()
 
         print("Cleaned")
 
-        parser = LtxParser(system_file, known_extends=known_bases)
+        parser = LtxParser(system_file)
         results = parser.get_parsed_blocks()
         assert isinstance(results["game_relations"], dict)
         assert isinstance(results["monster_communities"], dict)

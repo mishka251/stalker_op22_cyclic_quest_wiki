@@ -36,6 +36,7 @@ class Command(BaseCommand):
             print(f"{i}/{len(file_paths)}  {file_path}")
             parser = LtxParser(file_path)
             results = parser.get_parsed_blocks()
+            assert isinstance(results, dict)
             if "logic" not in results:
                 continue
 

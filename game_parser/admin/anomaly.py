@@ -4,7 +4,7 @@ from game_parser.models import Anomaly
 
 
 @register(Anomaly)
-class EncyclopediaGroupAdmin(ModelAdmin):
+class AnomalyAdmin(ModelAdmin):
     autocomplete_fields = [
         "article",
     ]

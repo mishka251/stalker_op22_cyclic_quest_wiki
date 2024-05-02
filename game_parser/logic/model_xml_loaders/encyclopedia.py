@@ -17,9 +17,9 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
     expected_tag = "article"
 
     def _load(self, article_node: _Element, comments: list[str]) -> EncyclopediaArticle:
-        game_id = article_node.attrib.pop("id", None)
-        name = article_node.attrib.pop("name", None)
-        group_name = article_node.attrib.pop("group", None)
+        game_id = article_node.attrib.get("id")
+        name = article_node.attrib.get("name")
+        group_name = article_node.attrib.get("group")
         ltx_str = None
         text = None
         icon = None
@@ -68,11 +68,13 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         return article
 
     def _parse_icon(self, texture_node: _Element) -> Icon:
-        x = texture_node.attrib.pop("x", None)
-        if x is None:
+        x_ = texture_node.attrib.get("x")
+        if texture_node.text is None:
+            raise ValueError
+        if x_ is None:
             texture_id = texture_node.text
             return Icon.objects.get(name=texture_id)
-        x = int(x)
+        x = int(x_)
         y = int(texture_node.attrib.pop("y"))
         width = int(texture_node.attrib.pop("width"))
         height = int(texture_node.attrib.pop("height"))

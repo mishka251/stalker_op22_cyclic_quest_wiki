@@ -9,10 +9,10 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
 
     def _load(self, game_task_node: _Element, comments: list[str]) -> GameTask:
         task_id = game_task_node.attrib.pop("id")
-        prio = game_task_node.attrib.pop("prio", None)
+        prio = game_task_node.attrib.get("prio")
         task = GameTask.objects.create(game_id=task_id, prio=prio)
         for child_node in game_task_node:
-            if child_node.tag == "title":
+            if child_node.tag == "title" and child_node.text is not None:
                 task.title_id_raw = child_node.text
             elif child_node.tag == "objective":
                 self._parse_task_objective(task, child_node)
@@ -64,7 +64,7 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
             elif child_node.tag == "map_location_type":
                 map_location_type = {
                     "name": child_node.text,
-                    "hint": child_node.attrib.pop("hint", None),
+                    "hint": child_node.attrib.get("hint"),
                 }
                 map_location_types.append(map_location_type)
             elif child_node.tag == "function_call_fail":

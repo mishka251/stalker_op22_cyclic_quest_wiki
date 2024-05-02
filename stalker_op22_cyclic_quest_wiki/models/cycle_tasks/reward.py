@@ -11,7 +11,10 @@ class QuestReward(PolymorphicModel):
         verbose_name_plural = "Награды за ЦЗ"
 
     quest = models.ForeignKey(
-        "CyclicQuest", null=False, on_delete=models.CASCADE, verbose_name="ЦЗ"
+        "CyclicQuest",
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="ЦЗ"
     )
 
 

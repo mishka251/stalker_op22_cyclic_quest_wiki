@@ -13,7 +13,7 @@ class QuestKinds(models.TextChoices):
     defend_lager = "defend_lager", "Защитить лагерь"
 
 
-class CyclicQuestManager(models.Manager):
+class CyclicQuestManager(models.Manager["CyclicQuest"]):
     def get_by_natural_key(self, game_code: str) -> "CyclicQuest":
         return self.get(game_code=game_code)
 

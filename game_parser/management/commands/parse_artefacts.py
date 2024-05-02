@@ -1,11 +1,12 @@
 import logging
 from pathlib import Path
+from typing import Mapping, Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.logic.ltx_parser import LtxParser
+from game_parser.logic.ltx_parser import LtxParser, KnownExtendsType, LtxParserResults
 from game_parser.logic.model_resources.base_item import (
     BaseItemResource,
     CapsAnomResource,
@@ -82,11 +83,11 @@ class Command(BaseCommand):
         MonsterEmbrion.objects.all().delete()
         CapsAnom.objects.all().delete()
 
-        known_bases = {
+        known_bases: KnownExtendsType = {
             "anomaly": {},
             "ARTEFACT": {
-                "inv_grid_width": 1,
-                "inv_grid_height": 1,
+                "inv_grid_width": "1",
+                "inv_grid_height": "1",
             },
         }
 
@@ -95,17 +96,19 @@ class Command(BaseCommand):
             parser = LtxParser(file_path, known_extends=known_bases)
             results = parser.get_parsed_blocks()
             assert isinstance(results, dict)
-            blocks: dict[str, dict] = {**results}
+            blocks: LtxParserResults = {**results}
             block_names = list(blocks.keys())
             keys_to_exclude: set[str] = set()
             for block_name in block_names:
-                assert isinstance(blocks[block_name], dict)
-                if "hit_absorbation_sect" in blocks[block_name]:
-                    hit_absorbation_sect_block_name: dict = blocks[block_name].pop(
+                block = blocks[block_name]
+                assert isinstance(block, dict)
+                if "hit_absorbation_sect" in block:
+                    hit_absorbation_sect_block_name: str = block.pop(
                         "hit_absorbation_sect"
                     )
-                    hit_absorbation_sect: dict = blocks.get(hit_absorbation_sect_block_name)
-                    blocks[block_name] |= hit_absorbation_sect
+                    hit_absorbation_sect = blocks[hit_absorbation_sect_block_name]
+                    assert isinstance(hit_absorbation_sect, dict)
+                    block |= hit_absorbation_sect
                     keys_to_exclude |= {hit_absorbation_sect_block_name}
             for key_to_exclude in keys_to_exclude:
                 blocks.pop(key_to_exclude)

@@ -25,7 +25,7 @@ from game_parser.models.items.artefact import CapsAnom, MonsterEmbrion, TrueArte
 from game_parser.models.items.base_item import BaseItem
 
 
-class BaseItemResource(BaseModelResource):
+class BaseItemResource(BaseModelResource[BaseItem]):
     _model_cls = BaseItem
     _fields = [
         CharField(SECTION_NAME, "name"),

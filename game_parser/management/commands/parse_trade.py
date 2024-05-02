@@ -55,6 +55,7 @@ class Command(BaseCommand):
             print("\tbuy")
             buy_section_raw = results.pop(buy_section_name)
             assert isinstance(buy_section_raw, dict)
+            assert buy_section_raw is not None
             buy_section = self._clean_section(buy_section_raw)
             self._create_buy(trader, buy_section_name, buy_section)
 
@@ -70,8 +71,12 @@ class Command(BaseCommand):
                 if sell_condition != supply_condition:
                     raise ValueError(f"{sell_condition=}, {supply_condition=}")
                 print(f"\t{sell_section_name=}, {supply_section_name=}")
-                supply_section = self._clean_section(results.pop(supply_section_name))
-                sell_section = self._clean_section(results.pop(sell_section_name))
+                supply_section_raw = results.pop(supply_section_name)
+                assert isinstance(supply_section_raw, dict)
+                supply_section = self._clean_section(supply_section_raw)
+                sell_section_raw = results.pop(sell_section_name)
+                assert isinstance(sell_section_raw, dict)
+                sell_section = self._clean_section(sell_section_raw)
                 self._create_sell(
                     trader,
                     sell_section_name,
@@ -111,7 +116,7 @@ class Command(BaseCommand):
         section_name: str,
         supply_data: dict[str, str],
         price_section: dict[str, str],
-        condition: str,
+        condition: str | None,
     ) -> None:
         sell = Sell.objects.create(
             trader=trader, name=section_name, condition=condition
@@ -148,5 +153,5 @@ class Command(BaseCommand):
                 f"Not in prices, but in supply {supply_data}, {trader.game_code}, {section_name=}"
             )
 
-    def _clean_section(self, section: dict[str, str | None]) -> dict[str, str]:
+    def _clean_section(self, section: dict[str, str]) -> dict[str, str]:
         return {key: value for key, value in section.items() if value is not None}

@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.logic.ltx_parser import LtxParser
+from game_parser.logic.ltx_parser import LtxParser, KnownExtendsType
 from game_parser.models import Monster
 
 logger = logging.getLogger(__name__)
@@ -21,7 +21,7 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         Monster.objects.all().delete()
 
-        known_bases = {
+        known_bases: KnownExtendsType = {
             "base": {},
             "monster": {
                 "monster": "true",

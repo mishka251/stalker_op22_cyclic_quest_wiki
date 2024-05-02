@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import Any
+from typing import Any, Generic, TypeVar
 
 from django.db.models import Model
 
@@ -84,10 +84,11 @@ class BooleanField(BaseResourceField):
     def _parse_non_empty_value(self, value: Any) -> Any:
         return value == BooleanField.TRUE_VALUE
 
+TModel = TypeVar("TModel", bound=Model)
 
-class BaseModelResource:
+class BaseModelResource(Generic[TModel]):
     _fields: list[BaseResourceField]
-    _model_cls: type[Model]
+    _model_cls: type[TModel]
     _exclude_fields: set[str] = set()
 
     def get_fields(self) -> list[BaseResourceField]:
@@ -96,14 +97,14 @@ class BaseModelResource:
     def _init_instance(self):
         return self._model_cls()
 
-    def _apply_data(self, data: dict[str, Any], instance):
+    def _apply_data(self, data: dict[str, Any], instance: TModel) -> None:
         for field in self.get_fields():
             value = field.get_value(data)
             field.fill_instance(instance, value)
 
     def create_instance_from_data(
         self, section_name: str, data: dict[str, Any]
-    ) -> Model:
+    ) -> TModel:
         try:
             return self._create_instance_from_data(section_name, data)
         except Exception as ex:
@@ -111,7 +112,7 @@ class BaseModelResource:
 
     def _create_instance_from_data(
         self, section_name: str, data: dict[str, Any]
-    ) -> Model:
+    ) -> TModel:
         data[SECTION_NAME] = section_name
         instance = self._init_instance()
         self._apply_data(data, instance)

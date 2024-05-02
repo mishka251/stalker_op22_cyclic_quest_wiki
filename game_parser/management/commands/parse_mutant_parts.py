@@ -1,11 +1,12 @@
 import logging
 from pathlib import Path
+from typing import Mapping, Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.logic.ltx_parser import LtxParser
+from game_parser.logic.ltx_parser import LtxParser, KnownExtendsType
 from game_parser.logic.model_resources.base_item import MonsterPartResource
 from game_parser.models import MonsterPart
 
@@ -26,7 +27,7 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         MonsterPart.objects.all().delete()
 
-        known_bases = {
+        known_bases: KnownExtendsType = {
             "II_ATTCH": {},
         }
 
@@ -38,6 +39,8 @@ class Command(BaseCommand):
         resource = MonsterPartResource()
 
         for quest_name, quest_data in quest_blocks.items():
+            if not isinstance(quest_data, dict):
+                raise ValueError
             item = resource.create_instance_from_data(quest_name, quest_data)
             if quest_data:
                 logger.warning(f"unused data {quest_data} in {quest_name} {item=}")

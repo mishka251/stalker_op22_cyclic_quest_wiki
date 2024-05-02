@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class CommunityManager(models.Manager):
+class CommunityManager(models.Manager["Community"]):
     def get_by_natural_key(self, name: str) -> "Community":
         return self.get(name=name)
 
@@ -25,7 +25,7 @@ class Community(models.Model):
         return (self.name,)
 
 
-class StalkerRankManager(models.Manager):
+class StalkerRankManager(models.Manager["StalkerRank"]):
     def get_by_natural_key(self, name: str) -> "StalkerRank":
         return self.get(name=name)
 

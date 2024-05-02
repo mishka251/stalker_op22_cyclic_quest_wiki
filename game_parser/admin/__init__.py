@@ -1,16 +1,43 @@
-from .anomaly import *
-from .custom_inventory_box import *
-from .cycle_tasks_vendors import *
-from .encyclopedia import *
+from .anomaly import (
+    AnomalyAdmin,
+)
+from .custom_inventory_box import (
+    InventoryBoxAdmin,
+    ItemInTreasureBoxAdmin,
+)
+from .cycle_tasks_vendors import (
+    CycleTaskVendorAdmin,
+)
+from .encyclopedia import (
+    EncyclopediaArticleAdmin,
+    EncyclopediaGroupAdmin,
+)
 from .game_story import *
-from .game_story_ids import *
+from .game_story_ids import GameStoryIdAdmin
 from .items import *
-from .locations import *
-from .monster import *
-from .quest import QuestAdmin
-from .quest_random_reward import *
-from .recept import *
-from .spawn_item import *
-from .trade import *
-from .translation import *
-from .treasures import *
+from .locations import (
+    LocationAdmin,
+    LocationMapInfoAdmin,
+)
+from .monster import MonsterAdmin
+from .quest import QuestAdmin, QuestRandomRewardThroughAdmin
+from .quest_random_reward import QuestRandomRewardAdmin
+from .recept import ReceptAdmin
+from .spawn_item import (
+    CampInfoAdmin,
+    CustomSpawnItemAdmin,
+    NpcLogicConfigAdmin,
+    RespawnAdmin,
+    SingleStalkerSpawnItemAdmin,
+    SpawnItemAdmin,
+    StalkerSectionAdmin,
+)
+from .trade import (
+    BuyAdmin,
+    ItemInBuyAdmin,
+    ItemInSellAdmin,
+    SellAdmin,
+    TraderAdmin,
+)
+from .translation import TranslationAdmin
+from .treasures import TreasureAdmin

@@ -172,6 +172,8 @@ class Command(BaseCommand):
             )
         WikiQuestRandomReward.objects.filter(quest=wiki_quest).delete()
         for random_reward in quest.random_rewards.all():
+            if random_reward.reward.index is None:
+                raise ValueError
             reward = WikiRandomReward.objects.get(index=random_reward.reward.index)
             WikiQuestRandomReward.objects.update_or_create(
                 quest=wiki_quest,

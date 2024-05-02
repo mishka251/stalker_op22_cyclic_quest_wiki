@@ -15,45 +15,46 @@ class Command(BaseCommand):
     @atomic
     def handle(self, **options) -> None:
         count = SpawnItem.objects.count()
-        for index, item in enumerate(SpawnItem.objects.all()):
-            if item.character_profile_str:
-                item.character_profile = (
+        for index, spawn_item in enumerate(SpawnItem.objects.all()):
+            if spawn_item.character_profile_str:
+                spawn_item.character_profile = (
                     StorylineCharacter.objects.filter(
-                        game_id=item.character_profile_str
+                        game_id=spawn_item.character_profile_str
                     ).first()
                     or StorylineCharacter.objects.filter(
-                        game_code=item.character_profile_str
+                        game_code=spawn_item.character_profile_str
                     ).first()
                     or StorylineCharacter.objects.filter(
-                        name=item.character_profile_str
+                        name=spawn_item.character_profile_str
                     ).first()
                 )
-            if item.custom_data:
+            if spawn_item.custom_data:
                 try:
                     info_parser = TextLtxParser(
                         Path(),
-                        item.custom_data,
+                        spawn_item.custom_data,
                     )
                     custom_data_sections = info_parser.get_parsed_blocks()
                     logic = custom_data_sections.get("logic")
                     if logic:
+                        assert isinstance(logic, dict)
                         cfg_file_path = logic.get("cfg")
                         if cfg_file_path:
                             npc_config = NpcLogicConfig.objects.filter(
                                 source_file_name=cfg_file_path
                             ).first()
-                            item.npc_logic = npc_config
+                            spawn_item.npc_logic = npc_config
                 except Exception:
-                    logger.exception(f"{item.custom_data}")
+                    logger.exception(f"{spawn_item.custom_data}")
 
-            item.save()
+            spawn_item.save()
             print(f"{index+1:_}/{count:_}")
 
         count = NpcLogicConfig.objects.count()
-        for index, item in enumerate(NpcLogicConfig.objects.all()):
-            if item.trade_file_name:
-                item.trade_config = Trader.objects.filter(
-                    source_file=item.trade_file_name
+        for index, npc_logic in enumerate(NpcLogicConfig.objects.all()):
+            if npc_logic.trade_file_name:
+                npc_logic.trade_config = Trader.objects.filter(
+                    source_file=npc_logic.trade_file_name
                 ).first()
-            item.save()
+            npc_logic.save()
             print(f"{index + 1:_}/{count:_}")

@@ -1,5 +1,6 @@
 import logging
 from collections import defaultdict
+from collections.abc import Mapping
 from pathlib import Path
 
 from django.conf import settings
@@ -7,9 +8,10 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 from lxml.etree import parse
 from PIL import Image
+from typing import cast
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
-from game_parser.logic.ltx_parser import LtxParser
+from game_parser.logic.ltx_parser import LtxParser, KnownExtendsType
 from game_parser.logic.model_resources.anomaly import AnomalyResource
 from game_parser.logic.model_resources.base_item import (
     AmmoResource,
@@ -216,7 +218,7 @@ class Command(BaseCommand):
         print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
         system_file = base_path / "config" / "system.ltx"
-        known_bases: dict[str, dict] = {}
+        known_bases: KnownExtendsType = {}
         EncyclopediaGroup.objects.all().delete()
         EncyclopediaArticle.objects.all().delete()
         Icon.objects.all().delete()
@@ -349,8 +351,9 @@ class Command(BaseCommand):
 
         grouped_by_cls_dict = defaultdict(set)
         for section_name in existing_sections_keys:
-            assert isinstance(results[section_name], dict)
-            cls_name = results[section_name].get("class", "None")
+            section_results = results[section_name]
+            assert isinstance(section_results, dict)
+            cls_name = section_results.get("class", "None")
             grouped_by_cls_dict[cls_name].add(section_name)
         for cls_, keys in grouped_by_cls_dict.items():
             print(cls_, len(keys))
@@ -477,8 +480,9 @@ class Command(BaseCommand):
         self._load_sections(real_iboxes, InventoryBoxResource())
 
         unused_keys = set(existing_sections_keys) - used_keys
+        assert isinstance(results, dict)
         unused_classes = {
-            results[section_name].get("class", "None")
+            cast(dict, results[section_name]).get("class", "None")
             for section_name in unused_keys
             if isinstance(results[section_name], dict)
         }

@@ -125,7 +125,7 @@ class DialogPhrase(models.Model):
     )
 
     @property
-    def get_text(self) -> str:
+    def get_text(self) -> str | None:
         if self.text:
             return self.text.rus
         return self.text_id_raw

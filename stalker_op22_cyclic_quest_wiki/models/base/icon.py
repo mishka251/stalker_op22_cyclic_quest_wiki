@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class IconManager(models.Manager):
+class IconManager(models.Manager["Icon"]):
     def get_by_natural_key(self, name: str) -> "Icon":
         return self.get(name=name)
 

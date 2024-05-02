@@ -55,7 +55,7 @@ class EscapeMap(TemplateView):
             "y_level_offset": y_level_offset,
         }
 
-    def _spawn_item_to_dict(self, spawn_item: SpawnItem) -> dict:
+    def _spawn_item_to_dict(self, spawn_item: SpawnItem) -> dict | None:
         position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
         rm = position_re.match(spawn_item.position_raw)
         if not rm:

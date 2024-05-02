@@ -4,7 +4,7 @@ from stalker_op22_cyclic_quest_wiki.models.base.icon import Icon
 from stalker_op22_cyclic_quest_wiki.models.base.translation import Translation
 
 
-class CyclicQuestManager(models.Manager):
+class CyclicQuestManager(models.Manager["CycleTaskVendor"]):
     def get_by_natural_key(self, local_id: int) -> "CycleTaskVendor":
         return self.get(local_id=local_id)
 
