@@ -13,7 +13,8 @@ class InfoPortionLoader(BaseModelXmlLoader[InfoPortion]):
 
     def _load(self, root_node: _Element, comments: list[str]) -> InfoPortion:
         info_portion_id = root_node.attrib.pop("id")
-        assert isinstance(info_portion_id, str)
+        if not isinstance(info_portion_id, str):
+            raise TypeError
         info_portion = InfoPortion.objects.create(game_id=info_portion_id)
         article_raw = []
         disable_raw = []

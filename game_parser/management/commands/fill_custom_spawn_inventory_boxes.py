@@ -19,7 +19,7 @@ class Command(BaseCommand):
             if not item.custom_data:
                 continue
             item.custom_inventory_box = InventoryBox.objects.filter(
-                source_file_name=f"config\{item.custom_data.strip()}",
-            ).first()  # noqa: W605
+                source_file_name=f"config\\{item.custom_data.strip()}",
+            ).first()
             item.save()
             print(f"{index+1}/{count}")

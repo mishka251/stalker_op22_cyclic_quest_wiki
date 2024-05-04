@@ -57,11 +57,13 @@ class Command(BaseCommand):
 
         inv_grid_width = item.inv_grid_width
         inv_grid_height = item.inv_grid_height
-
-        assert inv_grid_x is not None
-        assert inv_grid_y is not None
-        assert inv_grid_width is not None
-        assert inv_grid_height is not None
+        if (
+            inv_grid_x is None
+            or inv_grid_y is None
+            or inv_grid_width is None
+            or inv_grid_height is None
+        ):
+            raise TypeError
 
         left = inv_grid_x * self.IMAGE_PART_WIDTH
         top = inv_grid_y * self.IMAGE_PART_HEIGHT

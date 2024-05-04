@@ -34,7 +34,7 @@ class Command(BaseCommand):
         for quest_name, quest_data in blocks.items():
             print(quest_name)
             if not isinstance(quest_data, dict):
-                raise ValueError
+                raise TypeError
             resource = self._get_resource(quest_name, quest_data)
             resource.create_instance_from_data(quest_name, quest_data)
             if quest_data:

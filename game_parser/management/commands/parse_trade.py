@@ -50,12 +50,15 @@ class Command(BaseCommand):
 
             main_block_name = "trader"
             main_block = results.pop(main_block_name)
-            assert isinstance(main_block, dict)
+            if not isinstance(main_block, dict):
+                raise TypeError
             buy_section_name = main_block.pop("buy_condition")
             print("\tbuy")
             buy_section_raw = results.pop(buy_section_name)
-            assert isinstance(buy_section_raw, dict)
-            assert buy_section_raw is not None
+            if not isinstance(buy_section_raw, dict):
+                raise TypeError
+            if buy_section_raw is None:
+                raise TypeError
             buy_section = self._clean_section(buy_section_raw)
             self._create_buy(trader, buy_section_name, buy_section)
 
@@ -72,10 +75,12 @@ class Command(BaseCommand):
                     raise ValueError(f"{sell_condition=}, {supply_condition=}")
                 print(f"\t{sell_section_name=}, {supply_section_name=}")
                 supply_section_raw = results.pop(supply_section_name)
-                assert isinstance(supply_section_raw, dict)
+                if not isinstance(supply_section_raw, dict):
+                    raise TypeError
                 supply_section = self._clean_section(supply_section_raw)
                 sell_section_raw = results.pop(sell_section_name)
-                assert isinstance(sell_section_raw, dict)
+                if not isinstance(sell_section_raw, dict):
+                    raise TypeError
                 sell_section = self._clean_section(sell_section_raw)
                 self._create_sell(
                     trader,

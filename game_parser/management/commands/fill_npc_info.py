@@ -30,20 +30,7 @@ class Command(BaseCommand):
                 )
             if spawn_item.custom_data:
                 try:
-                    info_parser = TextLtxParser(
-                        Path(),
-                        spawn_item.custom_data,
-                    )
-                    custom_data_sections = info_parser.get_parsed_blocks()
-                    logic = custom_data_sections.get("logic")
-                    if logic:
-                        assert isinstance(logic, dict)
-                        cfg_file_path = logic.get("cfg")
-                        if cfg_file_path:
-                            npc_config = NpcLogicConfig.objects.filter(
-                                source_file_name=cfg_file_path,
-                            ).first()
-                            spawn_item.npc_logic = npc_config
+                    spawn_item.npc_logic = self.parse_custom_data(spawn_item)
                 except Exception:
                     logger.exception(f"{spawn_item.custom_data}")
 
@@ -58,3 +45,20 @@ class Command(BaseCommand):
                 ).first()
             npc_logic.save()
             print(f"{index + 1:_}/{count:_}")
+
+    def parse_custom_data(self, spawn_item) -> NpcLogicConfig | None:
+        info_parser = TextLtxParser(
+            Path(),
+            spawn_item.custom_data,
+        )
+        custom_data_sections = info_parser.get_parsed_blocks()
+        logic = custom_data_sections.get("logic")
+        if logic:
+            if not isinstance(logic, dict):
+                raise TypeError
+            cfg_file_path = logic.get("cfg")
+            if cfg_file_path:
+                return NpcLogicConfig.objects.filter(
+                    source_file_name=cfg_file_path,
+                ).first()
+        return None

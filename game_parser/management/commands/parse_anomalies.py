@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-from typing import Any, Mapping
 
 from django.conf import settings
 from django.core.management.base import BaseCommand

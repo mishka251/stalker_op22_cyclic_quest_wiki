@@ -15,7 +15,6 @@ from stalker_op22_cyclic_quest_wiki.models import (
     CycleTaskTargetCamp,
     CycleTaskTargetItem,
     CycleTaskTargetStalker,
-    MapPosition,
 )
 from stalker_op22_cyclic_quest_wiki.models import CycleTaskVendor as WikiVendor
 from stalker_op22_cyclic_quest_wiki.models import CyclicQuest as WikiQuest
@@ -23,6 +22,7 @@ from stalker_op22_cyclic_quest_wiki.models import Icon as WikiIcon
 from stalker_op22_cyclic_quest_wiki.models import Item as WikiItem
 from stalker_op22_cyclic_quest_wiki.models import ItemReward as WikiItemReward
 from stalker_op22_cyclic_quest_wiki.models import Location as WikiLocation
+from stalker_op22_cyclic_quest_wiki.models import MapPosition
 from stalker_op22_cyclic_quest_wiki.models import MoneyReward as WikiMoneyReward
 from stalker_op22_cyclic_quest_wiki.models import (
     QuestRandomReward as WikiQuestRandomReward,

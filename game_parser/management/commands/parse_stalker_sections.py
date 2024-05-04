@@ -49,11 +49,13 @@ class Command(BaseCommand):
 
         parser = LtxParser(system_file)
         results = parser.get_parsed_blocks()
-        assert isinstance(results, dict)
+        if not isinstance(results, dict):
+            raise TypeError
         known_extends = {k: v for k, v in results.items() if isinstance(v, dict)}
         print("all_system parsed")
         for path in self.get_file_paths():
-            assert any(isinstance(v, dict) for v in results.values())
+            if not any(isinstance(v, dict) for v in results.values()):
+                raise TypeError
             parser = LtxParser(path, known_extends=known_extends)
             results |= parser.get_parsed_blocks()
             known_extends = {k: v for k, v in results.items() if isinstance(v, dict)}
@@ -63,7 +65,8 @@ class Command(BaseCommand):
         grouped_by_cls_dict = defaultdict(set)
         for section_name in existing_sections_keys:
             section = results[section_name]
-            assert isinstance(section, dict)
+            if not isinstance(section, dict):
+                raise TypeError
             cls_name = section.get("class", "None")
             grouped_by_cls_dict[cls_name].add(section_name)
         for cls_, keys in grouped_by_cls_dict.items():

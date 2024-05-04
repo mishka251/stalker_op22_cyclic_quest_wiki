@@ -105,7 +105,8 @@ class Command(BaseCommand):
             parser = LtxParser(file, known_extends=self.base_sections)
 
             for section_id, section in parser.get_parsed_blocks().items():
-                assert isinstance(section, dict)
+                if not isinstance(section, dict):
+                    raise TypeError
                 section_parent = section["__parent"]
                 item = self._create_item(section_id, section_parent, section)
                 spawn_items.append(item)

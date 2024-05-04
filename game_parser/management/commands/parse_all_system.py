@@ -253,10 +253,12 @@ class Command(BaseCommand):
 
         parser = LtxParser(system_file, known_extends=known_bases)
         results = parser.get_parsed_blocks()
-        assert isinstance(results, dict)
+        if not isinstance(results, dict):
+            raise TypeError
         print("all_system parsed")
         translation_config = results["string_table"]
-        assert isinstance(translation_config, dict)
+        if not isinstance(translation_config, dict):
+            raise TypeError
         translation_files_sources = self._get_paths_list(
             base_path / "config" / "text",
             translation_config["files"],
@@ -272,7 +274,8 @@ class Command(BaseCommand):
         )
 
         texture_desc_config = results["texture_desc"]
-        assert isinstance(texture_desc_config, dict)
+        if not isinstance(texture_desc_config, dict):
+            raise TypeError
         texture_desc_sources = self._get_paths_list(
             base_path / "config" / "ui",
             texture_desc_config["files"],
@@ -287,7 +290,8 @@ class Command(BaseCommand):
         )
 
         info_portions_config = results["info_portions"]
-        assert isinstance(info_portions_config, dict)
+        if not isinstance(info_portions_config, dict):
+            raise TypeError
         info_portions_sources = self._get_paths_list(
             base_path / "config" / "gameplay",
             info_portions_config["files"],
@@ -302,7 +306,8 @@ class Command(BaseCommand):
         )
 
         encyclopedia_config = results["encyclopedia"]
-        assert isinstance(encyclopedia_config, dict)
+        if not isinstance(encyclopedia_config, dict):
+            raise TypeError
         encyclopedia_sources = self._get_paths_list(
             base_path / "config" / "gameplay",
             encyclopedia_config["files"],
@@ -317,7 +322,8 @@ class Command(BaseCommand):
         )
 
         dialogs_config = results["dialogs"]
-        assert isinstance(dialogs_config, dict)
+        if not isinstance(dialogs_config, dict):
+            raise TypeError
         dialogs_sources = self._get_paths_list(
             base_path / "config" / "gameplay",
             dialogs_config["files"],
@@ -332,7 +338,8 @@ class Command(BaseCommand):
         )
 
         profiles_config = results["profiles"]
-        assert isinstance(profiles_config, dict)
+        if not isinstance(profiles_config, dict):
+            raise TypeError
         profiles_sources = self._get_paths_list(
             base_path / "config" / "gameplay",
             profiles_config["files"],
@@ -364,7 +371,8 @@ class Command(BaseCommand):
         grouped_by_cls_dict = defaultdict(set)
         for section_name in existing_sections_keys:
             section_results = results[section_name]
-            assert isinstance(section_results, dict)
+            if not isinstance(section_results, dict):
+                raise TypeError
             cls_name = section_results.get("class", "None")
             grouped_by_cls_dict[cls_name].add(section_name)
         for cls_, keys in grouped_by_cls_dict.items():
@@ -524,7 +532,8 @@ class Command(BaseCommand):
         self._load_sections(real_iboxes, InventoryBoxResource())
 
         unused_keys = set(existing_sections_keys) - used_keys
-        assert isinstance(results, dict)
+        if not isinstance(results, dict):
+            raise TypeError
         unused_classes = {
             cast(dict, results[section_name]).get("class", "None")
             for section_name in unused_keys
@@ -611,7 +620,8 @@ class Command(BaseCommand):
             image = None
             for child_node in root_node:
                 if child_node.tag == "file_name":
-                    assert isinstance(child_node.text, str)
+                    if not isinstance(child_node.text, str):
+                        raise TypeError
                     image_file_path = (
                         settings.OP22_GAME_DATA_PATH
                         / "textures"

@@ -289,7 +289,7 @@ class Command(BaseCommand):
         }
         for quest_name, quest_data in quest_blocks.items():
             if not isinstance(quest_data, dict):
-                raise ValueError
+                raise TypeError
             maybe_instance = self._parse_data_to_model(quest_name, quest_data)
             if maybe_instance is None:
                 logger.warning(f"Нет объекта для  {quest_name=}")

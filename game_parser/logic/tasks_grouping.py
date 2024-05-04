@@ -232,7 +232,8 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
 
     if db_task.type in stalker_types:
         stalker = db_task.target_stalker
-        assert stalker is not None
+        if stalker is None:
+            raise TypeError
         single_spawn_items = SingleStalkerSpawnItem.objects.filter(
             stalker_section=stalker,
         )
@@ -265,7 +266,8 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
                 else db_task.target_camp_to_defeat
             )
         )
-        assert target_camp_item is not None
+        if target_camp_item is None:
+            raise TypeError
         camp_map_info = _spawn_item_to_map_info(
             target_camp_item.section_name,
             target_camp_item,

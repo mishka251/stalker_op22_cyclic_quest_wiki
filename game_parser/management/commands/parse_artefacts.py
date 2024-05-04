@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-from typing import Any, Mapping
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -95,19 +94,22 @@ class Command(BaseCommand):
 
             parser = LtxParser(file_path, known_extends=known_bases)
             results = parser.get_parsed_blocks()
-            assert isinstance(results, dict)
+            if not isinstance(results, dict):
+                raise TypeError
             blocks: LtxParserResults = {**results}
             block_names = list(blocks.keys())
             keys_to_exclude: set[str] = set()
             for block_name in block_names:
                 block = blocks[block_name]
-                assert isinstance(block, dict)
+                if not isinstance(block, dict):
+                    raise TypeError
                 if "hit_absorbation_sect" in block:
                     hit_absorbation_sect_block_name: str = block.pop(
                         "hit_absorbation_sect",
                     )
                     hit_absorbation_sect = blocks[hit_absorbation_sect_block_name]
-                    assert isinstance(hit_absorbation_sect, dict)
+                    if not isinstance(hit_absorbation_sect, dict):
+                        raise TypeError
                     block |= hit_absorbation_sect
                     keys_to_exclude |= {hit_absorbation_sect_block_name}
             for key_to_exclude in keys_to_exclude:
@@ -117,7 +119,8 @@ class Command(BaseCommand):
 
             for quest_name, quest_data in blocks.items():
                 print(quest_name)
-                assert isinstance(quest_data, dict)
+                if not isinstance(quest_data, dict):
+                    raise TypeError
                 resource = self._get_resource(quest_name, quest_data)
                 item = resource.create_instance_from_data(quest_name, quest_data)
                 if quest_data:

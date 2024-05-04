@@ -14,10 +14,11 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         count = CyclicQuest.objects.count()
         for index, item in enumerate(CyclicQuest.objects.all()):
-            assert item.giver_code_local is not None and isinstance(
+            if item.giver_code_local is None or not isinstance(
                 item.giver_code_local,
                 str,
-            )
+            ):
+                raise TypeError
             item.vendor = CycleTaskVendor.objects.filter(
                 vendor_id=int(item.giver_code_local),
             ).first()

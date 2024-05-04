@@ -48,11 +48,13 @@ class Command(BaseCommand):
 
         for quest_name, quest_data in quest_blocks.items():
             if quest_name in self._random_rewards_keys:
-                assert isinstance(quest_data, list)
+                if not isinstance(quest_data, list):
+                    raise TypeError
                 random_reward = self._create_random_reward(quest_name, quest_data)
                 random_reward.save()
             else:
-                assert isinstance(quest_data, dict)
+                if not isinstance(quest_data, dict):
+                    raise TypeError
                 quest = self._quest_from_dict(quest_name, quest_data)
                 quest.save()
 

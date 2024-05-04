@@ -192,7 +192,8 @@ class VendorCyclicQuests(View):
             }
 
         translation = camp.location.name_translation
-        assert translation is None or isinstance(translation, Translation)
+        if translation is not None and not isinstance(translation, Translation):
+            raise ValueError
         location_name = (
             {
                 "rus": translation.rus,

@@ -1,9 +1,10 @@
 from typing import TYPE_CHECKING
 
 from django.db import models
-from polymorphic.managers import PolymorphicManager
 
 if TYPE_CHECKING:
+    from polymorphic.managers import PolymorphicManager
+
     from stalker_op22_cyclic_quest_wiki.models import CycleTaskTarget, QuestReward
 from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.vendor import CycleTaskVendor
 

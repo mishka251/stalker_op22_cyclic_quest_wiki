@@ -53,10 +53,9 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         artefact = None
         if ltx_str:
             artefact = Artefact.objects.filter(name=ltx_str).first()
+        if name is None or text is None or game_id is None:
+            raise ValueError
         try:
-            assert name is not None
-            assert text is not None
-            assert game_id is not None
             article = EncyclopediaArticle.objects.create(
                 game_id=game_id,
                 name=name,

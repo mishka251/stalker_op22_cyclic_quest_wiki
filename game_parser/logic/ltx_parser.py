@@ -67,7 +67,8 @@ class BaseLtxParser:
                     raw_blocks[current_block_header] = []
                     blocks_bases[current_block_header] = bases
                     continue
-            assert current_block_header is not None
+            if current_block_header is None:
+                raise TypeError
             if line.endswith(MULTILINE_BLOCK_START):
                 if current_multiline_block is not None:
                     raise ValueError("Nested multiline block")

@@ -40,7 +40,8 @@ class Command(BaseCommand):
         for level_name in locations_list:
             location_data = results_lower[level_name]
             print(location_data)
-            assert isinstance(location_data, dict)
+            if not isinstance(location_data, dict):
+                raise TypeError
 
             location = LocationMapInfo.objects.create(
                 name=level_name,

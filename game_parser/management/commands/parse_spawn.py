@@ -22,8 +22,10 @@ class Command(BaseCommand):
         results = parser.get_parsed_blocks()
 
         alife_files = results["alife"]
-        assert isinstance(alife_files, dict)
-        assert isinstance(alife_files["source_files"], str)
+        if not isinstance(alife_files, dict):
+            raise TypeError
+        if not isinstance(alife_files["source_files"], str):
+            raise TypeError
         level_files = alife_files["source_files"].split(",\n")
         print(level_files)
         spawn_items = []
@@ -33,7 +35,8 @@ class Command(BaseCommand):
             level_parser = LtxParser(level_file_path)
 
             for section in level_parser.get_parsed_blocks().values():
-                assert isinstance(section, dict)
+                if not isinstance(section, dict):
+                    raise TypeError
                 item = self._create_item(level_file_name, section)
                 spawn_items.append(item)
         SpawnItem.objects.bulk_create(spawn_items, batch_size=2_000)

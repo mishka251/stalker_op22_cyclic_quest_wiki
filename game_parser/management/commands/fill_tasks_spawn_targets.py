@@ -15,7 +15,8 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         count = CyclicQuest.objects.count()
         for index, item in enumerate(CyclicQuest.objects.all()):
-            assert isinstance(item.target_str, str)
+            if not isinstance(item.target_str, str):
+                raise TypeError
             if item.type == QuestKinds.kill_stalker:
                 item.target_stalker = StalkerSection.objects.filter(
                     section_name=item.target_str,

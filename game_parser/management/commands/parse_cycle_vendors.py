@@ -22,7 +22,8 @@ class Command(BaseCommand):
         results = parser.get_parsed_blocks()
 
         vendor = results["vendor"]
-        assert isinstance(vendor, dict)
+        if not isinstance(vendor, dict):
+            raise TypeError
         for vendor_id_raw, game_story_id_raw in vendor.items():
             vendor_id = int(vendor_id_raw)
             game_story_id = int(game_story_id_raw)

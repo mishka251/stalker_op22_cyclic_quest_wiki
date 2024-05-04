@@ -82,13 +82,13 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
                 team = child_node.text
             else:
                 logger.warning(
-                    f"Unexpected node %s in character %s",
+                    "Unexpected node %s in character %s",
                     child_node.tag,
                     character_id,
                 )
-        assert name is not None
-        assert icon_raw is not None
-        assert class_raw is not None
+
+        if name is None or icon_raw is None or class_raw is None:
+            raise TypeError
         return StorylineCharacter.objects.create(
             game_code=character_id,
             game_id=character_id,

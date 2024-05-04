@@ -23,8 +23,10 @@ class Command(BaseCommand):
 
         parser = LtxParser(self.get_file_path())
         results = parser.get_parsed_blocks()
-        assert isinstance(results, dict)
-        assert isinstance(results["story_ids"], dict)
+        if not isinstance(results, dict):
+            raise TypeError
+        if not isinstance(results["story_ids"], dict):
+            raise TypeError
         block: dict[str, str] = results["story_ids"]
         for game_id_raw, section_name_raw in block.items():
             game_id = int(game_id_raw)

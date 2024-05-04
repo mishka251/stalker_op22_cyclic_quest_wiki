@@ -23,7 +23,8 @@ class IconLoader(BaseModelXmlLoader[Icon]):
             raise ValueError(f"Unexpected node {texture_node.tag}")
 
         texture_id = texture_node.attrib.pop("id")
-        assert isinstance(texture_id, str)
+        if not isinstance(texture_id, str):
+            raise TypeError
         x = int(texture_node.attrib.pop("x"))
         y = int(texture_node.attrib.pop("y"))
         width = int(texture_node.attrib.pop("width"))

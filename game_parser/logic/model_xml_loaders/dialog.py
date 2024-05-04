@@ -23,7 +23,7 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
         if dialog_node.tag != "dialog":
             raise ValueError(f"Unexpected node {dialog_node.tag}")
         dialog_id = dialog_node.attrib.pop("id", "None")
-        if dialog_id is "None":
+        if dialog_id == "None":
             raise ValueError(f"Unexpected id is None {dialog_node}")
         dialog = Dialog.objects.create(
             game_id=dialog_id,

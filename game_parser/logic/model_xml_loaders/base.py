@@ -13,14 +13,14 @@ class BaseModelXmlLoader(Generic[TModel]):
     expected_tag: str
     skip_tags: set[str] = set()
 
-    def load(self, root_node: Element, comments: list[str] | None = None) -> TModel:
+    def load(self, root_node: "Element", comments: list[str] | None = None) -> TModel:
         comments = comments or []
         return self._load(root_node, comments)
 
-    def _load(self, root_node: Element, comments: list[str]) -> TModel:
+    def _load(self, root_node: "Element", comments: list[str]) -> TModel:
         raise NotImplementedError
 
-    def load_bulk(self, root_node: Element) -> list[TModel]:
+    def load_bulk(self, root_node: "Element") -> list[TModel]:
         comments: list[str] = []
         items = []
         for child_node in root_node:

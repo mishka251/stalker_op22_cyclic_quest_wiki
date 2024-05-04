@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-from typing import Any, Mapping
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -49,7 +48,7 @@ class Command(BaseCommand):
         for quest_name, quest_data in quest_blocks.items():
             print(quest_name)
             if not isinstance(quest_data, dict):
-                raise ValueError
+                raise TypeError
             resource.create_instance_from_data(quest_name, quest_data)
             if quest_data:
                 logger.warning(f"unused data {quest_data} in {quest_name}")
