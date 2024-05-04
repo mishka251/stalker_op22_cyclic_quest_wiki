@@ -20,11 +20,11 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
     expected_tag = "article"
 
     def _load(self, article_node: _Element, comments: list[str]) -> EncyclopediaArticle:
-        game_id = article_node.attrib.get("id")
-        name = article_node.attrib.get("name")
-        group_name = article_node.attrib.get("group")
+        game_id: str | None = article_node.attrib.get("id")
+        name: str | None = article_node.attrib.get("name")
+        group_name : str | None= article_node.attrib.get("group")
         ltx_str = None
-        text = None
+        text: str | None = None
         icon = None
         for child_node in article_node:
             if child_node.tag == "ltx":
@@ -54,6 +54,9 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         if ltx_str:
             artefact = Artefact.objects.filter(name=ltx_str).first()
         try:
+            assert name is not None
+            assert text is not None
+            assert game_id is not None
             article = EncyclopediaArticle.objects.create(
                 game_id=game_id,
                 name=name,

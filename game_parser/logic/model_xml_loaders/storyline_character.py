@@ -17,8 +17,8 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
             raise ValueError
         character_id = character_node.attrib.pop("id")
         character_no_random = bool(character_node.attrib.get("no_random"))
-        name = None
-        icon_raw = None
+        name: str | None = None
+        icon_raw: str | None = None
         community_raw = None
         dialogs_raw = []
         rank = None
@@ -26,7 +26,7 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
         start_dialog = None
         visual = None
         supplies_raw = None
-        class_raw = None
+        class_raw: str | None = None
         crouch_type_raw = None
         snd_config_raw = None
         money_min_raw = None
@@ -80,6 +80,9 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
                 logger.warning(
                     f"Unexpected node %s in character %s", child_node.tag, character_id
                 )
+        assert name is not None
+        assert icon_raw is not None
+        assert class_raw is not None
         return StorylineCharacter.objects.create(
             game_code=character_id,
             game_id=character_id,

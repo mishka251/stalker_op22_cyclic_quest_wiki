@@ -238,7 +238,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
             for item in possible_spawn_items
         ]
         return StalkerTarget(
-            stalker,
+            str(stalker),
             str(stalker),
             [point for point in maybe_map_points if point is not None],
         )

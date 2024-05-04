@@ -88,6 +88,7 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
         )
 
         for map_location_type in map_location_types:
+            assert map_location_type["name"] is not None
             MapLocationType.objects.create(
                 objective=objective,
                 hint_raw=map_location_type["hint"],
