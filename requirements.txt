@@ -14,3 +14,4 @@ gunicorn==22.0.0
 dj-database-url
 psycopg2==2.9.9
 sentry-sdk[django]
+python-dotenv
