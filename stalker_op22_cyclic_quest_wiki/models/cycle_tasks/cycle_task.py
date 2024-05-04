@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING
 
 from django.db import models
+from polymorphic.managers import PolymorphicManager
+
 if TYPE_CHECKING:
-    from django.db.models.manager import RelatedManager
-    from stalker_op22_cyclic_quest_wiki.models import MoneyReward, ItemReward, QuestRandomReward, TreasureReward, \
-        CycleTaskTarget
+    from stalker_op22_cyclic_quest_wiki.models import QuestReward, CycleTaskTarget
 from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.vendor import CycleTaskVendor
 
 
@@ -28,12 +28,8 @@ class CyclicQuest(models.Model):
         verbose_name = "Циклический квест"
         verbose_name_plural = "Циклические квесты"
 
-    moneyreward: "RelatedManager[MoneyReward]"
-    itemreward: "RelatedManager[ItemReward]"
-    questrandomreward: "RelatedManager[QuestRandomReward]"
-    treasurereward: "RelatedManager[TreasureReward]"
-    target: "RelatedManager[CycleTaskTarget]"
-
+    rewards: "PolymorphicManager[QuestReward]"
+    target: "PolymorphicManager[CycleTaskTarget]"
 
     objects = CyclicQuestManager()
 

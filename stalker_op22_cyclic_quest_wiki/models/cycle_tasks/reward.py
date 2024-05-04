@@ -1,8 +1,11 @@
 from typing import TYPE_CHECKING
 
 from django.db import models
+from polymorphic.managers import PolymorphicManager
 from polymorphic.models import PolymorphicModel
 
+from stalker_op22_cyclic_quest_wiki.models.base.base_item import Item
+from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import CyclicQuest
 from stalker_op22_cyclic_quest_wiki.models.base.icon import Icon
 
 if TYPE_CHECKING:
@@ -20,7 +23,15 @@ class QuestReward(PolymorphicModel):
         null=False,
         on_delete=models.CASCADE,
         verbose_name="ЦЗ",
+        related_name="rewards",
     )
+
+
+class MoneyRewardManager(PolymorphicManager):
+
+    def get_by_natural_key(self, quest_game_code: str) -> "MoneyReward":
+        quest = CyclicQuest.objects.get_by_natural_key(quest_game_code)
+        return self.get(quest=quest)
 
 
 class MoneyReward(QuestReward):
@@ -31,6 +42,7 @@ class MoneyReward(QuestReward):
         verbose_name = "Деньги за ЦЗ"
         verbose_name_plural = "Деньги за ЦЗ"
 
+    objects = MoneyRewardManager()
     money = models.PositiveIntegerField(null=False, verbose_name="Сумма")
 
     def natural_key(self) -> tuple:
@@ -38,6 +50,14 @@ class MoneyReward(QuestReward):
 
     def __str__(self):
         return f"{self.money} рублей за квест {self.quest}"
+
+
+class ItemRewardManager(PolymorphicManager):
+
+    def get_by_natural_key(self, quest_game_code: str, item_name: str) -> "ItemReward":
+        quest = CyclicQuest.objects.get_by_natural_key(quest_game_code)
+        item = Item.objects.get_by_natural_key(item_name)
+        return self.get(quest=quest, item=item)
 
 
 class ItemReward(QuestReward):
@@ -48,6 +68,7 @@ class ItemReward(QuestReward):
         verbose_name = "Предмет за ЦЗ"
         verbose_name_plural = "Предметы за ЦЗ"
 
+    objects = ItemRewardManager()
     item = models.ForeignKey(
         "Item",
         null=False,
@@ -56,7 +77,7 @@ class ItemReward(QuestReward):
         related_name="use_in_quest_rewards",
     )
     count = models.PositiveIntegerField(
-        default=1, null=False, verbose_name="Кол-во предметов"
+        default=1, null=False, verbose_name="Кол-во предметов",
     )
 
     def natural_key(self) -> tuple:
@@ -64,6 +85,14 @@ class ItemReward(QuestReward):
 
     def __str__(self):
         return f"{self.count} {self.item} за квест {self.quest}"
+
+
+class QuestRandomRewardManager(PolymorphicManager):
+
+    def get_by_natural_key(self, quest_game_code: str, reward_index: int) -> "QuestRandomReward":
+        quest = CyclicQuest.objects.get_by_natural_key(quest_game_code)
+        reward = RandomRewardInfo.objects.get_by_natural_key(reward_index)
+        return self.get(quest=quest, reward=reward)
 
 
 class QuestRandomReward(QuestReward):
@@ -74,15 +103,16 @@ class QuestRandomReward(QuestReward):
         verbose_name = "Случайная награда за ЦЗ"
         verbose_name_plural = "Случайная награда за ЦЗ"
 
+    objects = QuestRandomRewardManager()
     reward = models.ForeignKey(
         "RandomRewardInfo",
         null=False,
         on_delete=models.PROTECT,
         verbose_name="Описание случайной награды",
-        related_name="use_in_quests"
+        related_name="use_in_quests",
     )
     count = models.PositiveIntegerField(
-        default=1, null=False, verbose_name="Количество"
+        default=1, null=False, verbose_name="Количество",
     )
 
     def natural_key(self) -> tuple:
@@ -92,11 +122,16 @@ class QuestRandomReward(QuestReward):
         return f"{self.count} {self.reward} за квест {self.quest}"
 
 
+class RandomRewardInfoManager(models.Manager["RandomRewardInfo"]):
+    def get_by_natural_key(self, index: int) -> "RandomRewardInfo":
+        return self.get(index=index)
+
+
 class RandomRewardInfo(models.Model):
     class Meta:
         verbose_name = "Описание случайной награды"
         verbose_name_plural = "Описание случайных наград"
-
+    objects = RandomRewardInfoManager()
     use_in_quests: "RelatedManager[QuestRandomReward]"
     index = models.IntegerField(null=False, unique=True, verbose_name="Индекс")
     icon = models.ForeignKey(
@@ -114,6 +149,13 @@ class RandomRewardInfo(models.Model):
         return self.description.rus or self.description.code
 
 
+class TreasureRewardManager(PolymorphicManager):
+
+    def get_by_natural_key(self, quest_game_code: str) -> "TreasureReward":
+        quest = CyclicQuest.objects.get_by_natural_key(quest_game_code)
+        return self.get(quest=quest)
+
+
 class TreasureReward(QuestReward):
     class Meta:
         unique_together = [
@@ -121,6 +163,8 @@ class TreasureReward(QuestReward):
         ]
         verbose_name = "Тайник в награду за ЦЗ"
         verbose_name_plural = "Тайники в награду за ЦЗ"
+
+    objects = TreasureRewardManager()
 
     def natural_key(self) -> tuple:
         return (*self.quest.natural_key(),)

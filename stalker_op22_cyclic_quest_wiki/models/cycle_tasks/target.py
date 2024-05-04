@@ -1,12 +1,19 @@
 from django.db import models
+from polymorphic.managers import PolymorphicManager
 from polymorphic.models import PolymorphicModel
+from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import CyclicQuest
+
+class CycleTaskTargetManager(PolymorphicManager):
+    def get_by_natural_key(self, quest_game_code: str) -> "CycleTaskTarget":
+        quest = CyclicQuest.objects.get_by_natural_key(quest_game_code)
+        return self.get(quest=quest)
 
 
 class CycleTaskTarget(PolymorphicModel):
     class Meta:
         verbose_name_plural = "Цели ЦЗ"
         verbose_name = "Цель ЦЗ"
-
+    objects = CycleTaskTargetManager()
     quest = models.ForeignKey(
         "CyclicQuest",
         null=False,
