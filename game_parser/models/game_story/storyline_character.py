@@ -48,7 +48,10 @@ class Rank(models.Model):
         choices=RankType.choices, null=False, max_length=128, verbose_name="Тип"
     )
     translation = models.ForeignKey(
-        "Translation", null=True, on_delete=models.SET_NULL, verbose_name="Название",
+        "Translation",
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Название",
         related_name="+",
     )
     min_score = models.PositiveSmallIntegerField(
@@ -78,19 +81,29 @@ class StorylineCharacter(Character):
     game_id = models.CharField(max_length=256, unique=True)
     name_raw = models.CharField(max_length=512)
     name_translation = models.ForeignKey(
-        Translation, null=True, on_delete=models.SET_NULL,
+        Translation,
+        null=True,
+        on_delete=models.SET_NULL,
         related_name="+",
     )
 
     no_random = models.IntegerField(null=True)
 
     community_default_raw = models.CharField(max_length=10, null=True)
-    community = models.ForeignKey(Community, null=True, on_delete=models.SET_NULL,
-        related_name="+",)
+    community = models.ForeignKey(
+        Community,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
 
     icon_raw = models.CharField(max_length=512)
-    icon = models.ForeignKey(Icon, null=True, on_delete=models.SET_NULL,
-        related_name="+",)
+    icon = models.ForeignKey(
+        Icon,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
 
     class_raw = models.CharField(max_length=512)
 

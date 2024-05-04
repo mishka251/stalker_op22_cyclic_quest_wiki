@@ -52,15 +52,24 @@ class Weapon(BaseItem):
     slot = models.IntegerField(null=True)
 
     scope = models.ForeignKey(
-        "Scope", on_delete=models.SET_NULL, null=True, verbose_name="Прицел", related_name="use_in_weapons"
+        "Scope",
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name="Прицел",
+        related_name="use_in_weapons",
     )
     silencer = models.ForeignKey(
-        "Silencer", on_delete=models.SET_NULL, null=True, verbose_name="Глушитель", related_name="use_in_weapons"
+        "Silencer",
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name="Глушитель",
+        related_name="use_in_weapons",
     )
     grenade_launcher = models.ForeignKey(
         "GrenadeLauncher",
         on_delete=models.SET_NULL,
         null=True,
-        verbose_name="Подствольник", related_name="use_in_weapons"
+        verbose_name="Подствольник",
+        related_name="use_in_weapons",
     )
     ammo = models.ManyToManyField("Ammo", verbose_name="Патроны")

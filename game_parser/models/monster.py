@@ -20,12 +20,23 @@ class Monster(models.Model):
     species = models.CharField(max_length=255, null=True)
     spec_rank = models.CharField(max_length=255, null=True)
 
-    icon = models.ForeignKey("Icon", on_delete=models.SET_NULL, null=True, related_name="+",)
+    icon = models.ForeignKey(
+        "Icon",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="+",
+    )
     monster_part = models.ForeignKey(
-        "MonsterPart", on_delete=models.SET_NULL, null=True, related_name="drop_from_monster",
+        "MonsterPart",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="drop_from_monster",
     )
     name_translation = models.ForeignKey(
-        "Translation", on_delete=models.SET_NULL, null=True, related_name="+",
+        "Translation",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="+",
     )
 
     def __str__(self) -> str:

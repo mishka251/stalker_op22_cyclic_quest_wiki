@@ -29,14 +29,20 @@ class QuestGiversView(View):
             name_translations = npc_profile.name_translation
             quest_giver_json = {
                 "id": str(quest_giver.id),
-                "name": {
-                    "rus": name_translations.rus,
-                    "eng": name_translations.eng,
-                    "ukr": name_translations.ukr,
-                    "pln": name_translations.pln,
-                    "fra": name_translations.fra,
-                } if name_translations is not None else None,
-                "icon_url": npc_profile.icon.icon.url if npc_profile.icon is not None else None,
+                "name": (
+                    {
+                        "rus": name_translations.rus,
+                        "eng": name_translations.eng,
+                        "ukr": name_translations.ukr,
+                        "pln": name_translations.pln,
+                        "fra": name_translations.fra,
+                    }
+                    if name_translations is not None
+                    else None
+                ),
+                "icon_url": (
+                    npc_profile.icon.icon.url if npc_profile.icon is not None else None
+                ),
             }
             results.append(quest_giver_json)
         return JsonResponse(results, safe=False)
@@ -103,13 +109,17 @@ class VendorCyclicQuests(View):
         return {
             "name": item.name,
             "icon_url": item.inv_icon.url,
-            "description": {
-                "rus": item.description_translation.rus,
-                "eng": item.description_translation.eng,
-                "ukr": item.description_translation.ukr,
-                "pln": item.description_translation.pln,
-                "fra": item.description_translation.fra,
-            } if item.description_translation is not None else None,
+            "description": (
+                {
+                    "rus": item.description_translation.rus,
+                    "eng": item.description_translation.eng,
+                    "ukr": item.description_translation.ukr,
+                    "pln": item.description_translation.pln,
+                    "fra": item.description_translation.fra,
+                }
+                if item.description_translation is not None
+                else None
+            ),
         }
 
     def _random_reward_to_json(self, item: QuestRandomRewardThrough) -> dict:
@@ -132,7 +142,11 @@ class VendorCyclicQuests(View):
                 if reward.name_translation
                 else None
             ),
-            "icon_url": reward.icon.icon.url if reward.icon is not None and reward.icon.icon is not None else None,
+            "icon_url": (
+                reward.icon.icon.url
+                if reward.icon is not None and reward.icon.icon is not None
+                else None
+            ),
         }
 
     def _camp_to_dict(self, camp: SpawnItem) -> dict:

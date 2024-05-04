@@ -22,7 +22,7 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
     def _load(self, article_node: _Element, comments: list[str]) -> EncyclopediaArticle:
         game_id: str | None = article_node.attrib.get("id")
         name: str | None = article_node.attrib.get("name")
-        group_name : str | None= article_node.attrib.get("group")
+        group_name: str | None = article_node.attrib.get("group")
         ltx_str = None
         text: str | None = None
         icon = None

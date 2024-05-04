@@ -142,7 +142,6 @@ class CharacterQuests:
     quest_group_by_type: dict[QuestKinds, QuestGroupByPriority]
 
 
-
 def collect_vendor_tasks(
     _vendor_tasks: list[CyclicQuest], vendor: CycleTaskVendor
 ) -> CharacterQuests:
@@ -292,7 +291,7 @@ def _spawn_item_to_map_info(
             y_level_offset=-(map_info.max_y + map_info.min_y),
             item=MapPointItem(
                 position=(target_camp.x, target_camp.z),
-                info_str=str(target_camp.spawn_id)
+                info_str=str(target_camp.spawn_id),
             ),
         )
     return None

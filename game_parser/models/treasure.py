@@ -44,7 +44,11 @@ class Treasure(models.Model):
     )
 
     spawn_item = models.ForeignKey(
-        "SpawnItem", null=True, on_delete=models.SET_NULL, verbose_name="Секция спавна", related_name="treasures",
+        "SpawnItem",
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Секция спавна",
+        related_name="treasures",
     )
 
     def __str__(self):
@@ -64,10 +68,18 @@ class ItemInTreasure(models.Model):
         ]
 
     item = models.ForeignKey(
-        BaseItem, null=False, on_delete=models.CASCADE, verbose_name="Предмет", related_name="has_in_treasures"
+        BaseItem,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Предмет",
+        related_name="has_in_treasures",
     )
     treasure = models.ForeignKey(
-        Treasure, null=False, on_delete=models.CASCADE, verbose_name="Тайник", related_name="items",
+        Treasure,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Тайник",
+        related_name="items",
     )
     count = models.PositiveIntegerField(verbose_name="Кол-во предметов", default=1)
 

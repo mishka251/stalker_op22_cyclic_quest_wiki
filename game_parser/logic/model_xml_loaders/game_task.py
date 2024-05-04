@@ -39,27 +39,31 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
         map_location_types = []
 
         for child_node in objective_node:
-            if child_node.tag == "text" and text is None  and child_node.text:
+            if child_node.tag == "text" and text is None and child_node.text:
                 text = child_node.text
-            elif child_node.tag == "icon" and icon is None  and child_node.text:
+            elif child_node.tag == "icon" and icon is None and child_node.text:
                 icon = child_node.text
-            elif child_node.tag == "infoportion_fail"  and child_node.text:
+            elif child_node.tag == "infoportion_fail" and child_node.text:
                 infoportion_fails.append(child_node.text)
-            elif child_node.tag == "infoportion_set_fail"  and child_node.text:
+            elif child_node.tag == "infoportion_set_fail" and child_node.text:
                 infoportion_set_fail_raw.append(child_node.text)
-            elif child_node.tag == "function_call_complete"  and child_node.text:
+            elif child_node.tag == "function_call_complete" and child_node.text:
                 function_call_complete_raw.append(child_node.text)
-            elif child_node.tag == "function_fail"  and child_node.text:
+            elif child_node.tag == "function_fail" and child_node.text:
                 function_fail_raw.append(child_node.text)
-            elif child_node.tag == "infoportion_complete"  and child_node.text:
+            elif child_node.tag == "infoportion_complete" and child_node.text:
                 infoportion_completes.append(child_node.text)
-            elif child_node.tag == "function_complete"  and child_node.text:
+            elif child_node.tag == "function_complete" and child_node.text:
                 function_complete_raw.append(child_node.text)
-            elif child_node.tag == "infoportion_set_complete"  and child_node.text:
+            elif child_node.tag == "infoportion_set_complete" and child_node.text:
                 infoportion_set_completes.append(child_node.text)
-            elif child_node.tag == "article" and article is None  and child_node.text:
+            elif child_node.tag == "article" and article is None and child_node.text:
                 article = child_node.text
-            elif child_node.tag == "object_story_id" and object_story_id is None and child_node.text:
+            elif (
+                child_node.tag == "object_story_id"
+                and object_story_id is None
+                and child_node.text
+            ):
                 object_story_id = child_node.text
             elif child_node.tag == "map_location_type":
                 map_location_type = {

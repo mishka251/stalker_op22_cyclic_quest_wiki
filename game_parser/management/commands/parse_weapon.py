@@ -280,11 +280,7 @@ class Command(BaseCommand):
         parser = LtxParser(file, known_bases)
         results = parser.get_parsed_blocks()
 
-        known_bases |= {
-            k: v
-            for k, v in results.items()
-            if isinstance(v, dict)
-        }
+        known_bases |= {k: v for k, v in results.items() if isinstance(v, dict)}
 
         quest_blocks = {
             k: v
@@ -305,7 +301,9 @@ class Command(BaseCommand):
                 )
 
     def _parse_data_to_model(
-        self, name: str, data: dict[str, str],
+        self,
+        name: str,
+        data: dict[str, str],
     ) -> tuple[BaseItem, BaseItemResource] | None:
         model_type: str | None = data.pop("model_type", None)
         if not model_type:

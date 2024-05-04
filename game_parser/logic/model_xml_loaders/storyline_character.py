@@ -11,7 +11,9 @@ logger = logging.getLogger(__name__)
 class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
     expected_tag = "specific_character"
 
-    def _load(self, character_node: _Element, comments: list[str]) -> StorylineCharacter:
+    def _load(
+        self, character_node: _Element, comments: list[str]
+    ) -> StorylineCharacter:
         if character_node.tag != "specific_character":
             logger.warning("Unexpected node %s", character_node.tag)
             raise ValueError

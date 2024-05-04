@@ -17,7 +17,8 @@ class Location(models.Model):
         "Translation",
         null=True,
         verbose_name="Перевод названия",
-        on_delete=models.SET_NULL, related_name="+",
+        on_delete=models.SET_NULL,
+        related_name="+",
     )
     map_info = models.ForeignKey(
         "LocationMapInfo",

@@ -106,7 +106,7 @@ class TaskVendorsList(TemplateView):
 class VendorQuestsList(TemplateView):
     template_name = "vendor_quests_list/tasks_list.html"
 
-    def get_context_data(self, vendor_id: int) -> dict[str, Any]: # type: ignore[override] # зависит от конфига url-ов. Думаю так лучше
+    def get_context_data(self, vendor_id: int) -> dict[str, Any]:  # type: ignore[override] # зависит от конфига url-ов. Думаю так лучше
         try:
             vendor = CycleTaskVendor.objects.get(id=vendor_id)
         except Exception as ex:

@@ -10,10 +10,10 @@ from django.db import models
 
 @checks.register()
 def check_model_admin_fields(
-        *,
-        app_configs: Sequence[AppConfig] | None,
-        databases: Sequence[str] | None,
-        **kwargs: Any
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs: Any,
 ) -> Iterable[checks.CheckMessage]:
     errors: list[checks.CheckMessage] = []
     apps_: Iterable[AppConfig] = app_configs or apps.get_app_configs()

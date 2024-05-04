@@ -33,15 +33,15 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
         dont_has_info = []
         init_func = []
         for child_node in dialog_node:
-            if child_node.tag == "precondition"  and child_node.text:
+            if child_node.tag == "precondition" and child_node.text:
                 preconditions.append(child_node.text)
-            elif child_node.tag == "has_info"  and child_node.text:
+            elif child_node.tag == "has_info" and child_node.text:
                 has_info.append(child_node.text)
-            elif child_node.tag == "dont_has_info"  and child_node.text:
+            elif child_node.tag == "dont_has_info" and child_node.text:
                 dont_has_info.append(child_node.text)
-            elif child_node.tag == "init_func"  and child_node.text:
+            elif child_node.tag == "init_func" and child_node.text:
                 init_func.append(child_node.text)
-            elif child_node.tag == "phrase_list"  and child_node.text:
+            elif child_node.tag == "phrase_list" and child_node.text:
                 self._parse_phrase_list(dialog, child_node)
             elif isinstance(child_node, _Comment):
                 pass
@@ -76,21 +76,21 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
                 disable: list[str] = []
                 text = None
                 for child_node in phrase_node:
-                    if child_node.tag == "next"  and child_node.text:
+                    if child_node.tag == "next" and child_node.text:
                         _next.append(child_node.text)
-                    elif child_node.tag == "text"  and child_node.text:
+                    elif child_node.tag == "text" and child_node.text:
                         text = child_node.text
-                    elif child_node.tag == "precondition"  and child_node.text:
+                    elif child_node.tag == "precondition" and child_node.text:
                         precondition.append(child_node.text)
-                    elif child_node.tag == "action"  and child_node.text:
+                    elif child_node.tag == "action" and child_node.text:
                         action.append(child_node.text)
-                    elif child_node.tag == "give_info"  and child_node.text:
+                    elif child_node.tag == "give_info" and child_node.text:
                         give_info.append(child_node.text)
-                    elif child_node.tag == "dont_has_info"  and child_node.text:
+                    elif child_node.tag == "dont_has_info" and child_node.text:
                         dont_has_info.append(child_node.text)
-                    elif child_node.tag == "has_info"  and child_node.text:
+                    elif child_node.tag == "has_info" and child_node.text:
                         has_info.append(child_node.text)
-                    elif child_node.tag == "disable_info"  and child_node.text:
+                    elif child_node.tag == "disable_info" and child_node.text:
                         disable_info.append(child_node.text)
                     elif child_node.tag == "disable" and child_node.text:
                         disable.append(child_node.text)

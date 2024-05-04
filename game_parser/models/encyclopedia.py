@@ -8,7 +8,9 @@ class EncyclopediaGroup(models.Model):
 
     name = models.CharField(max_length=255, verbose_name="Название", unique=True)
     name_translation = models.ForeignKey(
-        "Translation", null=True, on_delete=models.SET_NULL,
+        "Translation",
+        null=True,
+        on_delete=models.SET_NULL,
         related_name="+",
     )
 
@@ -33,8 +35,12 @@ class EncyclopediaArticle(models.Model):
     ltx_str = models.CharField(
         max_length=255, null=True, verbose_name="Иконка", unique=True
     )
-    icon = models.ForeignKey("Icon", null=True, on_delete=models.SET_NULL,
-        related_name="+",)
+    icon = models.ForeignKey(
+        "Icon",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
     text = models.TextField(null=False)
     text_translation = models.ForeignKey(
         "Translation", null=True, on_delete=models.SET_NULL, related_name="+"

@@ -15,6 +15,7 @@ class CycleTaskTarget(PolymorphicModel):
     class Meta:
         verbose_name_plural = "Цели ЦЗ"
         verbose_name = "Цель ЦЗ"
+
     objects = CycleTaskTargetManager()
     quest = models.ForeignKey(
         "CyclicQuest",
@@ -65,7 +66,9 @@ class CycleTaskTargetCamp(CycleTaskTarget):
         verbose_name="Место на карте",
         related_name="camps_in_position",
     )
-    communities = models.ManyToManyField("Community", verbose_name="Группы в лагере", related_name="+")
+    communities = models.ManyToManyField(
+        "Community", verbose_name="Группы в лагере", related_name="+"
+    )
 
     def __str__(self):
 

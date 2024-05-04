@@ -7,7 +7,9 @@ from django.db import migrations, models
 from django.db.backends.base.schema import BaseDatabaseSchemaEditor
 
 
-def set_reward_content_type(apps: Apps, schema_editor: BaseDatabaseSchemaEditor) -> None:
+def set_reward_content_type(
+    apps: Apps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     ContentType: type[ContentTypeModel] = apps.get_model("contenttypes", "ContentType")
     my_models = [
         "MoneyReward",

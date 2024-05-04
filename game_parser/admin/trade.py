@@ -38,13 +38,21 @@ class ItemInByline(ReadOnlyNestedTable):
 
     @display(description="Цена(ОТ)", ordering="min_price_modifier")
     def price_from(self, trade: ItemInBuy) -> Decimal | None:
-        if trade.item and trade.item.cost is not None and trade.min_price_modifier is not None:
+        if (
+            trade.item
+            and trade.item.cost is not None
+            and trade.min_price_modifier is not None
+        ):
             return trade.item.cost * trade.min_price_modifier
         return None
 
     @display(description="Цена(ДО)", ordering="max_price_modifier")
     def price_to(self, trade: ItemInBuy) -> Decimal | None:
-        if trade.item and trade.item.cost is not None and trade.max_price_modifier is not None:
+        if (
+            trade.item
+            and trade.item.cost is not None
+            and trade.max_price_modifier is not None
+        ):
             return trade.item.cost * trade.max_price_modifier
         return None
 
@@ -77,13 +85,21 @@ class ItemInSellInline(ReadOnlyNestedTable):
 
     @display(description="Цена(ОТ)", ordering="min_price_modifier")
     def price_from(self, trade: ItemInSell) -> Decimal | None:
-        if trade.item and trade.item.cost is not None and trade.min_price_modifier is not None:
+        if (
+            trade.item
+            and trade.item.cost is not None
+            and trade.min_price_modifier is not None
+        ):
             return trade.item.cost * trade.min_price_modifier
         return None
 
     @display(description="Цена(ДО)", ordering="max_price_modifier")
     def price_to(self, trade: ItemInSell) -> Decimal | None:
-        if trade.item and trade.item.cost is not None and trade.max_price_modifier is not None:
+        if (
+            trade.item
+            and trade.item.cost is not None
+            and trade.max_price_modifier is not None
+        ):
             return trade.item.cost * trade.max_price_modifier
         return None
 

@@ -15,7 +15,11 @@ class Community(models.Model):
 
     name = models.CharField(max_length=128, null=False, unique=True, verbose_name="Код")
     translation = models.ForeignKey(
-        "Translation", null=False, on_delete=models.PROTECT, verbose_name="Название", related_name="+",
+        "Translation",
+        null=False,
+        on_delete=models.PROTECT,
+        verbose_name="Название",
+        related_name="+",
     )
 
     def __str__(self):
@@ -39,7 +43,11 @@ class StalkerRank(models.Model):
 
     name = models.CharField(max_length=128, null=False, unique=True, verbose_name="Код")
     translation = models.ForeignKey(
-        "Translation", null=False, on_delete=models.PROTECT, verbose_name="Название", related_name="+",
+        "Translation",
+        null=False,
+        on_delete=models.PROTECT,
+        verbose_name="Название",
+        related_name="+",
     )
 
     def __str__(self):

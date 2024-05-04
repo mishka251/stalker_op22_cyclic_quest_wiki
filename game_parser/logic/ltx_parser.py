@@ -113,11 +113,7 @@ class BaseLtxParser:
 
         nested_bases: KnownExtendsType = {
             **self._known_extends,
-            **{
-                k: v
-                for k, v in self._parsed_blocks.items()
-                if isinstance(v, dict)
-            },
+            **{k: v for k, v in self._parsed_blocks.items() if isinstance(v, dict)},
         }
 
         nested_parsed = LtxParser(file_path, nested_bases)
@@ -176,11 +172,7 @@ class BaseLtxParser:
         if cnt == 0:
             return lines
         d = dict(self._parse_line_key_value(line) for line in lines)
-        return {
-            k:v
-            for k,v in d.items()
-            if v is not None
-        }
+        return {k: v for k, v in d.items() if v is not None}
 
     def _parse_line_key_value(self, line: str) -> tuple[str, str | None]:
         if "=" in line:
@@ -206,7 +198,10 @@ class TextLtxParser(BaseLtxParser):
     _encoding = "cp1251"
 
     def __init__(
-        self, file_path: Path, content: str, known_extends: KnownExtendsType | None = None,
+        self,
+        file_path: Path,
+        content: str,
+        known_extends: KnownExtendsType | None = None,
     ):
         self._path = file_path
 

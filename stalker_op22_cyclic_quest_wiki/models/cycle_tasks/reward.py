@@ -77,7 +77,9 @@ class ItemReward(QuestReward):
         related_name="use_in_quest_rewards",
     )
     count = models.PositiveIntegerField(
-        default=1, null=False, verbose_name="Кол-во предметов",
+        default=1,
+        null=False,
+        verbose_name="Кол-во предметов",
     )
 
     def natural_key(self) -> tuple:
@@ -89,7 +91,9 @@ class ItemReward(QuestReward):
 
 class QuestRandomRewardManager(PolymorphicManager):
 
-    def get_by_natural_key(self, quest_game_code: str, reward_index: int) -> "QuestRandomReward":
+    def get_by_natural_key(
+        self, quest_game_code: str, reward_index: int
+    ) -> "QuestRandomReward":
         quest = CyclicQuest.objects.get_by_natural_key(quest_game_code)
         reward = RandomRewardInfo.objects.get_by_natural_key(reward_index)
         return self.get(quest=quest, reward=reward)
@@ -112,7 +116,9 @@ class QuestRandomReward(QuestReward):
         related_name="use_in_quests",
     )
     count = models.PositiveIntegerField(
-        default=1, null=False, verbose_name="Количество",
+        default=1,
+        null=False,
+        verbose_name="Количество",
     )
 
     def natural_key(self) -> tuple:
@@ -131,14 +137,23 @@ class RandomRewardInfo(models.Model):
     class Meta:
         verbose_name = "Описание случайной награды"
         verbose_name_plural = "Описание случайных наград"
+
     objects = RandomRewardInfoManager()
     use_in_quests: "RelatedManager[QuestRandomReward]"
     index = models.IntegerField(null=False, unique=True, verbose_name="Индекс")
     icon = models.ForeignKey(
-        Icon, null=False, on_delete=models.PROTECT, verbose_name="Иконка", related_name="+",
+        Icon,
+        null=False,
+        on_delete=models.PROTECT,
+        verbose_name="Иконка",
+        related_name="+",
     )
     description = models.ForeignKey(
-        "Translation", null=False, on_delete=models.PROTECT, verbose_name="Описание", related_name="+",
+        "Translation",
+        null=False,
+        on_delete=models.PROTECT,
+        verbose_name="Описание",
+        related_name="+",
     )
     possible_items = models.ManyToManyField("Item", verbose_name="Возможные предметы")
 

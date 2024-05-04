@@ -57,27 +57,18 @@ class Command(BaseCommand):
 
         base_blocks: LtxParserResults = main_parser.get_parsed_blocks()
         known_bases: KnownExtendsType = {
-            **{
-                k: v
-                for k, v in base_blocks.items()
-                if isinstance(v, dict)
-            },
+            **{k: v for k, v in base_blocks.items() if isinstance(v, dict)},
             "af_blood": {},
             "af_night_star": {},
             "af_gold_fish": {},
         }
-
 
         resource = OtherResource()
 
         for file_path in self._get_other_files_paths():
             parser = LtxParser(file_path, known_extends=known_bases)
             results: LtxParserResults = parser.get_parsed_blocks()
-            known_bases |= {
-                k: v
-                for k, v in results.items()
-                if isinstance(v, dict)
-            }
+            known_bases |= {k: v for k, v in results.items() if isinstance(v, dict)}
 
             quest_blocks = {
                 k: {**v}

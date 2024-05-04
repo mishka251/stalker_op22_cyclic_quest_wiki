@@ -36,7 +36,9 @@ class Command(BaseCommand):
                 print(f"{index+1}/{count}")
 
         count = SingleStalkerSpawnItem.objects.count()
-        for index, stalker_spawn_item in enumerate(SingleStalkerSpawnItem.objects.all()):
+        for index, stalker_spawn_item in enumerate(
+            SingleStalkerSpawnItem.objects.all()
+        ):
             stalker_spawn_item.stalker_section = (
                 StalkerSection.objects.filter(
                     section_name__exact=stalker_spawn_item.character_profile_raw.lower()
@@ -53,7 +55,9 @@ class Command(BaseCommand):
         for index, respawn in enumerate(Respawn.objects.all()):
             if not respawn.respawn_section_raw:
                 continue
-            respawn_sections = [s.strip() for s in respawn.respawn_section_raw.split(",")]
+            respawn_sections = [
+                s.strip() for s in respawn.respawn_section_raw.split(",")
+            ]
             stalkers = StalkerSection.objects.filter(section_name__in=respawn_sections)
             respawn.respawn_section.set(stalkers)
             if index % 100 == 0:

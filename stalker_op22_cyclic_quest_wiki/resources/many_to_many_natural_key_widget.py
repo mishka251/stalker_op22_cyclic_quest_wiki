@@ -13,7 +13,11 @@ class ManyToManyNaturalKeyField(ManyToManyWidget):
         ids: list[tuple[str, ...]] = (
             [value]
             if isinstance(value, tuple)
-            else [i.strip().split(",") for i in value.split(self.separator) if i is not None]
+            else [
+                i.strip().split(",")
+                for i in value.split(self.separator)
+                if i is not None
+            ]
         )
         return [self.model.objects.get_by_natural_key(*key) for key in ids]
 

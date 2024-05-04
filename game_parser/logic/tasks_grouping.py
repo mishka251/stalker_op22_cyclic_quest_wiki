@@ -156,7 +156,11 @@ def collect_info() -> list[CharacterQuests]:
 def collect_vendor_tasks(_vendor_tasks, vendor: StorylineCharacter) -> CharacterQuests:
     vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
     vendor_id = vendor.game_id
-    vendor_name = vendor.name_translation.rus if vendor.name_translation and vendor.name_translation.rus else "<Неизвестный>"
+    vendor_name = (
+        vendor.name_translation.rus
+        if vendor.name_translation and vendor.name_translation.rus
+        else "<Неизвестный>"
+    )
     quest_group_by_type = {}
     for _task_kind, _vendor_kind_tasks in groupby(
         vendor_tasks, key=lambda task: task.type
@@ -195,7 +199,11 @@ def parse_task(db_task: CyclicQuest) -> Quest:
             icon = Icon(icon_.url, icon_.width, icon_.height)
         reward = TaskRandomReward(
             count=random_reward.count,
-            reward_name=random_reward.reward.name_translation.rus if random_reward.reward.name_translation else None,
+            reward_name=(
+                random_reward.reward.name_translation.rus
+                if random_reward.reward.name_translation
+                else None
+            ),
             reward_id=random_reward.reward.name,
             icon=icon,
         )
@@ -254,7 +262,9 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
             )
         )
         assert target_camp_item is not None
-        camp_map_info = _spawn_item_to_map_info(target_camp_item.section_name, target_camp_item)
+        camp_map_info = _spawn_item_to_map_info(
+            target_camp_item.section_name, target_camp_item
+        )
         return LagerTarget(db_task.target_str or str(db_task.id), camp_map_info)
 
     if db_task.type in items_types:

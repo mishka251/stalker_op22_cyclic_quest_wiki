@@ -84,7 +84,9 @@ class BooleanField(BaseResourceField):
     def _parse_non_empty_value(self, value: Any) -> Any:
         return value == BooleanField.TRUE_VALUE
 
+
 TModel = TypeVar("TModel", bound=Model)
+
 
 class BaseModelResource(Generic[TModel]):
     _fields: list[BaseResourceField]

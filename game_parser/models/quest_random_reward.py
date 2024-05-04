@@ -29,10 +29,15 @@ class QuestRandomReward(models.Model):
         "Translation",
         null=True,
         on_delete=models.SET_NULL,
-        verbose_name="Перевод названия", related_name="+",
+        verbose_name="Перевод названия",
+        related_name="+",
     )
     icon = models.ForeignKey(
-        "Icon", null=True, on_delete=models.SET_NULL, verbose_name="Иконка", related_name="+",
+        "Icon",
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Иконка",
+        related_name="+",
     )
 
     def __str__(self):

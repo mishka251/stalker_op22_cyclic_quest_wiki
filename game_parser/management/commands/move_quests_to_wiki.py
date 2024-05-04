@@ -234,9 +234,7 @@ class Command(BaseCommand):
             communities = [
                 community for community in communities if community is not None
             ]
-            map_position = self._spawn_item_to_map_position(
-                target_camp.spawn_item
-            )
+            map_position = self._spawn_item_to_map_position(target_camp.spawn_item)
             camp = CycleTaskTargetCamp.objects.update_or_create(
                 quest=wiki_quest,
                 defaults={

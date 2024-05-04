@@ -37,11 +37,7 @@ class Command(BaseCommand):
             parser = LtxParser(file_path)
             results = parser.get_parsed_blocks()
             assert isinstance(results, dict)
-            dict_result = {
-                k: v
-                for k, v in results.items()
-                if isinstance(v, dict)
-            }
+            dict_result = {k: v for k, v in results.items() if isinstance(v, dict)}
             if "logic" not in results:
                 continue
 
