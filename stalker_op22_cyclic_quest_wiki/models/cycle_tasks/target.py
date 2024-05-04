@@ -1,7 +1,9 @@
 from django.db import models
 from polymorphic.managers import PolymorphicManager
 from polymorphic.models import PolymorphicModel
+
 from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import CyclicQuest
+
 
 class CycleTaskTargetManager(PolymorphicManager):
     def get_by_natural_key(self, quest_game_code: str) -> "CycleTaskTarget":

@@ -3,10 +3,11 @@ from pathlib import Path
 from django.core.files.images import ImageFile
 from lxml.etree import _Element
 from PIL import Image
+from PIL.Image import Image as ImageCls
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.models import Icon
-from PIL.Image import Image as ImageCls
+
 
 class IconLoader(BaseModelXmlLoader[Icon]):
     expected_tag = "texture"

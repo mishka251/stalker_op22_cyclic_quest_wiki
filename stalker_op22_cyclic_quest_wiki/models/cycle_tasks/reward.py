@@ -5,8 +5,8 @@ from polymorphic.managers import PolymorphicManager
 from polymorphic.models import PolymorphicModel
 
 from stalker_op22_cyclic_quest_wiki.models.base.base_item import Item
-from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import CyclicQuest
 from stalker_op22_cyclic_quest_wiki.models.base.icon import Icon
+from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import CyclicQuest
 
 if TYPE_CHECKING:
     from django.db.models.manager import RelatedManager

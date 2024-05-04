@@ -10,7 +10,8 @@ from game_parser.models import (
     CyclicQuest,
     LocationMapInfo,
     QuestRandomReward,
-    SpawnItem, Translation,
+    SpawnItem,
+    Translation,
 )
 from game_parser.models.quest import CyclicQuestItemReward, QuestRandomRewardThrough
 

@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.logic.ltx_parser import LtxParser, KnownExtendsType
+from game_parser.logic.ltx_parser import KnownExtendsType, LtxParser
 from game_parser.models import Monster
 
 logger = logging.getLogger(__name__)

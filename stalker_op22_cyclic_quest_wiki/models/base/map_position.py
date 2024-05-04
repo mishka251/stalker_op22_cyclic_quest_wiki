@@ -1,8 +1,10 @@
 from typing import TYPE_CHECKING
 
 from django.db import models
+
 if TYPE_CHECKING:
     from django.db.models.manager import RelatedManager
+
     from stalker_op22_cyclic_quest_wiki.models import CycleTaskTargetCamp
 
 

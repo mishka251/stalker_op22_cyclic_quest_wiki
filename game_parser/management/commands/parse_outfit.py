@@ -1,12 +1,12 @@
 import logging
 from pathlib import Path
-from typing import Mapping, Any
+from typing import Any, Mapping
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.logic.ltx_parser import LtxParser, KnownExtendsType
+from game_parser.logic.ltx_parser import KnownExtendsType, LtxParser
 from game_parser.logic.model_resources.base_item import OutfitResource
 from game_parser.models import Outfit
 

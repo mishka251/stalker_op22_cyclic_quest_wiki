@@ -1,8 +1,10 @@
 from typing import TYPE_CHECKING
 
 from django.db import models
+
 if TYPE_CHECKING:
     from django.db.models.manager import RelatedManager
+
     from game_parser.models import BaseScriptReward
 
 

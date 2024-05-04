@@ -1,5 +1,5 @@
 from django.db import IntegrityError
-from lxml.etree import _Element, _Comment
+from lxml.etree import _Comment, _Element
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.models import Dialog, DialogPhrase

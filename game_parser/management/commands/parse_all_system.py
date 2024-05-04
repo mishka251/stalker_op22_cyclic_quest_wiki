@@ -2,16 +2,16 @@ import logging
 from collections import defaultdict
 from collections.abc import Mapping
 from pathlib import Path
+from typing import cast
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 from lxml.etree import parse
 from PIL import Image
-from typing import cast
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
-from game_parser.logic.ltx_parser import LtxParser, KnownExtendsType
+from game_parser.logic.ltx_parser import KnownExtendsType, LtxParser
 from game_parser.logic.model_resources.anomaly import AnomalyResource
 from game_parser.logic.model_resources.base_item import (
     AmmoResource,

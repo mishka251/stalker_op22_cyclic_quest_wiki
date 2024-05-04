@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 from django.apps.registry import Apps
-from django.db import migrations, models
 from django.contrib.contenttypes.models import ContentType as ContentTypeModel
+from django.db import migrations, models
 from django.db.backends.base.schema import BaseDatabaseSchemaEditor
 
 

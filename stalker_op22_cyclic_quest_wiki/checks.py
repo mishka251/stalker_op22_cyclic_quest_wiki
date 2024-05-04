@@ -1,7 +1,7 @@
-from collections.abc import Sequence, Iterable
-from typing import Optional, Any
+from collections.abc import Iterable, Sequence
+from typing import Any, Optional
 
-from django.apps import apps, AppConfig
+from django.apps import AppConfig, apps
 from django.apps.registry import Apps
 from django.contrib.admin import site as admin_site
 from django.core import checks

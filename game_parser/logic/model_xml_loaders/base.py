@@ -1,6 +1,7 @@
-from typing import Generic, TypeVar, TYPE_CHECKING
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 from lxml.etree import _Comment
+
 if TYPE_CHECKING:
     from lxml.etree.ElementTree import Element
 

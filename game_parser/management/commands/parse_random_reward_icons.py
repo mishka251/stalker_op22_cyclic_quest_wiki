@@ -4,9 +4,10 @@ from django.conf import settings
 from django.core.files.images import ImageFile
 from django.core.management.base import BaseCommand
 from PIL import Image
+from PIL.Image import Image as ImageCls
 
 from game_parser.models import Icon, QuestRandomReward
-from PIL.Image import Image as ImageCls
+
 
 class Command(BaseCommand):
     def handle(self, *args, **options) -> None:

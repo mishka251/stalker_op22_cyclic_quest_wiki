@@ -5,10 +5,11 @@ from django.core.files.images import ImageFile
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 from PIL import Image
+from PIL.Image import Image as ImageCls
 
 from game_parser.logic.ltx_parser import LtxParser
 from game_parser.models import CyclicQuest, Icon, QuestRandomReward, Translation
-from PIL.Image import Image as ImageCls
+
 
 class Command(BaseCommand):
 
