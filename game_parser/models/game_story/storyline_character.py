@@ -137,7 +137,7 @@ class StorylineCharacter(Character):
     bio_raw = models.TextField(null=True)
     team_raw = models.TextField(null=True)
 
-    dialogs = models.ManyToManyField("Dialog")
+    dialogs = models.ManyToManyField("game_parser.Dialog")
 
     NPC_RANDOM_NAME = "GENERATE_NAME_stalker"
 

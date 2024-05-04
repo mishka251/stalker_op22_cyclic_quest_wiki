@@ -1,5 +1,6 @@
 from django.db import models
 
+from game_parser.models.items.ammo import Ammo
 from game_parser.models.items.base_item import BaseItem
 
 
@@ -92,4 +93,7 @@ class Weapon(BaseItem):
         verbose_name="Подствольник",
         related_name="use_in_weapons",
     )
-    ammo = models.ManyToManyField("Ammo", verbose_name="Патроны")
+    ammo: "models.ManyToManyField[Ammo, models.Model]" = models.ManyToManyField(
+        Ammo,
+        verbose_name="Патроны",
+    )

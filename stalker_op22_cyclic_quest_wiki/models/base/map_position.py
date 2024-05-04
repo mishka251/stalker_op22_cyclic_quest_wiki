@@ -3,8 +3,6 @@ from typing import TYPE_CHECKING
 from django.db import models
 
 if TYPE_CHECKING:
-    from django.db.models.manager import RelatedManager
-
     from stalker_op22_cyclic_quest_wiki.models import CycleTaskTargetCamp
 
 
@@ -18,7 +16,7 @@ class MapPosition(models.Model):
         verbose_name = "Точка на локации"
         verbose_name_plural = "Точки на локации"
 
-    camps_in_position: "RelatedManager[CycleTaskTargetCamp]"
+    camps_in_position: "models.Manager[CycleTaskTargetCamp]"
     objects = MapPositionManager()
 
     name = models.CharField(

@@ -1,7 +1,5 @@
 from django.db import models
 
-from game_parser.models.items.base_item import BaseItem
-
 
 class QuestRandomReward(models.Model):
     class Meta:
@@ -28,7 +26,10 @@ class QuestRandomReward(models.Model):
         max_length=2_000,
         verbose_name="Названия возможных предметов",
     )
-    possible_items = models.ManyToManyField(BaseItem, verbose_name="Возможные предметы")
+    possible_items = models.ManyToManyField(
+        "game_parser.BaseItem",
+        verbose_name="Возможные предметы",
+    )
 
     name_translation = models.ForeignKey(
         "Translation",

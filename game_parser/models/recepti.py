@@ -12,7 +12,10 @@ class Recept(models.Model):
         related_name="opening_recepts",
     )
     components_raw = models.CharField(max_length=255)
-    components = models.ManyToManyField("BaseItem", related_name="use_in_recepts")
+    components = models.ManyToManyField(
+        "game_parser.BaseItem",
+        related_name="use_in_recepts",
+    )
     cel_raw = models.CharField(max_length=255)
     cel = models.ForeignKey(
         "BaseItem",

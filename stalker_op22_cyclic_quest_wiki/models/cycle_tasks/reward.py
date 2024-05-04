@@ -1,13 +1,8 @@
-from typing import TYPE_CHECKING
-
 from django.db import models
 
 from stalker_op22_cyclic_quest_wiki.models.base.base_item import Item
 from stalker_op22_cyclic_quest_wiki.models.base.icon import Icon
 from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import CyclicQuest
-
-if TYPE_CHECKING:
-    from django.db.models.manager import RelatedManager
 
 
 class MoneyRewardManager(models.Manager["MoneyReward"]):
@@ -145,7 +140,7 @@ class RandomRewardInfo(models.Model):
         verbose_name_plural = "Описание случайных наград"
 
     objects = RandomRewardInfoManager()
-    use_in_quests: "RelatedManager[QuestRandomReward]"
+    use_in_quests: "models.Manager[QuestRandomReward]"
     index = models.IntegerField(null=False, unique=True, verbose_name="Индекс")
     icon = models.ForeignKey(
         Icon,
@@ -161,7 +156,10 @@ class RandomRewardInfo(models.Model):
         verbose_name="Описание",
         related_name="+",
     )
-    possible_items = models.ManyToManyField("Item", verbose_name="Возможные предметы")
+    possible_items = models.ManyToManyField(
+        "stalker_op22_cyclic_quest_wiki.Item",
+        verbose_name="Возможные предметы",
+    )
 
     def natural_key(self) -> tuple:
         return (self.index,)

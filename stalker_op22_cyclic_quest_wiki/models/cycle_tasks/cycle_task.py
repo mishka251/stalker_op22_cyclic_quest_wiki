@@ -5,7 +5,6 @@ from django.db import models
 from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.vendor import CycleTaskVendor
 
 if TYPE_CHECKING:
-    from django.db.models.manager import RelatedManager
     from polymorphic.managers import PolymorphicManager
 
     from stalker_op22_cyclic_quest_wiki.models import (
@@ -37,10 +36,10 @@ class CyclicQuest(models.Model):
         verbose_name = "Циклический квест"
         verbose_name_plural = "Циклические квесты"
 
-    itemreward: "RelatedManager[ItemReward]"
-    moneyreward: "RelatedManager[MoneyReward]"
-    questrandomreward: "RelatedManager[QuestRandomReward]"
-    treasurereward: "RelatedManager[TreasureReward]"
+    itemreward: "models.Manager[ItemReward]"
+    moneyreward: "models.Manager[MoneyReward]"
+    questrandomreward: "models.Manager[QuestRandomReward]"
+    treasurereward: "models.Manager[TreasureReward]"
 
     target: "PolymorphicManager[CycleTaskTarget]"
 

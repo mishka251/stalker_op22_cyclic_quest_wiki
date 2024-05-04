@@ -1,5 +1,6 @@
 from django.db import models
 
+from game_parser.models.game_story.script_function import ScriptFunction
 from game_parser.models.game_story.task import GameTask
 
 
@@ -32,7 +33,7 @@ class InfoPortion(models.Model):
 
     actions_raw = models.TextField(null=True, verbose_name="Запускаемые функции(сырые)")
     actions = models.ManyToManyField(
-        "ScriptFunction",
+        ScriptFunction,
         related_name="starts_infoportions",
         verbose_name="Функции,запускаемые инфопоршнем",
     )

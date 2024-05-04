@@ -1,5 +1,7 @@
 from django.db import models
 
+from game_parser.models.game_story import Community
+
 
 class SpawnItem(models.Model):
     class Meta:
@@ -149,7 +151,7 @@ class CampInfo(models.Model):
     communities_raw = models.CharField(max_length=512, null=True)
     stay_str = models.CharField(max_length=32, null=True)
     groups_str = models.CharField(max_length=32, null=True)
-    communities = models.ManyToManyField("Community")
+    communities = models.ManyToManyField(Community)
 
     class Meta:
         verbose_name_plural = "Лагеря НПС/мутантов"
@@ -193,7 +195,7 @@ class Respawn(models.Model):
     conditions_raw = models.CharField(max_length=128, null=True)
 
     max_spawn = models.PositiveIntegerField(null=True)
-    respawn_section = models.ManyToManyField("StalkerSection")
+    respawn_section = models.ManyToManyField("game_parser.StalkerSection")
 
     def __str__(self) -> str:
         return f"Респавн в {self.spawn_item}"
