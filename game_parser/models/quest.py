@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from django.db import models
 
@@ -9,13 +9,13 @@ if TYPE_CHECKING:
 
 
 class QuestKinds(models.TextChoices):
-    eliminate_lager = ("eliminate_lager", "Уничтожить лагерь")
-    chain = "chain", "Цепочка"
-    kill_stalker = "kill_stalker", "Убить сталкера"
-    monster_part = "monster_part", "Часть мутанта"
-    artefact = "artefact", "Принести артефакт"
-    find_item = "find_item", "Принести предмет"
-    defend_lager = "defend_lager", "Защитить лагерь"
+    DESTROY_CAMP = ("eliminate_lager", "Уничтожить лагерь")
+    CHAIN = "chain", "Цепочка"
+    KILL = "kill_stalker", "Убить сталкера"
+    MONSTER_PART = "monster_part", "Часть мутанта"
+    ARTEFACT = "artefact", "Принести артефакт"
+    OTHER_ITEM = "find_item", "Принести предмет"
+    DEFEND_LAGER = "defend_lager", "Защитить лагерь"
 
 
 class CyclicQuest(models.Model):

@@ -17,18 +17,18 @@ class Command(BaseCommand):
         for index, item in enumerate(CyclicQuest.objects.all()):
             if not isinstance(item.target_str, str):
                 raise TypeError
-            if item.type == QuestKinds.kill_stalker:
+            if item.type == QuestKinds.KILL:
                 item.target_stalker = StalkerSection.objects.filter(
                     section_name=item.target_str,
                 ).first()
-            elif item.type == QuestKinds.defend_lager:
+            elif item.type == QuestKinds.DEFEND_LAGER:
                 item.target_camp_to_defeat = SpawnItem.objects.filter(
                     name=item.target_str,
                 ).first()
                 item.target_camp = CampInfo.objects.filter(
                     spawn_item__name=item.target_str,
                 ).first()
-            elif item.type == QuestKinds.eliminate_lager:
+            elif item.type == QuestKinds.DESTROY_CAMP:
                 item.target_camp_to_destroy = SpawnItem.objects.filter(
                     name=item.target_str,
                 ).first()

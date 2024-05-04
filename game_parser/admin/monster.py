@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.contrib.admin import ModelAdmin, display, register
 
 from game_parser.models import Monster

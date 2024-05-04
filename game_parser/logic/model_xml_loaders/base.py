@@ -5,7 +5,7 @@ from lxml.etree import _Comment
 if TYPE_CHECKING:
     from lxml.etree.ElementTree import Element
 
-
+# pylint: disable=invalid-name
 TModel = TypeVar("TModel")
 
 

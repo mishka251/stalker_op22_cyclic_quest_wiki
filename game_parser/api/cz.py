@@ -150,31 +150,11 @@ class VendorCyclicQuests(View):
         }
 
     def _camp_to_dict(self, camp: SpawnItem) -> dict:
-        position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
-        rm = position_re.match(camp.position_raw)
-        if rm is None:
-            raise ValueError
-        (x, _, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
-        position = (x, z)
+        position = self._get_camp_position(camp)
         if camp.location is None:
             raise ValueError("No camp location")
         location_info = LocationMapInfo.objects.get(location=camp.location)
-        if location_info.bound_rect_raw:
-            offset_re = re.compile(
-                r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)",
-            )
-            rm = offset_re.match(location_info.bound_rect_raw)
-            if rm is None:
-                raise ValueError("Не удалось распарсить границы локи")
-            (min_x, min_y, max_x, max_y) = (
-                float(rm.group("min_x")),
-                float(rm.group("min_y")),
-                float(rm.group("max_x")),
-                float(rm.group("max_y")),
-            )
-            map_offset = (min_x, min_y, max_x, max_y)
-        else:
-            map_offset = None
+        map_offset = self._get_camp_map_offset(location_info)
         map_info = None
         location_map_image_url = (
             location_info.map_image.url if location_info.map_image else None
@@ -211,3 +191,30 @@ class VendorCyclicQuests(View):
             "map_info": map_info,
             "position": position,
         }
+
+    def _get_camp_map_offset(self, location_info: LocationMapInfo) -> tuple[float, float, float, float] | None:
+        if location_info.bound_rect_raw:
+            offset_re = re.compile(
+                r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)",
+            )
+            rm = offset_re.match(location_info.bound_rect_raw)
+            if rm is None:
+                raise ValueError("Не удалось распарсить границы локи")
+            (min_x, min_y, max_x, max_y) = (
+                float(rm.group("min_x")),
+                float(rm.group("min_y")),
+                float(rm.group("max_x")),
+                float(rm.group("max_y")),
+            )
+            map_offset = (min_x, min_y, max_x, max_y)
+        else:
+            map_offset = None
+        return map_offset
+
+    def _get_camp_position(self, camp: SpawnItem) -> tuple[float, float]:
+        position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
+        rm = position_re.match(camp.position_raw)
+        if rm is None:
+            raise ValueError
+        (x, _, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
+        return (x, z)

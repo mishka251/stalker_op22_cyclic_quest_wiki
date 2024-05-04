@@ -15,6 +15,7 @@ from stalker_op22_cyclic_quest_wiki.models import (
     CycleTaskTargetCamp,
     CycleTaskTargetItem,
     CycleTaskTargetStalker,
+    MapPosition,
 )
 from stalker_op22_cyclic_quest_wiki.models import CycleTaskVendor as WikiVendor
 from stalker_op22_cyclic_quest_wiki.models import CyclicQuest as WikiQuest
@@ -22,7 +23,6 @@ from stalker_op22_cyclic_quest_wiki.models import Icon as WikiIcon
 from stalker_op22_cyclic_quest_wiki.models import Item as WikiItem
 from stalker_op22_cyclic_quest_wiki.models import ItemReward as WikiItemReward
 from stalker_op22_cyclic_quest_wiki.models import Location as WikiLocation
-from stalker_op22_cyclic_quest_wiki.models import MapPosition
 from stalker_op22_cyclic_quest_wiki.models import MoneyReward as WikiMoneyReward
 from stalker_op22_cyclic_quest_wiki.models import (
     QuestRandomReward as WikiQuestRandomReward,
@@ -191,18 +191,18 @@ class Command(BaseCommand):
         wiki_quest: WikiQuest,
     ) -> None:
         item_target_quest_types = {
-            ParserQuestKinds.chain,
-            ParserQuestKinds.monster_part,
-            ParserQuestKinds.artefact,
-            ParserQuestKinds.find_item,
+            ParserQuestKinds.CHAIN,
+            ParserQuestKinds.MONSTER_PART,
+            ParserQuestKinds.ARTEFACT,
+            ParserQuestKinds.OTHER_ITEM,
         }
 
         camp_target_quest_types = {
-            ParserQuestKinds.eliminate_lager,
-            ParserQuestKinds.defend_lager,
+            ParserQuestKinds.DESTROY_CAMP,
+            ParserQuestKinds.DEFEND_LAGER,
         }
         stalker_target_quest_types = {
-            ParserQuestKinds.kill_stalker,
+            ParserQuestKinds.KILL,
         }
 
         if quest.type in item_target_quest_types:

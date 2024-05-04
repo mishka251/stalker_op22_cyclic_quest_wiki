@@ -5,7 +5,8 @@ from game_parser.models.items.base_item import BaseItem
 
 
 class ItemReward(BaseScriptReward):
-    class Meta: ...
+    class Meta:
+        verbose_name = "Спавн предмета в скрипте"
 
     item = models.ForeignKey(
         BaseItem,

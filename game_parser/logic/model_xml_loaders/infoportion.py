@@ -33,7 +33,9 @@ class InfoPortionLoader(BaseModelXmlLoader[InfoPortion]):
                 pass
             else:
                 logger.warning(
-                    f"Unexpected game info_portion child {child_node.tag} in {info_portion_id}",
+                    "Unexpected game info_portion child %s in %s",
+                    child_node.tag,
+                    info_portion_id,
                 )
         info_portion.article_raw = ";".join(article_raw)
         info_portion.disable_raw = ";".join(disable_raw)

@@ -1,5 +1,5 @@
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 
@@ -35,6 +35,7 @@ class BaseLtxParser:
         return self._parsed_blocks
 
     def _parse(self, lines_generator: Iterable[str]) -> None:
+        #  pylint: disable=too-many-locals, too-many-branches, too-many-statements
         self._parsed_blocks = {}
         raw_blocks: dict[str, Any] = {}
         blocks_bases: dict[str, tuple[str, ...]] = {}
@@ -53,7 +54,7 @@ class BaseLtxParser:
                     if prev_block_name is not None:
                         block_code = prev_block_name
                         block_lines = raw_blocks[block_code]
-                        block_lines = self._parse_block_lines(block_lines, block_code)
+                        block_lines = self._parse_block_lines(block_lines)
                         if isinstance(block_lines, list):
                             self._parsed_blocks[block_code] = block_lines
                         else:
@@ -89,7 +90,7 @@ class BaseLtxParser:
             raw_blocks[current_block_header].append(line)
 
         for block_code, _block_lines in raw_blocks.items():
-            block_lines = self._parse_block_lines(_block_lines, block_code)
+            block_lines = self._parse_block_lines(_block_lines)
             if isinstance(block_lines, list):
                 self._parsed_blocks[block_code] = block_lines
             else:
@@ -166,7 +167,7 @@ class BaseLtxParser:
         bases = () if not bases_str else tuple(s.strip() for s in bases_str.split(","))
         return caption, bases
 
-    def _parse_block_lines(self, lines: list[str], name: str) -> LtxBlock:
+    def _parse_block_lines(self, lines: list[str]) -> LtxBlock:
         if not lines:
             return {}
         cnt = max(line.count("=") for line in lines)

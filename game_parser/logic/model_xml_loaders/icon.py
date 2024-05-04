@@ -2,7 +2,6 @@ from pathlib import Path
 
 from django.core.files.images import ImageFile
 from lxml.etree import _Element
-from PIL import Image
 from PIL.Image import Image as ImageCls
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
@@ -53,6 +52,7 @@ class IconLoader(BaseModelXmlLoader[Icon]):
 
         return (left, top, right, bottom)
 
+    # pylint: disable=too-many-arguments
     def _get_image(
         self,
         x: int,

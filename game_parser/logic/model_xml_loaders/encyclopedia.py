@@ -2,7 +2,7 @@ from pathlib import Path
 
 from django.conf import settings
 from django.core.files.images import ImageFile
-from lxml.etree import Element, _Comment, _Element
+from lxml.etree import _Comment, _Element
 from PIL import Image
 from PIL.Image import Image as ImageCls
 
@@ -96,6 +96,7 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         self._get_image(image, x, y, width, height, texture_id, icon)
         return icon
 
+    # pylint: disable=too-many-arguments
     def _get_image(
         self,
         image: ImageCls,

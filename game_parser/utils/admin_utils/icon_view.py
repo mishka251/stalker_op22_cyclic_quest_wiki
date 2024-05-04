@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.db.models.fields.files import ImageFieldFile
 from django.utils.safestring import mark_safe
 

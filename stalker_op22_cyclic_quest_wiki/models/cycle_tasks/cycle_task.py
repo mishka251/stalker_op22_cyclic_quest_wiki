@@ -2,21 +2,22 @@ from typing import TYPE_CHECKING
 
 from django.db import models
 
+from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.vendor import CycleTaskVendor
+
 if TYPE_CHECKING:
     from polymorphic.managers import PolymorphicManager
 
     from stalker_op22_cyclic_quest_wiki.models import CycleTaskTarget, QuestReward
-from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.vendor import CycleTaskVendor
 
 
 class QuestKinds(models.TextChoices):
-    eliminate_lager = ("eliminate_lager", "Уничтожить лагерь")
-    chain = "chain", "Цепочка"
-    kill_stalker = "kill_stalker", "Убить сталкера"
-    monster_part = "monster_part", "Часть мутанта"
-    artefact = "artefact", "Принести артефакт"
-    find_item = "find_item", "Принести предмет"
-    defend_lager = "defend_lager", "Защитить лагерь"
+    ELIMINATE_CAMP = ("eliminate_lager", "Уничтожить лагерь")
+    CHAIN = "chain", "Цепочка"
+    KILL_STALKER = "kill_stalker", "Убить сталкера"
+    FIND_MONSTER_PART = "monster_part", "Часть мутанта"
+    FIND_ARTEFACT = "artefact", "Принести артефакт"
+    FIND_ITEM = "find_item", "Принести предмет"
+    DEFEND_CAMP = "defend_lager", "Защитить лагерь"
 
 
 class CyclicQuestManager(models.Manager["CyclicQuest"]):

@@ -1,7 +1,7 @@
 import dataclasses
 import re
 from itertools import groupby
-from typing import NamedTuple, Optional
+from typing import NamedTuple
 
 from stalker_op22_cyclic_quest_wiki.models import (
     Ammo,
@@ -197,19 +197,20 @@ def parse_task(db_task: CyclicQuest) -> Quest:
 
 
 def parse_target(db_task: CyclicQuest) -> QuestTarget:
+    #  pylint: disable=too-many-locals
     items_types = {
-        QuestKinds.chain,
-        QuestKinds.monster_part,
-        QuestKinds.artefact,
-        QuestKinds.find_item,
+        QuestKinds.CHAIN,
+        QuestKinds.FIND_MONSTER_PART,
+        QuestKinds.FIND_ARTEFACT,
+        QuestKinds.FIND_ITEM,
     }
 
     lager_types = {
-        QuestKinds.eliminate_lager,
-        QuestKinds.defend_lager,
+        QuestKinds.ELIMINATE_CAMP,
+        QuestKinds.DEFEND_CAMP,
     }
 
-    stalker_types = {QuestKinds.kill_stalker}
+    stalker_types = {QuestKinds.KILL_STALKER}
 
     if db_task.type in stalker_types:
         stalker = CycleTaskTargetStalker.objects.get(quest=db_task)

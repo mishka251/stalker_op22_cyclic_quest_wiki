@@ -24,6 +24,7 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
         return task
 
     def _parse_task_objective(self, task: GameTask, objective_node: _Element) -> None:
+        # pylint: disable=too-many-locals, too-many-branches
         text = None
         icon = None
         infoportion_fails: list[str] = []

@@ -1,7 +1,6 @@
-from typing import Optional
-
 from django.contrib.admin import ModelAdmin, display, register
 
+# pylint: disable=unused-import
 from game_parser.models import CyclicQuest, StorylineCharacter
 from game_parser.models.quest import CyclicQuestItemReward, QuestRandomRewardThrough
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable

@@ -1,7 +1,7 @@
 import dataclasses
 import re
 from itertools import groupby
-from typing import NamedTuple, Optional
+from typing import NamedTuple
 
 from game_parser.models import (
     Ammo,
@@ -216,19 +216,20 @@ def parse_task(db_task: CyclicQuest) -> Quest:
 
 
 def parse_target(db_task: CyclicQuest) -> QuestTarget:
+    # pylint: disable=too-many-locals
     items_types = {
-        QuestKinds.chain,
-        QuestKinds.monster_part,
-        QuestKinds.artefact,
-        QuestKinds.find_item,
+        QuestKinds.CHAIN,
+        QuestKinds.MONSTER_PART,
+        QuestKinds.ARTEFACT,
+        QuestKinds.OTHER_ITEM,
     }
 
     lager_types = {
-        QuestKinds.eliminate_lager,
-        QuestKinds.defend_lager,
+        QuestKinds.DESTROY_CAMP,
+        QuestKinds.DEFEND_LAGER,
     }
 
-    stalker_types = {QuestKinds.kill_stalker}
+    stalker_types = {QuestKinds.KILL}
 
     if db_task.type in stalker_types:
         stalker = db_task.target_stalker
@@ -262,7 +263,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
             if target_camp
             else (
                 db_task.target_camp_to_destroy
-                if db_task.type == QuestKinds.eliminate_lager
+                if db_task.type == QuestKinds.DESTROY_CAMP
                 else db_task.target_camp_to_defeat
             )
         )

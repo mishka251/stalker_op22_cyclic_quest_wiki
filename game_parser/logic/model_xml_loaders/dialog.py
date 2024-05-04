@@ -58,6 +58,7 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
         return dialog
 
     def _parse_phrase_list(self, dialog: Dialog, phrase_list_node: _Element) -> None:
+        # pylint: disable=too-many-locals, too-many-branches
         for phrase_node in phrase_list_node:
             if phrase_node.tag == "phrase":
                 phrase_id = phrase_node.attrib.pop("id")

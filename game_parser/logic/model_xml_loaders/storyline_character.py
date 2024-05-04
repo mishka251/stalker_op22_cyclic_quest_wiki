@@ -16,6 +16,7 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
         character_node: _Element,
         comments: list[str],
     ) -> StorylineCharacter:
+        #  pylint: disable=too-many-locals, too-many-branches, too-many-statements
         if character_node.tag != "specific_character":
             logger.warning("Unexpected node %s", character_node.tag)
             raise ValueError

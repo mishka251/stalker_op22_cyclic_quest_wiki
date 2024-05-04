@@ -67,7 +67,7 @@ class Command(BaseCommand):
         for index, quest in enumerate(CyclicQuest.objects.all()):
             if quest.target_str is None:
                 raise ValueError
-            if quest.type != QuestKinds.kill_stalker:
+            if quest.type != QuestKinds.KILL:
                 continue
             quest.target_stalker = StalkerSection.objects.filter(
                 section_name__exact=quest.target_str.lower(),

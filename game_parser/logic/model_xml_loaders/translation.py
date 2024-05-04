@@ -13,7 +13,7 @@ class TranslationLoader(BaseModelXmlLoader[Translation]):
 
     def _load(self, character_node: _Element, comments: list[str]) -> Translation:
         if character_node.tag != "string":
-            logger.warning(f"wrong child  {character_node}, {character_node}")
+            logger.warning("wrong child  %s, %s", character_node, character_node)
             raise ValueError(f"wrong child  {character_node}, {character_node}")
         code = character_node.attrib["id"]
         kwargs = {}

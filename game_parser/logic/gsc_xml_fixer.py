@@ -1,6 +1,5 @@
 import re
 from pathlib import Path
-from typing import Optional
 
 from chardet.universaldetector import UniversalDetector
 from django.conf import settings

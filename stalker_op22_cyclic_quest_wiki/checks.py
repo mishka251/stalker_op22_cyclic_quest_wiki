@@ -1,14 +1,14 @@
 from collections.abc import Iterable, Sequence
-from typing import Any, Optional
+from typing import Any
 
 from django.apps import AppConfig, apps
-from django.apps.registry import Apps
 from django.contrib.admin import site as admin_site
 from django.core import checks
 from django.db import models
 
 
 @checks.register()
+#  pylint: disable=unused-argument
 def check_model_admin_fields(
     *,
     app_configs: Sequence[AppConfig] | None,
@@ -19,6 +19,7 @@ def check_model_admin_fields(
     apps_: Iterable[AppConfig] = app_configs or apps.get_app_configs()
     for app_config in apps_:
         for model in app_config.get_models():
+            # pylint: disable=protected-access
             model_admin = admin_site._registry.get(model)
             if not model_admin:
                 continue

@@ -17,10 +17,10 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         CyclicQuestItemReward.objects.all().delete()
         quests_with_items = [
-            QuestKinds.chain,
-            QuestKinds.monster_part,
-            QuestKinds.artefact,
-            QuestKinds.find_item,
+            QuestKinds.CHAIN,
+            QuestKinds.MONSTER_PART,
+            QuestKinds.ARTEFACT,
+            QuestKinds.OTHER_ITEM,
         ]
         count = CyclicQuest.objects.filter(type__in=quests_with_items).count()
         for index, quest in enumerate(
