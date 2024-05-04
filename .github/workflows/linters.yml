@@ -1,4 +1,4 @@
-name: Check migrations created
+name: Liners
 
 on:
   - push

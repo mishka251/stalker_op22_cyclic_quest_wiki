@@ -107,6 +107,7 @@ ignore = [
     "G004", # ???
     "F403", # ???
     "F401", # ???
+    "EXE001", # ???
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.

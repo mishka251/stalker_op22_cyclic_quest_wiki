@@ -54,6 +54,7 @@ repos:
         language: system
         types: [python]
         args: [
+            --config-file=mypy.ini,
             --scripts-are-modules
         ]
 
