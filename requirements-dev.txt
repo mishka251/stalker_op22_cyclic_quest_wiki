@@ -4,15 +4,15 @@ luaparser==3.2.1
 lupa==2.1
 chardet==5.2.0
 pylint==3.1.0
-pylint-django
-mypy
+pylint-django==2.5.5
+mypy>=1.10.0
 django-stubs[compatible-mypy]==4.2.4
-types-lxml
-types-cffi
-ruff
-black
-isort
-pre-commit
-autoflake
-pyupgrade
-pre-commit-hooks >= 4.5.0
+types-lxml==2024.4.14
+types-cffi>=1.16.0.20240331
+ruff>=0.4.2
+black>=24.4.2
+isort>=5.13.2
+pre-commit>=3.7.0
+autoflake>=2.3.1
+pyupgrade>=3.15.2
+pre-commit-hooks>=4.5.0
