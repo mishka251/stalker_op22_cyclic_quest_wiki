@@ -31,25 +31,33 @@ class Migration(migrations.Migration):
                 (
                     "burn_protection",
                     models.DecimalField(
-                        decimal_places=4, max_digits=7, verbose_name="Защита от огня?"
+                        decimal_places=4,
+                        max_digits=7,
+                        verbose_name="Защита от огня?",
                     ),
                 ),
                 (
                     "strike_protection",
                     models.DecimalField(
-                        decimal_places=4, max_digits=7, verbose_name="Защита от ???"
+                        decimal_places=4,
+                        max_digits=7,
+                        verbose_name="Защита от ???",
                     ),
                 ),
                 (
                     "shock_protection",
                     models.DecimalField(
-                        decimal_places=4, max_digits=7, verbose_name="Защита от ???"
+                        decimal_places=4,
+                        max_digits=7,
+                        verbose_name="Защита от ???",
                     ),
                 ),
                 (
                     "wound_protection",
                     models.DecimalField(
-                        decimal_places=4, max_digits=7, verbose_name="Защита от ???"
+                        decimal_places=4,
+                        max_digits=7,
+                        verbose_name="Защита от ???",
                     ),
                 ),
                 (
@@ -71,19 +79,25 @@ class Migration(migrations.Migration):
                 (
                     "chemical_burn_protection",
                     models.DecimalField(
-                        decimal_places=4, max_digits=7, verbose_name="Защита от химии"
+                        decimal_places=4,
+                        max_digits=7,
+                        verbose_name="Защита от химии",
                     ),
                 ),
                 (
                     "explosion_protection",
                     models.DecimalField(
-                        decimal_places=4, max_digits=7, verbose_name="Защита от взрыва"
+                        decimal_places=4,
+                        max_digits=7,
+                        verbose_name="Защита от взрыва",
                     ),
                 ),
                 (
                     "fire_wound_protection",
                     models.DecimalField(
-                        decimal_places=4, max_digits=7, verbose_name="Защита от огня?"
+                        decimal_places=4,
+                        max_digits=7,
+                        verbose_name="Защита от огня?",
                     ),
                 ),
             ],

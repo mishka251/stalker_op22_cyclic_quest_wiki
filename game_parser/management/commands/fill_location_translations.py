@@ -17,7 +17,7 @@ class Command(BaseCommand):
             if item.name is None:
                 continue
             item.name_translation = Translation.objects.filter(
-                code__iexact=item.name.lower()
+                code__iexact=item.name.lower(),
             ).first()
             item.save()
             print(f"{index+1}/{count}")

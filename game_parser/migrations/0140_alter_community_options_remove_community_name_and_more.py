@@ -26,7 +26,9 @@ class Migration(migrations.Migration):
             model_name="community",
             name="code",
             field=models.CharField(
-                default="", max_length=128, verbose_name="Код в игре"
+                default="",
+                max_length=128,
+                verbose_name="Код в игре",
             ),
             preserve_default=False,
         ),
@@ -34,7 +36,9 @@ class Migration(migrations.Migration):
             model_name="community",
             name="index",
             field=models.PositiveSmallIntegerField(
-                default=1, unique=True, verbose_name="ID группировки"
+                default=1,
+                unique=True,
+                verbose_name="ID группировки",
             ),
             preserve_default=False,
         ),
@@ -64,7 +68,10 @@ class Migration(migrations.Migration):
             model_name="community",
             name="id",
             field=models.BigAutoField(
-                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                auto_created=True,
+                primary_key=True,
+                serialize=False,
+                verbose_name="ID",
             ),
         ),
         migrations.CreateModel(
@@ -94,13 +101,15 @@ class Migration(migrations.Migration):
                 (
                     "min_score",
                     models.PositiveSmallIntegerField(
-                        null=True, verbose_name="Нижний порог ранга"
+                        null=True,
+                        verbose_name="Нижний порог ранга",
                     ),
                 ),
                 (
                     "max_score",
                     models.PositiveSmallIntegerField(
-                        null=True, verbose_name="Верхний порог ранга"
+                        null=True,
+                        verbose_name="Верхний порог ранга",
                     ),
                 ),
                 (

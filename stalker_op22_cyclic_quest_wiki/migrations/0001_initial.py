@@ -28,7 +28,9 @@ class Migration(migrations.Migration):
                 (
                     "section_name",
                     models.CharField(
-                        max_length=128, unique=True, verbose_name="Название секции НПС"
+                        max_length=128,
+                        unique=True,
+                        verbose_name="Название секции НПС",
                     ),
                 ),
                 (
@@ -41,7 +43,8 @@ class Migration(migrations.Migration):
                 (
                     "game_story_id",
                     models.PositiveSmallIntegerField(
-                        unique=True, verbose_name="ID квестодателя глобальный(story_id)"
+                        unique=True,
+                        verbose_name="ID квестодателя глобальный(story_id)",
                     ),
                 ),
             ],
@@ -86,13 +89,17 @@ class Migration(migrations.Migration):
                 (
                     "name",
                     models.CharField(
-                        max_length=255, unique=True, verbose_name="Название(код в игре)"
+                        max_length=255,
+                        unique=True,
+                        verbose_name="Название(код в игре)",
                     ),
                 ),
                 (
                     "inv_weight",
                     models.DecimalField(
-                        decimal_places=3, max_digits=12, verbose_name="Вес"
+                        decimal_places=3,
+                        max_digits=12,
+                        verbose_name="Вес",
                     ),
                 ),
             ],
@@ -182,7 +189,9 @@ class Migration(migrations.Migration):
                 (
                     "code",
                     models.CharField(
-                        max_length=128, unique=True, verbose_name="Код названия"
+                        max_length=128,
+                        unique=True,
+                        verbose_name="Код названия",
                     ),
                 ),
                 ("rus", models.TextField(verbose_name="Русский")),
@@ -213,7 +222,7 @@ class Migration(migrations.Migration):
                 (
                     "box_size",
                     models.PositiveIntegerField(
-                        verbose_name="Кол-во патронов в пачке?"
+                        verbose_name="Кол-во патронов в пачке?",
                     ),
                 ),
             ],
@@ -310,7 +319,9 @@ class Migration(migrations.Migration):
                 (
                     "name",
                     models.CharField(
-                        max_length=255, unique=True, verbose_name="Название"
+                        max_length=255,
+                        unique=True,
+                        verbose_name="Название",
                     ),
                 ),
                 ("x", models.FloatField()),
@@ -323,13 +334,17 @@ class Migration(migrations.Migration):
                 (
                     "story_id",
                     models.PositiveBigIntegerField(
-                        null=True, unique=True, verbose_name="story_id"
+                        null=True,
+                        unique=True,
+                        verbose_name="story_id",
                     ),
                 ),
                 (
                     "spawn_story_id",
                     models.PositiveBigIntegerField(
-                        null=True, unique=True, verbose_name="spawn_story_id"
+                        null=True,
+                        unique=True,
+                        verbose_name="spawn_story_id",
                     ),
                 ),
                 (
@@ -424,7 +439,9 @@ class Migration(migrations.Migration):
                 (
                     "game_code",
                     models.CharField(
-                        max_length=255, unique=True, verbose_name="Игровой код в файле"
+                        max_length=255,
+                        unique=True,
+                        verbose_name="Игровой код в файле",
                     ),
                 ),
                 (
@@ -446,13 +463,15 @@ class Migration(migrations.Migration):
                 (
                     "prior",
                     models.IntegerField(
-                        default=0, verbose_name=" Типа очередность задания"
+                        default=0,
+                        verbose_name=" Типа очередность задания",
                     ),
                 ),
                 (
                     "once",
                     models.BooleanField(
-                        default=False, verbose_name="Одноразовый ли квест"
+                        default=False,
+                        verbose_name="Одноразовый ли квест",
                     ),
                 ),
                 (
@@ -702,7 +721,8 @@ class Migration(migrations.Migration):
                 (
                     "count",
                     models.PositiveIntegerField(
-                        default=1, verbose_name="Кол-во предметов"
+                        default=1,
+                        verbose_name="Кол-во предметов",
                     ),
                 ),
                 (
@@ -799,7 +819,8 @@ class Migration(migrations.Migration):
                 (
                     "count",
                     models.PositiveIntegerField(
-                        null=True, verbose_name="Кол-во нужных предметов"
+                        null=True,
+                        verbose_name="Кол-во нужных предметов",
                     ),
                 ),
                 (

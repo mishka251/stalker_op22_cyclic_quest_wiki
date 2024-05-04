@@ -35,7 +35,8 @@ class Migration(migrations.Migration):
                 (
                     "fire_modes_str",
                     models.CharField(
-                        max_length=255, verbose_name="Режимы стрельбы(сырая строка)"
+                        max_length=255,
+                        verbose_name="Режимы стрельбы(сырая строка)",
                     ),
                 ),
                 (
@@ -45,31 +46,35 @@ class Migration(migrations.Migration):
                 (
                     "grenade_class_str",
                     models.CharField(
-                        max_length=1000, verbose_name="Типы гранат для подствольника"
+                        max_length=1000,
+                        verbose_name="Типы гранат для подствольника",
                     ),
                 ),
                 (
                     "rpm",
                     models.IntegerField(
-                        verbose_name="Скорострельность выстрелов в минуту"
+                        verbose_name="Скорострельность выстрелов в минуту",
                     ),
                 ),
                 (
                     "scope_status_str",
                     models.CharField(
-                        max_length=5, verbose_name="Возможность установки прицела"
+                        max_length=5,
+                        verbose_name="Возможность установки прицела",
                     ),
                 ),
                 (
                     "silencer_status_str",
                     models.CharField(
-                        max_length=5, verbose_name="Возможность установки глушителя"
+                        max_length=5,
+                        verbose_name="Возможность установки глушителя",
                     ),
                 ),
                 (
                     "grenade_launcher_status",
                     models.CharField(
-                        max_length=5, verbose_name="Возможность установки ГП"
+                        max_length=5,
+                        verbose_name="Возможность установки ГП",
                     ),
                 ),
                 (

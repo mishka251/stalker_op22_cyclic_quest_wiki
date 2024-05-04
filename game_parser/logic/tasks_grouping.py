@@ -17,7 +17,7 @@ from game_parser.models.quest import CyclicQuest, CyclicQuestItemReward, QuestKi
 
 position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
 offset_re = re.compile(
-    r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
+    r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)",
 )
 
 
@@ -146,7 +146,8 @@ def collect_info() -> list[CharacterQuests]:
     all_tasks = list(CyclicQuest.objects.all().order_by("vendor"))
     result = []
     for vendor, _vendor_tasks in groupby(
-        all_tasks, lambda task: task.get_vendor_character
+        all_tasks,
+        lambda task: task.get_vendor_character,
     ):
         result += [collect_vendor_tasks(_vendor_tasks, vendor)]
 
@@ -163,15 +164,17 @@ def collect_vendor_tasks(_vendor_tasks, vendor: StorylineCharacter) -> Character
     )
     quest_group_by_type = {}
     for _task_kind, _vendor_kind_tasks in groupby(
-        vendor_tasks, key=lambda task: task.type
+        vendor_tasks,
+        key=lambda task: task.type,
     ):
         task_kind = QuestKinds[_task_kind]
         vendor_kind_tasks = list(
-            sorted(_vendor_kind_tasks, key=lambda task: task.prior)
+            sorted(_vendor_kind_tasks, key=lambda task: task.prior),
         )
         tasks_by_prior = {}
         for prior, _prior_tasks in groupby(
-            vendor_kind_tasks, key=lambda task: task.prior
+            vendor_kind_tasks,
+            key=lambda task: task.prior,
         ):
             prior_tasks = list(_prior_tasks)
 
@@ -231,10 +234,11 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         stalker = db_task.target_stalker
         assert stalker is not None
         single_spawn_items = SingleStalkerSpawnItem.objects.filter(
-            stalker_section=stalker
+            stalker_section=stalker,
         )
         single_spawn_items_ids = single_spawn_items.values_list(
-            "spawn_item_id", flat=True
+            "spawn_item_id",
+            flat=True,
         )
         respawns = stalker.respawn_set.all()
         respawns_spawn_items = respawns.values_list("spawn_item_id", flat=True)
@@ -263,7 +267,8 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         )
         assert target_camp_item is not None
         camp_map_info = _spawn_item_to_map_info(
-            target_camp_item.section_name, target_camp_item
+            target_camp_item.section_name,
+            target_camp_item,
         )
         return LagerTarget(db_task.target_str or str(db_task.id), camp_map_info)
 
@@ -323,11 +328,12 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
 
 
 def _spawn_item_to_map_info(
-    target_str: str, target_camp: SpawnItem
+    target_str: str,
+    target_camp: SpawnItem,
 ) -> MapPointInfo | None:
     if target_camp and target_camp.location:
         location_map_info = LocationMapInfo.objects.filter(
-            location=target_camp.location
+            location=target_camp.location,
         ).first()
         if (
             location_map_info

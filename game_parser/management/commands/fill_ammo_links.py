@@ -23,14 +23,14 @@ class Command(BaseCommand):
 
             if weapon.silencer_name:
                 weapon.silencer = Silencer.objects.filter(
-                    name=weapon.silencer_name
+                    name=weapon.silencer_name,
                 ).first()
                 if not weapon.silencer:
                     partial_updated.add(weapon)
 
             if weapon.grenade_launcher_name:
                 weapon.grenade_launcher = GrenadeLauncher.objects.filter(
-                    name=weapon.grenade_launcher_name
+                    name=weapon.grenade_launcher_name,
                 ).first()
                 if not weapon.grenade_launcher:
                     partial_updated.add(weapon)

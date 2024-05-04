@@ -14,12 +14,12 @@ class Command(BaseCommand):
     def handle(self, **options) -> None:
         count = CustomSpawnItem.objects.filter(section_name="inventory_box").count()
         for index, item in enumerate(
-            CustomSpawnItem.objects.filter(section_name="inventory_box").all()
+            CustomSpawnItem.objects.filter(section_name="inventory_box").all(),
         ):
             if not item.custom_data:
                 continue
             item.custom_inventory_box = InventoryBox.objects.filter(
-                source_file_name=f"config\{item.custom_data.strip()}"
+                source_file_name=f"config\{item.custom_data.strip()}",
             ).first()  # noqa: W605
             item.save()
             print(f"{index+1}/{count}")

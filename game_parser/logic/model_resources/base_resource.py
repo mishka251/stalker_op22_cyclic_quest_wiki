@@ -78,7 +78,10 @@ class BooleanField(BaseResourceField):
         default=False,
     ):
         super().__init__(
-            data_field_name, model_field_name, required=required, default=default
+            data_field_name,
+            model_field_name,
+            required=required,
+            default=default,
         )
 
     def _parse_non_empty_value(self, value: Any) -> Any:
@@ -105,7 +108,9 @@ class BaseModelResource(Generic[TModel]):
             field.fill_instance(instance, value)
 
     def create_instance_from_data(
-        self, section_name: str, data: dict[str, Any]
+        self,
+        section_name: str,
+        data: dict[str, Any],
     ) -> TModel:
         try:
             return self._create_instance_from_data(section_name, data)
@@ -113,7 +118,9 @@ class BaseModelResource(Generic[TModel]):
             raise type(ex)(f"Ошибка при парсинге {section_name}") from ex
 
     def _create_instance_from_data(
-        self, section_name: str, data: dict[str, Any]
+        self,
+        section_name: str,
+        data: dict[str, Any],
     ) -> TModel:
         data[SECTION_NAME] = section_name
         instance = self._init_instance()

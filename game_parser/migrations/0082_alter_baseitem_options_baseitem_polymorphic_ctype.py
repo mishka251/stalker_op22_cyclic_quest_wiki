@@ -29,7 +29,7 @@ def set_item_content_type(apps: Apps, schema_editor: BaseDatabaseSchemaEditor) -
         MyModel = apps.get_model("game_parser", model)
         new_ct = ContentType.objects.get_for_model(MyModel)
         MyModel.objects.filter(polymorphic_ctype__isnull=True).update(
-            polymorphic_ctype=new_ct
+            polymorphic_ctype=new_ct,
         )
 
 

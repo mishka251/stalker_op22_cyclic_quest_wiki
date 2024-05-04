@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
             model_name="baseitem",
             name="inv_icon",
             field=models.ImageField(
-                null=True, upload_to="item_icons/", verbose_name="Иконка в инвентаре"
+                null=True,
+                upload_to="item_icons/",
+                verbose_name="Иконка в инвентаре",
             ),
         ),
     ]

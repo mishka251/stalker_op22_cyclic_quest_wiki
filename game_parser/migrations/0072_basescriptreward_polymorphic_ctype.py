@@ -8,7 +8,8 @@ from django.db.backends.base.schema import BaseDatabaseSchemaEditor
 
 
 def set_reward_content_type(
-    apps: Apps, schema_editor: BaseDatabaseSchemaEditor
+    apps: Apps,
+    schema_editor: BaseDatabaseSchemaEditor,
 ) -> None:
     ContentType: type[ContentTypeModel] = apps.get_model("contenttypes", "ContentType")
     my_models = [
@@ -21,7 +22,7 @@ def set_reward_content_type(
         MyModel: type[models.Model] = apps.get_model("game_parser", model)
         new_ct = ContentType.objects.get_for_model(MyModel)
         MyModel._default_manager.filter(polymorphic_ctype__isnull=True).update(
-            polymorphic_ctype=new_ct
+            polymorphic_ctype=new_ct,
         )
 
 

@@ -92,7 +92,9 @@ class ItemReward(QuestReward):
 class QuestRandomRewardManager(PolymorphicManager):
 
     def get_by_natural_key(
-        self, quest_game_code: str, reward_index: int
+        self,
+        quest_game_code: str,
+        reward_index: int,
     ) -> "QuestRandomReward":
         quest = CyclicQuest.objects.get_by_natural_key(quest_game_code)
         reward = RandomRewardInfo.objects.get_by_natural_key(reward_index)

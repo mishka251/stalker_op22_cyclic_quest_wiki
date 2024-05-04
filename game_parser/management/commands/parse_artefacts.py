@@ -104,7 +104,7 @@ class Command(BaseCommand):
                 assert isinstance(block, dict)
                 if "hit_absorbation_sect" in block:
                     hit_absorbation_sect_block_name: str = block.pop(
-                        "hit_absorbation_sect"
+                        "hit_absorbation_sect",
                     )
                     hit_absorbation_sect = blocks[hit_absorbation_sect_block_name]
                     assert isinstance(hit_absorbation_sect, dict)

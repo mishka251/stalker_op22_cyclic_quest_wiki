@@ -26,7 +26,8 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
         if dialog_id is "None":
             raise ValueError(f"Unexpected id is None {dialog_node}")
         dialog = Dialog.objects.create(
-            game_id=dialog_id, comments_raw=";".join(dialog_comments)
+            game_id=dialog_id,
+            comments_raw=";".join(dialog_comments),
         )
         preconditions = []
         has_info = []
@@ -47,7 +48,7 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
                 pass
             else:
                 raise ValueError(
-                    f"Unexpected game dialog child {child_node.tag} in {dialog_id}"
+                    f"Unexpected game dialog child {child_node.tag} in {dialog_id}",
                 )
         dialog.precondition_raw = ";".join(preconditions)
         dialog.dont_has_info_raw = ";".join(dont_has_info)
@@ -62,7 +63,8 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
                 phrase_id = phrase_node.attrib.pop("id")
                 try:
                     phrase = DialogPhrase.objects.create(
-                        dialog=dialog, local_id=phrase_id
+                        dialog=dialog,
+                        local_id=phrase_id,
                     )
                 except IntegrityError as ex:
                     raise IntegrityError(f"{dialog=}, {phrase_id=}") from ex
@@ -98,7 +100,7 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
                         pass  # dialog_comments.append(game_dialogs.text)
                     else:
                         raise ValueError(
-                            f"Unexpected dialog phrase child {child_node.tag} in {dialog.game_id} {phrase_id}"
+                            f"Unexpected dialog phrase child {child_node.tag} in {dialog.game_id} {phrase_id}",
                         )
                 phrase.text_id_raw = text
                 phrase.next_ids_raw = ";".join(_next)

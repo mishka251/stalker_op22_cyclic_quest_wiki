@@ -9,18 +9,25 @@ class InfoPortion(models.Model):
         verbose_name_plural = "Инфопоршни"
 
     game_id = models.CharField(
-        max_length=512, verbose_name="Игровой идентификатор", unique=True
+        max_length=512,
+        verbose_name="Игровой идентификатор",
+        unique=True,
     )
 
     article_raw = models.CharField(
-        max_length=256, null=True, verbose_name="Статьи(сырые id)"
+        max_length=256,
+        null=True,
+        verbose_name="Статьи(сырые id)",
     )
 
     disable_raw = models.TextField(null=True, verbose_name="Отключаемые инфопоршни")
 
     task_raw = models.TextField(null=True, verbose_name="Задание(сырое)")
     task = models.ForeignKey(
-        GameTask, null=True, on_delete=models.SET_NULL, verbose_name="Задание"
+        GameTask,
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Задание",
     )
 
     actions_raw = models.TextField(null=True, verbose_name="Запускаемые функции(сырые)")

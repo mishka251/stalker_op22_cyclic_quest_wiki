@@ -15,11 +15,16 @@ class Community(models.Model):
         verbose_name_plural = "Группировки"
 
     index = models.PositiveSmallIntegerField(
-        null=False, verbose_name="ID группировки", unique=False
+        null=False,
+        verbose_name="ID группировки",
+        unique=False,
     )
     code = models.CharField(max_length=128, null=False, verbose_name="Код в игре")
     type = models.CharField(
-        choices=CommunityType.choices, null=False, max_length=128, verbose_name="Тип"
+        choices=CommunityType.choices,
+        null=False,
+        max_length=128,
+        verbose_name="Тип",
     )
     translation = models.ForeignKey(
         "Translation",
@@ -45,7 +50,10 @@ class Rank(models.Model):
 
     name = models.CharField(max_length=128, null=False, unique=True, verbose_name="Код")
     type = models.CharField(
-        choices=RankType.choices, null=False, max_length=128, verbose_name="Тип"
+        choices=RankType.choices,
+        null=False,
+        max_length=128,
+        verbose_name="Тип",
     )
     translation = models.ForeignKey(
         "Translation",
@@ -55,10 +63,12 @@ class Rank(models.Model):
         related_name="+",
     )
     min_score = models.PositiveSmallIntegerField(
-        null=True, verbose_name="Нижний порог ранга"
+        null=True,
+        verbose_name="Нижний порог ранга",
     )
     max_score = models.PositiveSmallIntegerField(
-        null=True, verbose_name="Верхний порог ранга"
+        null=True,
+        verbose_name="Верхний порог ранга",
     )
 
     def __str__(self):

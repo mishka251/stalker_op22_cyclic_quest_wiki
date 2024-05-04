@@ -31,19 +31,22 @@ class Migration(migrations.Migration):
                 (
                     "name_str",
                     models.CharField(
-                        max_length=255, verbose_name="Название(код перевода)"
+                        max_length=255,
+                        verbose_name="Название(код перевода)",
                     ),
                 ),
                 (
                     "description_str",
                     models.CharField(
-                        max_length=255, verbose_name="Описание(код перевода)"
+                        max_length=255,
+                        verbose_name="Описание(код перевода)",
                     ),
                 ),
                 (
                     "items_str",
                     models.CharField(
-                        max_length=1000, verbose_name="Предметы в тайнике(строкой)"
+                        max_length=1000,
+                        verbose_name="Предметы в тайнике(строкой)",
                     ),
                 ),
                 (
@@ -87,7 +90,8 @@ class Migration(migrations.Migration):
                 (
                     "count",
                     models.PositiveIntegerField(
-                        default=1, verbose_name="Кол-во предметов"
+                        default=1,
+                        verbose_name="Кол-во предметов",
                     ),
                 ),
                 (

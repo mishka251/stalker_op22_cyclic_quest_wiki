@@ -14,14 +14,18 @@ class Migration(migrations.Migration):
             model_name="spawnitem",
             name="spawn_story_id",
             field=models.PositiveBigIntegerField(
-                null=True, unique=True, verbose_name="spawn_story_id"
+                null=True,
+                unique=True,
+                verbose_name="spawn_story_id",
             ),
         ),
         migrations.AddField(
             model_name="spawnitem",
             name="story_id",
             field=models.PositiveBigIntegerField(
-                null=True, unique=True, verbose_name="story_id"
+                null=True,
+                unique=True,
+                verbose_name="story_id",
             ),
         ),
     ]

@@ -12,7 +12,9 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
     expected_tag = "specific_character"
 
     def _load(
-        self, character_node: _Element, comments: list[str]
+        self,
+        character_node: _Element,
+        comments: list[str],
     ) -> StorylineCharacter:
         if character_node.tag != "specific_character":
             logger.warning("Unexpected node %s", character_node.tag)
@@ -80,7 +82,9 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
                 team = child_node.text
             else:
                 logger.warning(
-                    f"Unexpected node %s in character %s", child_node.tag, character_id
+                    f"Unexpected node %s in character %s",
+                    child_node.tag,
+                    character_id,
                 )
         assert name is not None
         assert icon_raw is not None

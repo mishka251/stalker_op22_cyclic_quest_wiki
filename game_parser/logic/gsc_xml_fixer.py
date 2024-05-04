@@ -48,7 +48,7 @@ class GSCXmlFixer:
 
     def _get_encoding_from_header(self, header: str) -> str | None:
         header_conding_re = re.compile(
-            r'<\?xml .*encoding="(?P<encoding>([\w\d\-_]+))".*\?>'
+            r'<\?xml .*encoding="(?P<encoding>([\w\d\-_]+))".*\?>',
         )
         rm = header_conding_re.match(header)
         if rm:
@@ -90,7 +90,9 @@ class GSCXmlFixer:
         while fixed_content != current_content:
             current_content = fixed_content
             fixed_content = re.sub(
-                xml_comment_re, r"<!--\g<before> \g<after>-->", current_content
+                xml_comment_re,
+                r"<!--\g<before> \g<after>-->",
+                current_content,
             )
         xml_comment2_re = re.compile(r"<!--[\s-]*(?P<comment>.*?)[\s-]*-->")
         return re.sub(xml_comment2_re, r"<!-- \g<comment> -->", fixed_content)

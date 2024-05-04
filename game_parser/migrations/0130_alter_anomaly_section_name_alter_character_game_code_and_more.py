@@ -45,7 +45,9 @@ class Migration(migrations.Migration):
             model_name="cyclicquest",
             name="game_code",
             field=models.CharField(
-                max_length=255, unique=True, verbose_name="Игровой код в файле"
+                max_length=255,
+                unique=True,
+                verbose_name="Игровой код в файле",
             ),
         ),
         migrations.AlterField(
@@ -57,35 +59,44 @@ class Migration(migrations.Migration):
             model_name="gamestoryid",
             name="section_name",
             field=models.CharField(
-                max_length=255, unique=True, verbose_name="Название секции"
+                max_length=255,
+                unique=True,
+                verbose_name="Название секции",
             ),
         ),
         migrations.AlterField(
             model_name="gamestoryid",
             name="story_id",
             field=models.PositiveSmallIntegerField(
-                unique=True, verbose_name="id в игре"
+                unique=True,
+                verbose_name="id в игре",
             ),
         ),
         migrations.AlterField(
             model_name="infoportion",
             name="game_id",
             field=models.CharField(
-                max_length=512, unique=True, verbose_name="Игровой идентификатор"
+                max_length=512,
+                unique=True,
+                verbose_name="Игровой идентификатор",
             ),
         ),
         migrations.AlterField(
             model_name="inventorybox",
             name="section_name",
             field=models.CharField(
-                max_length=255, unique=True, verbose_name="Название секции"
+                max_length=255,
+                unique=True,
+                verbose_name="Название секции",
             ),
         ),
         migrations.AlterField(
             model_name="location",
             name="game_code",
             field=models.CharField(
-                max_length=255, unique=True, verbose_name="Название уровня"
+                max_length=255,
+                unique=True,
+                verbose_name="Название уровня",
             ),
         ),
         migrations.AlterField(
@@ -112,14 +123,18 @@ class Migration(migrations.Migration):
             model_name="questrandomreward",
             name="index",
             field=models.PositiveSmallIntegerField(
-                null=True, unique=True, verbose_name="Индекс"
+                null=True,
+                unique=True,
+                verbose_name="Индекс",
             ),
         ),
         migrations.AlterField(
             model_name="questrandomreward",
             name="name",
             field=models.CharField(
-                max_length=255, unique=True, verbose_name="Игровое название"
+                max_length=255,
+                unique=True,
+                verbose_name="Игровое название",
             ),
         ),
         migrations.AlterField(
@@ -136,7 +151,9 @@ class Migration(migrations.Migration):
             model_name="translation",
             name="code",
             field=models.CharField(
-                max_length=128, unique=True, verbose_name="Код названия"
+                max_length=128,
+                unique=True,
+                verbose_name="Код названия",
             ),
         ),
         migrations.AlterUniqueTogether(

@@ -24,8 +24,9 @@ class Command(BaseCommand):
 
         unfounded_items = set(
             ItemInTradeBase.objects.filter(item__isnull=True).values_list(
-                "item_name", flat=True
-            )
+                "item_name",
+                flat=True,
+            ),
         )
 
         print(f"Not found = {unfounded_items}")

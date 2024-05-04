@@ -30,28 +30,44 @@ class CyclicQuest(models.Model):
         verbose_name="Тип задания(тип цели задания)",
     )
     game_code = models.CharField(
-        null=False, max_length=255, verbose_name="Игровой код в файле", unique=True
+        null=False,
+        max_length=255,
+        verbose_name="Игровой код в файле",
+        unique=True,
     )
     giver_code_local = models.CharField(
-        null=True, max_length=255, verbose_name="Код квестодателя(локальный)"
+        null=True,
+        max_length=255,
+        verbose_name="Код квестодателя(локальный)",
     )
     giver_code_global = models.CharField(
-        null=True, max_length=255, verbose_name="Код квестодателя(глобальный)"
+        null=True,
+        max_length=255,
+        verbose_name="Код квестодателя(глобальный)",
     )
     reward_item_string = models.TextField(
-        null=True, verbose_name="Награда. Предметы(-ы)"
+        null=True,
+        verbose_name="Награда. Предметы(-ы)",
     )
     reward_info_string = models.CharField(
-        null=True, max_length=255, verbose_name="Награда. Информация"
+        null=True,
+        max_length=255,
+        verbose_name="Награда. Информация",
     )
     random_rewards_string = models.CharField(
-        null=True, max_length=255, verbose_name="Награда. Случайная"
+        null=True,
+        max_length=255,
+        verbose_name="Награда. Случайная",
     )
     prior = models.IntegerField(
-        default=0, null=False, verbose_name=" Типа очередность задания"
+        default=0,
+        null=False,
+        verbose_name=" Типа очередность задания",
     )
     target_str = models.CharField(
-        null=True, max_length=255, verbose_name="Цель задания"
+        null=True,
+        max_length=255,
+        verbose_name="Цель задания",
     )
 
     once = models.BooleanField(default=False, verbose_name="Одноразовый ли квест")
@@ -61,30 +77,45 @@ class CyclicQuest(models.Model):
         verbose_name="Условия для возможности получения задания",
     )
     target_count = models.PositiveIntegerField(
-        null=True, verbose_name="Кол-во нужных предметов"
+        null=True,
+        verbose_name="Кол-во нужных предметов",
     )
     reward_money = models.PositiveIntegerField(
-        null=True, verbose_name="Награда. Деньги"
+        null=True,
+        verbose_name="Награда. Деньги",
     )
     map_location = models.CharField(
-        max_length=255, null=True, verbose_name="Цель: на карте"
+        max_length=255,
+        null=True,
+        verbose_name="Цель: на карте",
     )
     target_cond_str = models.CharField(
-        max_length=255, null=True, verbose_name="Цель: состояние премдмета "
+        max_length=255,
+        null=True,
+        verbose_name="Цель: состояние премдмета ",
     )
     hide_reward = models.BooleanField(default=False, verbose_name="Скрытая ли награда")
     reward_treasure = models.BooleanField(default=False, verbose_name="Награда. Тайник")
     reward_dialog_str = models.CharField(
-        max_length=512, null=True, verbose_name="Награда. Диалог(?)"
+        max_length=512,
+        null=True,
+        verbose_name="Награда. Диалог(?)",
     )
     defend_target_str = models.CharField(
-        max_length=255, null=True, verbose_name="Цель. Защита(?)"
+        max_length=255,
+        null=True,
+        verbose_name="Цель. Защита(?)",
     )
     reward_relation_str = models.CharField(
-        max_length=255, null=True, verbose_name="Награда. Репутация/отношения"
+        max_length=255,
+        null=True,
+        verbose_name="Награда. Репутация/отношения",
     )
     target_camp = models.ForeignKey(
-        "CampInfo", null=True, on_delete=models.SET_NULL, verbose_name="Цель - лагерь"
+        "CampInfo",
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Цель - лагерь",
     )
     target_item = models.ForeignKey(
         BaseItem,
@@ -115,7 +146,9 @@ class CyclicQuest(models.Model):
     )
 
     text_raw = models.CharField(
-        max_length=255, null=True, verbose_name="Код перевода текста задания"
+        max_length=255,
+        null=True,
+        verbose_name="Код перевода текста задания",
     )
     text = models.ForeignKey(
         "Translation",

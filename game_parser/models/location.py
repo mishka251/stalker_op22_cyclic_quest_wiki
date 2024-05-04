@@ -9,10 +9,16 @@ class Location(models.Model):
         verbose_name_plural = "Локации"
 
     game_id = models.CharField(
-        null=False, max_length=3, verbose_name="Ид уровня", unique=True
+        null=False,
+        max_length=3,
+        verbose_name="Ид уровня",
+        unique=True,
     )  # id (01)
     game_code = models.CharField(
-        null=False, max_length=255, verbose_name="Название уровня", unique=True
+        null=False,
+        max_length=255,
+        verbose_name="Название уровня",
+        unique=True,
     )  # section name (level01)
     name = models.CharField(
         null=True,
@@ -29,7 +35,9 @@ class Location(models.Model):
         related_name="+",
     )
     offset_str = models.CharField(
-        null=True, max_length=255, verbose_name="Сдвиг на глобальной карте??"
+        null=True,
+        max_length=255,
+        verbose_name="Сдвиг на глобальной карте??",
     )
 
     def __str__(self):
@@ -42,14 +50,21 @@ class LocationMapInfo(models.Model):
         verbose_name_plural = "Дополнительные данные о локациях"
 
     location = models.ForeignKey(
-        Location, null=True, on_delete=models.SET_NULL, verbose_name="локация"
+        Location,
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="локация",
     )
     name = models.CharField(max_length=255, null=False, verbose_name="Название")
     texture_raw = models.CharField(
-        max_length=255, null=True, verbose_name="Название картинки с картой"
+        max_length=255,
+        null=True,
+        verbose_name="Название картинки с картой",
     )
     bound_rect_raw = models.CharField(
-        max_length=255, null=True, verbose_name="Границы локации(границы картинки?)"
+        max_length=255,
+        null=True,
+        verbose_name="Границы локации(границы картинки?)",
     )
     global_rect_raw = models.CharField(
         max_length=255,
@@ -57,10 +72,14 @@ class LocationMapInfo(models.Model):
         verbose_name="Границы локации(относительно глобальной карты?)",
     )
     weathers = models.CharField(
-        max_length=255, null=True, verbose_name="Информация о погоде"
+        max_length=255,
+        null=True,
+        verbose_name="Информация о погоде",
     )
     music_tracks = models.CharField(
-        max_length=255, null=True, verbose_name="Информация о фоновой музыке"
+        max_length=255,
+        null=True,
+        verbose_name="Информация о фоновой музыке",
     )
     map_image = models.ImageField(null=True, verbose_name="Карта")
 

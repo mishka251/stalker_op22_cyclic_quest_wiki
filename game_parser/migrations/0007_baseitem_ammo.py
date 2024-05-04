@@ -30,20 +30,23 @@ class Migration(migrations.Migration):
                 (
                     "description_code",
                     models.CharField(
-                        max_length=255, verbose_name="Код названия(ссылка на переводы)"
+                        max_length=255,
+                        verbose_name="Код названия(ссылка на переводы)",
                     ),
                 ),
                 ("cost", models.PositiveIntegerField(verbose_name="Базовая цена")),
                 (
                     "name",
                     models.CharField(
-                        max_length=255, verbose_name="Название(код в игре)"
+                        max_length=255,
+                        verbose_name="Название(код в игре)",
                     ),
                 ),
                 (
                     "inv_name",
                     models.CharField(
-                        max_length=255, verbose_name="Название в инвентаре?"
+                        max_length=255,
+                        verbose_name="Название в инвентаре?",
                     ),
                 ),
                 (
@@ -56,7 +59,9 @@ class Migration(migrations.Migration):
                 (
                     "inv_weight",
                     models.DecimalField(
-                        decimal_places=3, max_digits=6, verbose_name="Вес"
+                        decimal_places=3,
+                        max_digits=6,
+                        verbose_name="Вес",
                     ),
                 ),
             ],

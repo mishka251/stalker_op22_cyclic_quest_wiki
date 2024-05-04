@@ -28,37 +28,70 @@ class TrueArtefact(Artefact):
     )
 
     burn_immunity = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Ожог", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Ожог",
+        null=True,
     )
     strike_immunity = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Удар", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Удар",
+        null=True,
     )
     shock_immunity = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Электрошок", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Электрошок",
+        null=True,
     )
     wound_immunity = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Разрыв", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Разрыв",
+        null=True,
     )
     radiation_immunity = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="защита от радиации", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="защита от радиации",
+        null=True,
     )
     telepatic_immunity = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Телепатии", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Телепатии",
+        null=True,
     )
     chemical_burn_immunity = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Химический ожог", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Химический ожог",
+        null=True,
     )
     explosion_immunity = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Взрыв", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Взрыв",
+        null=True,
     )
     fire_wound_immunity = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Пулестойкость", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Пулестойкость",
+        null=True,
     )
     power_restore_speed = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Восстановление сил", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Восстановление сил",
+        null=True,
     )
     additional_weight = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Переносимый вес", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Переносимый вес",
+        null=True,
     )
     radiation_restore_speed = models.DecimalField(
         decimal_places=3,
@@ -67,16 +100,28 @@ class TrueArtefact(Artefact):
         null=True,
     )
     bleeding_restore_speed = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Кровотечение", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Кровотечение",
+        null=True,
     )
     psy_health_restore_speed = models.DecimalField(
-        decimal_places=5, max_digits=7, verbose_name="Пси-здоровье?", null=True
+        decimal_places=5,
+        max_digits=7,
+        verbose_name="Пси-здоровье?",
+        null=True,
     )
     satiety_restore_speed = models.DecimalField(
-        decimal_places=5, max_digits=7, verbose_name="Насыщение", null=True
+        decimal_places=5,
+        max_digits=7,
+        verbose_name="Насыщение",
+        null=True,
     )
     jump_speed_delta = models.DecimalField(
-        decimal_places=3, max_digits=5, verbose_name="Прыжок", null=True
+        decimal_places=3,
+        max_digits=5,
+        verbose_name="Прыжок",
+        null=True,
     )
 
 

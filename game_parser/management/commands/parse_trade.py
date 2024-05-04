@@ -96,7 +96,10 @@ class Command(BaseCommand):
         return None, trade_with_condition_str
 
     def _create_buy(
-        self, trader: Trader, section_name: str, data: dict[str, str]
+        self,
+        trader: Trader,
+        section_name: str,
+        data: dict[str, str],
     ) -> None:
         buy = Buy.objects.create(trader=trader, name=section_name)
         for item_name, item_str in data.items():
@@ -119,7 +122,9 @@ class Command(BaseCommand):
         condition: str | None,
     ) -> None:
         sell = Sell.objects.create(
-            trader=trader, name=section_name, condition=condition
+            trader=trader,
+            name=section_name,
+            condition=condition,
         )
         possible_keys = set(supply_data.keys()) & set(price_section.keys())
         for item_name in possible_keys:
@@ -146,11 +151,11 @@ class Command(BaseCommand):
 
         if price_section:
             logger.warning(
-                f"Not in supply, but in prices {price_section}, {trader.game_code}, {section_name=}"
+                f"Not in supply, but in prices {price_section}, {trader.game_code}, {section_name=}",
             )
         if supply_data:
             logger.warning(
-                f"Not in prices, but in supply {supply_data}, {trader.game_code}, {section_name=}"
+                f"Not in prices, but in supply {supply_data}, {trader.game_code}, {section_name=}",
             )
 
     def _clean_section(self, section: dict[str, str]) -> dict[str, str]:

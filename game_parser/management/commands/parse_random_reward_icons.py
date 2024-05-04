@@ -39,7 +39,13 @@ class Command(BaseCommand):
         reward.icon = icon
 
     def _get_image(
-        self, image: ImageCls, x: int, y: int, width: int, height: int, name: str
+        self,
+        image: ImageCls,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        name: str,
     ) -> Icon:
         instance: Icon = Icon(name=name)
         box = self._get_item_image_coordinates(x, y, width, height)
@@ -54,7 +60,11 @@ class Command(BaseCommand):
         return instance
 
     def _get_item_image_coordinates(
-        self, x: int, y: int, width: int, height: int
+        self,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
     ) -> tuple[int, int, int, int]:
         inv_grid_x = x
         inv_grid_y = y

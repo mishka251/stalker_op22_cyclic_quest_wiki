@@ -24,14 +24,16 @@ class Migration(migrations.Migration):
             model_name="baseitem",
             name="inv_grid_x",
             field=models.PositiveIntegerField(
-                null=True, verbose_name="Отступ по длине иконки в большом файле"
+                null=True,
+                verbose_name="Отступ по длине иконки в большом файле",
             ),
         ),
         migrations.AddField(
             model_name="baseitem",
             name="inv_grid_y",
             field=models.PositiveIntegerField(
-                null=True, verbose_name="Отступ по высоте иконки в большом файле"
+                null=True,
+                verbose_name="Отступ по высоте иконки в большом файле",
             ),
         ),
     ]

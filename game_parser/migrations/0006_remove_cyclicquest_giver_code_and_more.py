@@ -19,14 +19,18 @@ class Migration(migrations.Migration):
             model_name="cyclicquest",
             name="giver_code_global",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Код квестодателя(глобальный)"
+                max_length=255,
+                null=True,
+                verbose_name="Код квестодателя(глобальный)",
             ),
         ),
         migrations.AddField(
             model_name="cyclicquest",
             name="giver_code_local",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Код квестодателя(локальный)"
+                max_length=255,
+                null=True,
+                verbose_name="Код квестодателя(локальный)",
             ),
         ),
         migrations.AlterField(
@@ -42,7 +46,9 @@ class Migration(migrations.Migration):
             model_name="cyclicquest",
             name="defend_target_str",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Цель. Защита(?)"
+                max_length=255,
+                null=True,
+                verbose_name="Цель. Защита(?)",
             ),
         ),
         migrations.AlterField(
@@ -70,63 +76,78 @@ class Migration(migrations.Migration):
             model_name="cyclicquest",
             name="map_location",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Цель: на карте"
+                max_length=255,
+                null=True,
+                verbose_name="Цель: на карте",
             ),
         ),
         migrations.AlterField(
             model_name="cyclicquest",
             name="once",
             field=models.BooleanField(
-                default=False, verbose_name="Одноразовый ли квест"
+                default=False,
+                verbose_name="Одноразовый ли квест",
             ),
         ),
         migrations.AlterField(
             model_name="cyclicquest",
             name="prior",
             field=models.IntegerField(
-                default=0, verbose_name=" Типа очередность задания"
+                default=0,
+                verbose_name=" Типа очередность задания",
             ),
         ),
         migrations.AlterField(
             model_name="cyclicquest",
             name="random_rewards_string",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Награда. Случайная"
+                max_length=255,
+                null=True,
+                verbose_name="Награда. Случайная",
             ),
         ),
         migrations.AlterField(
             model_name="cyclicquest",
             name="reward_dialog_str",
             field=models.CharField(
-                max_length=512, null=True, verbose_name="Награда. Диалог(?)"
+                max_length=512,
+                null=True,
+                verbose_name="Награда. Диалог(?)",
             ),
         ),
         migrations.AlterField(
             model_name="cyclicquest",
             name="reward_info_string",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Награда. Информация"
+                max_length=255,
+                null=True,
+                verbose_name="Награда. Информация",
             ),
         ),
         migrations.AlterField(
             model_name="cyclicquest",
             name="reward_item_string",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Награда. Предметы(-ы)"
+                max_length=255,
+                null=True,
+                verbose_name="Награда. Предметы(-ы)",
             ),
         ),
         migrations.AlterField(
             model_name="cyclicquest",
             name="reward_money",
             field=models.PositiveIntegerField(
-                null=True, verbose_name="Награда. Деньги"
+                null=True,
+                verbose_name="Награда. Деньги",
             ),
         ),
         migrations.AlterField(
             model_name="cyclicquest",
             name="reward_relation_str",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Награда. Репутация/отношения"
+                max_length=255,
+                null=True,
+                verbose_name="Награда. Репутация/отношения",
             ),
         ),
         migrations.AlterField(
@@ -138,21 +159,26 @@ class Migration(migrations.Migration):
             model_name="cyclicquest",
             name="target_cond_str",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Цель: состояние премдмета "
+                max_length=255,
+                null=True,
+                verbose_name="Цель: состояние премдмета ",
             ),
         ),
         migrations.AlterField(
             model_name="cyclicquest",
             name="target_count",
             field=models.PositiveIntegerField(
-                null=True, verbose_name="Кол-во нужных предметов"
+                null=True,
+                verbose_name="Кол-во нужных предметов",
             ),
         ),
         migrations.AlterField(
             model_name="cyclicquest",
             name="target_str",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Цель задания"
+                max_length=255,
+                null=True,
+                verbose_name="Цель задания",
             ),
         ),
         migrations.AlterField(

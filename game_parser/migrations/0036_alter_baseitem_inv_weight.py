@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
             model_name="baseitem",
             name="inv_weight",
             field=models.DecimalField(
-                decimal_places=3, max_digits=12, verbose_name="Вес"
+                decimal_places=3,
+                max_digits=12,
+                verbose_name="Вес",
             ),
         ),
     ]

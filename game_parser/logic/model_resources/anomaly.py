@@ -20,5 +20,5 @@ class AnomalyResource(BaseModelResource):
     def _apply_data(self, data: dict[str, Any], instance: Anomaly):
         super()._apply_data(data, instance)
         instance.article = EncyclopediaArticle.objects.filter(
-            game_id=instance.section_name
+            game_id=instance.section_name,
         ).first()

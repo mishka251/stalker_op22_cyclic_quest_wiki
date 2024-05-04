@@ -26,7 +26,10 @@ class Migration(migrations.Migration):
             model_name="encyclopediaarticle",
             name="ltx_str",
             field=models.CharField(
-                max_length=255, null=True, unique=True, verbose_name="Название"
+                max_length=255,
+                null=True,
+                unique=True,
+                verbose_name="Название",
             ),
         ),
         migrations.AlterField(

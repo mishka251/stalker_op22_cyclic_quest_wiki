@@ -15,14 +15,21 @@ class ScriptFunction(models.Model):
     rewards: "RelatedManager[BaseScriptReward]"
     name = models.CharField(max_length=512, null=False, verbose_name="Название")
     namespace = models.CharField(
-        max_length=512, null=False, verbose_name="Название файла"
+        max_length=512,
+        null=False,
+        verbose_name="Название файла",
     )
 
     dialog = models.ForeignKey(
-        "Dialog", related_name="actions", on_delete=models.SET_NULL, null=True
+        "Dialog",
+        related_name="actions",
+        on_delete=models.SET_NULL,
+        null=True,
     )
     nested_function = models.ManyToManyField(
-        "self", symmetrical=False, verbose_name="Функции, вызываемые в этой"
+        "self",
+        symmetrical=False,
+        verbose_name="Функции, вызываемые в этой",
     )
 
     raw_nested_function = models.TextField(null=True)

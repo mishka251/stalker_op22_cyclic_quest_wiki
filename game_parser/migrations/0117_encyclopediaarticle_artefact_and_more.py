@@ -25,7 +25,9 @@ class Migration(migrations.Migration):
             model_name="encyclopediaarticle",
             name="game_id",
             field=models.CharField(
-                max_length=255, unique=True, verbose_name="Игровой id"
+                max_length=255,
+                unique=True,
+                verbose_name="Игровой id",
             ),
         ),
         migrations.AlterField(
@@ -37,7 +39,10 @@ class Migration(migrations.Migration):
             model_name="encyclopediaarticle",
             name="ltx_str",
             field=models.CharField(
-                max_length=255, null=True, unique=True, verbose_name="Иконка"
+                max_length=255,
+                null=True,
+                unique=True,
+                verbose_name="Иконка",
             ),
         ),
     ]

@@ -36,7 +36,9 @@ class Migration(migrations.Migration):
                 (
                     "character_profile_str",
                     models.CharField(
-                        max_length=255, null=True, verbose_name="Профиль сталкера"
+                        max_length=255,
+                        null=True,
+                        verbose_name="Профиль сталкера",
                     ),
                 ),
                 ("spec_rank_str", models.CharField(max_length=255, null=True)),

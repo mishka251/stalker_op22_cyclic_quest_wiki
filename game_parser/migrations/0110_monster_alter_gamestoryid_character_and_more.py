@@ -111,7 +111,10 @@ class Migration(migrations.Migration):
             model_name="spawnitem",
             name="character_profile_str",
             field=models.CharField(
-                blank=True, max_length=255, null=True, verbose_name="Профиль сталкера"
+                blank=True,
+                max_length=255,
+                null=True,
+                verbose_name="Профиль сталкера",
             ),
         ),
         migrations.AlterField(

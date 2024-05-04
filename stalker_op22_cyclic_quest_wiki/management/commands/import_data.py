@@ -57,7 +57,9 @@ class Command(BaseCommand):
         for icon_path in icons_dir.iterdir():
             if icon_path.is_dir():
                 shutil.copytree(
-                    icon_path, media_dir / icon_path.name, dirs_exist_ok=True
+                    icon_path,
+                    media_dir / icon_path.name,
+                    dirs_exist_ok=True,
                 )
             else:
                 shutil.copyfile(icon_path, media_dir / icon_path.name)

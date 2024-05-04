@@ -258,7 +258,9 @@ class Command(BaseCommand):
         translation_config = results["string_table"]
         assert isinstance(translation_config, dict)
         translation_files_sources = self._get_paths_list(
-            base_path / "config" / "text", translation_config["files"], "xml"
+            base_path / "config" / "text",
+            translation_config["files"],
+            "xml",
         )
 
         print(
@@ -272,7 +274,9 @@ class Command(BaseCommand):
         texture_desc_config = results["texture_desc"]
         assert isinstance(texture_desc_config, dict)
         texture_desc_sources = self._get_paths_list(
-            base_path / "config" / "ui", texture_desc_config["files"], "xml"
+            base_path / "config" / "ui",
+            texture_desc_config["files"],
+            "xml",
         )
         print(
             "TEXTURE",
@@ -285,7 +289,9 @@ class Command(BaseCommand):
         info_portions_config = results["info_portions"]
         assert isinstance(info_portions_config, dict)
         info_portions_sources = self._get_paths_list(
-            base_path / "config" / "gameplay", info_portions_config["files"], "xml"
+            base_path / "config" / "gameplay",
+            info_portions_config["files"],
+            "xml",
         )
         print(
             "INFO_PORTION",
@@ -298,7 +304,9 @@ class Command(BaseCommand):
         encyclopedia_config = results["encyclopedia"]
         assert isinstance(encyclopedia_config, dict)
         encyclopedia_sources = self._get_paths_list(
-            base_path / "config" / "gameplay", encyclopedia_config["files"], "xml"
+            base_path / "config" / "gameplay",
+            encyclopedia_config["files"],
+            "xml",
         )
         print(
             "ENCYCLOPEDIA",
@@ -311,7 +319,9 @@ class Command(BaseCommand):
         dialogs_config = results["dialogs"]
         assert isinstance(dialogs_config, dict)
         dialogs_sources = self._get_paths_list(
-            base_path / "config" / "gameplay", dialogs_config["files"], "xml"
+            base_path / "config" / "gameplay",
+            dialogs_config["files"],
+            "xml",
         )
         print(
             "DIALOGS",
@@ -324,7 +334,9 @@ class Command(BaseCommand):
         profiles_config = results["profiles"]
         assert isinstance(profiles_config, dict)
         profiles_sources = self._get_paths_list(
-            base_path / "config" / "gameplay", profiles_config["files"], "xml"
+            base_path / "config" / "gameplay",
+            profiles_config["files"],
+            "xml",
         )
         print(
             "PROFILES",
@@ -369,7 +381,10 @@ class Command(BaseCommand):
         )
         self._load_icon_xml(texture_desc_sources, "TEXTURE", GSCXmlFixer())
         self._load_xml(
-            info_portions_sources, InfoPortionLoader(), "Info", GSCXmlFixer()
+            info_portions_sources,
+            InfoPortionLoader(),
+            "Info",
+            GSCXmlFixer(),
         )
         self._load_xml(
             encyclopedia_sources,
@@ -386,52 +401,81 @@ class Command(BaseCommand):
         )
 
         ammo_keys, ammo = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.AMMO_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.AMMO_CLASSES,
         )
         artefacts_keys, artefacts = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.ARTEFACT_classes
+            results,
+            grouped_by_cls_dict,
+            self.ARTEFACT_classes,
         )
         grenade_launcher_keys, grenade_launcher = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.GRENADE_AUNCHED_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.GRENADE_AUNCHED_CLASSES,
         )
         handle_grenade_keys, handle_grenade = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.HANDLE_GRENADES_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.HANDLE_GRENADES_CLASSES,
         )
         medicine_keys, medicine = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.MEDICINE_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.MEDICINE_CLASSES,
         )
         monster_keys, monster = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.MONSTERS_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.MONSTERS_CLASSES,
         )
         weapon_keys, weapon = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.WEAPON_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.WEAPON_CLASSES,
         )
         anomaly_keys, anomaly = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.ANOMALIES_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.ANOMALIES_CLASSES,
         )
         scopes_keys, scopes = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.SCOPE_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.SCOPE_CLASSES,
         )
         knife_keys, knife = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.KNIFE_SECTIONS
+            results,
+            grouped_by_cls_dict,
+            self.KNIFE_SECTIONS,
         )
         silencer_keys, silencer = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.SILENCER_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.SILENCER_CLASSES,
         )
         outfit_keys, outfit = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.OUTFITS_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.OUTFITS_CLASSES,
         )
         ibox_keys, iboxes = self._get_sections_by_class(
-            results, grouped_by_cls_dict, {"O_INVBOX"}
+            results,
+            grouped_by_cls_dict,
+            {"O_INVBOX"},
         )
         monster_parts_keys, monster_parts = self._get_monster_parts(
-            results, grouped_by_cls_dict
+            results,
+            grouped_by_cls_dict,
         )
         explosive_keys, explosive = self._get_explosive(results, grouped_by_cls_dict)
 
         other_classes = self.MEDICINE_CLASSES | self.PNV_CLASSES | self.OTHER_CLASSES
         other_keys, other = self._get_sections_by_class(
-            results, grouped_by_cls_dict, other_classes
+            results,
+            grouped_by_cls_dict,
+            other_classes,
         )
         other = {
             key: item
@@ -490,14 +534,18 @@ class Command(BaseCommand):
 
     def _get_explosive(self, results, grouped_by_cls_dict):
         items_keys, items = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.EXPLOSIVE_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.EXPLOSIVE_CLASSES,
         )
         monster_parts = {key: item for key, item in items.items() if "fake" not in key}
         return set(monster_parts.keys()), monster_parts
 
     def _get_monster_parts(self, results, grouped_by_cls_dict):
         items_keys, items = self._get_sections_by_class(
-            results, grouped_by_cls_dict, {"II_ATTCH", "II_FOOD"}
+            results,
+            grouped_by_cls_dict,
+            {"II_ATTCH", "II_FOOD"},
         )
         monster_parts = {
             key: item
@@ -531,13 +579,18 @@ class Command(BaseCommand):
         self._load_sections(true_arts, TrueArtefactResource())
 
     def _load_sections(
-        self, sections: dict[str, dict], resource: BaseModelResource
+        self,
+        sections: dict[str, dict],
+        resource: BaseModelResource,
     ) -> None:
         for section_name, section in sections.items():
             resource.create_instance_from_data(section_name, section)
 
     def _get_sections_by_class(
-        self, results, grouped_by_cls_dict, classes: set[str]
+        self,
+        results,
+        grouped_by_cls_dict,
+        classes: set[str],
     ) -> tuple[set[str], dict[str, dict]]:
         ammo_keys = set()
         for key in classes:
@@ -589,7 +642,10 @@ class Command(BaseCommand):
         print(f"Finish parsing {name=}")
 
     def _get_paths_list(
-        self, base_path: Path, files_str: str, extension: str
+        self,
+        base_path: Path,
+        files_str: str,
+        extension: str,
     ) -> list[Path]:
         files_names = [s.strip() for s in files_str.split(",")]
         return [base_path / f"{file}.{extension}" for file in files_names]

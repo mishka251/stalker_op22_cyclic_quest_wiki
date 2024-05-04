@@ -31,7 +31,9 @@ class Migration(migrations.Migration):
                 (
                     "items_raw",
                     models.CharField(
-                        max_length=1000, null=True, verbose_name="Строка с предметами"
+                        max_length=1000,
+                        null=True,
+                        verbose_name="Строка с предметами",
                     ),
                 ),
             ],

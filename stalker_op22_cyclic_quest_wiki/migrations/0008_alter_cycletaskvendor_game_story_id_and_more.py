@@ -14,14 +14,16 @@ class Migration(migrations.Migration):
             model_name="cycletaskvendor",
             name="game_story_id",
             field=models.PositiveIntegerField(
-                unique=True, verbose_name="ID квестодателя глобальный(story_id)"
+                unique=True,
+                verbose_name="ID квестодателя глобальный(story_id)",
             ),
         ),
         migrations.AlterField(
             model_name="cycletaskvendor",
             name="local_id",
             field=models.PositiveIntegerField(
-                unique=True, verbose_name="ID квестодателя локальный(в cycle_task.ltx)"
+                unique=True,
+                verbose_name="ID квестодателя локальный(в cycle_task.ltx)",
             ),
         ),
     ]

@@ -9,5 +9,8 @@ class BaseScriptReward(PolymorphicModel):
         verbose_name = "Награда выдаваемая скриптом"
 
     function = models.ForeignKey(
-        ScriptFunction, related_name="rewards", on_delete=models.SET_NULL, null=True
+        ScriptFunction,
+        related_name="rewards",
+        on_delete=models.SET_NULL,
+        null=True,
     )

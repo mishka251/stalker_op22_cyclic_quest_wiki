@@ -18,21 +18,21 @@ class Command(BaseCommand):
             assert isinstance(item.target_str, str)
             if item.type == QuestKinds.kill_stalker:
                 item.target_stalker = StalkerSection.objects.filter(
-                    section_name=item.target_str
+                    section_name=item.target_str,
                 ).first()
             elif item.type == QuestKinds.defend_lager:
                 item.target_camp_to_defeat = SpawnItem.objects.filter(
-                    name=item.target_str
+                    name=item.target_str,
                 ).first()
                 item.target_camp = CampInfo.objects.filter(
-                    spawn_item__name=item.target_str
+                    spawn_item__name=item.target_str,
                 ).first()
             elif item.type == QuestKinds.eliminate_lager:
                 item.target_camp_to_destroy = SpawnItem.objects.filter(
-                    name=item.target_str
+                    name=item.target_str,
                 ).first()
                 item.target_camp = CampInfo.objects.filter(
-                    spawn_item__name=item.target_str
+                    spawn_item__name=item.target_str,
                 ).first()
             else:
                 continue

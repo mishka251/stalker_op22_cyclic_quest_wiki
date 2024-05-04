@@ -37,15 +37,15 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
                 pass
             else:
                 raise ValueError(
-                    f"Unexpected game info_portion child {child_node.tag} in {game_id}"
+                    f"Unexpected game info_portion child {child_node.tag} in {game_id}",
                 )
         if group_name is not None:
             group = EncyclopediaGroup.objects.get_or_create(
                 name=group_name,
                 defaults={
                     "name_translation": Translation.objects.filter(
-                        code=group_name
-                    ).first()
+                        code=group_name,
+                    ).first(),
                 },
             )[0]
         else:
@@ -118,7 +118,11 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         return instance
 
     def _get_item_image_coordinates(
-        self, x: int, y: int, width: int, height: int
+        self,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
     ) -> tuple[int, int, int, int]:
         inv_grid_x = x
         inv_grid_y = y

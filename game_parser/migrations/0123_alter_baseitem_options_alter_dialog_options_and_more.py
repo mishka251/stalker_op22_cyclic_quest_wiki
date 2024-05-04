@@ -107,7 +107,8 @@ class Migration(migrations.Migration):
             model_name="dialogphrase",
             name="next_ids_raw",
             field=models.CharField(
-                max_length=512, verbose_name="id следующих фраз диалога"
+                max_length=512,
+                verbose_name="id следующих фраз диалога",
             ),
         ),
         migrations.AlterField(
@@ -260,7 +261,9 @@ class Migration(migrations.Migration):
             model_name="locationmapinfo",
             name="music_tracks",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Информация о фоновой музыке"
+                max_length=255,
+                null=True,
+                verbose_name="Информация о фоновой музыке",
             ),
         ),
         migrations.AlterField(
@@ -272,14 +275,18 @@ class Migration(migrations.Migration):
             model_name="locationmapinfo",
             name="texture_raw",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Название картинки с картой"
+                max_length=255,
+                null=True,
+                verbose_name="Название картинки с картой",
             ),
         ),
         migrations.AlterField(
             model_name="locationmapinfo",
             name="weathers",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Информация о погоде"
+                max_length=255,
+                null=True,
+                verbose_name="Информация о погоде",
             ),
         ),
         migrations.AlterField(

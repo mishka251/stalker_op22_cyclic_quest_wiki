@@ -10,22 +10,34 @@ class Treasure(models.Model):
         verbose_name_plural = "Тайники"
 
     target = models.CharField(
-        null=False, max_length=10, verbose_name="spawn_id для поиска в спавне"
+        null=False,
+        max_length=10,
+        verbose_name="spawn_id для поиска в спавне",
     )
     name_str = models.CharField(
-        null=False, max_length=255, verbose_name="Название(код перевода)"
+        null=False,
+        max_length=255,
+        verbose_name="Название(код перевода)",
     )
     description_str = models.CharField(
-        null=False, max_length=255, verbose_name="Описание(код перевода)"
+        null=False,
+        max_length=255,
+        verbose_name="Описание(код перевода)",
     )
     items_str = models.CharField(
-        null=False, max_length=1_000, verbose_name="Предметы в тайнике(строкой)"
+        null=False,
+        max_length=1_000,
+        verbose_name="Предметы в тайнике(строкой)",
     )
     condlist_str = models.CharField(
-        null=False, max_length=1_000, verbose_name="Условия"
+        null=False,
+        max_length=1_000,
+        verbose_name="Условия",
     )
     custom_name = models.CharField(
-        null=True, max_length=255, verbose_name="Название(2)(код перевода)"
+        null=True,
+        max_length=255,
+        verbose_name="Название(2)(код перевода)",
     )
 
     custom_name_translation = models.ForeignKey(

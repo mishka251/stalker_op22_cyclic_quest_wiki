@@ -37,7 +37,9 @@ class TaskObjective(models.Model):
 
     task = models.ForeignKey(GameTask, on_delete=models.CASCADE, verbose_name="Задание")
     text_id_raw = models.CharField(
-        max_length=256, null=True, verbose_name="Сырой текст"
+        max_length=256,
+        null=True,
+        verbose_name="Сырой текст",
     )
     text = models.ForeignKey(
         Translation,
@@ -48,7 +50,9 @@ class TaskObjective(models.Model):
     )
 
     icon_raw = models.CharField(
-        max_length=512, null=True, verbose_name="Название иконки"
+        max_length=512,
+        null=True,
+        verbose_name="Название иконки",
     )
     icon = models.ForeignKey(
         Icon,
@@ -59,27 +63,35 @@ class TaskObjective(models.Model):
     )
 
     article_id_raw = models.CharField(
-        max_length=256, null=True, verbose_name="Статья(энциклопедия)"
+        max_length=256,
+        null=True,
+        verbose_name="Статья(энциклопедия)",
     )
 
     function_complete_raw = models.TextField(
-        null=True, verbose_name="Функция, вызываемая при завершении"
+        null=True,
+        verbose_name="Функция, вызываемая при завершении",
     )
     infoportion_complete_raw = models.TextField(
-        null=True, verbose_name="Инфопоршень, устанавлеваемый при завершении"
+        null=True,
+        verbose_name="Инфопоршень, устанавлеваемый при завершении",
     )
     infoportion_set_complete_raw = models.TextField(
-        null=True, verbose_name="Инфопоршень, устанавлеваемый при завершении"
+        null=True,
+        verbose_name="Инфопоршень, устанавлеваемый при завершении",
     )
     object_story_id_raw = models.TextField(null=True)
     function_fail_raw = models.TextField(
-        null=True, verbose_name="Функция, вызываемая при провале"
+        null=True,
+        verbose_name="Функция, вызываемая при провале",
     )
     infoportion_set_fail_raw = models.TextField(
-        null=True, verbose_name="Инфопоршень, устанавлеваемый при провале"
+        null=True,
+        verbose_name="Инфопоршень, устанавлеваемый при провале",
     )
     function_call_complete_raw = models.TextField(
-        null=True, verbose_name="Функция, вызываемая при завершении"
+        null=True,
+        verbose_name="Функция, вызываемая при завершении",
     )
 
     function_complete = models.ForeignKey(
@@ -151,7 +163,10 @@ class MapLocationType(models.Model):
     objective = models.ForeignKey(TaskObjective, on_delete=models.CASCADE)
     hint_raw = models.CharField(max_length=256, null=True)
     hint = models.ForeignKey(
-        Translation, null=True, on_delete=models.SET_NULL, related_name="+"
+        Translation,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
     )
     location_type = models.CharField(max_length=256)
 

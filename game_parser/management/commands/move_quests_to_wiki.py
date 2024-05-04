@@ -15,6 +15,7 @@ from stalker_op22_cyclic_quest_wiki.models import (
     CycleTaskTargetCamp,
     CycleTaskTargetItem,
     CycleTaskTargetStalker,
+    MapPosition,
 )
 from stalker_op22_cyclic_quest_wiki.models import CycleTaskVendor as WikiVendor
 from stalker_op22_cyclic_quest_wiki.models import CyclicQuest as WikiQuest
@@ -22,7 +23,6 @@ from stalker_op22_cyclic_quest_wiki.models import Icon as WikiIcon
 from stalker_op22_cyclic_quest_wiki.models import Item as WikiItem
 from stalker_op22_cyclic_quest_wiki.models import ItemReward as WikiItemReward
 from stalker_op22_cyclic_quest_wiki.models import Location as WikiLocation
-from stalker_op22_cyclic_quest_wiki.models import MapPosition
 from stalker_op22_cyclic_quest_wiki.models import MoneyReward as WikiMoneyReward
 from stalker_op22_cyclic_quest_wiki.models import (
     QuestRandomReward as WikiQuestRandomReward,
@@ -53,7 +53,7 @@ class Command(BaseCommand):
                 raise ValueError("No game_story_id")
             name_translation = (
                 WikiTranslation.objects.filter(
-                    code=profile.name_translation.code
+                    code=profile.name_translation.code,
                 ).first()
                 if profile.name_translation
                 else None
@@ -82,7 +82,7 @@ class Command(BaseCommand):
         for i, random_reward in enumerate(ParserRandomReward.objects.all()):
             name_translation = (
                 WikiTranslation.objects.filter(
-                    code=random_reward.name_translation.code
+                    code=random_reward.name_translation.code,
                 ).first()
                 if random_reward.name_translation
                 else None
@@ -106,7 +106,7 @@ class Command(BaseCommand):
             raw_count = len(random_reward.possible_items_str.split(";"))
             if raw_count != len(possible_items):
                 raise ValueError(
-                    f"Items not found. Expected: {random_reward.possible_items_str}, actual: {possible_items}"
+                    f"Items not found. Expected: {random_reward.possible_items_str}, actual: {possible_items}",
                 )
             wiki_random_reward.possible_items.set(possible_items)
             if i % 100 == 0:
@@ -145,7 +145,9 @@ class Command(BaseCommand):
         print("end quests")
 
     def _update_quest_rewards(
-        self, quest: ParserCyclicQuest, wiki_quest: WikiQuest
+        self,
+        quest: ParserCyclicQuest,
+        wiki_quest: WikiQuest,
     ) -> None:
         WikiMoneyReward.objects.filter(quest=wiki_quest).delete()
         if quest.reward_money is not None:
@@ -184,7 +186,9 @@ class Command(BaseCommand):
             )
 
     def _update_quest_target(
-        self, quest: ParserCyclicQuest, wiki_quest: WikiQuest
+        self,
+        quest: ParserCyclicQuest,
+        wiki_quest: WikiQuest,
     ) -> None:
         item_target_quest_types = {
             ParserQuestKinds.chain,
@@ -208,7 +212,8 @@ class Command(BaseCommand):
             target_cond_str = quest.target_cond_str
             items_with_condition = (ParserWeapon, ParserOutfit, ParserSilencer)
             if target_cond_str is None and isinstance(
-                quest.target_item, items_with_condition
+                quest.target_item,
+                items_with_condition,
             ):
                 target_cond_str = "50"
             CycleTaskTargetItem.objects.update_or_create(
@@ -246,7 +251,7 @@ class Command(BaseCommand):
             if quest.target_stalker is None:
                 raise ValueError("Нет цели у квеста")
             community = WikiCommunity.objects.get(
-                name=quest.target_stalker.community_str
+                name=quest.target_stalker.community_str,
             )
             rank = WikiRank.objects.get(name=quest.target_stalker.spec_rank_str)
             stalker = CycleTaskTargetStalker.objects.update_or_create(
@@ -257,10 +262,11 @@ class Command(BaseCommand):
                 },
             )[0]
             single_spawn_items = SingleStalkerSpawnItem.objects.filter(
-                stalker_section=quest.target_stalker
+                stalker_section=quest.target_stalker,
             )
             single_spawn_items_ids = single_spawn_items.values_list(
-                "spawn_item_id", flat=True
+                "spawn_item_id",
+                flat=True,
             )
             respawns = quest.target_stalker.respawn_set.all()
             respawns_spawn_items = respawns.values_list("spawn_item_id", flat=True)

@@ -17,7 +17,8 @@ class Migration(migrations.Migration):
             model_name="ammo",
             name="buck_shot",
             field=models.PositiveIntegerField(
-                null=True, verbose_name="Дроби в выстреле?"
+                null=True,
+                verbose_name="Дроби в выстреле?",
             ),
         ),
         migrations.AddField(

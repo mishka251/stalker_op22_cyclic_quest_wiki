@@ -44,10 +44,13 @@ class CycleTaskTargetItem(CycleTaskTarget):
     )
 
     count = models.PositiveIntegerField(
-        null=True, verbose_name="Кол-во нужных предметов"
+        null=True,
+        verbose_name="Кол-во нужных предметов",
     )
     cond_str = models.CharField(
-        max_length=255, null=True, verbose_name="Цель: состояние предмета "
+        max_length=255,
+        null=True,
+        verbose_name="Цель: состояние предмета ",
     )
 
     def __str__(self):
@@ -67,7 +70,9 @@ class CycleTaskTargetCamp(CycleTaskTarget):
         related_name="camps_in_position",
     )
     communities = models.ManyToManyField(
-        "Community", verbose_name="Группы в лагере", related_name="+"
+        "Community",
+        verbose_name="Группы в лагере",
+        related_name="+",
     )
 
     def __str__(self):

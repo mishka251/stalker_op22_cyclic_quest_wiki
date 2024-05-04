@@ -17,25 +17,25 @@ class Command(BaseCommand):
         count = DialogPhrase.objects.count()
         for index, dialog_phrase in enumerate(DialogPhrase.objects.all()):
             dialog_phrase.give_info.set(
-                self._get_info_portions_by_raw(dialog_phrase.give_info_raw)
+                self._get_info_portions_by_raw(dialog_phrase.give_info_raw),
             )
             dialog_phrase.actions.set(
-                self._get_scripts_by_raw(dialog_phrase.actions_raw)
+                self._get_scripts_by_raw(dialog_phrase.actions_raw),
             )
             dialog_phrase.precondition.set(
-                self._get_scripts_by_raw(dialog_phrase.precondition_raw)
+                self._get_scripts_by_raw(dialog_phrase.precondition_raw),
             )
             dialog_phrase.has_info.set(
-                self._get_info_portions_by_raw(dialog_phrase.has_info_raw)
+                self._get_info_portions_by_raw(dialog_phrase.has_info_raw),
             )
             dialog_phrase.don_has_info.set(
-                self._get_info_portions_by_raw(dialog_phrase.dont_has_info_raw)
+                self._get_info_portions_by_raw(dialog_phrase.dont_has_info_raw),
             )
             dialog_phrase.disable_info.set(
-                self._get_info_portions_by_raw(dialog_phrase.disable_info_raw)
+                self._get_info_portions_by_raw(dialog_phrase.disable_info_raw),
             )
             dialog_phrase.disable.set(
-                self._get_info_portions_by_raw(dialog_phrase.disable_raw)
+                self._get_info_portions_by_raw(dialog_phrase.disable_raw),
             )
             dialog_phrase.save()
             print(f"DialogPhrase:  {index + 1}/{count}")
@@ -44,7 +44,7 @@ class Command(BaseCommand):
         for index, dialog in enumerate(Dialog.objects.all()):
             dialog.has_info.set(self._get_info_portions_by_raw(dialog.has_info_raw))
             dialog.dont_has_info.set(
-                self._get_info_portions_by_raw(dialog.dont_has_info_raw)
+                self._get_info_portions_by_raw(dialog.dont_has_info_raw),
             )
             dialog.give_info.set(self._get_info_portions_by_raw(dialog.give_info_raw))
             dialog.precondition.set(self._get_scripts_by_raw(dialog.precondition_raw))
@@ -63,11 +63,12 @@ class Command(BaseCommand):
             if "." in function_full_name:
                 func_namespace, func_name = function_full_name.rsplit(".", 1)
                 function = ScriptFunction.objects.filter(
-                    name=func_name, namespace=func_namespace
+                    name=func_name,
+                    namespace=func_namespace,
                 ).first()
             else:
                 function = ScriptFunction.objects.filter(
-                    name=function_full_name
+                    name=function_full_name,
                 ).first()
             if function is not None:
                 result.add(function)

@@ -28,12 +28,18 @@ class EncyclopediaArticle(models.Model):
     game_id = models.CharField(max_length=255, verbose_name="Игровой id", unique=True)
     name = models.CharField(max_length=255, verbose_name="Название")
     name_translation = models.ForeignKey(
-        "Translation", null=True, on_delete=models.SET_NULL, related_name="+"
+        "Translation",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
     )
     group_name = models.CharField(max_length=255, verbose_name="Группа", null=True)
     group = models.ForeignKey("EncyclopediaGroup", null=True, on_delete=models.SET_NULL)
     ltx_str = models.CharField(
-        max_length=255, null=True, verbose_name="Иконка", unique=True
+        max_length=255,
+        null=True,
+        verbose_name="Иконка",
+        unique=True,
     )
     icon = models.ForeignKey(
         "Icon",
@@ -43,10 +49,16 @@ class EncyclopediaArticle(models.Model):
     )
     text = models.TextField(null=False)
     text_translation = models.ForeignKey(
-        "Translation", null=True, on_delete=models.SET_NULL, related_name="+"
+        "Translation",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
     )
     artefact = models.ForeignKey(
-        "Artefact", null=True, on_delete=models.SET_NULL, related_name="articles"
+        "Artefact",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="articles",
     )
 
     def __str__(self) -> str:

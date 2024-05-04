@@ -14,7 +14,10 @@ class Migration(migrations.Migration):
             model_name="trueartefact",
             name="burn_immunity",
             field=models.DecimalField(
-                decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Защита от ???",
             ),
         ),
         migrations.AlterField(
@@ -41,7 +44,10 @@ class Migration(migrations.Migration):
             model_name="trueartefact",
             name="fire_wound_immunity",
             field=models.DecimalField(
-                decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Защита от ???",
             ),
         ),
         migrations.AlterField(
@@ -58,14 +64,20 @@ class Migration(migrations.Migration):
             model_name="trueartefact",
             name="shock_immunity",
             field=models.DecimalField(
-                decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Защита от ???",
             ),
         ),
         migrations.AlterField(
             model_name="trueartefact",
             name="strike_immunity",
             field=models.DecimalField(
-                decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Защита от ???",
             ),
         ),
         migrations.AlterField(
@@ -82,7 +94,10 @@ class Migration(migrations.Migration):
             model_name="trueartefact",
             name="wound_immunity",
             field=models.DecimalField(
-                decimal_places=3, max_digits=5, null=True, verbose_name="Защита от ???"
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Защита от ???",
             ),
         ),
     ]

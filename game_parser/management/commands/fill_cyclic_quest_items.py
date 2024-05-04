@@ -24,7 +24,7 @@ class Command(BaseCommand):
         ]
         count = CyclicQuest.objects.filter(type__in=quests_with_items).count()
         for index, quest in enumerate(
-            CyclicQuest.objects.filter(type__in=quests_with_items)
+            CyclicQuest.objects.filter(type__in=quests_with_items),
         ):
             print(f"{index + 1}/{count}")
             assert quest.target_str is not None
@@ -33,7 +33,7 @@ class Command(BaseCommand):
         print("Стадия 2 - M2M")
         unfounded_rewards = set()
         quests_with_items_rewards = CyclicQuest.objects.exclude(
-            reward_item_string__isnull=True
+            reward_item_string__isnull=True,
         ).exclude(reward_item_string="")
         count = quests_with_items_rewards.count()
         for index, quest in enumerate(quests_with_items_rewards):
@@ -53,7 +53,8 @@ class Command(BaseCommand):
 
         unfounded_targets = set(
             CyclicQuest.objects.filter(
-                target_item__isnull=True, type__in=quests_with_items
+                target_item__isnull=True,
+                type__in=quests_with_items,
             ).values_list("target_str", flat=True),
         )
         print(f"{unfounded_targets=}")

@@ -4,7 +4,7 @@ from django.db import models
 from polymorphic.managers import PolymorphicManager
 
 if TYPE_CHECKING:
-    from stalker_op22_cyclic_quest_wiki.models import QuestReward, CycleTaskTarget
+    from stalker_op22_cyclic_quest_wiki.models import CycleTaskTarget, QuestReward
 from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.vendor import CycleTaskVendor
 
 
@@ -34,7 +34,10 @@ class CyclicQuest(models.Model):
     objects = CyclicQuestManager()
 
     game_code = models.CharField(
-        null=False, max_length=255, verbose_name="Игровой код в файле", unique=True
+        null=False,
+        max_length=255,
+        verbose_name="Игровой код в файле",
+        unique=True,
     )
     type = models.CharField(
         choices=QuestKinds.choices,
@@ -43,7 +46,9 @@ class CyclicQuest(models.Model):
         verbose_name="Тип задания(тип цели задания)",
     )
     prior = models.IntegerField(
-        default=0, null=False, verbose_name=" Типа очередность задания"
+        default=0,
+        null=False,
+        verbose_name=" Типа очередность задания",
     )
     once = models.BooleanField(default=False, verbose_name="Одноразовый ли квест")
 

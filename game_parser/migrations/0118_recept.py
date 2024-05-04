@@ -49,7 +49,8 @@ class Migration(migrations.Migration):
                 (
                     "components",
                     models.ManyToManyField(
-                        related_name="use_in_recepts", to="game_parser.baseitem"
+                        related_name="use_in_recepts",
+                        to="game_parser.baseitem",
                     ),
                 ),
                 (

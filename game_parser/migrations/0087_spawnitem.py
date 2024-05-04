@@ -42,7 +42,8 @@ class Migration(migrations.Migration):
                 (
                     "game_vertex_id",
                     models.PositiveBigIntegerField(
-                        unique=True, verbose_name="vertexID"
+                        unique=True,
+                        verbose_name="vertexID",
                     ),
                 ),
                 (
@@ -53,7 +54,9 @@ class Migration(migrations.Migration):
                 (
                     "character_profile",
                     models.CharField(
-                        max_length=255, null=True, verbose_name="Профиль сталкера"
+                        max_length=255,
+                        null=True,
+                        verbose_name="Профиль сталкера",
                     ),
                 ),
                 (

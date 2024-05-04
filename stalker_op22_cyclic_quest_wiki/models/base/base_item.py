@@ -15,10 +15,15 @@ class Item(PolymorphicModel):
     objects = ItemManager()
     cost = models.PositiveIntegerField(verbose_name="Базовая цена")
     name = models.CharField(
-        max_length=255, verbose_name="Название(код в игре)", unique=True, null=False
+        max_length=255,
+        verbose_name="Название(код в игре)",
+        unique=True,
+        null=False,
     )
     inv_weight = models.DecimalField(
-        verbose_name="Вес", decimal_places=3, max_digits=12
+        verbose_name="Вес",
+        decimal_places=3,
+        max_digits=12,
     )
     icon = models.ForeignKey(
         "Icon",

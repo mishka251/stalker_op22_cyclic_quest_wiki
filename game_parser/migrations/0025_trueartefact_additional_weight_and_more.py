@@ -24,7 +24,10 @@ class Migration(migrations.Migration):
             model_name="trueartefact",
             name="bleeding_restore_speed",
             field=models.DecimalField(
-                decimal_places=3, max_digits=5, null=True, verbose_name="Кровотечение?"
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Кровотечение?",
             ),
         ),
         migrations.AddField(
@@ -41,7 +44,10 @@ class Migration(migrations.Migration):
             model_name="trueartefact",
             name="radiation_restore_speed",
             field=models.DecimalField(
-                decimal_places=3, max_digits=5, null=True, verbose_name="Радиация?"
+                decimal_places=3,
+                max_digits=5,
+                null=True,
+                verbose_name="Радиация?",
             ),
         ),
     ]

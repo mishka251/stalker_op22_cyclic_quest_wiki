@@ -111,7 +111,7 @@ class NestedCallsVisitor(ASTVisitor):
                         game_vertex_id,
                         to_lua_source(node),
                         xyz_raw,
-                    )
+                    ),
                 )
             elif len(node.args) == 5:  # noqa: PLR2004
                 name = self._parse_value(node.args[0])
@@ -138,7 +138,7 @@ class NestedCallsVisitor(ASTVisitor):
                         to_lua_source(node),
                         xyz_raw,
                         target_id,
-                    )
+                    ),
                 )
             elif len(node.args) == 1:
                 return
@@ -239,15 +239,17 @@ class Command(BaseCommand):
             rewards = visitor.rewards()
             for function_name, reward in rewards.items():
                 func = ScriptFunction.objects.create(
-                    name=function_name, namespace=file_namespace
+                    name=function_name,
+                    namespace=file_namespace,
                 )
                 function_aliases = self._create_function_aliases(
-                    function_name, file_namespace
+                    function_name,
+                    file_namespace,
                 )
                 for alias in function_aliases:
                     if alias in functions_by_aliases:
                         logger.warning(
-                            f"Для {alias} несколько функций {functions_by_aliases[alias]}, {func} "
+                            f"Для {alias} несколько функций {functions_by_aliases[alias]}, {func} ",
                         )
                     functions_by_aliases[alias] = func
 
@@ -263,7 +265,9 @@ class Command(BaseCommand):
                         logger.warning(f"Decimal parsing error {raw_value=}")
 
                     MoneyReward.objects.create(
-                        function=func, raw_count=raw_value, count=value
+                        function=func,
+                        raw_count=raw_value,
+                        count=value,
                     )
 
                 for item in reward["items"]:

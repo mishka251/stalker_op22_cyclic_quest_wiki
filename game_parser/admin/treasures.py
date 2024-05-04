@@ -43,7 +43,8 @@ class TreasureAdmin(ModelAdmin):
         )
 
     @display(
-        description="Название(кастомное?)", ordering="custom_name_translation__rus"
+        description="Название(кастомное?)",
+        ordering="custom_name_translation__rus",
     )
     def custom_name_view(self, treasure: Treasure) -> str | None:
         return (

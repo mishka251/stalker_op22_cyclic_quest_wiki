@@ -15,7 +15,9 @@ class Migration(migrations.Migration):
             model_name="treasure",
             name="custom_name",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Название(2)(код перевода)"
+                max_length=255,
+                null=True,
+                verbose_name="Название(2)(код перевода)",
             ),
         ),
         migrations.AddField(

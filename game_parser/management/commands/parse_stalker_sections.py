@@ -73,19 +73,26 @@ class Command(BaseCommand):
         print("START FILLING")
 
         stalker_keys, stalkers = self._get_sections_by_class(
-            results, grouped_by_cls_dict, self.STALKER_CLASSES
+            results,
+            grouped_by_cls_dict,
+            self.STALKER_CLASSES,
         )
 
         self._load_sections(stalkers, StalkerResource())
 
     def _load_sections(
-        self, sections: dict[str, dict], resource: BaseModelResource
+        self,
+        sections: dict[str, dict],
+        resource: BaseModelResource,
     ) -> None:
         for section_name, section in sections.items():
             resource.create_instance_from_data(section_name, section)
 
     def _get_sections_by_class(
-        self, results, grouped_by_cls_dict, classes: set[str]
+        self,
+        results,
+        grouped_by_cls_dict,
+        classes: set[str],
     ) -> tuple[set[str], dict[str, dict]]:
         ammo_keys = set()
         for key in classes:

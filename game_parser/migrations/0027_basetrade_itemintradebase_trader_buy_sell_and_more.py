@@ -48,7 +48,8 @@ class Migration(migrations.Migration):
                 (
                     "item_name",
                     models.CharField(
-                        max_length=255, verbose_name="Идентификатор предмета"
+                        max_length=255,
+                        verbose_name="Идентификатор предмета",
                     ),
                 ),
                 (
@@ -140,7 +141,9 @@ class Migration(migrations.Migration):
                 (
                     "probability",
                     models.DecimalField(
-                        decimal_places=2, max_digits=5, verbose_name="Вероятность"
+                        decimal_places=2,
+                        max_digits=5,
+                        verbose_name="Вероятность",
                     ),
                 ),
                 ("count", models.IntegerField(verbose_name="Кол-во предметов")),

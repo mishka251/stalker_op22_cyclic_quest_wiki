@@ -25,7 +25,7 @@ class SpawnItemMapRenderer:
         if not location_info.bound_rect_raw or not location_info.map_image:
             return None
         offset_re = re.compile(
-            r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
+            r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)",
         )
         rm = offset_re.match(location_info.bound_rect_raw)
         if rm is None:

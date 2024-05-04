@@ -139,25 +139,33 @@ class Migration(migrations.Migration):
                 (
                     "burn_immunity",
                     models.DecimalField(
-                        decimal_places=3, max_digits=5, verbose_name="Защита от ???"
+                        decimal_places=3,
+                        max_digits=5,
+                        verbose_name="Защита от ???",
                     ),
                 ),
                 (
                     "strike_immunity",
                     models.DecimalField(
-                        decimal_places=3, max_digits=5, verbose_name="Защита от ???"
+                        decimal_places=3,
+                        max_digits=5,
+                        verbose_name="Защита от ???",
                     ),
                 ),
                 (
                     "shock_immunity",
                     models.DecimalField(
-                        decimal_places=3, max_digits=5, verbose_name="Защита от ???"
+                        decimal_places=3,
+                        max_digits=5,
+                        verbose_name="Защита от ???",
                     ),
                 ),
                 (
                     "wound_immunity",
                     models.DecimalField(
-                        decimal_places=3, max_digits=5, verbose_name="Защита от ???"
+                        decimal_places=3,
+                        max_digits=5,
+                        verbose_name="Защита от ???",
                     ),
                 ),
                 (
@@ -179,19 +187,25 @@ class Migration(migrations.Migration):
                 (
                     "chemical_burn_immunity",
                     models.DecimalField(
-                        decimal_places=3, max_digits=5, verbose_name="Защита от химии"
+                        decimal_places=3,
+                        max_digits=5,
+                        verbose_name="Защита от химии",
                     ),
                 ),
                 (
                     "explosion_immunity",
                     models.DecimalField(
-                        decimal_places=3, max_digits=5, verbose_name="Защита от взрыва"
+                        decimal_places=3,
+                        max_digits=5,
+                        verbose_name="Защита от взрыва",
                     ),
                 ),
                 (
                     "fire_wound_immunity",
                     models.DecimalField(
-                        decimal_places=3, max_digits=5, verbose_name="Защита от ???"
+                        decimal_places=3,
+                        max_digits=5,
+                        verbose_name="Защита от ???",
                     ),
                 ),
             ],

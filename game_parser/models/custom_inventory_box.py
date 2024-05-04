@@ -11,16 +11,23 @@ class InventoryBox(models.Model):
         verbose_name_plural = "Тайники"
 
     section_name = models.CharField(
-        max_length=255, verbose_name="Название секции", unique=True
+        max_length=255,
+        verbose_name="Название секции",
+        unique=True,
     )
     source_file_name = models.CharField(
-        max_length=255, verbose_name="Путь к файлу(custom_data)"
+        max_length=255,
+        verbose_name="Путь к файлу(custom_data)",
     )
     items_raw = models.CharField(
-        max_length=1000, verbose_name="Строка с предметами", null=True
+        max_length=1000,
+        verbose_name="Строка с предметами",
+        null=True,
     )
     visual_str = models.CharField(
-        max_length=255, verbose_name="Внешний вид(название - visual)", null=True
+        max_length=255,
+        verbose_name="Внешний вид(название - visual)",
+        null=True,
     )
 
     def __str__(self):
@@ -36,10 +43,16 @@ class ItemInTreasureBox(models.Model):
         ]
 
     item = models.ForeignKey(
-        "BaseItem", null=False, on_delete=models.CASCADE, verbose_name="Предмет"
+        "BaseItem",
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Предмет",
     )
     box = models.ForeignKey(
-        "InventoryBox", null=False, on_delete=models.CASCADE, verbose_name="Тайник"
+        "InventoryBox",
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Тайник",
     )
     count = models.IntegerField(null=True, verbose_name="Количество")
 

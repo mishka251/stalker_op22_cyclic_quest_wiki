@@ -31,7 +31,9 @@ class Migration(migrations.Migration):
             model_name="gametask",
             name="game_id",
             field=models.CharField(
-                max_length=256, unique=True, verbose_name="Игровой id"
+                max_length=256,
+                unique=True,
+                verbose_name="Игровой id",
             ),
         ),
         migrations.AlterField(
@@ -53,14 +55,17 @@ class Migration(migrations.Migration):
             model_name="infoportion",
             name="actions_raw",
             field=models.TextField(
-                null=True, verbose_name="Запускаемые функции(сырые)"
+                null=True,
+                verbose_name="Запускаемые функции(сырые)",
             ),
         ),
         migrations.AlterField(
             model_name="infoportion",
             name="article_raw",
             field=models.CharField(
-                max_length=256, null=True, verbose_name="Статьи(сырые id)"
+                max_length=256,
+                null=True,
+                verbose_name="Статьи(сырые id)",
             ),
         ),
         migrations.AlterField(
@@ -72,7 +77,8 @@ class Migration(migrations.Migration):
             model_name="infoportion",
             name="game_id",
             field=models.CharField(
-                max_length=512, verbose_name="Игровой идентификатор"
+                max_length=512,
+                verbose_name="Игровой идентификатор",
             ),
         ),
         migrations.AlterField(
@@ -105,7 +111,9 @@ class Migration(migrations.Migration):
             model_name="taskobjective",
             name="article_id_raw",
             field=models.CharField(
-                max_length=256, null=True, verbose_name="Статья(энциклопедия)"
+                max_length=256,
+                null=True,
+                verbose_name="Статья(энциклопедия)",
             ),
         ),
         migrations.AlterField(
@@ -123,7 +131,9 @@ class Migration(migrations.Migration):
             model_name="taskobjective",
             name="icon_raw",
             field=models.CharField(
-                max_length=512, null=True, verbose_name="Название иконки"
+                max_length=512,
+                null=True,
+                verbose_name="Название иконки",
             ),
         ),
         migrations.AlterField(
@@ -150,7 +160,9 @@ class Migration(migrations.Migration):
             model_name="taskobjective",
             name="text_id_raw",
             field=models.CharField(
-                max_length=256, null=True, verbose_name="Сырой текст"
+                max_length=256,
+                null=True,
+                verbose_name="Сырой текст",
             ),
         ),
         migrations.CreateModel(

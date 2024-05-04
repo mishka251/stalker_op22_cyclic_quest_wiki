@@ -20,7 +20,7 @@ from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import QuestKi
 
 position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
 offset_re = re.compile(
-    r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
+    r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)",
 )
 
 
@@ -143,7 +143,8 @@ class CharacterQuests:
 
 
 def collect_vendor_tasks(
-    _vendor_tasks: list[CyclicQuest], vendor: CycleTaskVendor
+    _vendor_tasks: list[CyclicQuest],
+    vendor: CycleTaskVendor,
 ) -> CharacterQuests:
     vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
     vendor_id = vendor.game_story_id
@@ -151,15 +152,17 @@ def collect_vendor_tasks(
     vendor_name = vendor.name_translation.rus
     quest_group_by_type = {}
     for _task_kind, _vendor_kind_tasks in groupby(
-        vendor_tasks, key=lambda task: task.type
+        vendor_tasks,
+        key=lambda task: task.type,
     ):
         task_kind = QuestKinds[_task_kind]
         vendor_kind_tasks = list(
-            sorted(_vendor_kind_tasks, key=lambda task: task.prior)
+            sorted(_vendor_kind_tasks, key=lambda task: task.prior),
         )
         tasks_by_prior = {}
         for prior, _prior_tasks in groupby(
-            vendor_kind_tasks, key=lambda task: task.prior
+            vendor_kind_tasks,
+            key=lambda task: task.prior,
         ):
             prior_tasks = list(_prior_tasks)
 
@@ -224,7 +227,8 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
     if db_task.type in lager_types:
         target_camp = CycleTaskTargetCamp.objects.get(quest=db_task)
         camp_map_info = _spawn_item_to_map_info(
-            target_camp.map_position, f"{db_task.game_code}_target_camp"
+            target_camp.map_position,
+            f"{db_task.game_code}_target_camp",
         )
         return LagerTarget(camp_map_info)
 

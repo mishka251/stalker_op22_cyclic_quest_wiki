@@ -27,12 +27,12 @@ class EscapeMap(TemplateView):
     def get_context_data(self, **kwargs) -> dict:
         location_name = kwargs.get("location", self.location_name)
         location = Location.objects.annotate(name_lowe=Lower("name")).get(
-            name_lowe=location_name.lower()
+            name_lowe=location_name.lower(),
         )
         spawn_items = SpawnItem.objects.filter(location=location)
         location_info = LocationMapInfo.objects.get(location=location)
         offset_re = re.compile(
-            r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
+            r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)",
         )
         if location_info.bound_rect_raw is None:
             raise ValueError
@@ -95,7 +95,8 @@ class TaskVendorsList(TemplateView):
             "tasks_count": vendor.cyclicquest_set.count(),
             "has_chain": vendor.cyclicquest_set.filter(type=QuestKinds.chain).exists(),
             "quests_link": reverse(
-                "game_parser:vendor_tasks", kwargs={"vendor_id": vendor.id}
+                "game_parser:vendor_tasks",
+                kwargs={"vendor_id": vendor.id},
             ),
         }
 

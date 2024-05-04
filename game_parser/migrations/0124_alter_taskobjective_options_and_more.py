@@ -88,42 +88,48 @@ class Migration(migrations.Migration):
             model_name="taskobjective",
             name="function_call_complete_raw",
             field=models.TextField(
-                null=True, verbose_name="Функция, вызываемая при завершении"
+                null=True,
+                verbose_name="Функция, вызываемая при завершении",
             ),
         ),
         migrations.AlterField(
             model_name="taskobjective",
             name="function_complete_raw",
             field=models.TextField(
-                null=True, verbose_name="Функция, вызываемая при завершении"
+                null=True,
+                verbose_name="Функция, вызываемая при завершении",
             ),
         ),
         migrations.AlterField(
             model_name="taskobjective",
             name="function_fail_raw",
             field=models.TextField(
-                null=True, verbose_name="Функция, вызываемая при провале"
+                null=True,
+                verbose_name="Функция, вызываемая при провале",
             ),
         ),
         migrations.AlterField(
             model_name="taskobjective",
             name="infoportion_complete_raw",
             field=models.TextField(
-                null=True, verbose_name="Инфопоршень, устанавлеваемый при завершении"
+                null=True,
+                verbose_name="Инфопоршень, устанавлеваемый при завершении",
             ),
         ),
         migrations.AlterField(
             model_name="taskobjective",
             name="infoportion_set_complete_raw",
             field=models.TextField(
-                null=True, verbose_name="Инфопоршень, устанавлеваемый при завершении"
+                null=True,
+                verbose_name="Инфопоршень, устанавлеваемый при завершении",
             ),
         ),
         migrations.AlterField(
             model_name="taskobjective",
             name="infoportion_set_fail_raw",
             field=models.TextField(
-                null=True, verbose_name="Инфопоршень, устанавлеваемый при провале"
+                null=True,
+                verbose_name="Инфопоршень, устанавлеваемый при провале",
             ),
         ),
     ]

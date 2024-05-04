@@ -11,5 +11,7 @@ class GrenadeLauncher(Addon):
     type = "GrenadeLauncher"
 
     ammo_class_str = models.CharField(
-        max_length=255, null=True, verbose_name="Боеприпас"
+        max_length=255,
+        null=True,
+        verbose_name="Боеприпас",
     )

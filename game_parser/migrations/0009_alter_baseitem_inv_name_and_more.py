@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
             model_name="baseitem",
             name="inv_name",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Название в инвентаре?"
+                max_length=255,
+                null=True,
+                verbose_name="Название в инвентаре?",
             ),
         ),
         migrations.AlterField(
@@ -30,14 +32,17 @@ class Migration(migrations.Migration):
             model_name="weapon",
             name="ammo_class_str",
             field=models.CharField(
-                max_length=1000, null=True, verbose_name="Боеприпасы"
+                max_length=1000,
+                null=True,
+                verbose_name="Боеприпасы",
             ),
         ),
         migrations.AlterField(
             model_name="weapon",
             name="ammo_mag_size",
             field=models.PositiveIntegerField(
-                null=True, verbose_name="Размер магазина"
+                null=True,
+                verbose_name="Размер магазина",
             ),
         ),
         migrations.AlterField(
@@ -54,63 +59,80 @@ class Migration(migrations.Migration):
             model_name="weapon",
             name="fire_modes_str",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Режимы стрельбы(сырая строка)"
+                max_length=255,
+                null=True,
+                verbose_name="Режимы стрельбы(сырая строка)",
             ),
         ),
         migrations.AlterField(
             model_name="weapon",
             name="grenade_class_str",
             field=models.CharField(
-                max_length=1000, null=True, verbose_name="Типы гранат для подствольника"
+                max_length=1000,
+                null=True,
+                verbose_name="Типы гранат для подствольника",
             ),
         ),
         migrations.AlterField(
             model_name="weapon",
             name="grenade_launcher_name",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Название ГП"
+                max_length=255,
+                null=True,
+                verbose_name="Название ГП",
             ),
         ),
         migrations.AlterField(
             model_name="weapon",
             name="grenade_launcher_status",
             field=models.CharField(
-                max_length=5, null=True, verbose_name="Возможность установки ГП"
+                max_length=5,
+                null=True,
+                verbose_name="Возможность установки ГП",
             ),
         ),
         migrations.AlterField(
             model_name="weapon",
             name="rpm",
             field=models.IntegerField(
-                null=True, verbose_name="Скорострельность выстрелов в минуту"
+                null=True,
+                verbose_name="Скорострельность выстрелов в минуту",
             ),
         ),
         migrations.AlterField(
             model_name="weapon",
             name="scope_name",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Название прицела"
+                max_length=255,
+                null=True,
+                verbose_name="Название прицела",
             ),
         ),
         migrations.AlterField(
             model_name="weapon",
             name="scope_status_str",
             field=models.CharField(
-                max_length=5, null=True, verbose_name="Возможность установки прицела"
+                max_length=5,
+                null=True,
+                verbose_name="Возможность установки прицела",
             ),
         ),
         migrations.AlterField(
             model_name="weapon",
             name="silencer_name",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Название глушителя"
+                max_length=255,
+                null=True,
+                verbose_name="Название глушителя",
             ),
         ),
         migrations.AlterField(
             model_name="weapon",
             name="silencer_status_str",
             field=models.CharField(
-                max_length=5, null=True, verbose_name="Возможность установки глушителя"
+                max_length=5,
+                null=True,
+                verbose_name="Возможность установки глушителя",
             ),
         ),
         migrations.AlterField(

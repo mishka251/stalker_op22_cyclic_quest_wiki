@@ -19,13 +19,13 @@ class Command(BaseCommand):
             if spawn_item.character_profile_str:
                 spawn_item.character_profile = (
                     StorylineCharacter.objects.filter(
-                        game_id=spawn_item.character_profile_str
+                        game_id=spawn_item.character_profile_str,
                     ).first()
                     or StorylineCharacter.objects.filter(
-                        game_code=spawn_item.character_profile_str
+                        game_code=spawn_item.character_profile_str,
                     ).first()
                     or StorylineCharacter.objects.filter(
-                        name=spawn_item.character_profile_str
+                        name=spawn_item.character_profile_str,
                     ).first()
                 )
             if spawn_item.custom_data:
@@ -41,7 +41,7 @@ class Command(BaseCommand):
                         cfg_file_path = logic.get("cfg")
                         if cfg_file_path:
                             npc_config = NpcLogicConfig.objects.filter(
-                                source_file_name=cfg_file_path
+                                source_file_name=cfg_file_path,
                             ).first()
                             spawn_item.npc_logic = npc_config
                 except Exception:
@@ -54,7 +54,7 @@ class Command(BaseCommand):
         for index, npc_logic in enumerate(NpcLogicConfig.objects.all()):
             if npc_logic.trade_file_name:
                 npc_logic.trade_config = Trader.objects.filter(
-                    source_file=npc_logic.trade_file_name
+                    source_file=npc_logic.trade_file_name,
                 ).first()
             npc_logic.save()
             print(f"{index + 1:_}/{count:_}")

@@ -70,12 +70,16 @@ to_export: list[ModelToExport] = [
     ModelToExport(MoneyReward, MoneyRewardResource, "money_rewards.csv"),
     ModelToExport(RandomRewardInfo, RandomRewardInfoResource, "random_rewards.csv"),
     ModelToExport(
-        QuestRandomReward, QuestRandomRewardResource, "quest_random_rewards.csv"
+        QuestRandomReward,
+        QuestRandomRewardResource,
+        "quest_random_rewards.csv",
     ),
     ModelToExport(TreasureReward, TreasureRewardResource, "treasure_rewards.csv"),
     ModelToExport(CycleTaskTargetCamp, CycleTaskTargetCampResource, "target_camps.csv"),
     ModelToExport(CycleTaskTargetItem, CycleTaskTargetItemResource, "target_items.csv"),
     ModelToExport(
-        CycleTaskTargetStalker, CycleTaskTargetStalkerResource, "target_stalkers.csv"
+        CycleTaskTargetStalker,
+        CycleTaskTargetStalkerResource,
+        "target_stalkers.csv",
     ),
 ]

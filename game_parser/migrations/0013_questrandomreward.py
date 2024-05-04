@@ -37,13 +37,15 @@ class Migration(migrations.Migration):
                 (
                     "possible_items_str",
                     models.CharField(
-                        max_length=2000, verbose_name="Названия возможных предметов"
+                        max_length=2000,
+                        verbose_name="Названия возможных предметов",
                     ),
                 ),
                 (
                     "possible_items",
                     models.ManyToManyField(
-                        to="game_parser.baseitem", verbose_name="Возможные предметы"
+                        to="game_parser.baseitem",
+                        verbose_name="Возможные предметы",
                     ),
                 ),
             ],

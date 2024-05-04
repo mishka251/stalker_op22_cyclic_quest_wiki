@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
             model_name="location",
             name="offset_str",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Сдвиг на глобальной карте??"
+                max_length=255,
+                null=True,
+                verbose_name="Сдвиг на глобальной карте??",
             ),
         ),
     ]

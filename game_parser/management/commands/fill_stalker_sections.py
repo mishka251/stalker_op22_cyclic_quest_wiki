@@ -25,10 +25,10 @@ class Command(BaseCommand):
                 continue
             stalker_section.character_profile = (
                 StorylineCharacter.objects.filter(
-                    game_id__exact=stalker_section.character_profile_str.lower()
+                    game_id__exact=stalker_section.character_profile_str.lower(),
                 ).first()
                 or StorylineCharacter.objects.filter(
-                    game_code__exact=stalker_section.character_profile_str.lower()
+                    game_code__exact=stalker_section.character_profile_str.lower(),
                 ).first()
             )
             stalker_section.save()
@@ -37,14 +37,14 @@ class Command(BaseCommand):
 
         count = SingleStalkerSpawnItem.objects.count()
         for index, stalker_spawn_item in enumerate(
-            SingleStalkerSpawnItem.objects.all()
+            SingleStalkerSpawnItem.objects.all(),
         ):
             stalker_spawn_item.stalker_section = (
                 StalkerSection.objects.filter(
-                    section_name__exact=stalker_spawn_item.character_profile_raw.lower()
+                    section_name__exact=stalker_spawn_item.character_profile_raw.lower(),
                 ).first()
                 or StalkerSection.objects.filter(
-                    character_profile_str__exact=stalker_spawn_item.character_profile_raw.lower()
+                    character_profile_str__exact=stalker_spawn_item.character_profile_raw.lower(),
                 ).first()
             )
             stalker_spawn_item.save()
@@ -70,7 +70,7 @@ class Command(BaseCommand):
             if quest.type != QuestKinds.kill_stalker:
                 continue
             quest.target_stalker = StalkerSection.objects.filter(
-                section_name__exact=quest.target_str.lower()
+                section_name__exact=quest.target_str.lower(),
             ).first()
             quest.save()
             print(f"{index + 1}/{count}")

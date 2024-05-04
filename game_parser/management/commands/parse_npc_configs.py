@@ -47,7 +47,9 @@ class Command(BaseCommand):
         NpcLogicConfig.objects.bulk_create(spawn_items, batch_size=2_000)
 
     def _create_item(
-        self, file_path: Path, section: dict[str, dict[str, str]]
+        self,
+        file_path: Path,
+        section: dict[str, dict[str, str]],
     ) -> NpcLogicConfig:
         trade_file_name = section["logic"].get("trade")
         return NpcLogicConfig(

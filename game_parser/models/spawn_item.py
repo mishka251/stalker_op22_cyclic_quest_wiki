@@ -11,10 +11,14 @@ class SpawnItem(models.Model):
     position_raw = models.CharField(max_length=300, verbose_name="Координаты(строка)")
     spawn_id = models.PositiveBigIntegerField(verbose_name="ID", unique=True)
     story_id = models.PositiveBigIntegerField(
-        verbose_name="story_id", unique=True, null=True
+        verbose_name="story_id",
+        unique=True,
+        null=True,
     )
     spawn_story_id = models.PositiveBigIntegerField(
-        verbose_name="spawn_story_id", unique=True, null=True
+        verbose_name="spawn_story_id",
+        unique=True,
+        null=True,
     )
     game_vertex_id = models.PositiveBigIntegerField(verbose_name="vertexID")
     location_txt = models.CharField(max_length=255, verbose_name="локация")
@@ -28,7 +32,10 @@ class SpawnItem(models.Model):
         verbose_name="Предмет",
     )
     character_profile_str = models.CharField(
-        max_length=255, verbose_name="Профиль сталкера", blank=True, null=True
+        max_length=255,
+        verbose_name="Профиль сталкера",
+        blank=True,
+        null=True,
     )
     character_profile = models.ForeignKey(
         "StorylineCharacter",
@@ -63,13 +70,21 @@ class NpcLogicConfig(models.Model):
 
     name = models.CharField(max_length=255, verbose_name="Название файла")
     source_file_name = models.CharField(
-        max_length=255, verbose_name="Исходный файл", null=False, unique=True
+        max_length=255,
+        verbose_name="Исходный файл",
+        null=False,
+        unique=True,
     )
     trade_file_name = models.CharField(
-        max_length=255, verbose_name="Название файла торговли", null=True
+        max_length=255,
+        verbose_name="Название файла торговли",
+        null=True,
     )
     trade_config = models.ForeignKey(
-        "Trader", on_delete=models.SET_NULL, null=True, verbose_name="Конфиг торговли"
+        "Trader",
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name="Конфиг торговли",
     )
 
     def __str__(self):
@@ -82,10 +97,15 @@ class CustomSpawnItem(models.Model):
     custom_data = models.TextField(null=True)
 
     item = models.ForeignKey(
-        "BaseItem", on_delete=models.SET_NULL, null=True, verbose_name="Предмет"
+        "BaseItem",
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name="Предмет",
     )
     character_profile_str = models.CharField(
-        max_length=255, verbose_name="Профиль сталкера", null=True
+        max_length=255,
+        verbose_name="Профиль сталкера",
+        null=True,
     )
     character_profile = models.ForeignKey(
         "StorylineCharacter",
@@ -118,7 +138,10 @@ class CampInfo(models.Model):
     # для section_name = smart_terrain
 
     spawn_item = models.ForeignKey(
-        "SpawnItem", null=False, on_delete=models.CASCADE, unique=True
+        "SpawnItem",
+        null=False,
+        on_delete=models.CASCADE,
+        unique=True,
     )
     type = models.CharField(max_length=128, null=True)
     capacity = models.PositiveIntegerField(null=True)
@@ -159,7 +182,10 @@ class Respawn(models.Model):
     # для section_name = respawn
 
     spawn_item = models.ForeignKey(
-        "SpawnItem", null=False, on_delete=models.CASCADE, unique=True
+        "SpawnItem",
+        null=False,
+        on_delete=models.CASCADE,
+        unique=True,
     )
     respawn_section_raw = models.CharField(max_length=512, null=True)
     max_spawn_raw = models.CharField(max_length=128, null=True)
@@ -177,11 +203,16 @@ class SingleStalkerSpawnItem(models.Model):
     # для section_name = stalker*
 
     spawn_item = models.ForeignKey(
-        "SpawnItem", null=False, on_delete=models.CASCADE, unique=True
+        "SpawnItem",
+        null=False,
+        on_delete=models.CASCADE,
+        unique=True,
     )
     character_profile_raw = models.CharField(max_length=512, null=False)
     stalker_section = models.ForeignKey(
-        "StalkerSection", null=True, on_delete=models.SET_NULL
+        "StalkerSection",
+        null=True,
+        on_delete=models.SET_NULL,
     )
 
     def __str__(self):

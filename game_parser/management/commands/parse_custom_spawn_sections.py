@@ -112,7 +112,10 @@ class Command(BaseCommand):
         CustomSpawnItem.objects.bulk_create(spawn_items, batch_size=2_000)
 
     def _create_item(
-        self, name: str, section_parent: str, section: dict[str, str]
+        self,
+        name: str,
+        section_parent: str,
+        section: dict[str, str],
     ) -> CustomSpawnItem:
         return CustomSpawnItem(
             section_name=section_parent,

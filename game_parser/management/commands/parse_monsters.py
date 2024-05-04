@@ -46,10 +46,10 @@ class Command(BaseCommand):
                 corpse_visual_str=quest_data.get("corpse_visual"),
                 icon_str=quest_data.get("icon"),
                 Spawn_Inventory_Item_Section=quest_data.get(
-                    "Spawn_Inventory_Item_Section"
+                    "Spawn_Inventory_Item_Section",
                 ),
                 Spawn_Inventory_Item_Probability=quest_data.get(
-                    "Spawn_Inventory_Item_Probability"
+                    "Spawn_Inventory_Item_Probability",
                 ),
                 class_name=quest_data.get("class"),
                 terrain=quest_data.get("terrain"),

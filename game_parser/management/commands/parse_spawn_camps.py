@@ -41,7 +41,10 @@ class Command(BaseCommand):
         CampInfo.objects.bulk_create(spawn_items, batch_size=2_000)
 
     def _create_item(
-        self, level_file_name: str, section: dict[str, str], path
+        self,
+        level_file_name: str,
+        section: dict[str, str],
+        path,
     ) -> CampInfo:
         custom_data = (
             TextLtxParser(path, section["custom_data"])
@@ -51,7 +54,8 @@ class Command(BaseCommand):
         assert isinstance(custom_data, dict)
         return CampInfo(
             spawn_item=SpawnItem.objects.get(
-                spawn_id=section["spawn_id"], location_txt=level_file_name
+                spawn_id=section["spawn_id"],
+                location_txt=level_file_name,
             ),
             type=custom_data.get("type"),
             capacity=custom_data.get("capacity"),

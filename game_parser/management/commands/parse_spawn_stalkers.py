@@ -38,7 +38,9 @@ class Command(BaseCommand):
                 assert isinstance(section, dict)
                 if section["section_name"] == "respawn":
                     respawn = self._create_respawn(
-                        level_file_name, section, level_file_path
+                        level_file_name,
+                        section,
+                        level_file_path,
                     )
                     respawns.append(respawn)
                 elif (
@@ -46,7 +48,9 @@ class Command(BaseCommand):
                     and section["section_name"] != "stalker_outfit"
                 ):
                     stalker = self._create_stalker(
-                        level_file_name, section, level_file_path
+                        level_file_name,
+                        section,
+                        level_file_path,
                     )
                     stalkers.append(stalker)
 
@@ -54,7 +58,10 @@ class Command(BaseCommand):
         SingleStalkerSpawnItem.objects.bulk_create(stalkers, batch_size=2_000)
 
     def _create_respawn(
-        self, level_file_name: str, section: dict[str, str], path
+        self,
+        level_file_name: str,
+        section: dict[str, str],
+        path,
     ) -> Respawn:
         custom_data = (
             TextLtxParser(path, section["custom_data"])
@@ -64,7 +71,8 @@ class Command(BaseCommand):
         assert isinstance(custom_data, dict)
         return Respawn(
             spawn_item=SpawnItem.objects.get(
-                spawn_id=section["spawn_id"], location_txt=level_file_name
+                spawn_id=section["spawn_id"],
+                location_txt=level_file_name,
             ),
             respawn_section_raw=custom_data["respawn_section"],
             max_spawn_raw=custom_data.get("max_spawn"),
@@ -73,11 +81,15 @@ class Command(BaseCommand):
         )
 
     def _create_stalker(
-        self, level_file_name: str, section: dict[str, str], path
+        self,
+        level_file_name: str,
+        section: dict[str, str],
+        path,
     ) -> SingleStalkerSpawnItem:
         return SingleStalkerSpawnItem(
             spawn_item=SpawnItem.objects.get(
-                spawn_id=section["spawn_id"], location_txt=level_file_name
+                spawn_id=section["spawn_id"],
+                location_txt=level_file_name,
             ),
             character_profile_raw=section["character_profile"],
         )

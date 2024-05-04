@@ -26,7 +26,9 @@ class Migration(migrations.Migration):
                 (
                     "name",
                     models.CharField(
-                        max_length=255, unique=True, verbose_name="Название"
+                        max_length=255,
+                        unique=True,
+                        verbose_name="Название",
                     ),
                 ),
                 (
@@ -58,25 +60,33 @@ class Migration(migrations.Migration):
                 (
                     "game_id",
                     models.CharField(
-                        max_length=255, unique=True, verbose_name="Название"
+                        max_length=255,
+                        unique=True,
+                        verbose_name="Название",
                     ),
                 ),
                 (
                     "name",
                     models.CharField(
-                        max_length=255, unique=True, verbose_name="Название"
+                        max_length=255,
+                        unique=True,
+                        verbose_name="Название",
                     ),
                 ),
                 (
                     "group_name",
                     models.CharField(
-                        max_length=255, unique=True, verbose_name="Название"
+                        max_length=255,
+                        unique=True,
+                        verbose_name="Название",
                     ),
                 ),
                 (
                     "ltx_str",
                     models.CharField(
-                        max_length=255, unique=True, verbose_name="Название"
+                        max_length=255,
+                        unique=True,
+                        verbose_name="Название",
                     ),
                 ),
                 ("text", models.TextField()),

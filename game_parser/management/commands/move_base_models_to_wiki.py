@@ -67,7 +67,7 @@ class Command(BaseCommand):
                 name=translation.code,
                 defaults={
                     "translation": WikiTranslation.objects.get(
-                        code=translation.translation.code
+                        code=translation.translation.code,
                     ),
                 },
             )
@@ -82,7 +82,7 @@ class Command(BaseCommand):
                 name=translation.name,
                 defaults={
                     "translation": WikiTranslation.objects.get(
-                        code=translation.translation.code
+                        code=translation.translation.code,
                     ),
                 },
             )
@@ -90,12 +90,12 @@ class Command(BaseCommand):
 
     def _update_locations(self):
         offset_re = re.compile(
-            r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
+            r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)",
         )
         for parser_location in ParserLocation.objects.all():
             wiki_location_map_info = None
             parser_location_map_info = ParserLocationMapInfo.objects.filter(
-                location=parser_location
+                location=parser_location,
             ).first()
             if (
                 parser_location_map_info
@@ -127,7 +127,7 @@ class Command(BaseCommand):
                 defaults={
                     "name_translation": (
                         WikiTranslation.objects.filter(
-                            code=parser_location.name_translation.code
+                            code=parser_location.name_translation.code,
                         ).first()
                         if parser_location.name_translation is not None
                         else None

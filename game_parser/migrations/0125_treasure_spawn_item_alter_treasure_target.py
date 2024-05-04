@@ -25,7 +25,8 @@ class Migration(migrations.Migration):
             model_name="treasure",
             name="target",
             field=models.CharField(
-                max_length=10, verbose_name="spawn_id для поиска в спавне"
+                max_length=10,
+                verbose_name="spawn_id для поиска в спавне",
             ),
         ),
     ]

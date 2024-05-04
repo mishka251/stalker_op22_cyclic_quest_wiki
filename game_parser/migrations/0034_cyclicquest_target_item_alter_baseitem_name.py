@@ -25,7 +25,9 @@ class Migration(migrations.Migration):
             model_name="baseitem",
             name="name",
             field=models.CharField(
-                max_length=255, unique=True, verbose_name="Название(код в игре)"
+                max_length=255,
+                unique=True,
+                verbose_name="Название(код в игре)",
             ),
         ),
     ]

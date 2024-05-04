@@ -161,7 +161,7 @@ class VendorCyclicQuests(View):
         location_info = LocationMapInfo.objects.get(location=camp.location)
         if location_info.bound_rect_raw:
             offset_re = re.compile(
-                r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)"
+                r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)",
             )
             rm = offset_re.match(location_info.bound_rect_raw)
             if rm is None:

@@ -26,7 +26,9 @@ class Migration(migrations.Migration):
             model_name="cyclicquest",
             name="text_raw",
             field=models.CharField(
-                max_length=255, null=True, verbose_name="Код перевода текста задания"
+                max_length=255,
+                null=True,
+                verbose_name="Код перевода текста задания",
             ),
         ),
     ]

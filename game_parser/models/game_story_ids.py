@@ -12,10 +12,15 @@ class GameStoryId(models.Model):
         verbose_name_plural = "Связи id с секциями"
 
     story_id = models.PositiveSmallIntegerField(
-        null=False, verbose_name="id в игре", unique=True
+        null=False,
+        verbose_name="id в игре",
+        unique=True,
     )
     section_name = models.CharField(
-        null=False, max_length=255, verbose_name="Название секции", unique=True
+        null=False,
+        max_length=255,
+        verbose_name="Название секции",
+        unique=True,
     )
 
     item = models.ForeignKey(

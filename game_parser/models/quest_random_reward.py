@@ -9,11 +9,15 @@ class QuestRandomReward(models.Model):
         verbose_name_plural = "Случайные награды за квесты"
 
     index = models.PositiveSmallIntegerField(
-        null=True, verbose_name="Индекс", unique=True
+        null=True,
+        verbose_name="Индекс",
+        unique=True,
     )
 
     name = models.CharField(
-        max_length=255, verbose_name="Игровое название", unique=True
+        max_length=255,
+        verbose_name="Игровое название",
+        unique=True,
     )
     caption = models.CharField(
         max_length=255,
@@ -21,7 +25,8 @@ class QuestRandomReward(models.Model):
         null=True,
     )
     possible_items_str = models.CharField(
-        max_length=2_000, verbose_name="Названия возможных предметов"
+        max_length=2_000,
+        verbose_name="Названия возможных предметов",
     )
     possible_items = models.ManyToManyField(BaseItem, verbose_name="Возможные предметы")
 

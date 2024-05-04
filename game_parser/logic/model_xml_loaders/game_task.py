@@ -18,7 +18,7 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
                 self._parse_task_objective(task, child_node)
             else:
                 raise ValueError(
-                    f"Unexpected game task child {child_node.tag} in {task_id}"
+                    f"Unexpected game task child {child_node.tag} in {task_id}",
                 )
         task.save()
         return task
@@ -75,7 +75,7 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
                 print("Skip function_call_fail")
             else:
                 raise ValueError(
-                    f"Unexpected objective child {child_node.tag} in {task.game_id}"
+                    f"Unexpected objective child {child_node.tag} in {task.game_id}",
                 )
         objective = TaskObjective.objects.create(
             task=task,

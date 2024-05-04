@@ -30,7 +30,7 @@ class Command(BaseCommand):
             )
             description_translation = (
                 WikiTranslation.objects.filter(
-                    code=ammo.description_translation.code
+                    code=ammo.description_translation.code,
                 ).first()
                 if ammo.description_translation
                 else None
@@ -56,12 +56,12 @@ class Command(BaseCommand):
     def _update_items(self):
         print("start items")
         cnt = ParserItem.objects.exclude(
-            polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo)
+            polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo),
         ).count()
         for i, item in enumerate(
             ParserItem.objects.exclude(
-                polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo)
-            ).all()
+                polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo),
+            ).all(),
         ):
             icon = self._update_or_create_item_icon(item)
             name_translation = (
@@ -71,7 +71,7 @@ class Command(BaseCommand):
             )
             description_translation = (
                 WikiTranslation.objects.filter(
-                    code=item.description_translation.code
+                    code=item.description_translation.code,
                 ).first()
                 if item.description_translation
                 else None

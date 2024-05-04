@@ -15,7 +15,8 @@ class Migration(migrations.Migration):
             model_name="cyclicquest",
             name="reward_items",
             field=models.ManyToManyField(
-                related_name="quests_when_giving", to="game_parser.baseitem"
+                related_name="quests_when_giving",
+                to="game_parser.baseitem",
             ),
         ),
         migrations.AlterField(

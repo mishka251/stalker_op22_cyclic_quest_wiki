@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
             model_name="ammo",
             name="box_size",
             field=models.PositiveIntegerField(
-                default=0, verbose_name="Кол-во патронов в пачке?"
+                default=0,
+                verbose_name="Кол-во патронов в пачке?",
             ),
             preserve_default=False,
         ),

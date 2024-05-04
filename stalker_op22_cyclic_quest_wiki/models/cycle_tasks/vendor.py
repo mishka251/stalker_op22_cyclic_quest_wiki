@@ -17,7 +17,10 @@ class CycleTaskVendor(models.Model):
     objects = CyclicQuestManager()
 
     section_name = models.CharField(
-        max_length=128, null=False, unique=True, verbose_name="Название секции НПС"
+        max_length=128,
+        null=False,
+        unique=True,
+        verbose_name="Название секции НПС",
     )
     local_id = models.PositiveIntegerField(
         null=False,
@@ -25,7 +28,9 @@ class CycleTaskVendor(models.Model):
         unique=True,
     )
     game_story_id = models.PositiveIntegerField(
-        null=False, verbose_name="ID квестодателя глобальный(story_id)", unique=True
+        null=False,
+        verbose_name="ID квестодателя глобальный(story_id)",
+        unique=True,
     )
     name_translation = models.ForeignKey(
         Translation,

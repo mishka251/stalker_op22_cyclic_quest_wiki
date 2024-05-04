@@ -11,7 +11,10 @@ class Dialog(models.Model):
         verbose_name_plural = "Диалоги"
 
     game_id = models.CharField(
-        max_length=512, null=False, verbose_name="id", unique=True
+        max_length=512,
+        null=False,
+        verbose_name="id",
+        unique=True,
     )
     has_info_raw = models.TextField(null=True, verbose_name="id требуемых инфопоршней")
     dont_has_info_raw = models.TextField(null=True)
@@ -65,7 +68,10 @@ class DialogPhrase(models.Model):
     local_id = models.CharField(max_length=10, verbose_name="id фразы в диалоге")
 
     dialog = models.ForeignKey(
-        Dialog, on_delete=models.CASCADE, null=False, verbose_name="Диалог"
+        Dialog,
+        on_delete=models.CASCADE,
+        null=False,
+        verbose_name="Диалог",
     )
 
     text_id_raw = models.CharField(max_length=256, null=True, verbose_name="id текста")
@@ -78,10 +84,14 @@ class DialogPhrase(models.Model):
     )
 
     next_ids_raw = models.CharField(
-        max_length=512, verbose_name="id следующих фраз диалога"
+        max_length=512,
+        verbose_name="id следующих фраз диалога",
     )
     previous = models.ForeignKey(
-        "self", null=True, on_delete=models.SET_NULL, verbose_name="Предыдущая фраза"
+        "self",
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Предыдущая фраза",
     )
 
     give_info_raw = models.TextField(null=True, verbose_name="Получение инфопоршня(id)")

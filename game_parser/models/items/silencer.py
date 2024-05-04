@@ -9,5 +9,8 @@ class Silencer(Addon):
         verbose_name_plural = "Глушители"
 
     condition_shot_dec = models.DecimalField(
-        verbose_name="знос за 1 выстрел", decimal_places=8, max_digits=12, null=True
+        verbose_name="знос за 1 выстрел",
+        decimal_places=8,
+        max_digits=12,
+        null=True,
     )

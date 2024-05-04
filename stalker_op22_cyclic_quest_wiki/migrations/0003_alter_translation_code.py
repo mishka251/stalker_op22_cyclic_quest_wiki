@@ -17,7 +17,10 @@ class Migration(migrations.Migration):
             model_name="translation",
             name="code",
             field=models.CharField(
-                db_index=True, max_length=128, unique=True, verbose_name="Код названия"
+                db_index=True,
+                max_length=128,
+                unique=True,
+                verbose_name="Код названия",
             ),
         ),
     ]

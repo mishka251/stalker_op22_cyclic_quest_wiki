@@ -24,7 +24,7 @@ class Command(BaseCommand):
                     count = int(item_name_or_count)
                     if prev_item_name is None:
                         raise ValueError(
-                            f"{count=}, {prev_item_name=}, {treasure.items_str=}"
+                            f"{count=}, {prev_item_name=}, {treasure.items_str=}",
                         )
                     try:
                         item = BaseItem.objects.get(name=prev_item_name)

@@ -18,7 +18,7 @@ class Command(BaseCommand):
             icon_id = f"random_{item.index}"
             item.name = translation_id
             item.name_translation = Translation.objects.filter(
-                code__iexact=translation_id
+                code__iexact=translation_id,
             ).first()
             item.icon = Icon.objects.filter(name__iexact=icon_id).first()
             item.save()

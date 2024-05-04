@@ -7,7 +7,9 @@ class Anomaly(models.Model):
     visual_str = models.CharField(max_length=255, null=True)
     hit_type = models.CharField(max_length=255, null=True)
     article = models.ForeignKey(
-        "EncyclopediaArticle", null=True, on_delete=models.SET_NULL
+        "EncyclopediaArticle",
+        null=True,
+        on_delete=models.SET_NULL,
     )
 
     class Meta:

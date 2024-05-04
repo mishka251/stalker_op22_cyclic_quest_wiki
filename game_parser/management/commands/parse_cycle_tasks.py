@@ -111,7 +111,7 @@ class Command(BaseCommand):
         index = int(index_str)
         translation_prefix = "task_item_type_"
         translation = Translation.objects.filter(
-            code=f"{translation_prefix}{index}"
+            code=f"{translation_prefix}{index}",
         ).first()
         reward.name_translation = translation
         reward.index = index
@@ -140,7 +140,13 @@ class Command(BaseCommand):
         reward.icon = icon
 
     def _get_image(
-        self, image: ImageCls, x: int, y: int, width: int, height: int, name: str
+        self,
+        image: ImageCls,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        name: str,
     ) -> Icon:
         instance: Icon = Icon(name=name)
         box = self._get_item_image_coordinates(x, y, width, height)
@@ -154,7 +160,11 @@ class Command(BaseCommand):
         return instance
 
     def _get_item_image_coordinates(
-        self, x: int, y: int, width: int, height: int
+        self,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
     ) -> tuple[int, int, int, int]:
         inv_grid_x = x
         inv_grid_y = y

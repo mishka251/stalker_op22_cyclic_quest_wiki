@@ -15,10 +15,11 @@ class Command(BaseCommand):
         count = CyclicQuest.objects.count()
         for index, item in enumerate(CyclicQuest.objects.all()):
             assert item.giver_code_local is not None and isinstance(
-                item.giver_code_local, str
+                item.giver_code_local,
+                str,
             )
             item.vendor = CycleTaskVendor.objects.filter(
-                vendor_id=int(item.giver_code_local)
+                vendor_id=int(item.giver_code_local),
             ).first()
             item.giver_code_global = (
                 item.vendor.game_story_id_raw if item.vendor is not None else None

@@ -29,7 +29,9 @@ class Migration(migrations.Migration):
                 (
                     "source_file_name",
                     models.CharField(
-                        max_length=255, unique=True, verbose_name="Исходный файл"
+                        max_length=255,
+                        unique=True,
+                        verbose_name="Исходный файл",
                     ),
                 ),
                 (
