@@ -21,7 +21,7 @@ class Command(BaseCommand):
         return base_path / "config" / "gameplay" / "encyclopedia.xml"
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         EncyclopediaGroup.objects.all().delete()
         EncyclopediaArticle.objects.all().delete()
         fixer = GSCXmlFixer()

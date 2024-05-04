@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         count = BaseItem.objects.filter(
             Q(description_translation__isnull=True) | Q(name_translation__isnull=True),
         ).count()

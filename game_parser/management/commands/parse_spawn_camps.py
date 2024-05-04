@@ -15,7 +15,7 @@ class Command(BaseCommand):
         return base_path / "spawns" / "all_cs" / "all.ltx"
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         CampInfo.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())

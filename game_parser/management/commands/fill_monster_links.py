@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         count = Monster.objects.count()
         for index, item in enumerate(Monster.objects.all()):
             if item.short_name:

@@ -8,7 +8,7 @@ from django.db.backends.base.schema import BaseDatabaseSchemaEditor
 
 def set_item_content_type(apps: Apps, schema_editor: BaseDatabaseSchemaEditor) -> None:
     ContentType = apps.get_model("contenttypes", "ContentType")
-    models = [
+    models_names = [
         "Outfit",
         "Explosive",
         "Grenade",
@@ -25,7 +25,7 @@ def set_item_content_type(apps: Apps, schema_editor: BaseDatabaseSchemaEditor) -
         "CapsAnom",
     ]
 
-    for model in models:
+    for model in models_names:
         MyModel = apps.get_model("game_parser", model)
         new_ct = ContentType.objects.get_for_model(MyModel)
         MyModel.objects.filter(polymorphic_ctype__isnull=True).update(

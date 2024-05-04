@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         count = CyclicQuest.objects.count()
         for index, item in enumerate(CyclicQuest.objects.all()):
             if not isinstance(item.target_str, str):

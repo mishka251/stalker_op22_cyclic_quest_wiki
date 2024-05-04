@@ -29,7 +29,7 @@ class Command(BaseCommand):
         ]
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         Dialog.objects.all().delete()
         DialogPhrase.objects.all().delete()
 

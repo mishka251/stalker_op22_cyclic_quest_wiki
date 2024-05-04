@@ -23,7 +23,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         MonsterPart.objects.all().delete()
 
         known_bases: KnownExtendsType = {

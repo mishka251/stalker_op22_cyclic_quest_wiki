@@ -102,6 +102,8 @@ recursive=no
 # directory used to determine a package namespace for modules located under the
 # source root.
 source-roots=
+    game_parser.management.commands,
+    stalker_op22_cyclic_quest_wiki.management.commands,
 
 # When enabled, pylint would attempt to guess common misconfiguration and emit
 # user-friendly hints instead of false-positive error messages.
@@ -444,6 +446,8 @@ disable=
     no-member, # django-plugin troubles?
     no-name-in-module, # django-plugin troubles?
     arguments-renamed,
+    logging-fstring-interpolation,
+    invalid-name,
 
 
 # Enable the message, report, category or checker with the given id(s). You can
@@ -560,7 +564,7 @@ spelling-store-unknown-words=no
 
 # This flag controls whether inconsistent-quotes generates a warning when the
 # character used as a quote delimiter is used inconsistently within a module.
-check-quote-consistency=no
+check-quote-consistency=yes
 
 # This flag controls whether the implicit-str-concat should generate a warning
 # on implicit string concatenation in sequences defined over several lines.

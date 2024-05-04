@@ -54,7 +54,8 @@ class CycleTaskTargetItem(CycleTaskTarget):
     )
 
     def __str__(self):
-        return f"{self.count or 1} {self.item} {self.cond_str or ''} для {self.quest}"
+        cond_str = self.cond_str or ""
+        return f"{self.count or 1} {self.item} {cond_str} для {self.quest}"
 
 
 class CycleTaskTargetCamp(CycleTaskTarget):

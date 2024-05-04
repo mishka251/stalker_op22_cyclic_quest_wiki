@@ -35,7 +35,7 @@ def log_parse_error(func: Callable[[Any, Any], None]) -> Callable[[Any, Any], No
         try:
             func(self, node)
         except Exception:
-            logger.exception(f"Ошибка при парсинге {to_lua_source(node)}")
+            logger.exception("Ошибка при парсинге %s", to_lua_source(node))
             raise
 
     return wrapper
@@ -49,6 +49,7 @@ class ItemRewardDto:
 
 @dataclasses.dataclass
 class SpawnDto:
+    # pylint: disable=too-many-instance-attributes
     item_or_npc_name: str
     x: float | None
     y: float | None
@@ -70,6 +71,7 @@ class NestedCallsVisitor(ASTVisitor):
 
     @log_parse_error
     def visit_Call(self, node: Call) -> None:  # noqa: N802
+        # pylint: disable=too-many-branches
         node_func = node.func
 
         if isinstance(node.func, Call):
@@ -148,6 +150,7 @@ class NestedCallsVisitor(ASTVisitor):
             self._nested_calls.append(to_lua_source(node.func))
 
     def _parse_value(self, arg):
+        # pylint: disable=too-many-return-statements
         if isinstance(arg, Number):
             return arg.n
         if isinstance(arg, String):
@@ -213,7 +216,8 @@ class Command(BaseCommand):
         return path_.replace("\\", ".")
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
+        # pylint: disable=too-many-locals, too-many-statements, too-many-branches, too-many-return-statements
         MoneyReward.objects.all().delete()
         ItemReward.objects.all().delete()
         SpawnReward.objects.all().delete()

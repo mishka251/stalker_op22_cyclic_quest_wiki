@@ -22,6 +22,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args: Any, **options: Any) -> None:
+        # pylint: disable=too-many-locals,too-many-branches
         imported_archive = options["imported_archive"]
         tmp_dir = Path("import_tmp")
         tmp_dir.mkdir(exist_ok=True)

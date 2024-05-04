@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         count = CyclicQuest.objects.count()
         for index, item in enumerate(CyclicQuest.objects.all()):
             if item.giver_code_local is None or not isinstance(

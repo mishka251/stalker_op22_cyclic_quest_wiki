@@ -39,7 +39,8 @@ class Command(BaseCommand):
         ]
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
+        # pylint: disable=too-many-locals
         print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
         system_file = base_path / "config" / "system.ltx"
@@ -71,11 +72,11 @@ class Command(BaseCommand):
             grouped_by_cls_dict[cls_name].add(section_name)
         for cls_, keys in grouped_by_cls_dict.items():
             print(cls_, len(keys))
-
+        # pylint: disable=fixme
         # TODO Проверить все секции на то, что всё есть в БД
         print("START FILLING")
 
-        stalker_keys, stalkers = self._get_sections_by_class(
+        _, stalkers = self._get_sections_by_class(
             results,
             grouped_by_cls_dict,
             self.STALKER_CLASSES,

@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.contrib.contenttypes.models import ContentType
 from django.core.management import BaseCommand
 

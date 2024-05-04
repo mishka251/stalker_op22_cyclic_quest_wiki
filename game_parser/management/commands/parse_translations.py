@@ -42,7 +42,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         Translation.objects.all().delete()
 
         for file in self.get_files_path().iterdir():

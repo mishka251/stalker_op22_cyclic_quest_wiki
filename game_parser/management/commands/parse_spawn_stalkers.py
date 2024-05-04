@@ -15,7 +15,7 @@ class Command(BaseCommand):
         return base_path / "spawns" / "all_cs" / "all.ltx"
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         Respawn.objects.all().delete()
         SingleStalkerSpawnItem.objects.all().delete()
 
@@ -53,7 +53,6 @@ class Command(BaseCommand):
                     stalker = self._create_stalker(
                         level_file_name,
                         section,
-                        level_file_path,
                     )
                     stalkers.append(stalker)
 
@@ -88,7 +87,6 @@ class Command(BaseCommand):
         self,
         level_file_name: str,
         section: dict[str, str],
-        path,
     ) -> SingleStalkerSpawnItem:
         return SingleStalkerSpawnItem(
             spawn_item=SpawnItem.objects.get(

@@ -23,7 +23,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         Treasure.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())
@@ -31,17 +31,14 @@ class Command(BaseCommand):
 
         blocks = {k: v for k, v in results.items() if not self._should_exclude(k)}
 
+        resource = TreasureResource()
         for quest_name, quest_data in blocks.items():
             print(quest_name)
             if not isinstance(quest_data, dict):
                 raise TypeError
-            resource = self._get_resource(quest_name, quest_data)
             resource.create_instance_from_data(quest_name, quest_data)
             if quest_data:
                 logger.warning(f"unused data {quest_data} in {quest_name} {resource=}")
-
-    def _get_resource(self, block_name: str, block_data: dict) -> TreasureResource:
-        return TreasureResource()
 
     def _should_exclude(self, k: str) -> bool:
         return k in self._exclude_keys

@@ -77,7 +77,8 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
+        # pylint: disable=too-many-locals
         TrueArtefact.objects.all().delete()
         MonsterEmbrion.objects.all().delete()
         CapsAnom.objects.all().delete()
@@ -121,12 +122,12 @@ class Command(BaseCommand):
                 print(quest_name)
                 if not isinstance(quest_data, dict):
                     raise TypeError
-                resource = self._get_resource(quest_name, quest_data)
+                resource = self._get_resource(quest_data)
                 item = resource.create_instance_from_data(quest_name, quest_data)
                 if quest_data:
                     logger.warning(f"unused data {quest_data} in {quest_name} {item=}")
 
-    def _get_resource(self, block_name: str, block_data: dict) -> BaseItemResource:
+    def _get_resource(self, block_data: dict) -> BaseItemResource:
         if block_data.get("cocoon", "false") == "true":
             return MonsterEmbrionResource()
         if block_data.get("caps_anom", "false") == "true":

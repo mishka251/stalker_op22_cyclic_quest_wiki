@@ -33,7 +33,7 @@ class Command(BaseCommand):
     ]
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         for command in self.another_commands:
             print(command)
             call_command(command)

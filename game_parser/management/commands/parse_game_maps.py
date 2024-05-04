@@ -25,7 +25,7 @@ class Command(BaseCommand):
         return base_path / "textures"
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         LocationMapInfo.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())

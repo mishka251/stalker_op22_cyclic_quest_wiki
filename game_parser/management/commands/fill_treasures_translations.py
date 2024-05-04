@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         count = Treasure.objects.count()
         for index, item in enumerate(Treasure.objects.all()):
             item.description_translation = Translation.objects.filter(

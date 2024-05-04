@@ -1,7 +1,6 @@
 import logging
 from enum import Enum
 from pathlib import Path
-from typing import Optional
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -155,7 +154,7 @@ class Command(BaseCommand):
         return self.get_files_from_dir(self.get_root_dir_path())
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
 
         Addon.objects.all().delete()
         Ammo.objects.all().delete()
@@ -294,7 +293,7 @@ class Command(BaseCommand):
             if maybe_instance is None:
                 logger.warning(f"Нет объекта для  {quest_name=}")
                 continue
-            instance, resource = maybe_instance
+            _, resource = maybe_instance
             if quest_data:
                 logger.warning(
                     f"Для секции {quest_name=} ({resource}) не использованы данные {quest_data}",

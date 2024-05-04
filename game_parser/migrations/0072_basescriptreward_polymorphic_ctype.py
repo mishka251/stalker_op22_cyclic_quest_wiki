@@ -25,6 +25,7 @@ def set_reward_content_type(
     for model in my_models:
         MyModel: type[models.Model] = apps.get_model("game_parser", model)
         new_ct = ContentType.objects.get_for_model(MyModel)
+        # pylint: disable=protected-access
         MyModel._default_manager.filter(polymorphic_ctype__isnull=True).update(
             polymorphic_ctype=new_ct,
         )

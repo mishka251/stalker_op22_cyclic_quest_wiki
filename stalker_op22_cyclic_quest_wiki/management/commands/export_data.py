@@ -10,6 +10,7 @@ from stalker_op22_cyclic_quest_wiki.models import Icon, LocationMapInfo
 
 class Command(BaseCommand):
     def handle(self, *args: Any, **options: Any) -> None:
+        # pylint: disable=too-many-locals
         tmp_dir = Path("export_tmp")
         tmp_dir.mkdir(exist_ok=True, parents=True)
         for model_info in to_export:

@@ -19,7 +19,7 @@ class Command(BaseCommand):
         return base_path / "config" / "scripts" / "treasure"
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         ItemInTreasureBox.objects.all().delete()
         InventoryBox.objects.all().delete()
 

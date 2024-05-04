@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-from typing import Optional
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -24,7 +23,8 @@ class Command(BaseCommand):
         return base_path / "scripts" / "amk" / "amk_mod.script"
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
+        # pylint: disable=too-many-locals
         Recept.objects.all().delete()
         file_path = self.get_files_dir_path()
         with file_path.open("r") as file:

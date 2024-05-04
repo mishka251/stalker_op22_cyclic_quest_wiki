@@ -11,6 +11,7 @@ def main() -> None:
         "stalker_op22_cyclic_quest_wiki_proj.settings",
     )
     try:
+        # pylint: disable=import-outside-toplevel
         from django.core.management import execute_from_command_line
     except ImportError as exc:
         raise ImportError(

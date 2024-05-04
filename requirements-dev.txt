@@ -12,3 +12,7 @@ types-cffi
 ruff
 black
 isort
+pre-commit
+autoflake
+pyupgrade
+pre-commit-hooks >= 4.5.0

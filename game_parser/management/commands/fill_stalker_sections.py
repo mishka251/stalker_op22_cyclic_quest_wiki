@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         count = StalkerSection.objects.count()
         for index, stalker_section in enumerate(StalkerSection.objects.all()):
             if stalker_section.character_profile_str is None:

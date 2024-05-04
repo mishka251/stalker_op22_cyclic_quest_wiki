@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         count = CyclicQuest.objects.count()
         QuestRandomRewardThrough.objects.all().delete()
         for index, quest in enumerate(CyclicQuest.objects.all()):

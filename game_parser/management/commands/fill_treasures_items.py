@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         treasures_count = Treasure.objects.count()
         for index, treasure in enumerate(Treasure.objects.all()):
             items_names_or_counts: list[str] = [

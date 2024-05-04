@@ -2,7 +2,6 @@ import logging
 import re
 from decimal import Decimal
 from pathlib import Path
-from typing import Optional
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -34,7 +33,8 @@ class Command(BaseCommand):
         return paths
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
+        # pylint: disable=too-many-locals
         Trader.objects.all().delete()
         Buy.objects.all().delete()
         Sell.objects.all().delete()
@@ -118,6 +118,7 @@ class Command(BaseCommand):
                 item_name=item_name,
             )
 
+    # pylint: disable=too-many-arguments
     def _create_sell(
         self,
         trader: Trader,
@@ -126,6 +127,7 @@ class Command(BaseCommand):
         price_section: dict[str, str],
         condition: str | None,
     ) -> None:
+        # pylint: disable=too-many-locals
         sell = Sell.objects.create(
             trader=trader,
             name=section_name,

@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         count = ItemInTradeBase.objects.count()
         for index, item in enumerate(ItemInTradeBase.objects.all()):
             item.item = (

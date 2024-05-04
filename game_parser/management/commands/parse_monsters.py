@@ -18,7 +18,7 @@ class Command(BaseCommand):
         return base_path / "config" / "creatures" / "monsters.ltx"
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         Monster.objects.all().delete()
 
         known_bases: KnownExtendsType = {

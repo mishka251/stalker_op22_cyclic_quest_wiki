@@ -97,7 +97,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         CustomSpawnItem.objects.all().delete()
         spawn_items = []
         for file in self.get_file_paths():

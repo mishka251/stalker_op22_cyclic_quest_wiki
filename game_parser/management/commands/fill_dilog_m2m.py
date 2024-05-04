@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
@@ -13,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         count = DialogPhrase.objects.count()
         for index, dialog_phrase in enumerate(DialogPhrase.objects.all()):
             dialog_phrase.give_info.set(

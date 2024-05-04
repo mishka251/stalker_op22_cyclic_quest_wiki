@@ -35,7 +35,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         CyclicQuest.objects.all().delete()
         QuestRandomReward.objects.all().delete()
 
@@ -59,6 +59,7 @@ class Command(BaseCommand):
                 quest.save()
 
     def _quest_from_dict(self, name: str, data: dict[str, str]) -> CyclicQuest:
+        # pylint: disable=too-many-branches
         game_code = name
         giver_code = name[:3]
 
@@ -150,6 +151,7 @@ class Command(BaseCommand):
         height: int,
         name: str,
     ) -> Icon:
+        # pylint: disable=too-many-branches, too-many-arguments
         instance: Icon = Icon(name=name)
         box = self._get_item_image_coordinates(x, y, width, height)
         part = image.crop(box)

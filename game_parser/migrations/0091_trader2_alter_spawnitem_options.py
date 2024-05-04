@@ -55,5 +55,6 @@ class Migration(migrations.Migration):
                 "verbose_name_plural": "Секции спавна",
             },
         ),
+        # pylint: disable=missing-backwards-migration-callable
         migrations.RunPython(move_trader_data),
     ]

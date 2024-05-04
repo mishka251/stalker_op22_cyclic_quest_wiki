@@ -190,6 +190,7 @@ class Command(BaseCommand):
         quest: ParserCyclicQuest,
         wiki_quest: WikiQuest,
     ) -> None:
+        # pylint: disable=too-many-locals
         item_target_quest_types = {
             ParserQuestKinds.CHAIN,
             ParserQuestKinds.MONSTER_PART,

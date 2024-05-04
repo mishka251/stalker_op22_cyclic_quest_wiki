@@ -15,7 +15,7 @@ class Command(BaseCommand):
         return base_path / "config" / "misc" / "cycle_task.ltx"
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         CycleTaskVendor.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())

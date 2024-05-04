@@ -38,6 +38,7 @@ class Command(BaseCommand):
         icon = self._get_image(image, icon_left, icon_top, icon_w, icon_h, name)
         reward.icon = icon
 
+    # pylint: disable=too-many-arguments
     def _get_image(
         self,
         image: ImageCls,

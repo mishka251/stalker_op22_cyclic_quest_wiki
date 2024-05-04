@@ -20,14 +20,15 @@ class Command(BaseCommand):
         return base_path / "config" / "scripts"
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
+        # pylint: disable=too-many-locals
         NpcLogicConfig.objects.all().delete()
         root_dir = self.get_file_path()
         spawn_items = []
         file_paths = []
         print("start")
         for walk in os.walk(root_dir):
-            (dirpath, dirnames, filenames) = walk
+            (dirpath, _, filenames) = walk
             for filename in filenames:
                 file_path = root_dir / dirpath / filename
                 file_paths.append(file_path)

@@ -1,6 +1,5 @@
 import logging
 from collections import defaultdict
-from collections.abc import Mapping
 from pathlib import Path
 from typing import cast
 
@@ -214,7 +213,8 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
+        # pylint: disable=too-many-statements, too-many-locals
         print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
         system_file = base_path / "config" / "system.ltx"
@@ -377,7 +377,7 @@ class Command(BaseCommand):
             grouped_by_cls_dict[cls_name].add(section_name)
         for cls_, keys in grouped_by_cls_dict.items():
             print(cls_, len(keys))
-
+        # pylint: disable=fixme
         # TODO Проверить все секции на то, что всё есть в БД
         print("START FILLING")
 
@@ -428,7 +428,7 @@ class Command(BaseCommand):
             grouped_by_cls_dict,
             self.HANDLE_GRENADES_CLASSES,
         )
-        medicine_keys, medicine = self._get_sections_by_class(
+        medicine_keys, _ = self._get_sections_by_class(
             results,
             grouped_by_cls_dict,
             self.MEDICINE_CLASSES,
@@ -480,7 +480,7 @@ class Command(BaseCommand):
         explosive_keys, explosive = self._get_explosive(results, grouped_by_cls_dict)
 
         other_classes = self.MEDICINE_CLASSES | self.PNV_CLASSES | self.OTHER_CLASSES
-        other_keys, other = self._get_sections_by_class(
+        _, other = self._get_sections_by_class(
             results,
             grouped_by_cls_dict,
             other_classes,
@@ -542,7 +542,7 @@ class Command(BaseCommand):
         print(f"UNUSED {len(unused_keys)} {unused_classes=}")
 
     def _get_explosive(self, results, grouped_by_cls_dict):
-        items_keys, items = self._get_sections_by_class(
+        _, items = self._get_sections_by_class(
             results,
             grouped_by_cls_dict,
             self.EXPLOSIVE_CLASSES,
@@ -551,7 +551,7 @@ class Command(BaseCommand):
         return set(monster_parts.keys()), monster_parts
 
     def _get_monster_parts(self, results, grouped_by_cls_dict):
-        items_keys, items = self._get_sections_by_class(
+        _, items = self._get_sections_by_class(
             results,
             grouped_by_cls_dict,
             {"II_ATTCH", "II_FOOD"},

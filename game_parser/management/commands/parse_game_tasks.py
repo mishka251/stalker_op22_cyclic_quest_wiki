@@ -25,7 +25,7 @@ class Command(BaseCommand):
         ]
 
     @atomic
-    def handle(self, **options) -> None:
+    def handle(self, *args, **options) -> None:
         GameTask.objects.all().delete()
         TaskObjective.objects.all().delete()
 
