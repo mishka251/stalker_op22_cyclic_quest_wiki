@@ -87,6 +87,7 @@ class BooleanField(BaseResourceField):
     def _parse_non_empty_value(self, value: Any) -> Any:
         return value == BooleanField.TRUE_VALUE
 
+
 # pylint: disable=invalid-name
 TModel = TypeVar("TModel", bound=Model)
 

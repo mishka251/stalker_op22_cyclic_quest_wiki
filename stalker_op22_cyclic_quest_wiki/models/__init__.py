@@ -19,7 +19,6 @@ from .cycle_tasks import (
     ItemReward,
     MoneyReward,
     QuestRandomReward,
-    QuestReward,
     RandomRewardInfo,
     TreasureReward,
 )
@@ -43,7 +42,6 @@ __all__ = [
     "ItemReward",
     "MoneyReward",
     "QuestRandomReward",
-    "QuestReward",
     "RandomRewardInfo",
     "TreasureReward",
 ]

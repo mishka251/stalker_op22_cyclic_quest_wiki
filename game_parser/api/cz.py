@@ -192,7 +192,10 @@ class VendorCyclicQuests(View):
             "position": position,
         }
 
-    def _get_camp_map_offset(self, location_info: LocationMapInfo) -> tuple[float, float, float, float] | None:
+    def _get_camp_map_offset(
+        self,
+        location_info: LocationMapInfo,
+    ) -> tuple[float, float, float, float] | None:
         if location_info.bound_rect_raw:
             offset_re = re.compile(
                 r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)",

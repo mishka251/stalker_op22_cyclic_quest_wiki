@@ -22,7 +22,7 @@ from stalker_op22_cyclic_quest_wiki.models import Icon as WikiIcon
 from stalker_op22_cyclic_quest_wiki.models import Item as WikiItem
 from stalker_op22_cyclic_quest_wiki.models import ItemReward as WikiItemReward
 from stalker_op22_cyclic_quest_wiki.models import Location as WikiLocation
-from stalker_op22_cyclic_quest_wiki.models import MapPosition
+from stalker_op22_cyclic_quest_wiki.models import MapPosition as WikiMapPosition
 from stalker_op22_cyclic_quest_wiki.models import MoneyReward as WikiMoneyReward
 from stalker_op22_cyclic_quest_wiki.models import (
     QuestRandomReward as WikiQuestRandomReward,
@@ -281,7 +281,7 @@ class Command(BaseCommand):
         else:
             raise ValueError(f"Неизвестный вид квеста {quest.type}")
 
-    def _spawn_item_to_map_position(self, spawn_item: SpawnItem) -> MapPosition:
+    def _spawn_item_to_map_position(self, spawn_item: SpawnItem) -> WikiMapPosition:
         if spawn_item.location is None:
             raise ValueError("No location")
         location = WikiLocation.objects.get(name=spawn_item.location.name)
@@ -290,7 +290,7 @@ class Command(BaseCommand):
         if rm is None:
             raise ValueError("Не удалось распарсить координаты")
         (x, y, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
-        return MapPosition.objects.update_or_create(
+        return WikiMapPosition.objects.update_or_create(
             spawn_id=spawn_item.spawn_id,
             story_id=spawn_item.story_id,
             spawn_story_id=spawn_item.spawn_story_id,
