@@ -1,3 +1,12 @@
 <div>
-    Деньги {{ reward.count }} RUB
+    <div>
+        Деньги
+        <img src="{{ reward.icon.url }}"
+             width="{{ reward.icon.width }}"
+             height="{{ reward.icon.height }}"
+             alt="Деньги">
+    </div>
+    <div>
+        {{ reward.count }} RUB
+    </div>
 </div>

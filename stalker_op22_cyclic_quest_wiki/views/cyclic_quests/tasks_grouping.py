@@ -102,6 +102,14 @@ class TaskReward:
 class TaskMoneyReward(TaskReward):
     count: int
 
+    @property
+    def icon(self) -> IconData | None:
+        try:
+            icon = Icon.objects.get(name="icon_for_item_money_loot")
+            return IconData(icon.icon.url, icon.icon.width, icon.icon.height)
+        except Icon.DoesNotExist:
+            return None
+
 
 @dataclasses.dataclass
 class TaskItemReward(TaskReward):
@@ -117,7 +125,7 @@ class TreasureReward(TaskReward):
     @property
     def icon(self) -> IconData | None:
         try:
-            icon = Icon.objects.get(name="treasure")
+            icon = Icon.objects.get(name="icon_for_item_treasure_item")
             return IconData(icon.icon.url, icon.icon.width, icon.icon.height)
         except Icon.DoesNotExist:
             return None
