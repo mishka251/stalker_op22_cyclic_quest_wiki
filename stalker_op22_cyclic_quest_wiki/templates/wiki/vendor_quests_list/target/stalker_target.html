@@ -1,12 +1,15 @@
 {% load map %}
-
 <div>
-    <h6>{{ target.stalker_str }}</h6>
-    <div>Возможные места спавна</div>
+    <h6>
+        {{ target.stalker_str }}
+    </h6>
+    <div>
+        Возможные места спавна
+    </div>
     <div>
         {% for point in target.possible_points %}
             <div class="my-3">
-                {% render_map_item point%}
+                {% render_map_item point %}
             </div>
         {% endfor %}
     </div>

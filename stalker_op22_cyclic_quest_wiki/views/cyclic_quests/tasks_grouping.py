@@ -10,6 +10,7 @@ from stalker_op22_cyclic_quest_wiki.models import (
     CycleTaskTargetStalker,
     CycleTaskVendor,
     CyclicQuest,
+    Icon,
     ItemReward,
     MapPosition,
     MoneyReward,
@@ -25,7 +26,7 @@ offset_re = re.compile(
 
 
 @dataclasses.dataclass
-class Icon:
+class IconData:
     url: str
     width: int
     height: int
@@ -35,7 +36,7 @@ class Icon:
 class ItemInfo:
     item_id: str
     item_label: str
-    icon: Icon | None
+    icon: IconData | None
 
 
 @dataclasses.dataclass
@@ -110,14 +111,23 @@ class TaskItemReward(TaskReward):
 
 @dataclasses.dataclass
 class TreasureReward(TaskReward):
-    pass
+
+    reward_name = "Тайник"
+
+    @property
+    def icon(self) -> IconData | None:
+        try:
+            icon = Icon.objects.get(name="treasure")
+            return IconData(icon.icon.url, icon.icon.width, icon.icon.height)
+        except Icon.DoesNotExist:
+            return None
 
 
 @dataclasses.dataclass
 class TaskRandomReward(TaskReward):
     count: int
     reward_name: str
-    icon: Icon | None
+    icon: IconData | None
 
 
 @dataclasses.dataclass
@@ -185,7 +195,7 @@ def parse_task(db_task: CyclicQuest) -> Quest:
 
     for random_reward in QuestRandomReward.objects.filter(quest=db_task):
         icon_ = random_reward.reward.icon.icon
-        icon = Icon(icon_.url, icon_.width, icon_.height)
+        icon = IconData(icon_.url, icon_.width, icon_.height)
         reward = TaskRandomReward(
             count=random_reward.count,
             reward_name=random_reward.reward.description.rus,
@@ -239,7 +249,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         target_cond_str: str | None = target.cond_str
         item_icon = None
         if target_item.icon:
-            item_icon = Icon(
+            item_icon = IconData(
                 target_item.icon.icon.url,
                 target_item.icon.icon.width,
                 target_item.icon.icon.height,
@@ -305,7 +315,7 @@ def _spawn_item_to_map_info(
 def parse_item_reward(reward: ItemReward) -> TaskReward:
     item_icon = None
     if reward.item.icon:
-        item_icon = Icon(
+        item_icon = IconData(
             reward.item.icon.icon.url,
             reward.item.icon.icon.width,
             reward.item.icon.icon.height,

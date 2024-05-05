@@ -21,6 +21,19 @@ repos:
         types: [python]
         args: [--py312-plus]
 
+        # ruff форматирование
+      - id: ruff
+        name: ruff
+        description: "Run 'ruff' for extremely fast Python linting"
+        entry: ruff check --force-exclude
+        language: python
+        types_or: [python, pyi]
+        args: [--fix]
+        require_serial: true
+        additional_dependencies: []
+        minimum_pre_commit_version: "2.9.2"
+
+
 #       поменять порядок импортов на правильный
       - id: isort
         name: isort
@@ -40,6 +53,13 @@ repos:
             --safe,
             --target-version=py312
         ]
+
+#       форматтер шаблонов
+      - id: djlint-reformat-django
+        name: djLint formatting for Django
+        entry: djlint --reformat --profile=django
+        types_or: [html]
+        language: python
 
 #      - id: flake8
 #        name: flake8
@@ -80,3 +100,9 @@ repos:
 #            "-sn", # Don't display the score
 #            "--rcfile=.pylintrc", # Link to your config file
 #          ]
+
+      - id: djlint-django
+        name: djLint linting for Django
+        entry: djlint --profile=django
+        types_or: [html]
+        language: python

@@ -1,18 +1,15 @@
 {% extends "wiki/base.html" %}
 {% load tasks %}
-{% block title %}Циклические задания у {{ vendor }} {% endblock title %}
-
-
+{% block title %}
+    Циклические задания у {{ vendor }}
+{% endblock title %}
 {% block extrahead %}
-
     <style>
         .map {
             width: 30vw;
             height: 50vh;
         }
     </style>
-
-
     <style>
         .mh-100vh {
             max-height: 100vh;
@@ -22,7 +19,6 @@
             min-width: 500px;
         }
     </style>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const scrolled = document.getElementById('main');
@@ -47,39 +43,37 @@
         })
     </script>
 {% endblock extrahead %}
-
 {% block main %}
     <div class="page d-flex flex-row">
-        <div
-                id="main"
-                class="main-content col-10 d-flex container-fluid flex-column overflow-auto mh-100vh"
-                data-bs-spy="scroll" data-bs-target="#page-menu" data-bs-offset="0"
-        >
-            <div
-                    id="vendor-{{ vendor_task_info.character_id }}"
-                    class="vendor-tasks border-bottom border-4 mb-3"
-            >
+        <div id="main"
+             class="main-content col-10 d-flex container-fluid flex-column overflow-auto mh-100vh"
+             data-bs-spy="scroll"
+             data-bs-target="#page-menu"
+             data-bs-offset="0">
+            <div id="vendor-{{ vendor_task_info.character_id }}"
+                 class="vendor-tasks border-bottom border-4 mb-3">
                 <div class="vendor d-flex flex-row">
-                    <h2>{{ vendor_task_info.character_name }}({{ vendor_task_info.character_id }})</h2>
+                    <h2>
+                        {{ vendor_task_info.character_name }}({{ vendor_task_info.character_id }})
+                    </h2>
                 </div>
-
                 <div class="tasks">
                     {% for quest_kind, quest_groups in vendor_task_info.quest_group_by_type.items %}
-                        <div
-                                id="vendor-{{ vendor_task_info.character_id }}-kind-{{ quest_kind }}"
-                                class="task-type-group"
-                        >
+                        <div id="vendor-{{ vendor_task_info.character_id }}-kind-{{ quest_kind }}"
+                             class="task-type-group">
                             <div class="tasks-type">
-                                <h3>{{ quest_kind.label }}</h3>
+                                <h3>
+                                    {{ quest_kind.label }}
+                                </h3>
                             </div>
                             <div class="tasks-by-prior">
                                 {% for prior, tasks in quest_groups.items %}
-                                    <div
-                                            id="vendor-{{ vendor_task_info.character_id }}-kind-{{ quest_kind }}-prior-{{ prior }}"
-                                            class="taks-by-prior border-bottom border-3 mb-2"
-                                    >
+                                    <div id="vendor-{{ vendor_task_info.character_id }}-kind-{{ quest_kind }}-prior-{{ prior }}"
+                                         class="taks-by-prior border-bottom border-3 mb-2">
                                         <div class="prior">
-                                            <h4>Приоритет {{ prior }}</h4>
+                                            <h4>
+                                                Приоритет {{ prior }}
+                                            </h4>
                                         </div>
                                         <div class="tasks">
                                             {% for task in tasks %}
@@ -92,33 +86,28 @@
                         </div>
                     {% endfor %}
                 </div>
-
             </div>
         </div>
-
-        <div id="page-menu" class="page-menu col-2 overflow-auto mh-100vh">
-            <nav id="navbar-example2" class="navbar navbar-light bg-light px-3">
-                <a class="navbar-brand" href="#">Панель навигации</a>
+        <div id="page-menu"
+             class="page-menu col-2 overflow-auto mh-100vh">
+            <nav id="navbar-example2"
+                 class="navbar navbar-light bg-light px-3">
+                <a class="navbar-brand"
+                   href="#">Панель навигации</a>
                 <ul class="nav nav-pills w-100">
                     <li class="nav-item nav-vendor w-100">
-                        <a
-                                class="nav-link"
-                                href="#vendor-{{ vendor_task_info.character_id }}"
-                        >{{ vendor_task_info.character_name }}({{ vendor_task_info.character_id }})</a>
+                        <a class="nav-link"
+                           href="#vendor-{{ vendor_task_info.character_id }}">{{ vendor_task_info.character_name }}({{ vendor_task_info.character_id }})</a>
                         <ul class="nav-vendor-kinds nav nav-pills ps-3">
                             {% for quest_kind, quest_groups in vendor_task_info.quest_group_by_type.items %}
                                 <li class="nav-item w-100">
-                                    <a
-                                            class="nav-link"
-                                            href="#vendor-{{ vendor_task_info.character_id }}-kind-{{ quest_kind }}"
-                                    >{{ quest_kind.label }}</a>
+                                    <a class="nav-link"
+                                       href="#vendor-{{ vendor_task_info.character_id }}-kind-{{ quest_kind }}">{{ quest_kind.label }}</a>
                                     <ul class="nav-vendor-kind-priors nav nav-pills w-100 ps-3">
                                         {% for prior in quest_groups.keys %}
                                             <li class="nav-item w-100">
-                                                <a
-                                                        class="nav-link"
-                                                        href="#vendor-{{ vendor_task_info.character_id }}-kind-{{ quest_kind }}-prior-{{ prior }}"
-                                                >Приоритет {{ prior }}</a>
+                                                <a class="nav-link"
+                                                   href="#vendor-{{ vendor_task_info.character_id }}-kind-{{ quest_kind }}-prior-{{ prior }}">Приоритет {{ prior }}</a>
                                             </li>
                                         {% endfor %}
                                     </ul>

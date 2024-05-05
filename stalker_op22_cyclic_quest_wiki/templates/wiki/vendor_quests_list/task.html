@@ -1,5 +1,4 @@
-{% load  tasks %}
-
+{% load tasks %}
 <div class="task d-flex flex-row justify-content-between border-bottom border-3 mb-2">
     <div class="target flex-column">
         <h5 class="align-self-center">
@@ -11,7 +10,9 @@
         {{ task.text }}
     </div>
     <div class="rewards d-flex flex-column">
-        <h5 class="align-self-center">Награда</h5>
+        <h5 class="align-self-center">
+            Награда
+        </h5>
         {% for reward in task.rewards %}
             {% render_reward reward %}
         {% endfor %}

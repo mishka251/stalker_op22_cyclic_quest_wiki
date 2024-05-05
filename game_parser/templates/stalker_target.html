@@ -1,8 +1,11 @@
 {% load parser_map %}
-
 <div>
-    <h6>{{ target.stalker_str }}</h6>
-    <div>Возможные места спавна</div>
+    <h6>
+        {{ target.stalker_str }}
+    </h6>
+    <div>
+        Возможные места спавна
+    </div>
     <div>
         {% for point in target.possible_points %}
             <div class="my-3">

@@ -33,10 +33,9 @@
             // so that it covers the entire map
             L.imageOverlay(imagePath, bounds).addTo(map);
             // tell leaflet that the map is exactly as big as the image
-            {#map.setMaxBounds(bounds);#}
             items.forEach(
                 (item) => {
-                    const coordinates=[item.position[1] + yLevelOffset, item.position[0]];
+                    const coordinates = [item.position[1] + yLevelOffset, item.position[0]];
                     const marker = new L.Marker(coordinates)
                     marker.bindPopup(`${item.info_str}`)
                     marker.addTo(map);
@@ -45,5 +44,7 @@
             );
         });
     </script>
-    <div id="map_{{ item_id }}" class="map"></div>
+    <div id="map_{{ item_id }}"
+         class="map">
+    </div>
 </div>
