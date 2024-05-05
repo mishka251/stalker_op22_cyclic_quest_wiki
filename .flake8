@@ -19,82 +19,31 @@ extend-ignore =
     D105
     D106
     D107
-; f-string
-    WPS305
 
     ; print
     T201
-    WPS421
 
     ; allow ternary
     IF100
 
-    ; allow walrus
-    WPS332
-
-    ; allow 10_000
-    WPS303
-
-    ; allow __all__
-    WPS410
-
-
-    ; django
-    ; tmp - magic value
-    WPS432
-
-
-
     ; tmp
-    ; magic string
-    WPS226
-    ; too complex
-    WPS221
-    WPS223
     CCR001
-    WPS232
-    WPS235
-    WPS229
-    WPS352
     C413
-    WPS122
-    WPS237
-    WPS220
-    WPS437
-    WPS326
-    WPS202
-    WPS210
-    WPS210
     ECE001
-    ; pass in cls
-    WPS604
-    ; pass
-    WPS420
-    ;variable name
-    WPS110
     ; line len
     E501
-    ;???
-    WPS120
-    WPS121
-    ;???
-    WPS231
-    WPS111
     DM001
 
     ; redefine builtin
     A003
     VNE003
 
-    ; class constant
-    WPS115
 
     TYP001
     ANN001
 
     N806
     VNE001
-    WPS347
     ANN201
     ANN202
     D200
@@ -108,47 +57,9 @@ extend-ignore =
     S410
     S703
     SIM910
-    WPS100
     VNE002
-    WPS116
-    WPS117
-    WPS201
-    WPS203
-    WPS204
-    WPS211
-    WPS615
-    WPS612
-    WPS601
-    WPS531
-    WPS450
-    WPS440
-    WPS356
-    WPS337
-    WPS238
-    WPS204
     S410
-    WPS431
-    WPS214
-    WPS360
-    WPS336
-    WPS529
-    WPS504
-    WPS338
-    WPS323
-    WPS519
-    WPS348
-    WPS464
-    WPS213
-    WPS509
-    WPS441
-    WPS441
-    WPS222
     ABS101
-    WPS300
-    WPS411
-    WPS433
-    WPS458
-    WPS212
 
 
 
@@ -187,6 +98,4 @@ require-plugins =
 
 per-file-ignores =
     # imported but unused
-    **/__init__.py: F401,WPS300,ABS101,WPS412,WPS347,F403,WPS440
-    stalker_op22_cyclic_quest_wiki_proj\settings.py: WPS407, WPS323
-    **/migrations/**.py: WPS102,WPS118, WPS323, WPS458, WPS301, WPS440
+    **/__init__.py: F401,ABS101,F403
