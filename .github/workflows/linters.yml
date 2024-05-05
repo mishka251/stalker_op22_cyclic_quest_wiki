@@ -6,7 +6,7 @@ on:
 
 env:
   DJANGO_SETTINGS_MODULE: stalker_op22_cyclic_quest_wiki_proj.settings
-  DEBUG: True
+  DEBUG: "True"
 
 
 jobs:
