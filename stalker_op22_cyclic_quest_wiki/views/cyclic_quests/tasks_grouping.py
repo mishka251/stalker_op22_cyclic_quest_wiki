@@ -165,7 +165,7 @@ def collect_vendor_tasks(
         vendor_tasks,
         key=lambda task: task.type,
     ):
-        task_kind = QuestKinds[_task_kind]
+        task_kind = QuestKinds.get_by_value(_task_kind)
         vendor_kind_tasks = list(
             sorted(_vendor_kind_tasks, key=lambda task: task.prior),
         )

@@ -25,6 +25,13 @@ class QuestKinds(models.TextChoices):
     FIND_ITEM = "find_item", "Принести предмет"
     DEFEND_CAMP = "defend_lager", "Защитить лагерь"
 
+    @classmethod
+    def get_by_value(cls, value: str) -> "QuestKinds":
+        for choice in QuestKinds:
+            if choice.value == value:
+                return choice
+        raise KeyError(value)
+
 
 class CyclicQuestManager(models.Manager["CyclicQuest"]):
     def get_by_natural_key(self, game_code: str) -> "CyclicQuest":
@@ -84,7 +91,7 @@ class CyclicQuest(models.Model):
         return (self.game_code,)
 
     def __str__(self):
-        type_caption = QuestKinds[self.type].label
+        type_caption = QuestKinds.get_by_value(self.type).label
         return f"{type_caption}({self.prior}) для {self.vendor}"
 
 
