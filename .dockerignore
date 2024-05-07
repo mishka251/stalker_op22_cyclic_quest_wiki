@@ -19,7 +19,6 @@ dist
 docs
 env
 logs
-stalker_op22_cyclic_quest_wiki_proj/settings.py
 node_modules
 media
 web/static/CACHE

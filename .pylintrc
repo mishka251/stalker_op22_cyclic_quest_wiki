@@ -428,16 +428,8 @@ confidence=HIGH,
 # no Warning level messages displayed, use "--disable=all --enable=classes
 # --disable=W".
 disable=
-    # raw-checker-failed,
-    # bad-inline-option,
-    # locally-disabled,
     file-ignored,
     suppressed-message,
-    # useless-suppression,
-    # deprecated-pragma,
-    # use-symbolic-message-instead,
-    # use-implicit-booleaness-not-comparison-to-string,
-    # use-implicit-booleaness-not-comparison-to-zero,
     missing-module-docstring,
     missing-class-docstring,
     missing-function-docstring,
@@ -448,6 +440,7 @@ disable=
     arguments-renamed,
     logging-fstring-interpolation,
     invalid-name,
+    too-many-ancestors,
 
 
 # Enable the message, report, category or checker with the given id(s). You can

@@ -18,7 +18,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY ./stalker_op22_cyclic_quest_wiki /app/stalker_op22_cyclic_quest_wiki
 COPY ./stalker_op22_cyclic_quest_wiki_proj /app/stalker_op22_cyclic_quest_wiki_proj
 COPY ./manage.py /app/manage.py
-COPY ./deploy/settings.py /app/stalker_op22_cyclic_quest_wiki_proj/settings.py
 COPY ./deploy/update.sh /app/update.sh
 COPY ./data /app/data
 
