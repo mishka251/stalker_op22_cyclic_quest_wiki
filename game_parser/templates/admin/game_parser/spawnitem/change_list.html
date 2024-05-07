@@ -1,17 +1,16 @@
-{%  extends "admin/change_list.html" %}
-
+{% extends "admin/change_list.html" %}
 {% block extrahead %}
-{{ block.super }}
+    {{ block.super }}
     <style>
         .map {
             width: 20vw;
             height: 20vh;
         }
     </style>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          crossorigin=""/>
-
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          crossorigin="" />
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             crossorigin=""></script>
-{% endblock %}
+{% endblock extrahead %}

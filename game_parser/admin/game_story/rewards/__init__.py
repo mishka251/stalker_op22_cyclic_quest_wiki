@@ -1,3 +1,3 @@
-from .money import *
 from .item import *
+from .money import *
 from .spawn import *

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0064_storylinecharacter_game_id_and_more'),
+        ("game_parser", "0064_storylinecharacter_game_id_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='storylinecharacter',
-            name='comments',
+            model_name="storylinecharacter",
+            name="comments",
             field=models.TextField(null=True),
         ),
     ]

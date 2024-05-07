@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('stalker_op22_cyclic_quest_wiki', '0002_alter_icon_icon_alter_icon_name_alter_item_icon_and_more'),
+        (
+            "stalker_op22_cyclic_quest_wiki",
+            "0002_alter_icon_icon_alter_icon_name_alter_item_icon_and_more",
+        ),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='translation',
-            name='code',
-            field=models.CharField(db_index=True, max_length=128, unique=True, verbose_name='Код названия'),
+            model_name="translation",
+            name="code",
+            field=models.CharField(
+                db_index=True,
+                max_length=128,
+                unique=True,
+                verbose_name="Код названия",
+            ),
         ),
     ]

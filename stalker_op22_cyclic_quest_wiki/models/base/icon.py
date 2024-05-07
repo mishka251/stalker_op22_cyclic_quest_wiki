@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class IconManager(models.Manager):
+class IconManager(models.Manager["Icon"]):
     def get_by_natural_key(self, name: str) -> "Icon":
         return self.get(name=name)
 
@@ -12,11 +12,21 @@ class Icon(models.Model):
         verbose_name_plural = "Иконки"
 
     objects = IconManager()
-    name = models.CharField(max_length=512, null=False, unique=True, verbose_name="Код иконки для связи с объектами")
+    name = models.CharField(
+        max_length=512,
+        null=False,
+        unique=True,
+        verbose_name="Код иконки для связи с объектами",
+    )
     icon = models.ImageField(null=False, verbose_name="Иконка")
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (self.name,)
 
     def __str__(self):
-        return f'{self.name}'
+        return f"{self.name}"
+
+
+__all__ = [
+    "Icon",
+]

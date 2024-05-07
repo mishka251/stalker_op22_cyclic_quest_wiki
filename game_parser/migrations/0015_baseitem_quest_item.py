@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0014_monsterpart'),
+        ("game_parser", "0014_monsterpart"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='baseitem',
-            name='quest_item',
-            field=models.BooleanField(default=False, verbose_name='Квестовый предмет'),
+            model_name="baseitem",
+            name="quest_item",
+            field=models.BooleanField(default=False, verbose_name="Квестовый предмет"),
         ),
     ]

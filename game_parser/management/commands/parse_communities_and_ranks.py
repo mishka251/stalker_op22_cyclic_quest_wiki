@@ -5,8 +5,7 @@ from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
 from game_parser.logic.ltx_parser import LtxParser
-from game_parser.models import RankType, \
-    CommunityType, Rank, Translation, Community
+from game_parser.models import Community, CommunityType, Rank, RankType, Translation
 
 logger = logging.getLogger(__name__)
 
@@ -14,19 +13,22 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, *args, **options) -> None:
         print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
         system_file = base_path / "config" / "system.ltx"
-        known_bases = {}
 
         Rank.objects.all().delete()
         Community.objects.all().delete()
 
         print("Cleaned")
 
-        parser = LtxParser(system_file, known_extends=known_bases)
+        parser = LtxParser(system_file)
         results = parser.get_parsed_blocks()
+        if not isinstance(results["game_relations"], dict):
+            raise TypeError
+        if not isinstance(results["monster_communities"], dict):
+            raise TypeError
         stalker_ranks_raw = results["game_relations"]["rating"]
         monster_ranks_raw = results["game_relations"]["monster_rating"]
 
@@ -42,11 +44,11 @@ class Command(BaseCommand):
 
     def _parse_ranks(self, raw_ranks: str, type_: RankType) -> None:
         ranks: list[Rank] = []
-        for i, item in enumerate(raw_ranks.split(",")):
-            item = item.strip()
+        for i, item_ in enumerate(raw_ranks.split(",")):
+            item = item_.strip()
             if i % 2 == 0:
                 rank = Rank(
-                    name = item,
+                    name=item,
                     type=type_,
                     translation=Translation.objects.filter(code=item).first(),
                 )
@@ -59,8 +61,8 @@ class Command(BaseCommand):
 
     def _parse_communities(self, raw_communities: str, type_: CommunityType) -> None:
         communities: list[Community] = []
-        for i, item in enumerate(raw_communities.split(",")):
-            item = item.strip()
+        for i, item_ in enumerate(raw_communities.split(",")):
+            item = item_.strip()
             if i % 2 == 0:
                 community = Community(
                     code=item,

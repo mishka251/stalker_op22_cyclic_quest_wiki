@@ -6,20 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0048_spawnreward_xyz_raw'),
+        ("game_parser", "0048_spawnreward_xyz_raw"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='spawnreward',
-            name='raw_game_vertex_id',
-            field=models.CharField(default='', max_length=512),
+            model_name="spawnreward",
+            name="raw_game_vertex_id",
+            field=models.CharField(default="", max_length=512),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='spawnreward',
-            name='raw_level_vertex',
-            field=models.CharField(default='', max_length=512),
+            model_name="spawnreward",
+            name="raw_level_vertex",
+            field=models.CharField(default="", max_length=512),
             preserve_default=False,
         ),
     ]

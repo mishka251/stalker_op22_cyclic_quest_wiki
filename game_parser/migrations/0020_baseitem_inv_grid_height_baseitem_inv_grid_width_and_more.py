@@ -6,28 +6,34 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0019_alter_silencer_condition_shot_dec'),
+        ("game_parser", "0019_alter_silencer_condition_shot_dec"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='baseitem',
-            name='inv_grid_height',
-            field=models.PositiveIntegerField(null=True, verbose_name='Высота иконки'),
+            model_name="baseitem",
+            name="inv_grid_height",
+            field=models.PositiveIntegerField(null=True, verbose_name="Высота иконки"),
         ),
         migrations.AddField(
-            model_name='baseitem',
-            name='inv_grid_width',
-            field=models.PositiveIntegerField(null=True, verbose_name='Ширина иконки'),
+            model_name="baseitem",
+            name="inv_grid_width",
+            field=models.PositiveIntegerField(null=True, verbose_name="Ширина иконки"),
         ),
         migrations.AddField(
-            model_name='baseitem',
-            name='inv_grid_x',
-            field=models.PositiveIntegerField(null=True, verbose_name='Отступ по длине иконки в большом файле'),
+            model_name="baseitem",
+            name="inv_grid_x",
+            field=models.PositiveIntegerField(
+                null=True,
+                verbose_name="Отступ по длине иконки в большом файле",
+            ),
         ),
         migrations.AddField(
-            model_name='baseitem',
-            name='inv_grid_y',
-            field=models.PositiveIntegerField(null=True, verbose_name='Отступ по высоте иконки в большом файле'),
+            model_name="baseitem",
+            name="inv_grid_y",
+            field=models.PositiveIntegerField(
+                null=True,
+                verbose_name="Отступ по высоте иконки в большом файле",
+            ),
         ),
     ]

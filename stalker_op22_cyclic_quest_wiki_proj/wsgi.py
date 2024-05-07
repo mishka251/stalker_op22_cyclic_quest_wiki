@@ -11,6 +11,9 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stalker_op22_cyclic_quest_wiki_proj.settings')
+os.environ.setdefault(
+    "DJANGO_SETTINGS_MODULE",
+    "stalker_op22_cyclic_quest_wiki_proj.settings",
+)
 
 application = get_wsgi_application()

@@ -1,9 +1,6 @@
-from typing import Optional
+from django.contrib.admin import ModelAdmin, display, register
 
-from django.contrib.admin import ModelAdmin, register, display
-from django.utils.html import mark_safe
-
-from game_parser.models.game_story import GameTask, TaskObjective, MapLocationType
+from game_parser.models.game_story import GameTask, MapLocationType, TaskObjective
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 
@@ -14,21 +11,21 @@ class TaskObjectiveInline(ReadOnlyNestedTable):
 @register(GameTask)
 class GameTaskAdmin(ModelAdmin):
     list_display = (
-        '__str__',
-        'game_id',
-        'title_view',
+        "__str__",
+        "game_id",
+        "title_view",
     )
 
     inlines = [
         TaskObjectiveInline,
     ]
 
-    search_fields = ['game_id']
+    search_fields = ["game_id"]
     autocomplete_fields = [
         "title",
     ]
 
-    @display(description='Имя')
+    @display(description="Имя")
     def title_view(self, character: GameTask) -> str:
         return character.get_title
 
@@ -36,10 +33,10 @@ class GameTaskAdmin(ModelAdmin):
 @register(TaskObjective)
 class TaskObjectiveAdmin(ModelAdmin):
     list_display = (
-        '__str__',
-        'task',
-        'text_view',
-        'article_view',
+        "__str__",
+        "task",
+        "text_view",
+        "article_view",
     )
 
     autocomplete_fields = [
@@ -60,13 +57,14 @@ class TaskObjectiveAdmin(ModelAdmin):
         "text_id_raw",
     ]
 
-    @display(description='Текст')
-    def text_view(self, character: TaskObjective) -> str:
+    @display(description="Текст")
+    def text_view(self, character: TaskObjective) -> str | None:
         return character.get_text
 
-    @display(description='Запись')
-    def article_view(self, character: TaskObjective) -> str:
+    @display(description="Запись")
+    def article_view(self, character: TaskObjective) -> str | None:
         return character.get_article
+
 
 @register(MapLocationType)
 class MapLocationTypeAdmin(ModelAdmin):
@@ -75,3 +73,9 @@ class MapLocationTypeAdmin(ModelAdmin):
         "objective",
     ]
 
+
+__all__ = [
+    "GameTaskAdmin",
+    "TaskObjectiveAdmin",
+    "MapLocationTypeAdmin",
+]

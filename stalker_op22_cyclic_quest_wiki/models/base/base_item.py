@@ -1,8 +1,5 @@
 from django.db import models
-
-# from stalker_op22_cyclic_quest_wiki.models.base.game_object import GameObject
-from polymorphic.models import PolymorphicModel, PolymorphicManager
-
+from polymorphic.models import PolymorphicManager, PolymorphicModel
 
 
 class ItemManager(PolymorphicManager):
@@ -16,19 +13,49 @@ class Item(PolymorphicModel):
         verbose_name_plural = "Предметы"
 
     objects = ItemManager()
-    cost = models.PositiveIntegerField(verbose_name='Базовая цена')
-    name = models.CharField(max_length=255, verbose_name='Название(код в игре)', unique=True, null=False)
-    inv_weight = models.DecimalField(verbose_name='Вес', decimal_places=3, max_digits=12)
-    icon = models.ForeignKey("Icon", on_delete=models.PROTECT, null=False, verbose_name="Иконка")
-    name_translation = models.ForeignKey("Translation", on_delete=models.PROTECT, null=False,
-                                         verbose_name='Перевод названия', related_name='+')
-    description_translation = models.ForeignKey("Translation", on_delete=models.PROTECT, null=True,
-                                                verbose_name='Перевод описания', related_name='+')
+    cost = models.PositiveIntegerField(verbose_name="Базовая цена")
+    name = models.CharField(
+        max_length=255,
+        verbose_name="Название(код в игре)",
+        unique=True,
+        null=False,
+    )
+    inv_weight = models.DecimalField(
+        verbose_name="Вес",
+        decimal_places=3,
+        max_digits=12,
+    )
+    icon = models.ForeignKey(
+        "Icon",
+        on_delete=models.PROTECT,
+        null=False,
+        verbose_name="Иконка",
+        related_name="+",
+    )
+    name_translation = models.ForeignKey(
+        "Translation",
+        on_delete=models.PROTECT,
+        null=False,
+        verbose_name="Перевод названия",
+        related_name="+",
+    )
+    description_translation = models.ForeignKey(
+        "Translation",
+        on_delete=models.PROTECT,
+        null=True,
+        verbose_name="Перевод описания",
+        related_name="+",
+    )
 
-    def natural_key(self):
+    def natural_key(self) -> tuple:
         return (self.name,)
 
     def __str__(self):
         if self.name_translation:
             return self.name_translation.rus
         return self.name
+
+
+__all__ = [
+    "Item",
+]

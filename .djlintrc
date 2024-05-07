@@ -1,0 +1,7 @@
+{
+    "format_css": true,
+    "format_js": true,
+    "line_break_after_multiline_tag": "true",
+    "profile": "django",
+    "max_attribute_length": "1"
+}

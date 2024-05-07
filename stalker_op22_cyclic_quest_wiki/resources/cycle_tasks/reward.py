@@ -1,11 +1,14 @@
-from import_export import resources, fields
+from import_export import fields, resources
 from import_export.widgets import ManyToManyWidget
 
-from stalker_op22_cyclic_quest_wiki.models import ItemReward, Item
-from stalker_op22_cyclic_quest_wiki.models import MoneyReward
-from stalker_op22_cyclic_quest_wiki.models import QuestRandomReward
-from stalker_op22_cyclic_quest_wiki.models import RandomRewardInfo
-from stalker_op22_cyclic_quest_wiki.models import TreasureReward
+from stalker_op22_cyclic_quest_wiki.models import (
+    Item,
+    ItemReward,
+    MoneyReward,
+    QuestRandomReward,
+    RandomRewardInfo,
+    TreasureReward,
+)
 
 
 class ItemRewardResource(resources.ModelResource):
@@ -16,7 +19,6 @@ class ItemRewardResource(resources.ModelResource):
         exclude = {"id", "polymorphic_ctype"}
 
 
-
 class MoneyRewardResource(resources.ModelResource):
     class Meta:
         model = MoneyReward
@@ -25,13 +27,14 @@ class MoneyRewardResource(resources.ModelResource):
         exclude = {"id", "polymorphic_ctype"}
 
 
-
 class QuestRandomRewardResource(resources.ModelResource):
     class Meta:
         model = QuestRandomReward
         use_natural_foreign_keys = True
-        import_id_fields = ["quest", 'reward']
+        import_id_fields = ["quest", "reward"]
         exclude = {"id", "polymorphic_ctype"}
+
+
 class RandomRewardInfoResource(resources.ModelResource):
     class Meta:
         model = RandomRewardInfo
@@ -42,9 +45,8 @@ class RandomRewardInfoResource(resources.ModelResource):
     possible_items = fields.Field(
         column_name="possible_items",
         attribute="possible_items",
-        widget=ManyToManyWidget(Item, separator='|', field="name")
+        widget=ManyToManyWidget(Item, separator="|", field="name"),
     )
-
 
 
 class TreasureRewardResource(resources.ModelResource):
@@ -53,3 +55,12 @@ class TreasureRewardResource(resources.ModelResource):
         use_natural_foreign_keys = True
         import_id_fields = ["quest"]
         exclude = {"id", "polymorphic_ctype"}
+
+
+__all__ = [
+    "ItemRewardResource",
+    "MoneyRewardResource",
+    "QuestRandomRewardResource",
+    "RandomRewardInfoResource",
+    "TreasureRewardResource",
+]

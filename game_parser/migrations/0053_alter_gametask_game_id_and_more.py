@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0052_alter_taskobjective_icon_raw'),
+        ("game_parser", "0052_alter_taskobjective_icon_raw"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='gametask',
-            name='game_id',
+            model_name="gametask",
+            name="game_id",
             field=models.CharField(max_length=256, unique=True),
         ),
         migrations.AlterField(
-            model_name='taskobjective',
-            name='text_id_raw',
+            model_name="taskobjective",
+            name="text_id_raw",
             field=models.CharField(max_length=256, null=True),
         ),
     ]

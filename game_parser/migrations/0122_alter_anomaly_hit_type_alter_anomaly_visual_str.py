@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0121_anomaly'),
+        ("game_parser", "0121_anomaly"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='anomaly',
-            name='hit_type',
+            model_name="anomaly",
+            name="hit_type",
             field=models.CharField(max_length=255, null=True),
         ),
         migrations.AlterField(
-            model_name='anomaly',
-            name='visual_str',
+            model_name="anomaly",
+            name="visual_str",
             field=models.CharField(max_length=255, null=True),
         ),
     ]

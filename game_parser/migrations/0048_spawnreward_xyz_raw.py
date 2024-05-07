@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0047_alter_itemreward_count'),
+        ("game_parser", "0047_alter_itemreward_count"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='spawnreward',
-            name='xyz_raw',
-            field=models.CharField(default='', max_length=512),
+            model_name="spawnreward",
+            name="xyz_raw",
+            field=models.CharField(default="", max_length=512),
             preserve_default=False,
         ),
     ]

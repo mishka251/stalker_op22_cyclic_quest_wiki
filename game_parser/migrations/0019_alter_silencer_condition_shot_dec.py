@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0018_silencer_condition_shot_dec_weapon_ammo_current_and_more'),
+        (
+            "game_parser",
+            "0018_silencer_condition_shot_dec_weapon_ammo_current_and_more",
+        ),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='silencer',
-            name='condition_shot_dec',
-            field=models.DecimalField(decimal_places=8, max_digits=12, null=True, verbose_name='знос за 1 выстрел'),
+            model_name="silencer",
+            name="condition_shot_dec",
+            field=models.DecimalField(
+                decimal_places=8,
+                max_digits=12,
+                null=True,
+                verbose_name="знос за 1 выстрел",
+            ),
         ),
     ]

@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, *args, **options) -> None:
         count = GameStoryId.objects.count()
         for index, item in enumerate(GameStoryId.objects.all()):
             item.spawn_section = (
@@ -19,5 +19,4 @@ class Command(BaseCommand):
                 or SpawnItem.objects.filter(spawn_story_id=item.story_id).first()
             )
             item.save()
-            print(f'{index+1}/{count}')
-
+            print(f"{index+1}/{count}")

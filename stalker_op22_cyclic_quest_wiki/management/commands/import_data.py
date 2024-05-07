@@ -1,6 +1,7 @@
 import shutil
 import zipfile
 from pathlib import Path
+from typing import Any
 
 import tablib
 from django.conf import settings
@@ -11,28 +12,28 @@ from stalker_op22_cyclic_quest_wiki.management.commands.resources import to_expo
 
 
 class Command(BaseCommand):
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
-        # parser.add_argument('--file_path', type=str, help='Path to the file', default='data.zip')
         parser.add_argument(
-            '--imported_archive',
+            "--imported_archive",
             type=Path,
-            help='Path to imported file',
-            default=Path('data.zip'),
+            help="Path to imported file",
+            default=Path("data.zip"),
         )
 
-    def handle(self, *args, **options):
-        imported_archive = options['imported_archive']
+    def handle(self, *args: Any, **options: Any) -> None:
+        # pylint: disable=too-many-locals,too-many-branches
+        imported_archive = options["imported_archive"]
         tmp_dir = Path("import_tmp")
         tmp_dir.mkdir(exist_ok=True)
 
-        with zipfile.ZipFile(imported_archive, 'r') as myzip:
+        with zipfile.ZipFile(imported_archive, "r") as myzip:
             myzip.extractall(tmp_dir)
         for model_info in to_export:
             print(f"start {model_info.model_cls.__name__}")
             file_path = tmp_dir / model_info.file_name
             resource = model_info.resource_cls()
-            with open(file_path, "r", encoding="utf-8") as file:
+            with file_path.open("r", encoding="utf-8") as file:
                 dataset = tablib.Dataset().load(file.read(), format="csv")
             result = resource.import_data(dataset)
             if result.has_errors():
@@ -43,13 +44,12 @@ class Command(BaseCommand):
                         self._print_error(error)
                 if result.row_errors():
                     print("row_errors")
-                    for (row_num, row_errors) in result.row_errors():
+                    for row_num, row_errors in result.row_errors():
                         print(row_num)
                         for error in row_errors:
                             self._print_error(error)
                 raise CommandError("Импорт сломался")
-            else:
-                print(f"end {model_info.model_cls.__name__} OK")
+            print(f"end {model_info.model_cls.__name__} OK")
 
         print("Start import icons")
         icons_dir = tmp_dir / "icons"
@@ -57,7 +57,11 @@ class Command(BaseCommand):
         media_dir.mkdir(exist_ok=True)
         for icon_path in icons_dir.iterdir():
             if icon_path.is_dir():
-                shutil.copytree(icon_path, media_dir / icon_path.name, dirs_exist_ok=True)
+                shutil.copytree(
+                    icon_path,
+                    media_dir / icon_path.name,
+                    dirs_exist_ok=True,
+                )
             else:
                 shutil.copyfile(icon_path, media_dir / icon_path.name)
         print("End import icons")
@@ -72,5 +76,5 @@ class Command(BaseCommand):
         print("End import maps")
         shutil.rmtree(tmp_dir)
 
-    def _print_error(self, error: Error):
+    def _print_error(self, error: Error) -> None:
         print(f"{error.error} {error.row}\n{error.traceback}")

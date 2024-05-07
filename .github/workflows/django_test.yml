@@ -4,6 +4,11 @@ on:
   - push
   - pull_request
 
+env:
+  DJANGO_SETTINGS_MODULE: stalker_op22_cyclic_quest_wiki_proj.settings
+  DEBUG: "True"
+
+
 jobs:
   build:
 
@@ -11,7 +16,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.9, 3.12]
+        python-version: [3.12]
 
     steps:
     - uses: actions/checkout@v3
@@ -24,7 +29,5 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
     - name: Run Tests
-      env:
-        DJANGO_SETTINGS_MODULE: stalker_op22_cyclic_quest_wiki_proj.settings_ci
       run: |
         python manage.py test

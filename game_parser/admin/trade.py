@@ -1,8 +1,8 @@
 from decimal import Decimal
 
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 
-from game_parser.models import Trader, Buy, Sell, ItemInBuy, ItemInSell, NpcLogicConfig
+from game_parser.models import Buy, ItemInBuy, ItemInSell, NpcLogicConfig, Sell, Trader
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 
@@ -37,12 +37,24 @@ class ItemInByline(ReadOnlyNestedTable):
     ]
 
     @display(description="Цена(ОТ)", ordering="min_price_modifier")
-    def price_from(self, trade: ItemInBuy) -> Decimal:
-        return trade.item.cost*trade.min_price_modifier
+    def price_from(self, trade: ItemInBuy) -> Decimal | None:
+        if (
+            trade.item
+            and trade.item.cost is not None
+            and trade.min_price_modifier is not None
+        ):
+            return trade.item.cost * trade.min_price_modifier
+        return None
 
     @display(description="Цена(ДО)", ordering="max_price_modifier")
-    def price_to(self, trade: ItemInBuy) -> Decimal:
-        return trade.item.cost*trade.max_price_modifier
+    def price_to(self, trade: ItemInBuy) -> Decimal | None:
+        if (
+            trade.item
+            and trade.item.cost is not None
+            and trade.max_price_modifier is not None
+        ):
+            return trade.item.cost * trade.max_price_modifier
+        return None
 
 
 @register(Buy)
@@ -72,12 +84,24 @@ class ItemInSellInline(ReadOnlyNestedTable):
     ]
 
     @display(description="Цена(ОТ)", ordering="min_price_modifier")
-    def price_from(self, trade: ItemInSell) -> Decimal:
-        return trade.item.cost*trade.min_price_modifier
+    def price_from(self, trade: ItemInSell) -> Decimal | None:
+        if (
+            trade.item
+            and trade.item.cost is not None
+            and trade.min_price_modifier is not None
+        ):
+            return trade.item.cost * trade.min_price_modifier
+        return None
 
     @display(description="Цена(ДО)", ordering="max_price_modifier")
-    def price_to(self, trade: ItemInSell) -> Decimal:
-        return trade.item.cost*trade.max_price_modifier
+    def price_to(self, trade: ItemInSell) -> Decimal | None:
+        if (
+            trade.item
+            and trade.item.cost is not None
+            and trade.max_price_modifier is not None
+        ):
+            return trade.item.cost * trade.max_price_modifier
+        return None
 
 
 @register(Sell)
@@ -91,8 +115,6 @@ class SellAdmin(ModelAdmin):
         "trader",
         "name",
     ]
-
-
 
 
 @register(ItemInBuy)

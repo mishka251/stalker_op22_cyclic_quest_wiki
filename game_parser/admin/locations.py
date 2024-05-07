@@ -1,6 +1,4 @@
-from typing import Optional
-
-from django.contrib.admin import ModelAdmin, register, display
+from django.contrib.admin import ModelAdmin, display, register
 
 from game_parser.models import Location, LocationMapInfo
 from game_parser.utils.admin_utils.icon_view import icon_view
@@ -17,6 +15,7 @@ class LocationAdmin(ModelAdmin):
         "name",
     ]
 
+
 @register(LocationMapInfo)
 class LocationMapInfoAdmin(ModelAdmin):
     autocomplete_fields = [
@@ -29,6 +28,6 @@ class LocationMapInfoAdmin(ModelAdmin):
         "inv_icon_view",
     ]
 
-    @display(description='Иконка', )
-    def inv_icon_view(self, obj: LocationMapInfo) -> Optional[str]:
+    @display(description="Иконка")
+    def inv_icon_view(self, obj: LocationMapInfo) -> str | None:
         return icon_view(obj.map_image)

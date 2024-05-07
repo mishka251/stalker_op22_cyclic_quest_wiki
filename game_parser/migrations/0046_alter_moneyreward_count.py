@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0045_scriptfunction_nested_function_and_more'),
+        ("game_parser", "0045_scriptfunction_nested_function_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='moneyreward',
-            name='count',
+            model_name="moneyreward",
+            name="count",
             field=models.DecimalField(decimal_places=2, max_digits=20, null=True),
         ),
     ]

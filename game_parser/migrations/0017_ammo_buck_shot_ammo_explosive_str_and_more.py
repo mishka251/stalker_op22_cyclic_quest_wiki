@@ -6,28 +6,34 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0016_ammo_box_size_ammo_impair_ammo_k_disp_ammo_k_dist_and_more'),
+        (
+            "game_parser",
+            "0016_ammo_box_size_ammo_impair_ammo_k_disp_ammo_k_dist_and_more",
+        ),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='ammo',
-            name='buck_shot',
-            field=models.PositiveIntegerField(null=True, verbose_name='Дроби в выстреле?'),
+            model_name="ammo",
+            name="buck_shot",
+            field=models.PositiveIntegerField(
+                null=True,
+                verbose_name="Дроби в выстреле?",
+            ),
         ),
         migrations.AddField(
-            model_name='ammo',
-            name='explosive_str',
+            model_name="ammo",
+            name="explosive_str",
             field=models.CharField(max_length=5, null=True),
         ),
         migrations.AddField(
-            model_name='weapon',
-            name='ammo_elapsed',
-            field=models.PositiveIntegerField(null=True, verbose_name='???'),
+            model_name="weapon",
+            name="ammo_elapsed",
+            field=models.PositiveIntegerField(null=True, verbose_name="???"),
         ),
         migrations.AddField(
-            model_name='weapon',
-            name='ammo_limit',
-            field=models.PositiveIntegerField(null=True, verbose_name='???'),
+            model_name="weapon",
+            name="ammo_limit",
+            field=models.PositiveIntegerField(null=True, verbose_name="???"),
         ),
     ]

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0051_community_gametask_icon_remove_dialog_name_and_more'),
+        ("game_parser", "0051_community_gametask_icon_remove_dialog_name_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='taskobjective',
-            name='icon_raw',
+            model_name="taskobjective",
+            name="icon_raw",
             field=models.CharField(max_length=512, null=True),
         ),
     ]

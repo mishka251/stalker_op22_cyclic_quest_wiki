@@ -1,31 +1,33 @@
 version: "3.8"
 
+x-base-django: &base-django
+  image: "mishka251/stalker_op22_cyclic_quest_wiki-django:${VERSION}"
+  depends_on: &base-django-depends
+    db:
+     condition: service_healthy
+  environment:
+    DATABASE_URL: "postgres://${PGUSER}:${PGPASSWORD}@db:5432/${PGDATABASE}"
+    DEBUG: "${DEBUG:-False}"
+    SECRET_KEY: "${SECRET_KEY:-}"
+    SENTRY_DSN: "${SENTRY_DSN:-}"
+    SENTRY_ENV: "${SENTRY_ENV:-}"
+  volumes:
+    - "media:/app/media"
+    - "static:/app/staticfiles"
+
 services:
   django:
-    image: mishka251/stalker_op22_cyclic_quest_wiki-django:v0.2.0
+    <<: *base-django
     restart: unless-stopped
     depends_on:
-      db:
-       condition: service_healthy
+      <<: *base-django-depends
       update:
         condition: service_completed_successfully
-    environment:
-      DATABASE_URL: "postgres://${PGUSER}:${PGPASSWORD}@db:5432/${PGDATABASE}"
-    volumes:
-      - "media:/app/media"
 
   update:
-    image: mishka251/stalker_op22_cyclic_quest_wiki-django:v0.2.0
+    <<: *base-django
     command:
       - /app/update.sh
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      DATABASE_URL: "postgres://${PGUSER}:${PGPASSWORD}@db:5432/${PGDATABASE}"
-    volumes:
-      - "media:/app/media"
-      - "static:/app/staticfiles"
 
   db:
     image: postgres:16.2-alpine
@@ -43,8 +45,9 @@ services:
       timeout: 60s
       retries: 5
       start_period: 10s
+
   nginx:
-    image: mishka251/stalker_op22_cyclic_quest_wiki-nginx:v0.2.0
+    image: "mishka251/stalker_op22_cyclic_quest_wiki-nginx:${VERSION}"
     restart: unless-stopped
     volumes:
       - "media:/mediafiles"

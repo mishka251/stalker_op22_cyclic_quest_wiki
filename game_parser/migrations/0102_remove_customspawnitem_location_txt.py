@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0101_customspawnitem'),
+        ("game_parser", "0101_customspawnitem"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='customspawnitem',
-            name='location_txt',
+            model_name="customspawnitem",
+            name="location_txt",
         ),
     ]

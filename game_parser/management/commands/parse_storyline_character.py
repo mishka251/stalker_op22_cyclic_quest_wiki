@@ -7,32 +7,30 @@ from django.db.transaction import atomic
 from lxml.etree import parse
 
 from game_parser.logic.gsc_xml_fixer import GSCXmlFixer
-from game_parser.logic.model_xml_loaders.storyline_character import StorylineCharacterLoader
+from game_parser.logic.model_xml_loaders.storyline_character import (
+    StorylineCharacterLoader,
+)
 from game_parser.models import StorylineCharacter
-
-# from xml.etree.ElementTree import Element, parse
 
 logger = logging.getLogger(__name__)
 
 
-
 class Command(BaseCommand):
-    TMP_DIR = Path('tmp')
+    TMP_DIR = Path("tmp")
 
     def get_files_dir_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / 'gameplay'
+        return base_path / "config" / "gameplay"
 
     def get_files_paths(self, path: Path) -> list[Path]:
-        paths = []
-        for path in path.iterdir():
-            if path.name.startswith('characters'):
-                paths.append(path)
-
-        return paths
+        return [
+            sub_path
+            for sub_path in path.iterdir()
+            if sub_path.name.startswith("characters")
+        ]
 
     @atomic
-    def handle(self, **options):
+    def handle(self, *args, **options) -> None:
         StorylineCharacter.objects.all().delete()
 
         for file_path in self.get_files_paths(self.get_files_dir_path()):

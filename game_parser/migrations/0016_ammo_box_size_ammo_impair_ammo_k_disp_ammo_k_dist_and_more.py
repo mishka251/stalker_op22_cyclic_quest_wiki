@@ -6,54 +6,57 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0015_baseitem_quest_item'),
+        ("game_parser", "0015_baseitem_quest_item"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='ammo',
-            name='box_size',
-            field=models.PositiveIntegerField(default=0, verbose_name='Кол-во патронов в пачке?'),
+            model_name="ammo",
+            name="box_size",
+            field=models.PositiveIntegerField(
+                default=0,
+                verbose_name="Кол-во патронов в пачке?",
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='ammo',
-            name='impair',
+            model_name="ammo",
+            name="impair",
             field=models.DecimalField(decimal_places=4, max_digits=10, null=True),
         ),
         migrations.AddField(
-            model_name='ammo',
-            name='k_disp',
+            model_name="ammo",
+            name="k_disp",
             field=models.DecimalField(decimal_places=4, max_digits=10, null=True),
         ),
         migrations.AddField(
-            model_name='ammo',
-            name='k_dist',
+            model_name="ammo",
+            name="k_dist",
             field=models.DecimalField(decimal_places=4, max_digits=10, null=True),
         ),
         migrations.AddField(
-            model_name='ammo',
-            name='k_hit',
+            model_name="ammo",
+            name="k_hit",
             field=models.DecimalField(decimal_places=4, max_digits=10, null=True),
         ),
         migrations.AddField(
-            model_name='ammo',
-            name='k_impulse',
+            model_name="ammo",
+            name="k_impulse",
             field=models.DecimalField(decimal_places=4, max_digits=10, null=True),
         ),
         migrations.AddField(
-            model_name='ammo',
-            name='k_pierce',
+            model_name="ammo",
+            name="k_pierce",
             field=models.DecimalField(decimal_places=4, max_digits=10, null=True),
         ),
         migrations.AddField(
-            model_name='ammo',
-            name='tracer_str',
+            model_name="ammo",
+            name="tracer_str",
             field=models.CharField(max_length=5, null=True),
         ),
         migrations.AddField(
-            model_name='ammo',
-            name='wm_size',
+            model_name="ammo",
+            name="wm_size",
             field=models.DecimalField(decimal_places=4, max_digits=10, null=True),
         ),
     ]

@@ -1,45 +1,60 @@
-from PIL import Image
+from pathlib import Path
+
 from django.conf import settings
 from django.core.files.images import ImageFile
-from lxml.etree import Element, _Comment
+from lxml.etree import _Comment, _Element
+from PIL import Image
+from PIL.Image import Image as ImageCls
 
 from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
-from game_parser.models import EncyclopediaArticle, EncyclopediaGroup, Translation, Artefact
-from game_parser.models import Icon
-
+from game_parser.models import (
+    Artefact,
+    EncyclopediaArticle,
+    EncyclopediaGroup,
+    Icon,
+    Translation,
+)
 
 
 class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
     expected_tag = "article"
-    def _load(self, article_node: Element, comments: list[str]) -> EncyclopediaArticle:
-        game_id = article_node.attrib.pop('id', None)
-        name = article_node.attrib.pop('name', None)
-        group_name = article_node.attrib.pop('group', None)
+
+    def _load(self, article_node: _Element, comments: list[str]) -> EncyclopediaArticle:
+        game_id: str | None = article_node.attrib.get("id")
+        name: str | None = article_node.attrib.get("name")
+        group_name: str | None = article_node.attrib.get("group")
         ltx_str = None
-        text = None
+        text: str | None = None
         icon = None
         for child_node in article_node:
-            # print(child_node)
-            if child_node.tag == 'ltx':
+            if child_node.tag == "ltx":
                 ltx_str = child_node.text
-            elif child_node.tag == 'text':
+            elif child_node.tag == "text":
                 text = child_node.text
-            elif child_node.tag == 'texture':
+            elif child_node.tag == "texture":
                 icon = self._parse_icon(child_node)
             elif isinstance(child_node, _Comment):
                 pass
             else:
-                raise ValueError(f'Unexpected game info_portion child {child_node.tag} in {game_id}')
+                raise ValueError(
+                    f"Unexpected game info_portion child {child_node.tag} in {game_id}",
+                )
         if group_name is not None:
             group = EncyclopediaGroup.objects.get_or_create(
                 name=group_name,
-                defaults={"name_translation": Translation.objects.filter(code=group_name).first()},
+                defaults={
+                    "name_translation": Translation.objects.filter(
+                        code=group_name,
+                    ).first(),
+                },
             )[0]
         else:
             group = None
         artefact = None
         if ltx_str:
             artefact = Artefact.objects.filter(name=ltx_str).first()
+        if name is None or text is None or game_id is None:
+            raise ValueError
         try:
             article = EncyclopediaArticle.objects.create(
                 game_id=game_id,
@@ -54,24 +69,20 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
                 artefact=artefact,
             )
         except Exception as ex:
-            raise Exception(f"{game_id=}, {name=}, {group_name=}") from ex
+            raise ValueError(f"{game_id=}, {name=}, {group_name=}") from ex
         return article
 
-    def _parse_icon(self, texture_node: Element) -> Icon:
-        # print(dialog_node)
-        # if texture_node.tag != 'texture':
-        #     logger.warning(f'Unexpected node {texture_node.tag}')
-        #     return
-
-        # texture_id = texture_node.attrib.pop('id')
-        x = texture_node.attrib.pop('x', None)
-        if x is None:
+    def _parse_icon(self, texture_node: _Element) -> Icon:
+        x_ = texture_node.attrib.get("x")
+        if texture_node.text is None:
+            raise ValueError
+        if x_ is None:
             texture_id = texture_node.text
             return Icon.objects.get(name=texture_id)
-        x = int(x)
-        y = int(texture_node.attrib.pop('y'))
-        width = int(texture_node.attrib.pop('width'))
-        height = int(texture_node.attrib.pop('height'))
+        x = int(x_)
+        y = int(texture_node.attrib.pop("y"))
+        width = int(texture_node.attrib.pop("width"))
+        height = int(texture_node.attrib.pop("height"))
 
         image_file = texture_node.text + ".dds"
         base_path = settings.OP22_GAME_DATA_PATH
@@ -85,19 +96,34 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         self._get_image(image, x, y, width, height, texture_id, icon)
         return icon
 
-    def _get_image(self, image: Image, x: int, y: int, width: int, height: int, name: str, instance: Icon):
+    # pylint: disable=too-many-arguments
+    def _get_image(
+        self,
+        image: ImageCls,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        name: str,
+        instance: Icon,
+    ):
         box = self._get_item_image_coordinates(x, y, width, height)
-        # logger.debug(f'{box=}')
         part = image.crop(box)
-        tmp_file_name = 'tmp.png'
+        tmp_file_name = "tmp.png"
         part.save(tmp_file_name)
-        with open(tmp_file_name, 'rb') as tmp_image:
-            image_file = ImageFile(tmp_image, name=f'{name}_icon.png')
+        with Path(tmp_file_name).open("rb") as tmp_image:
+            image_file = ImageFile(tmp_image, name=f"{name}_icon.png")
             instance.icon = image_file
             instance.save()
         return instance
 
-    def _get_item_image_coordinates(self, x: int, y: int, width: int, height: int) -> tuple[int, int, int, int]:
+    def _get_item_image_coordinates(
+        self,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+    ) -> tuple[int, int, int, int]:
         inv_grid_x = x
         inv_grid_y = y
 
@@ -106,8 +132,7 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
 
         left = inv_grid_x  # * self.IMAGE_PART_WIDTH
         top = inv_grid_y  # * self.IMAGE_PART_HEIGHT
-        right = (inv_grid_x + inv_grid_width)  # * self.IMAGE_PART_WIDTH
-        bottom = (inv_grid_y + inv_grid_height)  # * self.IMAGE_PART_HEIGHT
+        right = inv_grid_x + inv_grid_width  # * self.IMAGE_PART_WIDTH
+        bottom = inv_grid_y + inv_grid_height  # * self.IMAGE_PART_HEIGHT
 
         return (left, top, right, bottom)
-

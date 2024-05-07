@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class CommunityManager(models.Manager):
+class CommunityManager(models.Manager["Community"]):
     def get_by_natural_key(self, name: str) -> "Community":
         return self.get(name=name)
 
@@ -14,16 +14,22 @@ class Community(models.Model):
     objects = CommunityManager()
 
     name = models.CharField(max_length=128, null=False, unique=True, verbose_name="Код")
-    translation = models.ForeignKey("Translation", null=False, on_delete=models.PROTECT, verbose_name="Название")
+    translation = models.ForeignKey(
+        "Translation",
+        null=False,
+        on_delete=models.PROTECT,
+        verbose_name="Название",
+        related_name="+",
+    )
 
     def __str__(self):
         return self.translation.rus
 
     def natural_key(self) -> tuple:
-        return (self.name, )
+        return (self.name,)
 
 
-class StalkerRankManager(models.Manager):
+class StalkerRankManager(models.Manager["StalkerRank"]):
     def get_by_natural_key(self, name: str) -> "StalkerRank":
         return self.get(name=name)
 
@@ -36,10 +42,22 @@ class StalkerRank(models.Model):
     objects = StalkerRankManager()
 
     name = models.CharField(max_length=128, null=False, unique=True, verbose_name="Код")
-    translation = models.ForeignKey("Translation", null=False, on_delete=models.PROTECT, verbose_name="Название")
+    translation = models.ForeignKey(
+        "Translation",
+        null=False,
+        on_delete=models.PROTECT,
+        verbose_name="Название",
+        related_name="+",
+    )
 
     def __str__(self):
         return self.translation.rus
 
     def natural_key(self) -> tuple:
-        return (self.name, )
+        return (self.name,)
+
+
+__all__ = [
+    "Community",
+    "StalkerRank",
+]

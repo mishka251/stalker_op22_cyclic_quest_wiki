@@ -6,32 +6,38 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0028_iteminsell_max_price_modifier_and_more'),
+        ("game_parser", "0028_iteminsell_max_price_modifier_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='basetrade',
-            options={'verbose_name': 'Торговля'},
+            name="basetrade",
+            options={"verbose_name": "Торговля"},
         ),
         migrations.AlterModelOptions(
-            name='buy',
-            options={'verbose_name': 'Покупка'},
+            name="buy",
+            options={"verbose_name": "Покупка"},
         ),
         migrations.AlterModelOptions(
-            name='iteminbuy',
-            options={'verbose_name': 'Предмет в покупке', 'verbose_name_plural': 'Предметы в покупке'},
+            name="iteminbuy",
+            options={
+                "verbose_name": "Предмет в покупке",
+                "verbose_name_plural": "Предметы в покупке",
+            },
         ),
         migrations.AlterModelOptions(
-            name='iteminsell',
-            options={'verbose_name': 'Предмет в продаже', 'verbose_name_plural': 'Предметы в продаже'},
+            name="iteminsell",
+            options={
+                "verbose_name": "Предмет в продаже",
+                "verbose_name_plural": "Предметы в продаже",
+            },
         ),
         migrations.AlterModelOptions(
-            name='sell',
-            options={'verbose_name': 'Продажа'},
+            name="sell",
+            options={"verbose_name": "Продажа"},
         ),
         migrations.AlterModelOptions(
-            name='trader',
-            options={'verbose_name': 'Торговец', 'verbose_name_plural': 'Торговцы'},
+            name="trader",
+            options={"verbose_name": "Торговец", "verbose_name_plural": "Торговцы"},
         ),
     ]

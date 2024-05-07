@@ -1,9 +1,9 @@
-from typing import Optional
-
-from django.template.loader import render_to_string
 from django.template import Library
+from django.template.loader import render_to_string
 
-from stalker_op22_cyclic_quest_wiki.views.cyclic_quests.tasks_grouping import MapPointInfo
+from stalker_op22_cyclic_quest_wiki.views.cyclic_quests.tasks_grouping import (
+    MapPointInfo,
+)
 
 register = Library()
 
@@ -11,7 +11,7 @@ register = Library()
 @register.simple_tag
 def render_map_item(map_item_info: MapPointInfo) -> str:
     map_id = map_item_info.unique_map_id
-    template_name = 'wiki/widgets/leaflet_map_field.html'
+    template_name = "wiki/widgets/leaflet_map_field.html"
     context = {
         "item": {
             "position": map_item_info.item.position,

@@ -1,4 +1,4 @@
-from django.contrib.admin import  ModelAdmin, register
+from django.contrib.admin import ModelAdmin, register
 
 from game_parser.models import InventoryBox, ItemInTreasureBox
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
@@ -17,7 +17,6 @@ class InventoryBoxAdmin(ModelAdmin):
     inlines = [
         ItemInTreasureBoxInline,
     ]
-
 
 
 @register(ItemInTreasureBox)

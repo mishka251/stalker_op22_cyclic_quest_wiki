@@ -1,14 +1,8 @@
-import re
-from typing import Optional
-
 from django.contrib.contenttypes.models import ContentType
 from django.core.management import BaseCommand
 
 from game_parser.models import Ammo as ParserAmmo
-from game_parser.models import Icon as ParserIcon
 from game_parser.models import BaseItem as ParserItem
-
-
 from stalker_op22_cyclic_quest_wiki.models import Ammo as WikiAmmo
 from stalker_op22_cyclic_quest_wiki.models import Icon as WikiIcon
 from stalker_op22_cyclic_quest_wiki.models import Item as WikiItem
@@ -16,7 +10,7 @@ from stalker_op22_cyclic_quest_wiki.models import Translation as WikiTranslation
 
 
 class Command(BaseCommand):
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         print("START")
         self._update_ammo()
         self._update_items()
@@ -33,7 +27,9 @@ class Command(BaseCommand):
                 else None
             )
             description_translation = (
-                WikiTranslation.objects.filter(code=ammo.description_translation.code).first()
+                WikiTranslation.objects.filter(
+                    code=ammo.description_translation.code,
+                ).first()
                 if ammo.description_translation
                 else None
             )
@@ -49,7 +45,7 @@ class Command(BaseCommand):
                     "icon": icon,
                     "name_translation": name_translation,
                     "description_translation": description_translation,
-                }
+                },
             )
             if i % 100 == 0:
                 print(f"{i}/{cnt}")
@@ -57,8 +53,14 @@ class Command(BaseCommand):
 
     def _update_items(self):
         print("start items")
-        cnt = ParserItem.objects.exclude(polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo)).count()
-        for i, item in enumerate(ParserItem.objects.exclude(polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo)).all()):
+        cnt = ParserItem.objects.exclude(
+            polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo),
+        ).count()
+        for i, item in enumerate(
+            ParserItem.objects.exclude(
+                polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo),
+            ).all(),
+        ):
             icon = self._update_or_create_item_icon(item)
             name_translation = (
                 WikiTranslation.objects.filter(code=item.name_translation.code).first()
@@ -66,7 +68,9 @@ class Command(BaseCommand):
                 else None
             )
             description_translation = (
-                WikiTranslation.objects.filter(code=item.description_translation.code).first()
+                WikiTranslation.objects.filter(
+                    code=item.description_translation.code,
+                ).first()
                 if item.description_translation
                 else None
             )
@@ -80,19 +84,19 @@ class Command(BaseCommand):
                     "inv_weight": item.inv_weight,
                     "icon": icon,
                     "name_translation": name_translation,
-                    "description_translation":  description_translation,
-                }
+                    "description_translation": description_translation,
+                },
             )
-            if i%100==0:
+            if i % 100 == 0:
                 print(f"{i}/{cnt}")
         print("end items")
 
-    def _update_or_create_item_icon(self, item: ParserItem) -> Optional[WikiIcon]:
+    def _update_or_create_item_icon(self, item: ParserItem) -> WikiIcon | None:
         if not item.inv_icon:
             return None
         return WikiIcon.objects.update_or_create(
             name=f"icon_for_item_{item.name}",
             defaults={
                 "icon": item.inv_icon,
-            }
+            },
         )[0]

@@ -1,13 +1,13 @@
-from .ammo import Ammo
-from .weapon import Weapon
 from .addon import Addon
+from .ammo import Ammo
+from .artefact import Artefact, CapsAnom, MonsterEmbrion, TrueArtefact
 from .explosive import Explosive
 from .grenade import Grenade
-from .knife import Knife
 from .grenade_launcher import GrenadeLauncher
+from .knife import Knife
+from .monster_part import MonsterPart
+from .other import Other
+from .outfit import Outfit
 from .scope import Scope
 from .silencer import Silencer
-from .monster_part import MonsterPart
-from .outfit import Outfit
-from .artefact import Artefact, TrueArtefact, MonsterEmbrion, CapsAnom
-from .other import Other
+from .weapon import Weapon

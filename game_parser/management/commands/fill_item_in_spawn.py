@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, *args, **options) -> None:
         count = SpawnItem.objects.count()
         for index, item in enumerate(SpawnItem.objects.all()):
             item.item = (
@@ -19,5 +19,4 @@ class Command(BaseCommand):
                 or BaseItem.objects.filter(inv_name=item.section_name).first()
             )
             item.save()
-            print(f'{index+1:_}/{count:_}')
-
+            print(f"{index+1:_}/{count:_}")

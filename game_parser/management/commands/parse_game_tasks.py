@@ -17,21 +17,15 @@ class Command(BaseCommand):
 
     def get_files_dir_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config'/'gameplay'
+        return base_path / "config" / "gameplay"
 
     def get_files_paths(self, path: Path) -> list[Path]:
-        paths = []
-        for path in path.iterdir():
-            if path.name.startswith('tasks'):
-                paths.append(path)
-        # for (dir, _, files) in os.walk(path):
-        #     for file_name in files:
-        #         paths.append(Path(os.path.join(dir, file_name)))
-
-        return paths
+        return [
+            sub_path for sub_path in path.iterdir() if sub_path.name.startswith("tasks")
+        ]
 
     @atomic
-    def handle(self, **options):
+    def handle(self, *args, **options) -> None:
         GameTask.objects.all().delete()
         TaskObjective.objects.all().delete()
 
@@ -39,7 +33,6 @@ class Command(BaseCommand):
             print(file_path)
             fixer = GSCXmlFixer()
             fixed_file_path = fixer.fix(file_path)
-            with open(fixed_file_path, 'r') as tml_file:
+            with fixed_file_path.open("r") as tml_file:
                 root_node = parse(tml_file).getroot()
-            # print(root_node)
             GameTaskLoader().load_bulk(root_node)

@@ -1,13 +1,15 @@
-import re
-from typing import Optional
-
-from django.contrib.admin import ModelAdmin, register, display
-from django.template import loader
+from django.contrib.admin import ModelAdmin, display, register
 
 from game_parser.admin.utils import SpawnItemMapRenderer
-from game_parser.models import SpawnItem, NpcLogicConfig, CustomSpawnItem, LocationMapInfo, CampInfo, StalkerSection, \
-    Respawn, SingleStalkerSpawnItem
-from game_parser.utils.admin_utils.icon_view import icon_view
+from game_parser.models import (
+    CampInfo,
+    CustomSpawnItem,
+    NpcLogicConfig,
+    Respawn,
+    SingleStalkerSpawnItem,
+    SpawnItem,
+    StalkerSection,
+)
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 
@@ -45,9 +47,8 @@ class SpawnItemAdmin(ModelAdmin):
         "map",
     ]
 
-
-    @display(description='Карта', )
-    def map(self, obj: SpawnItem) -> str:
+    @display(description="Карта")
+    def map(self, obj: SpawnItem) -> str | None:
         renderer = SpawnItemMapRenderer(obj)
         return renderer.render()
 
@@ -107,7 +108,6 @@ class CustomSpawnItemAdmin(ModelAdmin):
     ]
 
 
-
 @register(CampInfo)
 class CampInfoAdmin(ModelAdmin):
     autocomplete_fields = [
@@ -144,6 +144,7 @@ class RespawnAdmin(ModelAdmin):
         "spawn_item__name",
     ]
 
+
 @register(SingleStalkerSpawnItem)
 class SingleStalkerSpawnItemAdmin(ModelAdmin):
     autocomplete_fields = [
@@ -165,6 +166,7 @@ class SingleStalkerSpawnItemAdmin(ModelAdmin):
 
 class RespawnsInline(ReadOnlyNestedTable):
     model = Respawn.respawn_section.through
+
 
 class SingleStalkerSpawnItemInline(ReadOnlyNestedTable):
     model = SingleStalkerSpawnItem

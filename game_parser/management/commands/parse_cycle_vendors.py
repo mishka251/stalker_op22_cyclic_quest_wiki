@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
@@ -8,19 +10,21 @@ from game_parser.models import CycleTaskVendor
 
 class Command(BaseCommand):
 
-    def get_file_path(self):
+    def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / 'misc' / 'cycle_task.ltx'
+        return base_path / "config" / "misc" / "cycle_task.ltx"
 
     @atomic
-    def handle(self, **options):
+    def handle(self, *args, **options) -> None:
         CycleTaskVendor.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())
         results = parser.get_parsed_blocks()
 
-        block: dict[str, str] = results['vendor']
-        for vendor_id_raw, game_story_id_raw in block.items():
+        vendor = results["vendor"]
+        if not isinstance(vendor, dict):
+            raise TypeError
+        for vendor_id_raw, game_story_id_raw in vendor.items():
             vendor_id = int(vendor_id_raw)
             game_story_id = int(game_story_id_raw)
             CycleTaskVendor.objects.create(

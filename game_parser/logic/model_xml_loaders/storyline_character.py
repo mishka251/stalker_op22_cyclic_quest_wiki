@@ -1,24 +1,29 @@
 import logging
 
-from lxml.etree import Element, _Comment
+from lxml.etree import _Comment, _Element
 
-from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader, TModel
+from game_parser.logic.model_xml_loaders.base import BaseModelXmlLoader
 from game_parser.models import StorylineCharacter
 
 logger = logging.getLogger(__name__)
 
+
 class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
     expected_tag = "specific_character"
 
-    def _load(self, character_node: Element, comments: list[str]) -> StorylineCharacter:
-        if character_node.tag != 'specific_character':
-            logger.warning(f'Unexpected node {character_node.tag}')
+    def _load(
+        self,
+        character_node: _Element,
+        comments: list[str],
+    ) -> StorylineCharacter:
+        #  pylint: disable=too-many-locals, too-many-branches, too-many-statements
+        if character_node.tag != "specific_character":
+            logger.warning("Unexpected node %s", character_node.tag)
             raise ValueError
-        character_id = character_node.attrib.pop('id')
-        character_no_random = bool(character_node.attrib.pop('no_random', None))
-        # team_default = int(character_node.attrib.pop('team_default',None))
-        name = None
-        icon_raw = None
+        character_id = character_node.attrib.pop("id")
+        character_no_random = bool(character_node.attrib.get("no_random"))
+        name: str | None = None
+        icon_raw: str | None = None
         community_raw = None
         dialogs_raw = []
         rank = None
@@ -26,7 +31,7 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
         start_dialog = None
         visual = None
         supplies_raw = None
-        class_raw = None
+        class_raw: str | None = None
         crouch_type_raw = None
         snd_config_raw = None
         money_min_raw = None
@@ -36,59 +41,64 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
         bio_raw = None
         team = None
         for child_node in character_node:
-            if child_node.tag == 'name':
+            if child_node.tag == "name" and child_node.text is not None:
                 name = child_node.text
-            elif child_node.tag == 'icon':
+            elif child_node.tag == "icon" and child_node.text is not None:
                 icon_raw = child_node.text
-            elif child_node.tag == 'terrain_sect':
+            elif child_node.tag == "terrain_sect" and child_node.text is not None:
                 terrain_sect_raw = child_node.text
-            elif child_node.tag == 'bio':
+            elif child_node.tag == "bio" and child_node.text is not None:
                 bio_raw = child_node.text
-            elif child_node.tag == 'crouch_type':
+            elif child_node.tag == "crouch_type" and child_node.text is not None:
                 crouch_type_raw = child_node.text
-            elif child_node.tag == 'snd_config':
+            elif child_node.tag == "snd_config" and child_node.text is not None:
                 snd_config_raw = child_node.text
-            elif child_node.tag == 'money':
+            elif child_node.tag == "money":
                 money_min_raw = child_node.attrib.pop("min")
                 money_max_raw = child_node.attrib.pop("max")
                 money_inf_raw = child_node.attrib.pop("infinitive")
-            elif child_node.tag == 'visual':
+            elif child_node.tag == "visual" and child_node.text is not None:
                 visual = child_node.text
-            elif child_node.tag == 'class':
+            elif child_node.tag == "class" and child_node.text is not None:
                 class_raw = child_node.text
-            elif child_node.tag == 'supplies':
+            elif child_node.tag == "supplies" and child_node.text is not None:
                 supplies_raw = child_node.text
-            elif child_node.tag == 'rank':
+            elif child_node.tag == "rank" and child_node.text is not None:
                 rank = int(child_node.text)
-            elif child_node.tag == 'reputation':
+            elif child_node.tag == "reputation" and child_node.text is not None:
                 reputation = int(child_node.text)
-            elif child_node.tag == 'community':
+            elif child_node.tag == "community" and child_node.text is not None:
                 community_raw = child_node.text
-            elif child_node.tag == 'actor_dialog':
+            elif child_node.tag == "actor_dialog" and child_node.text is not None:
                 dialogs_raw.append(child_node.text)
-            elif child_node.tag == 'start_dialog':
-                start_dialog = (child_node.text)
-            elif isinstance(child_node, _Comment):
+            elif child_node.tag == "start_dialog" and child_node.text is not None:
+                start_dialog = child_node.text
+            elif isinstance(child_node, _Comment) or child_node.tag in {
+                "panic_threshold",
+                "panic_treshold",
+                "map_icon",
+            }:  # WTF misstype??
                 pass
-            elif child_node.tag == 'panic_threshold':
-                pass
-            elif child_node.tag == 'panic_treshold':  # WTF??
-                pass
-            elif child_node.tag == 'map_icon':
-                pass
-            elif child_node.tag == 'team':
+            elif child_node.tag == "team":
                 team = child_node.text
             else:
-                logger.warning(f'Unexpected node {child_node.tag} in character {character_id}')
+                logger.warning(
+                    "Unexpected node %s in character %s",
+                    child_node.tag,
+                    character_id,
+                )
+
+        if name is None or icon_raw is None or class_raw is None:
+            raise TypeError
         return StorylineCharacter.objects.create(
             game_code=character_id,
             game_id=character_id,
             name=name,
             name_raw=name,
-            comments=';'.join(comments),
+            comments=";".join(comments),
             icon_raw=icon_raw,
             community_default_raw=community_raw,
-            dialogs_raw=';'.join(dialogs_raw),
+            dialogs_raw=";".join(dialogs_raw),
             rank=rank,
             reputation=reputation,
             start_dialog_row=start_dialog,

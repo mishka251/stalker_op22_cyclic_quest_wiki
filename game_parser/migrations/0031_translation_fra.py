@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game_parser', '0030_translation_and_more'),
+        ("game_parser", "0030_translation_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='translation',
-            name='fra',
-            field=models.TextField(default='', verbose_name='Французский'),
+            model_name="translation",
+            name="fra",
+            field=models.TextField(default="", verbose_name="Французский"),
             preserve_default=False,
         ),
     ]

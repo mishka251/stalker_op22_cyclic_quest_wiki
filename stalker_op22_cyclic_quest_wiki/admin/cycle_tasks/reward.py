@@ -1,7 +1,12 @@
 from django.contrib.admin import ModelAdmin, register
 
-from stalker_op22_cyclic_quest_wiki.models import TreasureReward, RandomRewardInfo, QuestRandomReward, \
-    MoneyReward, ItemReward
+from stalker_op22_cyclic_quest_wiki.models import (
+    ItemReward,
+    MoneyReward,
+    QuestRandomReward,
+    RandomRewardInfo,
+    TreasureReward,
+)
 
 
 @register(ItemReward)
@@ -50,4 +55,3 @@ class TreasureRewardAdmin(ModelAdmin):
     autocomplete_fields = [
         "quest",
     ]
-

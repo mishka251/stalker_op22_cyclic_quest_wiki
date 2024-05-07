@@ -20,4 +20,3 @@ class LocationMapInfoAdmin(ModelAdmin):
     search_fields = [
         "location_name",
     ]
-

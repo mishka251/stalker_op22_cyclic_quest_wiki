@@ -16,34 +16,29 @@ class Command(BaseCommand):
 
     def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / 'config' / 'misc' / 'treasure.ltx'
+        return base_path / "config" / "misc" / "treasure.ltx"
 
     _exclude_keys = {
-        'list',
+        "list",
     }
 
     @atomic
-    def handle(self, **options):
+    def handle(self, *args, **options) -> None:
         Treasure.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())
         results = parser.get_parsed_blocks()
 
-        blocks = {
-            k: v
-            for k, v in results.items()
-            if not self._should_exclude(k)
-        }
+        blocks = {k: v for k, v in results.items() if not self._should_exclude(k)}
 
+        resource = TreasureResource()
         for quest_name, quest_data in blocks.items():
             print(quest_name)
-            resource = self._get_resource(quest_name, quest_data)
-            item = resource.create_instance_from_data(quest_name, quest_data)
+            if not isinstance(quest_data, dict):
+                raise TypeError
+            resource.create_instance_from_data(quest_name, quest_data)
             if quest_data:
-                logger.warning(f'unused data {quest_data} in {quest_name} {resource=}')
-
-    def _get_resource(self, block_name: str, block_data: dict) -> TreasureResource:
-        return TreasureResource()
+                logger.warning(f"unused data {quest_data} in {quest_name} {resource=}")
 
     def _should_exclude(self, k: str) -> bool:
         return k in self._exclude_keys

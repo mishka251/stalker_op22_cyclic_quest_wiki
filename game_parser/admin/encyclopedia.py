@@ -1,18 +1,13 @@
-from typing import Optional
+from django.contrib.admin import ModelAdmin, display, register
 
-from django.contrib.admin import ModelAdmin, register, display
-
-from game_parser.models import QuestRandomReward, Monster, EncyclopediaGroup, EncyclopediaArticle
-from game_parser.models.quest import QuestRandomRewardThrough
+from game_parser.models import EncyclopediaArticle, EncyclopediaGroup
 from game_parser.utils.admin_utils.icon_view import icon_view
-from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
-
 
 
 @register(EncyclopediaGroup)
 class EncyclopediaGroupAdmin(ModelAdmin):
     autocomplete_fields = [
-        'name_translation',
+        "name_translation",
     ]
 
     search_fields = [
@@ -48,9 +43,8 @@ class EncyclopediaArticleAdmin(ModelAdmin):
         "artefact",
     ]
 
-    @display(description='Иконка', )
-    def inv_icon_view(self, obj: EncyclopediaArticle) -> Optional[str]:
+    @display(description="Иконка")
+    def inv_icon_view(self, obj: EncyclopediaArticle) -> str | None:
         if not obj.icon:
             return None
         return icon_view(obj.icon.icon)
-

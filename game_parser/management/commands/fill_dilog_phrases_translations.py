@@ -12,10 +12,9 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, *args, **options) -> None:
         count = DialogPhrase.objects.count()
         for index, item in enumerate(DialogPhrase.objects.all()):
             item.text = Translation.objects.filter(code=item.text_id_raw).first()
             item.save()
-            print(f'{index+1}/{count}')
-
+            print(f"{index+1}/{count}")

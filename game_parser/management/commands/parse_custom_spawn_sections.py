@@ -8,19 +8,17 @@ from game_parser.logic.ltx_parser import LtxParser
 from game_parser.models.spawn_item import CustomSpawnItem
 
 
-# from xml.etree.ElementTree import Element, parse
-
-
 class Command(BaseCommand):
 
     def get_file_paths(self) -> list[Path]:
         base_path = settings.OP22_GAME_DATA_PATH
-        dir_path =base_path / "config"/"creatures"
+        dir_path = base_path / "config" / "creatures"
         return [
-                dir_path/"spawn_sections.ltx",
-                dir_path/"spawn_sections_snp.ltx",
-                dir_path/"vol_spawn.ltx",
-            ]
+            dir_path / "spawn_sections.ltx",
+            dir_path / "spawn_sections_snp.ltx",
+            dir_path / "vol_spawn.ltx",
+        ]
+
     base_sections = {
         "stalker_sniper": {"__parent": "stalker_sniper"},
         "stalker": {"__parent": "stalker"},
@@ -96,25 +94,10 @@ class Command(BaseCommand):
         "s_inventory_box_vzn": {"__parent": "s_inventory_box_vzn"},
         "bloodsucker_hell": {"__parent": "bloodsucker_hell"},
         "snork_weak": {"__parent": "snork_weak"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
-        # "snork_jumper": {"__parent": "snork_jumper"},
     }
 
     @atomic
-    def handle(self, **options):
+    def handle(self, *args, **options) -> None:
         CustomSpawnItem.objects.all().delete()
         spawn_items = []
         for file in self.get_file_paths():
@@ -122,18 +105,25 @@ class Command(BaseCommand):
             parser = LtxParser(file, known_extends=self.base_sections)
 
             for section_id, section in parser.get_parsed_blocks().items():
-                section_parent = section.get("__parent")
+                if not isinstance(section, dict):
+                    raise TypeError
+                section_parent = section["__parent"]
                 item = self._create_item(section_id, section_parent, section)
                 spawn_items.append(item)
         CustomSpawnItem.objects.bulk_create(spawn_items, batch_size=2_000)
 
-    def _create_item(self, name: str, section_parent: str, section: dict[str, str]) -> CustomSpawnItem:
+    def _create_item(
+        self,
+        name: str,
+        section_parent: str,
+        section: dict[str, str],
+    ) -> CustomSpawnItem:
         return CustomSpawnItem(
             section_name=section_parent,
             name=name,
-            custom_data=section.get("custom_data", None),
-            character_profile_str=section.get("character_profile", None),
-            spec_rank_str=section.get("spec_rank", None),
-            community_str=section.get("community", None),
-            visual_str=section.get("visual", None),
+            custom_data=section.get("custom_data"),
+            character_profile_str=section.get("character_profile"),
+            spec_rank_str=section.get("spec_rank"),
+            community_str=section.get("community"),
+            visual_str=section.get("visual"),
         )

@@ -3,8 +3,7 @@ import logging
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from game_parser.models import TaskObjective
-from game_parser.models import Translation, Icon, EncyclopediaArticle
+from game_parser.models import EncyclopediaArticle, Icon, TaskObjective, Translation
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, **options):
+    def handle(self, *args, **options) -> None:
         count = TaskObjective.objects.count()
         for index, item in enumerate(TaskObjective.objects.all()):
             item.text = Translation.objects.filter(code=item.text_id_raw).first()
@@ -22,5 +21,4 @@ class Command(BaseCommand):
             )
             item.icon = Icon.objects.filter(name=item.icon_raw).first()
             item.save()
-            print(f'{index+1}/{count}')
-
+            print(f"{index+1}/{count}")
