@@ -1,10 +1,12 @@
 import dataclasses
 import re
+from functools import lru_cache
 from itertools import groupby
 from typing import NamedTuple
 
 from stalker_op22_cyclic_quest_wiki.models import (
     Ammo,
+    CycleTaskTarget,
     CycleTaskTargetCamp,
     CycleTaskTargetItem,
     CycleTaskTargetStalker,
@@ -13,10 +15,7 @@ from stalker_op22_cyclic_quest_wiki.models import (
     Icon,
     ItemReward,
     MapPosition,
-    MoneyReward,
-    QuestRandomReward,
 )
-from stalker_op22_cyclic_quest_wiki.models import TreasureReward as TreasureRewardModel
 from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import QuestKinds
 
 position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
@@ -98,17 +97,31 @@ class TaskReward:
     pass
 
 
+@lru_cache
+def get_money_icon() -> IconData | None:
+    try:
+        icon = Icon.objects.get(name="icon_for_item_money_loot")
+        return IconData(icon.icon.url, icon.icon.width, icon.icon.height)
+    except Icon.DoesNotExist:
+        return None
+
+
+@lru_cache
+def get_treasure_icon() -> IconData | None:
+    try:
+        icon = Icon.objects.get(name="icon_for_item_treasure_item")
+        return IconData(icon.icon.url, icon.icon.width, icon.icon.height)
+    except Icon.DoesNotExist:
+        return None
+
+
 @dataclasses.dataclass
 class TaskMoneyReward(TaskReward):
     count: int
 
     @property
     def icon(self) -> IconData | None:
-        try:
-            icon = Icon.objects.get(name="icon_for_item_money_loot")
-            return IconData(icon.icon.url, icon.icon.width, icon.icon.height)
-        except Icon.DoesNotExist:
-            return None
+        return get_money_icon()
 
 
 @dataclasses.dataclass
@@ -124,11 +137,7 @@ class TreasureReward(TaskReward):
 
     @property
     def icon(self) -> IconData | None:
-        try:
-            icon = Icon.objects.get(name="icon_for_item_treasure_item")
-            return IconData(icon.icon.url, icon.icon.width, icon.icon.height)
-        except Icon.DoesNotExist:
-            return None
+        return get_treasure_icon()
 
 
 @dataclasses.dataclass
@@ -169,6 +178,8 @@ def collect_vendor_tasks(
 
     vendor_name = vendor.name_translation.rus
     quest_group_by_type = {}
+    targets_cache = create_targets_cache(vendor_tasks)
+
     for _task_kind, _vendor_kind_tasks in groupby(
         vendor_tasks,
         key=lambda task: task.type,
@@ -184,24 +195,50 @@ def collect_vendor_tasks(
         ):
             prior_tasks = list(_prior_tasks)
 
-            prior_quests = [parse_task(task) for task in prior_tasks]
+            prior_quests = [parse_task(task, targets_cache) for task in prior_tasks]
             tasks_by_prior[prior] = prior_quests
         quest_group_by_type[task_kind] = tasks_by_prior
     return CharacterQuests(vendor_id, vendor_name, quest_group_by_type)
 
 
-def parse_task(db_task: CyclicQuest) -> Quest:
-    target = parse_target(db_task)
-    rewards = [
-        parse_item_reward(reward) for reward in ItemReward.objects.filter(quest=db_task)
-    ]
-    if (reward_money := MoneyReward.objects.filter(quest=db_task).first()) is not None:
-        rewards.append(TaskMoneyReward(reward_money.money))
+def create_targets_cache(vendor_tasks: list[CyclicQuest]) -> dict[int, CycleTaskTarget]:
+    stalker_targets_cache = {
+        target.quest_id: target
+        for target in CycleTaskTargetStalker.objects.filter(quest__in=vendor_tasks)
+        .prefetch_related("map_positions__location__map_info")
+        .select_related("community__translation", "rank__translation")
+    }
+    items_targets_cache = {
+        target.quest_id: target
+        for target in CycleTaskTargetItem.objects.filter(
+            quest__in=vendor_tasks,
+        ).select_related("item__icon", "item__name_translation")
+    }
+    camps_targets_cache = {
+        target.quest_id: target
+        for target in CycleTaskTargetCamp.objects.filter(
+            quest__in=vendor_tasks,
+        ).select_related("map_position__location__map_info")
+    }
+    targets_cache: dict[int, CycleTaskTarget] = (
+        stalker_targets_cache | items_targets_cache | camps_targets_cache
+    )
+    return targets_cache
 
-    if TreasureRewardModel.objects.filter(quest=db_task).exists():
-        rewards.append(TreasureReward())
 
-    for random_reward in QuestRandomReward.objects.filter(quest=db_task):
+def parse_task(
+    db_task: CyclicQuest,
+    targets_cache: dict[int, CycleTaskTarget],
+) -> Quest:
+    target = parse_target(db_task, targets_cache)
+    rewards = [parse_item_reward(reward) for reward in db_task.itemreward_set.all()]
+    for reward_money in db_task.moneyreward_set.all():
+        rewards.append(TaskMoneyReward(reward_money.money))  # noqa: PERF401
+
+    for _ in db_task.treasurereward_set.all():
+        rewards.append(TreasureReward())  # noqa: PERF401
+
+    for random_reward in db_task.questrandomreward_set.all():
         icon_ = random_reward.reward.icon.icon
         icon = IconData(icon_.url, icon_.width, icon_.height)
         reward = TaskRandomReward(
@@ -214,7 +251,10 @@ def parse_task(db_task: CyclicQuest) -> Quest:
     return Quest(target, rewards, db_task.text.rus if db_task.text else None)
 
 
-def parse_target(db_task: CyclicQuest) -> QuestTarget:
+def parse_target(
+    db_task: CyclicQuest,
+    targets_cache: dict[int, CycleTaskTarget],
+) -> QuestTarget:
     #  pylint: disable=too-many-locals
     items_types = {
         QuestKinds.CHAIN,
@@ -229,9 +269,11 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
     }
 
     stalker_types = {QuestKinds.KILL_STALKER}
-
+    target = targets_cache[db_task.id]
     if db_task.type in stalker_types:
-        stalker = CycleTaskTargetStalker.objects.get(quest=db_task)
+        if not isinstance(target, CycleTaskTargetStalker):
+            raise ValueError
+        stalker = target
         possible_spawn_items = stalker.map_positions.all()
         maybe_map_points = [
             _spawn_item_to_map_info(item, f"{db_task.game_code}_stalker_{i}")
@@ -244,7 +286,9 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
             stalker.community.translation.rus,
         )
     if db_task.type in lager_types:
-        target_camp = CycleTaskTargetCamp.objects.get(quest=db_task)
+        if not isinstance(target, CycleTaskTargetCamp):
+            raise ValueError
+        target_camp = target
         camp_map_info = _spawn_item_to_map_info(
             target_camp.map_position,
             f"{db_task.game_code}_target_camp",
@@ -252,7 +296,8 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         return LagerTarget(camp_map_info)
 
     if db_task.type in items_types:
-        target = CycleTaskTargetItem.objects.get(quest=db_task)
+        if not isinstance(target, CycleTaskTargetItem):
+            raise ValueError
         target_item = target.item.get_real_instance()
         target_cond_str: str | None = target.cond_str
         item_icon = None
