@@ -36,6 +36,10 @@
         <!-- Make sure you put this AFTER Leaflet's CSS -->
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
                 crossorigin=""></script>
+        {% if use_sentry_js %}
+            <script src="https://js.sentry-cdn.com/80cade31f77db0b9d5dba757b25f6535.min.js"
+                    crossorigin="anonymous"></script>
+        {% endif %}
         {% block extrahead %}
         {% endblock extrahead %}
     </head>
