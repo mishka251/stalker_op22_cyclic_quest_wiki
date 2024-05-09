@@ -34,4 +34,6 @@ class VendorQuestsList(TemplateView):
         return {
             "vendor_task_info": vendor_task_info,
             "vendor": vendor,
+            "meta_description": f"Сталкер ОП-2.2 Циклические квесты от {vendor}",
+            "meta_keywords": f"сталкер, stalker, объединенный пак 2.2, циклические квесты, ОП-2.2, {vendor}",
         }

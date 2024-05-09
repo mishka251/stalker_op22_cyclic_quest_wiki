@@ -33,6 +33,8 @@ class TaskVendorsList(TemplateView):
         )
         return {
             "vendors": [self._vendor_to_dict(vendor) for vendor in vendors],
+            "meta_description": "Квестодатели сталкер ОП-2.2",
+            "meta_keywords": "сталкер, stalker, объединенный пак 2.2, циклические квесты, ОП-2.2",
         }
 
     def _vendor_to_dict(
