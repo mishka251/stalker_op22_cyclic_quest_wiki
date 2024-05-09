@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{% static "icons/op_2_2.ico" %}" type="image/x-icon">
         <title>
             {% block title %}
                 Энциклопедия по ОП-2.2
@@ -60,8 +62,5 @@
             {% block main %}
             {% endblock main %}
         </main>
-        {#<footer>#}
-        {#    <p>&copy; 2021 Название вашей компании. Все права защищены.</p>#}
-        {#</footer>#}
     </body>
 </html>
