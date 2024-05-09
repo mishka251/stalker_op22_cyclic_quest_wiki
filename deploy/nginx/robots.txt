@@ -1,0 +1,8 @@
+# Сгенерировано https://pr-cy.ru/
+
+Sitemap: http://stalker-op22-cyclic-quest-wiki.ru/sitemap.xml
+User-agent: *
+Allow:
+Allow: /static
+Allow: /media
+Disallow: /admin
