@@ -43,10 +43,10 @@ class CyclicQuest(models.Model):
         verbose_name = "Циклический квест"
         verbose_name_plural = "Циклические квесты"
 
-    itemreward: "models.Manager[ItemReward]"
-    moneyreward: "models.Manager[MoneyReward]"
-    questrandomreward: "models.Manager[QuestRandomReward]"
-    treasurereward: "models.Manager[TreasureReward]"
+    itemreward_set: "models.Manager[ItemReward]"
+    moneyreward_set: "models.Manager[MoneyReward]"
+    questrandomreward_set: "models.Manager[QuestRandomReward]"
+    treasurereward_set: "models.Manager[TreasureReward]"
 
     target: "PolymorphicManager[CycleTaskTarget]"
 
