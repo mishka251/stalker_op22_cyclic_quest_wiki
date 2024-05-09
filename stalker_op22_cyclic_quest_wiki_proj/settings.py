@@ -77,6 +77,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "stalker_op22_cyclic_quest_wiki.context_processors.use_sentry_js",
             ],
         },
     },
