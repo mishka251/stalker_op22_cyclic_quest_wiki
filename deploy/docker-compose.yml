@@ -1,5 +1,3 @@
-version: "3.8"
-
 x-base-django: &base-django
   image: "mishka251/stalker_op22_cyclic_quest_wiki-django:${VERSION}"
   depends_on: &base-django-depends
