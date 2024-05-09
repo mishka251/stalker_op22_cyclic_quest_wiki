@@ -21,7 +21,6 @@ class VendorQuestsList(TemplateView):
         vendor_tasks = list(
             CyclicQuest.objects.filter(vendor_id=vendor_id)
             .select_related("text")
-            .prefetch_related("target")
             .prefetch_related("itemreward_set__item__name_translation")
             .prefetch_related("itemreward_set__item__icon")
             .prefetch_related("moneyreward_set")
