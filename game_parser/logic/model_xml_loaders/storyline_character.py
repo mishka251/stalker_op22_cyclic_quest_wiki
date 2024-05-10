@@ -76,6 +76,7 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
             elif isinstance(child_node, _Comment) or child_node.tag in {
                 "panic_threshold",
                 "panic_treshold",
+                "critical_wound_weights",
                 "map_icon",
             }:  # WTF misstype??
                 pass

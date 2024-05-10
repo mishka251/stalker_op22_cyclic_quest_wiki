@@ -81,8 +81,8 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
                 for child_node in phrase_node:
                     if child_node.tag == "next" and child_node.text:
                         _next.append(child_node.text)
-                    elif child_node.tag == "text" and child_node.text:
-                        text = child_node.text
+                    elif child_node.tag == "text":
+                        text = child_node.text or ""
                     elif child_node.tag == "precondition" and child_node.text:
                         precondition.append(child_node.text)
                     elif child_node.tag == "action" and child_node.text:

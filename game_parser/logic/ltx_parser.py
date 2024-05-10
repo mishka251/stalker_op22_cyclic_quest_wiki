@@ -163,7 +163,7 @@ class BaseLtxParser:
     def _get_block_caption(self, line: str) -> tuple[str, tuple[str, ...]]:
         end_index = line.index(self.BLOCK_CAPTION_END)
         caption = line[1:end_index]
-        bases_str = line[end_index + 2 : len(line)]
+        bases_str = line[end_index + 2 : len(line)] if ":" in line else ""
         bases = () if not bases_str else tuple(s.strip() for s in bases_str.split(","))
         return caption, bases
 
