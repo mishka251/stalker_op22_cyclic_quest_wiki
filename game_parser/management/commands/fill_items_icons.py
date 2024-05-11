@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.files.images import ImageFile
@@ -17,7 +18,7 @@ class Command(BaseCommand):
     IMAGE_PART_HEIGHT = 50
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         base_image_path = (
             settings.OP22_GAME_DATA_PATH / "textures" / "ui" / "ui_icon_equipment.dds"
         )

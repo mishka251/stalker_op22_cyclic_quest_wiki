@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Recept(models.Model):
-    anomaly_id = models.CharField(max_length=255, null=False, unique=True)
+    anomaly_id = models.CharField(max_length=255, null=False)
     anomaly_name = models.CharField(max_length=255, null=False)
     condition_raw = models.CharField(max_length=255)
     condition = models.ForeignKey(
@@ -43,7 +43,10 @@ class Recept(models.Model):
     class Meta:
         verbose_name = "Рецепт"
         verbose_name_plural = "Рецепты"
+        unique_together = [
+            ("anomaly_id", "condition_raw"),
+        ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         components = ", ".join(map(str, self.components.all()))
         return f"{self.cel} из {self.anomaly_id}, {self.anomaly_name}. Из {components}"

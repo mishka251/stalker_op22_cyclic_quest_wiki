@@ -10,9 +10,6 @@ class CommunityType(models.TextChoices):
 
 
 class Community(models.Model):
-    class Meta:
-        verbose_name = "Группировка"
-        verbose_name_plural = "Группировки"
 
     index = models.PositiveSmallIntegerField(
         null=False,
@@ -34,7 +31,11 @@ class Community(models.Model):
         related_name="+",
     )
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Группировка"
+        verbose_name_plural = "Группировки"
+
+    def __str__(self) -> str:
         return self.translation.rus if self.translation else self.code
 
 
@@ -44,9 +45,6 @@ class RankType(models.TextChoices):
 
 
 class Rank(models.Model):
-    class Meta:
-        verbose_name = "Ранг сталкера"
-        verbose_name_plural = "Ранги сталкеров"
 
     name = models.CharField(max_length=128, null=False, unique=True, verbose_name="Код")
     type = models.CharField(
@@ -71,19 +69,24 @@ class Rank(models.Model):
         verbose_name="Верхний порог ранга",
     )
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Ранг сталкера"
+        verbose_name_plural = "Ранги сталкеров"
+
+    def __str__(self) -> str:
         return self.translation.rus if self.translation else self.name
 
 
 class Icon(models.Model):
-    class Meta:
-        verbose_name = "Иконка"
-        verbose_name_plural = "Иконки"
 
     name = models.CharField(max_length=512, null=False, unique=True)
     icon = models.ImageField(null=False)
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Иконка"
+        verbose_name_plural = "Иконки"
+
+    def __str__(self) -> str:
         return f"{self.name}"
 
 
@@ -149,5 +152,5 @@ class StorylineCharacter(Character):
             return "Случайное имя"
         return self.name_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"NPC {self.get_name}"

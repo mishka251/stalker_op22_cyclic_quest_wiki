@@ -4,9 +4,6 @@ from game_parser.models.translation import Translation
 
 
 class Location(models.Model):
-    class Meta:
-        verbose_name = "Локация"
-        verbose_name_plural = "Локации"
 
     game_id = models.CharField(
         null=False,
@@ -40,14 +37,15 @@ class Location(models.Model):
         verbose_name="Сдвиг на глобальной карте??",
     )
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Локация"
+        verbose_name_plural = "Локации"
+
+    def __str__(self) -> str:
         return f"Локация {self.name_translation} ({self.game_code})"
 
 
 class LocationMapInfo(models.Model):
-    class Meta:
-        verbose_name = "Дополнительная информация о локации"
-        verbose_name_plural = "Дополнительные данные о локациях"
 
     location = models.ForeignKey(
         Location,
@@ -82,6 +80,10 @@ class LocationMapInfo(models.Model):
         verbose_name="Информация о фоновой музыке",
     )
     map_image = models.ImageField(null=True, verbose_name="Карта")
+
+    class Meta:
+        verbose_name = "Дополнительная информация о локации"
+        verbose_name_plural = "Дополнительные данные о локациях"
 
     def __str__(self) -> str:
         return self.name

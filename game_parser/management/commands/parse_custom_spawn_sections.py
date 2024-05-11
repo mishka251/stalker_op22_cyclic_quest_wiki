@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -97,7 +98,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         CustomSpawnItem.objects.all().delete()
         spawn_items = []
         for file in self.get_file_paths():

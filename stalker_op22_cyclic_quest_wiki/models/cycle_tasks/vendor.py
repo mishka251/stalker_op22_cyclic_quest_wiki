@@ -10,11 +10,6 @@ class CyclicQuestManager(models.Manager["CycleTaskVendor"]):
 
 
 class CycleTaskVendor(models.Model):
-    class Meta:
-        verbose_name = "Квестодатель"
-        verbose_name_plural = "Квестодатели"
-
-    objects = CyclicQuestManager()
 
     section_name = models.CharField(
         max_length=128,
@@ -47,7 +42,13 @@ class CycleTaskVendor(models.Model):
         related_name="+",
     )
 
-    def __str__(self):
+    objects = CyclicQuestManager()
+
+    class Meta:
+        verbose_name = "Квестодатель"
+        verbose_name_plural = "Квестодатели"
+
+    def __str__(self) -> str:
         return self.name_translation.rus or self.name_translation.code
 
     def natural_key(self) -> tuple:

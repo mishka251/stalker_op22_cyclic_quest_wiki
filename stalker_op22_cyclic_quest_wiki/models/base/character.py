@@ -7,11 +7,6 @@ class CommunityManager(models.Manager["Community"]):
 
 
 class Community(models.Model):
-    class Meta:
-        verbose_name = "Группировка"
-        verbose_name_plural = "Группировки"
-
-    objects = CommunityManager()
 
     name = models.CharField(max_length=128, null=False, unique=True, verbose_name="Код")
     translation = models.ForeignKey(
@@ -22,7 +17,13 @@ class Community(models.Model):
         related_name="+",
     )
 
-    def __str__(self):
+    objects = CommunityManager()
+
+    class Meta:
+        verbose_name = "Группировка"
+        verbose_name_plural = "Группировки"
+
+    def __str__(self) -> str:
         return self.translation.rus
 
     def natural_key(self) -> tuple:
@@ -35,11 +36,6 @@ class StalkerRankManager(models.Manager["StalkerRank"]):
 
 
 class StalkerRank(models.Model):
-    class Meta:
-        verbose_name = "Ранг сталкера"
-        verbose_name_plural = "Ранги сталкеров"
-
-    objects = StalkerRankManager()
 
     name = models.CharField(max_length=128, null=False, unique=True, verbose_name="Код")
     translation = models.ForeignKey(
@@ -50,7 +46,13 @@ class StalkerRank(models.Model):
         related_name="+",
     )
 
-    def __str__(self):
+    objects = StalkerRankManager()
+
+    class Meta:
+        verbose_name = "Ранг сталкера"
+        verbose_name_plural = "Ранги сталкеров"
+
+    def __str__(self) -> str:
         return self.translation.rus
 
     def natural_key(self) -> tuple:

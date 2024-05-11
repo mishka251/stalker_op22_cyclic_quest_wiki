@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
         system_file = base_path / "config" / "system.ltx"

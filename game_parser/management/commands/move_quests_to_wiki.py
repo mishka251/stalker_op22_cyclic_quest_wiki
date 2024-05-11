@@ -1,4 +1,5 @@
 import re
+from typing import Any
 
 from django.core.management import BaseCommand
 
@@ -34,23 +35,25 @@ from stalker_op22_cyclic_quest_wiki.models import TreasureReward as WikiTreasure
 
 
 class Command(BaseCommand):
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         print("START")
         self._update_vendors()
         self._update_random_rewards()
         self._update_quests()
         print("END")
 
-    def _update_vendors(self):
+    def _update_vendors(self) -> None:
         print("start vendors")
         cnt = ParserVendor.objects.count()
         for i, vendor in enumerate(ParserVendor.objects.all()):
             profile = vendor.get_npc_profile()
             if profile is None:
-                raise ValueError("нет профиля квестодателя")
+                msg = "нет профиля квестодателя"
+                raise ValueError(msg)
             tmp = vendor.game_story_id
             if tmp is None:
-                raise ValueError("No game_story_id")
+                msg = "No game_story_id"
+                raise ValueError(msg)
             name_translation = (
                 WikiTranslation.objects.filter(
                     code=profile.name_translation.code,
@@ -76,7 +79,7 @@ class Command(BaseCommand):
                 print(f"{i}/{cnt}")
         print("end vendors")
 
-    def _update_random_rewards(self):
+    def _update_random_rewards(self) -> None:
         print("start random rewards")
         cnt = ParserRandomReward.objects.count()
         for i, random_reward in enumerate(ParserRandomReward.objects.all()):
@@ -105,15 +108,16 @@ class Command(BaseCommand):
             ]
             raw_count = len(random_reward.possible_items_str.split(";"))
             if raw_count != len(possible_items):
+                msg = f"Items not found. Expected: {random_reward.possible_items_str}, actual: {possible_items}"
                 raise ValueError(
-                    f"Items not found. Expected: {random_reward.possible_items_str}, actual: {possible_items}",
+                    msg,
                 )
             wiki_random_reward.possible_items.set(possible_items)
             if i % 100 == 0:
                 print(f"{i}/{cnt}")
         print("end random rewards")
 
-    def _update_quests(self):
+    def _update_quests(self) -> None:
         print("start quests")
         cnt = ParserCyclicQuest.objects.count()
         for i, quest in enumerate(ParserCyclicQuest.objects.all()):
@@ -163,7 +167,8 @@ class Command(BaseCommand):
         WikiItemReward.objects.filter(quest=wiki_quest).delete()
         for item_reward in quest.item_rewards.all():
             if not item_reward.item:
-                raise ValueError("Incorrect reward")
+                msg = "Incorrect reward"
+                raise ValueError(msg)
             wiki_item = WikiItem.objects.get(name=item_reward.item.name)
             WikiItemReward.objects.update_or_create(
                 quest=wiki_quest,
@@ -208,7 +213,8 @@ class Command(BaseCommand):
 
         if quest.type in item_target_quest_types:
             if quest.target_item is None:
-                raise ValueError("Incorrect quest target")
+                msg = "Incorrect quest target"
+                raise ValueError(msg)
             wiki_item = WikiItem.objects.get(name=quest.target_item.name)
             target_cond_str = quest.target_cond_str
             items_with_condition = (ParserWeapon, ParserOutfit, ParserSilencer)
@@ -228,7 +234,8 @@ class Command(BaseCommand):
         elif quest.type in camp_target_quest_types:
             target_camp = quest.target_camp
             if target_camp is None:
-                raise ValueError("Нет цели у ЦЗ")
+                msg = "Нет цели у ЦЗ"
+                raise ValueError(msg)
             communities_raw = [
                 s.strip() for s in (target_camp.communities_raw or "").split(",")
             ]
@@ -250,7 +257,8 @@ class Command(BaseCommand):
             camp.communities.set(communities)
         elif quest.type in stalker_target_quest_types:
             if quest.target_stalker is None:
-                raise ValueError("Нет цели у квеста")
+                msg = "Нет цели у квеста"
+                raise ValueError(msg)
             community = WikiCommunity.objects.get(
                 name=quest.target_stalker.community_str,
             )
@@ -280,16 +288,19 @@ class Command(BaseCommand):
             ]
             stalker.map_positions.set(map_positions)
         else:
-            raise ValueError(f"Неизвестный вид квеста {quest.type}")
+            msg = f"Неизвестный вид квеста {quest.type}"
+            raise ValueError(msg)
 
     def _spawn_item_to_map_position(self, spawn_item: SpawnItem) -> WikiMapPosition:
         if spawn_item.location is None:
-            raise ValueError("No location")
+            msg = "No location"
+            raise ValueError(msg)
         location = WikiLocation.objects.get(name=spawn_item.location.name)
         position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
         rm = position_re.match(spawn_item.position_raw)
         if rm is None:
-            raise ValueError("Не удалось распарсить координаты")
+            msg = "Не удалось распарсить координаты"
+            raise ValueError(msg)
         (x, y, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
         return WikiMapPosition.objects.update_or_create(
             spawn_id=spawn_item.spawn_id,

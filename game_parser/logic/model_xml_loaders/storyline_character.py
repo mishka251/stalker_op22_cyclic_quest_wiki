@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
     expected_tag = "specific_character"
 
-    def _load(
+    def _load(  # noqa: C901 PLR0912 PLR0915
         self,
         character_node: _Element,
         comments: list[str],
@@ -76,6 +76,7 @@ class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
             elif isinstance(child_node, _Comment) or child_node.tag in {
                 "panic_threshold",
                 "panic_treshold",
+                "critical_wound_weights",
                 "map_icon",
             }:  # WTF misstype??
                 pass

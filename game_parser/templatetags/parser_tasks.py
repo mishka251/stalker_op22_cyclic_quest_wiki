@@ -46,7 +46,8 @@ def render_reward(reward: TaskReward) -> str:
     elif isinstance(reward, TaskRandomReward):
         template_name = "random_reward.html"
     else:
-        raise NotImplementedError(f"{reward.__class__}")
+        msg = f"{reward.__class__}"
+        raise NotImplementedError(msg)
     context = {
         "reward": reward,
     }
@@ -81,6 +82,7 @@ def render_target(target: TaskReward) -> str:
     elif isinstance(target, StalkerTarget):
         template_name = "stalker_target.html"
     else:
-        raise NotImplementedError(f"{target.__class__}")
+        msg = f"{target.__class__}"
+        raise NotImplementedError(msg)
 
     return render_to_string(template_name, context)

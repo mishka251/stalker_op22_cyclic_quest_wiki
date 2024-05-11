@@ -36,8 +36,11 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
             elif isinstance(child_node, _Comment):
                 pass
             else:
+                msg = (
+                    f"Unexpected game info_portion child {child_node.tag} in {game_id}"
+                )
                 raise ValueError(
-                    f"Unexpected game info_portion child {child_node.tag} in {game_id}",
+                    msg,
                 )
         if group_name is not None:
             group = EncyclopediaGroup.objects.get_or_create(
@@ -69,7 +72,8 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
                 artefact=artefact,
             )
         except Exception as ex:
-            raise ValueError(f"{game_id=}, {name=}, {group_name=}") from ex
+            msg = f"{game_id=}, {name=}, {group_name=}"
+            raise ValueError(msg) from ex
         return article
 
     def _parse_icon(self, texture_node: _Element) -> Icon:
@@ -106,7 +110,7 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         height: int,
         name: str,
         instance: Icon,
-    ):
+    ) -> Icon:
         box = self._get_item_image_coordinates(x, y, width, height)
         part = image.crop(box)
         tmp_file_name = "tmp.png"

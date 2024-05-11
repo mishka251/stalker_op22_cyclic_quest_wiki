@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 from xml.etree.ElementTree import parse
 
 from django.conf import settings
@@ -19,20 +20,17 @@ class Command(BaseCommand):
         base_path = settings.OP22_GAME_DATA_PATH
         return base_path / "config" / "gameplay"
 
-    def get_files_paths(self, path: Path) -> list[Path]:
-        return [
-            sub_path for sub_path in path.iterdir() if sub_path.name.startswith("tasks")
-        ]
+    def get_files_path(self) -> Path:
+        return self.get_files_dir_path() / "game_tasks.xml"
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         GameTask.objects.all().delete()
         TaskObjective.objects.all().delete()
 
-        for file_path in self.get_files_paths(self.get_files_dir_path()):
-            print(file_path)
-            fixer = GSCXmlFixer()
-            fixed_file_path = fixer.fix(file_path)
-            with fixed_file_path.open("r") as tml_file:
-                root_node = parse(tml_file).getroot()
-            GameTaskLoader().load_bulk(root_node)
+        file_path = self.get_files_path()
+        print(file_path)
+        fixer = GSCXmlFixer(encoding="cp-1251")
+        fixed_file_path = fixer.fix(file_path)
+        root_node = parse(fixed_file_path).getroot()
+        GameTaskLoader().load_bulk(root_node)

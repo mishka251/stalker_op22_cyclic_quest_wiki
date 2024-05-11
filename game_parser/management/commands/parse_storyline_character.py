@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -30,7 +31,7 @@ class Command(BaseCommand):
         ]
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         StorylineCharacter.objects.all().delete()
 
         for file_path in self.get_files_paths(self.get_files_dir_path()):

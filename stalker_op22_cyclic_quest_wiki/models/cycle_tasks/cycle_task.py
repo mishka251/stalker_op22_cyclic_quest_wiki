@@ -39,18 +39,6 @@ class CyclicQuestManager(models.Manager["CyclicQuest"]):
 
 
 class CyclicQuest(models.Model):
-    class Meta:
-        verbose_name = "Циклический квест"
-        verbose_name_plural = "Циклические квесты"
-
-    itemreward_set: "models.Manager[ItemReward]"
-    moneyreward_set: "models.Manager[MoneyReward]"
-    questrandomreward_set: "models.Manager[QuestRandomReward]"
-    treasurereward_set: "models.Manager[TreasureReward]"
-
-    target: "PolymorphicManager[CycleTaskTarget]"
-
-    objects = CyclicQuestManager()
 
     game_code = models.CharField(
         null=False,
@@ -87,12 +75,25 @@ class CyclicQuest(models.Model):
         related_name="+",
     )
 
-    def natural_key(self) -> tuple:
-        return (self.game_code,)
+    objects = CyclicQuestManager()
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Циклический квест"
+        verbose_name_plural = "Циклические квесты"
+
+    itemreward_set: "models.Manager[ItemReward]"
+    moneyreward_set: "models.Manager[MoneyReward]"
+    questrandomreward_set: "models.Manager[QuestRandomReward]"
+    treasurereward_set: "models.Manager[TreasureReward]"
+
+    target: "PolymorphicManager[CycleTaskTarget]"
+
+    def __str__(self) -> str:
         type_caption = QuestKinds.get_by_value(self.type).label
         return f"{type_caption}({self.prior}) для {self.vendor}"
+
+    def natural_key(self) -> tuple:
+        return (self.game_code,)
 
 
 __all__ = [

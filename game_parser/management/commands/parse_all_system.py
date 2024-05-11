@@ -1,7 +1,7 @@
 import logging
 from collections import defaultdict
 from pathlib import Path
-from typing import cast
+from typing import Any, cast
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -213,7 +213,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:  # noqa: C901 PLR0915
         # pylint: disable=too-many-statements, too-many-locals
         print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
@@ -541,7 +541,11 @@ class Command(BaseCommand):
         }
         print(f"UNUSED {len(unused_keys)} {unused_classes=}")
 
-    def _get_explosive(self, results, grouped_by_cls_dict):
+    def _get_explosive(
+        self,
+        results: dict[str, dict | list[str]],
+        grouped_by_cls_dict: dict[str, set[str]],
+    ) -> tuple[set[str], dict[str, dict]]:
         _, items = self._get_sections_by_class(
             results,
             grouped_by_cls_dict,
@@ -550,7 +554,11 @@ class Command(BaseCommand):
         monster_parts = {key: item for key, item in items.items() if "fake" not in key}
         return set(monster_parts.keys()), monster_parts
 
-    def _get_monster_parts(self, results, grouped_by_cls_dict):
+    def _get_monster_parts(
+        self,
+        results: dict[str, dict | list[str]],
+        grouped_by_cls_dict: dict[str, set[str]],
+    ) -> tuple[set[str], dict[str, dict]]:
         _, items = self._get_sections_by_class(
             results,
             grouped_by_cls_dict,
@@ -597,8 +605,8 @@ class Command(BaseCommand):
 
     def _get_sections_by_class(
         self,
-        results,
-        grouped_by_cls_dict,
+        results: dict[str, dict | list[str]],
+        grouped_by_cls_dict: dict[str, set[str]],
         classes: set[str],
     ) -> tuple[set[str], dict[str, dict]]:
         ammo_keys = set()
@@ -609,7 +617,7 @@ class Command(BaseCommand):
             for ammo_key in ammo_keys
             if ammo_key not in classes
         }
-        return ammo_keys, ammo
+        return ammo_keys, cast(dict[str, dict], ammo)
 
     def _load_icon_xml(self, files: list[Path], name: str, fixer: GSCXmlFixer) -> None:
         print(f"Start parsing {name=}")
@@ -629,7 +637,8 @@ class Command(BaseCommand):
                     )
                     image = Image.open(image_file_path)
             if image is None:
-                raise ValueError(f"No image in {file}")
+                msg = f"No image in {file}"
+                raise ValueError(msg)
             loader = IconLoader(image)
             loader.load_bulk(root_node)
             print(f"\tfinish {file}")

@@ -7,7 +7,13 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from game_parser.logic.tasks_grouping import collect_info, collect_vendor_tasks
-from game_parser.models import CycleTaskVendor, Location, LocationMapInfo, SpawnItem
+from game_parser.models import (
+    CycleTaskVendor,
+    Location,
+    LocationMapInfo,
+    SpawnItem,
+    StorylineCharacter,
+)
 from game_parser.models.quest import CyclicQuest, QuestKinds
 
 
@@ -15,7 +21,7 @@ class TasksListView(TemplateView):
 
     template_name = "vendors_tasks_list.html"
 
-    def get_context_data(self, **kwargs) -> dict:
+    def get_context_data(self, **kwargs: Any) -> dict:
         data = collect_info()
         return {"vendors_quests": data}
 
@@ -24,7 +30,7 @@ class EscapeMap(TemplateView):
     template_name = "escape_map.html"
     location_name = "L01_escape"
 
-    def get_context_data(self, **kwargs) -> dict:
+    def get_context_data(self, **kwargs: Any) -> dict:
         location_name = kwargs.get("location", self.location_name)
         location = Location.objects.annotate(name_lowe=Lower("name")).get(
             name_lowe=location_name.lower(),
@@ -38,7 +44,8 @@ class EscapeMap(TemplateView):
             raise ValueError
         rm = offset_re.match(location_info.bound_rect_raw)
         if rm is None:
-            raise ValueError("не распарсились границы локи")
+            msg = "не распарсились границы локи"
+            raise ValueError(msg)
         (min_x, min_y, max_x, max_y) = (
             float(rm.group("min_x")),
             float(rm.group("min_y")),
@@ -75,7 +82,7 @@ class EscapeMap(TemplateView):
 class TaskVendorsList(TemplateView):
     template_name = "task_vendors_list/task_vendor_list.html"
 
-    def get_context_data(self, **kwargs) -> dict:
+    def get_context_data(self, **kwargs: Any) -> dict:
         vendors = CycleTaskVendor.objects.all()
         return {
             "vendors": [self._vendor_to_dict(vendor) for vendor in vendors],
@@ -100,8 +107,10 @@ class TaskVendorsList(TemplateView):
             ),
         }
 
-    def _get_npc_profile_icon(self, npc_profile):
-        return npc_profile.icon and npc_profile.icon.icon and npc_profile.icon.icon.url
+    def _get_npc_profile_icon(self, npc_profile: StorylineCharacter) -> str | None:
+        if npc_profile.icon and npc_profile.icon.icon and npc_profile.icon.icon.url:
+            return npc_profile.icon.icon.url
+        return None
 
 
 class VendorQuestsList(TemplateView):
@@ -112,7 +121,8 @@ class VendorQuestsList(TemplateView):
         try:
             vendor = CycleTaskVendor.objects.get(id=vendor_id)
         except Exception as ex:
-            raise Http404("Incorrect vendor ID") from ex
+            msg = "Incorrect vendor ID"
+            raise Http404(msg) from ex
         vendor_tasks = CyclicQuest.objects.filter(vendor=vendor)
         vendor_profile = vendor.get_npc_profile()
         if vendor_profile is None:
@@ -126,5 +136,5 @@ class VendorQuestsList(TemplateView):
 class IndexView(TemplateView):
     template_name = "parser_index.html"
 
-    def get_context_data(self, **kwargs) -> dict:
+    def get_context_data(self, **kwargs: Any) -> dict:
         return {}

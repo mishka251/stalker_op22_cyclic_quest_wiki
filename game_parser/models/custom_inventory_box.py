@@ -6,10 +6,6 @@ class InventoryBox(models.Model):
     Похоже, это тайник в виде рюкзака, из которого можно достать предметы
     """
 
-    class Meta:
-        verbose_name = "Тайник"
-        verbose_name_plural = "Тайники"
-
     section_name = models.CharField(
         max_length=255,
         verbose_name="Название секции",
@@ -30,17 +26,15 @@ class InventoryBox(models.Model):
         null=True,
     )
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Тайник"
+        verbose_name_plural = "Тайники"
+
+    def __str__(self) -> str:
         return f"Тайник {self.section_name}"
 
 
 class ItemInTreasureBox(models.Model):
-    class Meta:
-        verbose_name = "Предметы в тайнике"
-        verbose_name_plural = "Предметы в тайниках"
-        unique_together = [
-            ["item", "box"],
-        ]
 
     item = models.ForeignKey(
         "BaseItem",
@@ -56,5 +50,12 @@ class ItemInTreasureBox(models.Model):
     )
     count = models.IntegerField(null=True, verbose_name="Количество")
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Предметы в тайнике"
+        verbose_name_plural = "Предметы в тайниках"
+        unique_together = [
+            ["item", "box"],
+        ]
+
+    def __str__(self) -> str:
         return f"{self.count} {self.item} в {self.box}"

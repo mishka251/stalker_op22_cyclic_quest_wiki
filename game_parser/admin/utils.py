@@ -29,7 +29,8 @@ class SpawnItemMapRenderer:
         )
         rm = offset_re.match(location_info.bound_rect_raw)
         if rm is None:
-            raise ValueError("не удалось распарсить границы локи")
+            msg = "не удалось распарсить границы локи"
+            raise ValueError(msg)
         (min_x, min_y, max_x, max_y) = (
             float(rm.group("min_x")),
             float(rm.group("min_y")),

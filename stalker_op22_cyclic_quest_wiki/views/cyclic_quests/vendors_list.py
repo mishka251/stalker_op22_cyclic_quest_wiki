@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, Any, TypedDict
 
 from django.db.models import Count, Exists, OuterRef, QuerySet
 from django.urls import reverse
@@ -19,7 +19,7 @@ class CycleTaskVendorAnnotatedFields(TypedDict):
 class TaskVendorsList(TemplateView):
     template_name = "wiki/task_vendors_list/task_vendor_list.html"
 
-    def get_context_data(self, **kwargs) -> dict:
+    def get_context_data(self, **kwargs: Any) -> dict:
         quests_subquery = CyclicQuest.objects.filter(vendor_id=OuterRef("pk"))
         vendors: (
             "QuerySet[WithAnnotations[CycleTaskVendor, CycleTaskVendorAnnotatedFields]]"

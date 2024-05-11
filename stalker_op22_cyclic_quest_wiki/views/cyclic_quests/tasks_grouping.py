@@ -13,6 +13,7 @@ from stalker_op22_cyclic_quest_wiki.models import (
     CycleTaskVendor,
     CyclicQuest,
     Icon,
+    Item,
     ItemReward,
     MapPosition,
 )
@@ -274,76 +275,101 @@ def parse_target(
         if not isinstance(target, CycleTaskTargetStalker):
             raise ValueError
         stalker = target
-        possible_spawn_items = stalker.map_positions.all()
-        maybe_map_points = [
-            _spawn_item_to_map_info(item, f"{db_task.game_code}_stalker_{i}")
-            for i, item in enumerate(possible_spawn_items)
-        ]
-        return StalkerTarget(
-            str(stalker),
-            [point for point in maybe_map_points if point is not None],
-            stalker.rank.translation.rus,
-            stalker.community.translation.rus,
-        )
+        return _parse_stalker_target(db_task, stalker)
     if db_task.type in lager_types:
         if not isinstance(target, CycleTaskTargetCamp):
             raise ValueError
         target_camp = target
-        camp_map_info = _spawn_item_to_map_info(
-            target_camp.map_position,
-            f"{db_task.game_code}_target_camp",
-        )
-        return LagerTarget(camp_map_info)
+        return _parse_camp_target(db_task, target_camp)
 
     if db_task.type in items_types:
         if not isinstance(target, CycleTaskTargetItem):
             raise ValueError
         target_item = target.item.get_real_instance()
         target_cond_str: str | None = target.cond_str
-        item_icon = None
-        if target_item.icon:
-            item_icon = IconData(
-                target_item.icon.icon.url,
-                target_item.icon.icon.width,
-                target_item.icon.icon.height,
-            )
-
-        item_info = ItemInfo(
-            item_id=target_item.name,
-            item_label=(
-                target_item.name_translation.rus
-                if target_item.name_translation
-                else target_item.inv_name
-            ),
-            icon=item_icon,
-        )
         target_count = target.count or 1
-
-        if target_cond_str:
-            if "," in target_cond_str:
-                min_str, max_str = target_cond_str.split(",")
-                state = ItemState(float(min_str.strip()), float(max_str.strip()))
-            else:
-                state = ItemState(float(target_cond_str.strip()), 100)
-            return QuestItemWithStateTarget(
-                item=item_info,
-                items_count=target_count,
-                state=state,
-            )
-
-        if isinstance(target_item, Ammo):
-
-            return AmmoTarget(
-                item=item_info,
-                items_count=target_count,
-                ammo_count=target_count * target_item.box_size,
-            )
-        return QuestItemTarget(
-            item=item_info,
-            items_count=target_count,
-        )
+        return _parse_target_item(target_cond_str, target_count, target_item)
 
     raise NotImplementedError
+
+
+def _parse_target_item(
+    target_cond_str: str | None,
+    target_count: int,
+    target_item: Item,
+) -> QuestTarget:
+    item_icon = _get_target_item_icon(target_item)
+
+    item_info = ItemInfo(
+        item_id=target_item.name,
+        item_label=(
+            target_item.name_translation.rus
+            if target_item.name_translation
+            else target_item.inv_name
+        ),
+        icon=item_icon,
+    )
+
+    if target_cond_str:
+        if "," in target_cond_str:
+            min_str, max_str = target_cond_str.split(",")
+            state = ItemState(float(min_str.strip()), float(max_str.strip()))
+        else:
+            state = ItemState(float(target_cond_str.strip()), 100)
+        return QuestItemWithStateTarget(
+            item=item_info,
+            items_count=target_count,
+            state=state,
+        )
+    if isinstance(target_item, Ammo):
+        return AmmoTarget(
+            item=item_info,
+            items_count=target_count,
+            ammo_count=target_count * target_item.box_size,
+        )
+    return QuestItemTarget(
+        item=item_info,
+        items_count=target_count,
+    )
+
+
+def _get_target_item_icon(target_item: Item) -> IconData | None:
+    item_icon = None
+    if target_item.icon:
+        item_icon = IconData(
+            target_item.icon.icon.url,
+            target_item.icon.icon.width,
+            target_item.icon.icon.height,
+        )
+    return item_icon
+
+
+def _parse_camp_target(
+    db_task: CyclicQuest,
+    target_camp: CycleTaskTargetCamp,
+) -> LagerTarget:
+    camp_map_info = _spawn_item_to_map_info(
+        target_camp.map_position,
+        f"{db_task.game_code}_target_camp",
+    )
+    return LagerTarget(camp_map_info)
+
+
+def _parse_stalker_target(
+    db_task: CyclicQuest,
+    stalker: CycleTaskTargetStalker,
+) -> StalkerTarget:
+    possible_spawn_items = stalker.map_positions.all()
+    maybe_map_points = [
+        _spawn_item_to_map_info(item, f"{db_task.game_code}_stalker_{i}")
+        for i, item in enumerate(possible_spawn_items)
+    ]
+    return StalkerTarget(
+        str(stalker),
+        [point for point in maybe_map_points if point is not None],
+        stalker.rank.translation.rus,
+        stalker.community.translation.rus,
+    )
 
 
 def _spawn_item_to_map_info(

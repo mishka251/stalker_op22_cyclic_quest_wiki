@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -18,7 +19,7 @@ class Command(BaseCommand):
         return base_path / "config" / "game_story_ids.ltx"
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         GameStoryId.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())

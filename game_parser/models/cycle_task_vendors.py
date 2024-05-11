@@ -7,10 +7,6 @@ if TYPE_CHECKING:
 
 
 class CycleTaskVendor(models.Model):
-    class Meta:
-        verbose_name = "ID НПС, выдающий циклические задания"
-        verbose_name_plural = "ID Выдающих ЦЗ НПС"
-
     game_story_id_raw = models.PositiveSmallIntegerField(
         null=False,
         verbose_name="game id",
@@ -28,7 +24,11 @@ class CycleTaskVendor(models.Model):
         unique=True,
     )
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "ID НПС, выдающий циклические задания"
+        verbose_name_plural = "ID Выдающих ЦЗ НПС"
+
+    def __str__(self) -> str:
         return f"{self.game_story_id}, {self.vendor_id}"
 
     def get_spawn_section(self) -> "SpawnItem | None":

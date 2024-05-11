@@ -19,7 +19,7 @@ class ItemReward(BaseScriptReward):
     count = models.IntegerField(null=True)
     raw_count = models.CharField(max_length=512, null=False)
 
-    def __str__(self):
+    def __str__(self) -> str:
         count = self.count or self.raw_count
         return f"{count} {self.get_item}"
 

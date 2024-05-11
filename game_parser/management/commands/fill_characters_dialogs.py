@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         count = StorylineCharacter.objects.count()
         for index, item in enumerate(StorylineCharacter.objects.all()):
             item.dialogs.set(self._get_dialogs_by_raw(item.dialogs_raw))

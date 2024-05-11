@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
@@ -11,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         treasures_count = Treasure.objects.count()
         for index, treasure in enumerate(Treasure.objects.all()):
             items_names_or_counts: list[str] = [
@@ -23,8 +24,9 @@ class Command(BaseCommand):
                 if item_name_or_count.isdigit():
                     count = int(item_name_or_count)
                     if prev_item_name is None:
+                        msg = f"{count=}, {prev_item_name=}, {treasure.items_str=}"
                         raise ValueError(
-                            f"{count=}, {prev_item_name=}, {treasure.items_str=}",
+                            msg,
                         )
                     try:
                         item = BaseItem.objects.get(name=prev_item_name)

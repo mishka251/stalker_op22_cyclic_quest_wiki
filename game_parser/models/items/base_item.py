@@ -77,7 +77,7 @@ class BaseItem(PolymorphicModel):
         upload_to="item_icons/",
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.name_translation:
             return self.name_translation.rus
         return self.name

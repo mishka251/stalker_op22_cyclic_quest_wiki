@@ -19,7 +19,7 @@ class BaseResourceField:
         /,
         *,
         required: bool = True,
-        default=None,
+        default: Any | None = None,
     ):
         self._data_field_name = data_field_name
         if model_field_name:
@@ -39,14 +39,14 @@ class BaseResourceField:
             return None
         return self._parse_non_empty_value(value)
 
-    def _parse_non_empty_value(self, value: Any):
+    def _parse_non_empty_value(self, value: Any) -> Any:
         raise NotImplementedError
 
     def get_value(self, data: dict[str, Any]) -> Any:
         value = self._get_from_data(data)
         return self._parse_value(value)
 
-    def fill_instance(self, instance, value) -> None:
+    def fill_instance(self, instance: Any, value: Any) -> None:
         setattr(instance, self._model_field_name, value)
 
 
@@ -75,7 +75,7 @@ class BooleanField(BaseResourceField):
         /,
         *,
         required: bool = False,
-        default=False,
+        default: bool = False,
     ):
         super().__init__(
             data_field_name,
@@ -100,7 +100,7 @@ class BaseModelResource(Generic[TModel]):
     def get_fields(self) -> list[BaseResourceField]:
         return self._fields
 
-    def _init_instance(self):
+    def _init_instance(self) -> TModel:
         return self._model_cls()
 
     def _apply_data(self, data: dict[str, Any], instance: TModel) -> None:
@@ -116,7 +116,8 @@ class BaseModelResource(Generic[TModel]):
         try:
             return self._create_instance_from_data(section_name, data)
         except Exception as ex:
-            raise type(ex)(f"Ошибка при парсинге {section_name}") from ex
+            msg = f"Ошибка при парсинге {section_name}"
+            raise type(ex)(msg) from ex
 
     def _create_instance_from_data(
         self,
@@ -132,5 +133,5 @@ class BaseModelResource(Generic[TModel]):
                 data.pop(field_name)
         return instance
 
-    def _save_instance(self, instance):
+    def _save_instance(self, instance: Any) -> None:
         instance.save()

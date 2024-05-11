@@ -24,7 +24,7 @@ class InventoryBoxResource(BaseModelResource):
         CharField("visual", "visual_str", required=False),
     ]
 
-    def _apply_data(self, data: dict[str, Any], instance: InventoryBox):
+    def _apply_data(self, data: dict[str, Any], instance: InventoryBox) -> None:
         super()._apply_data(data, instance)
         try:
             treasure_content = self._load_content(instance.source_file_name)
@@ -35,7 +35,7 @@ class InventoryBoxResource(BaseModelResource):
         )
         instance.items_raw = raw_items_str
 
-    def _save_instance(self, instance):
+    def _save_instance(self, instance: InventoryBox) -> None:
         super()._save_instance(instance)
         try:
             treasure_content = self._load_content(instance.source_file_name)
@@ -62,12 +62,14 @@ class InventoryBoxResource(BaseModelResource):
         try:
             parser = LtxParser(path)
         except FileNotFoundError as e:
-            raise NoSpawnError("Нет файла") from e
+            msg = "Нет файла"
+            raise NoSpawnError(msg) from e
         results = parser.get_parsed_blocks()
 
         spawn = results.get("spawn")
         if not spawn:
-            raise NoSpawnError("No spawn")
+            msg = "No spawn"
+            raise NoSpawnError(msg)
         item_with_count: dict[str, int] = {}
         if isinstance(spawn, list):
             item_with_count = {item: 1 for item in spawn}

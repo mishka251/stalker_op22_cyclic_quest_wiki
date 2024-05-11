@@ -1,15 +1,18 @@
 import dataclasses
 import re
+from collections.abc import Iterable
 from itertools import groupby
 from typing import NamedTuple
 
 from game_parser.models import (
     Ammo,
+    CampInfo,
     LocationMapInfo,
     Outfit,
     Silencer,
     SingleStalkerSpawnItem,
     SpawnItem,
+    StalkerSection,
     StorylineCharacter,
     Weapon,
 )
@@ -154,7 +157,10 @@ def collect_info() -> list[CharacterQuests]:
     return result
 
 
-def collect_vendor_tasks(_vendor_tasks, vendor: StorylineCharacter) -> CharacterQuests:
+def collect_vendor_tasks(
+    _vendor_tasks: Iterable[CyclicQuest],
+    vendor: StorylineCharacter,
+) -> CharacterQuests:
     vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
     vendor_id = vendor.game_id
     vendor_name = (
@@ -235,99 +241,113 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
         stalker = db_task.target_stalker
         if stalker is None:
             raise TypeError
-        single_spawn_items = SingleStalkerSpawnItem.objects.filter(
-            stalker_section=stalker,
-        )
-        single_spawn_items_ids = single_spawn_items.values_list(
-            "spawn_item_id",
-            flat=True,
-        )
-        respawns = stalker.respawn_set.all()
-        respawns_spawn_items = respawns.values_list("spawn_item_id", flat=True)
-        possible_spawn_items = SpawnItem.objects.filter(
-            id__in=list(single_spawn_items_ids) + list(respawns_spawn_items),
-        )
-        maybe_map_points = [
-            _spawn_item_to_map_info(stalker.section_name, item)
-            for item in possible_spawn_items
-        ]
-        return StalkerTarget(
-            str(stalker),
-            str(stalker),
-            [point for point in maybe_map_points if point is not None],
-        )
+        return _parse_stalker_target(stalker)
     if db_task.type in lager_types:
         target_camp = db_task.target_camp  # or db_task.target_camp_to_destroy
-        target_camp_item = (
-            target_camp.spawn_item
-            if target_camp
-            else (
-                db_task.target_camp_to_destroy
-                if db_task.type == QuestKinds.DESTROY_CAMP
-                else db_task.target_camp_to_defeat
-            )
-        )
-        if target_camp_item is None:
-            raise TypeError
-        camp_map_info = _spawn_item_to_map_info(
-            target_camp_item.section_name,
-            target_camp_item,
-        )
-        return LagerTarget(db_task.target_str or str(db_task.id), camp_map_info)
+        return _parse_camp_target(db_task, target_camp)
 
     if db_task.type in items_types:
-        if db_task.target_item is None:
-            raise ValueError
-        target_item = db_task.target_item.get_real_instance()
-        target_cond_str: str | None = db_task.target_cond_str
-        items_with_condition = (Weapon, Outfit, Silencer)
-        if target_cond_str is None and isinstance(target_item, items_with_condition):
-            target_cond_str = "50"
-
-        item_icon = None
-        if target_item.inv_icon:
-            item_icon = Icon(
-                target_item.inv_icon.url,
-                target_item.inv_icon.width,
-                target_item.inv_icon.height,
-            )
-
-        item_info = ItemInfo(
-            item_id=target_item.inv_name,
-            item_label=(
-                target_item.name_translation.rus
-                if target_item.name_translation
-                else target_item.inv_name
-            ),
-            icon=item_icon,
-        )
-        target_count = db_task.target_count or 1
-
-        if target_cond_str is not None:
-            if "," in target_cond_str:
-                min_str, max_str = target_cond_str.split(",")
-                state = ItemState(float(min_str.strip()), float(max_str.strip()))
-            else:
-                state = ItemState(float(target_cond_str.strip()), 100)
-            return QuestItemWithStateTarget(
-                item=item_info,
-                items_count=target_count,
-                state=state,
-            )
-
-        if isinstance(target_item, Ammo):
-
-            return AmmoTarget(
-                item=item_info,
-                items_count=target_count,
-                ammo_count=target_count * target_item.box_size,
-            )
-        return QuestItemTarget(
-            item=item_info,
-            items_count=target_count,
-        )
+        return _parse_item_target(db_task)
 
     raise NotImplementedError
+
+
+def _parse_item_target(db_task: CyclicQuest) -> QuestTarget:
+    if db_task.target_item is None:
+        raise ValueError
+    target_item = db_task.target_item.get_real_instance()
+    target_cond_str: str | None = db_task.target_cond_str
+    items_with_condition = (Weapon, Outfit, Silencer)
+    if target_cond_str is None and isinstance(target_item, items_with_condition):
+        target_cond_str = "50"
+
+    item_icon = None
+    if target_item.inv_icon:
+        item_icon = Icon(
+            target_item.inv_icon.url,
+            target_item.inv_icon.width,
+            target_item.inv_icon.height,
+        )
+
+    item_info = ItemInfo(
+        item_id=target_item.inv_name,
+        item_label=(
+            target_item.name_translation.rus
+            if target_item.name_translation
+            else target_item.inv_name
+        ),
+        icon=item_icon,
+    )
+    target_count = db_task.target_count or 1
+
+    if target_cond_str is not None:
+        if "," in target_cond_str:
+            min_str, max_str = target_cond_str.split(",")
+            state = ItemState(float(min_str.strip()), float(max_str.strip()))
+        else:
+            state = ItemState(float(target_cond_str.strip()), 100)
+        return QuestItemWithStateTarget(
+            item=item_info,
+            items_count=target_count,
+            state=state,
+        )
+
+    if isinstance(target_item, Ammo):
+        return AmmoTarget(
+            item=item_info,
+            items_count=target_count,
+            ammo_count=target_count * target_item.box_size,
+        )
+    return QuestItemTarget(
+        item=item_info,
+        items_count=target_count,
+    )
+
+
+def _parse_camp_target(
+    db_task: CyclicQuest,
+    target_camp: CampInfo | None,
+) -> LagerTarget:
+    target_camp_item = (
+        target_camp.spawn_item
+        if target_camp
+        else (
+            db_task.target_camp_to_destroy
+            if db_task.type == QuestKinds.DESTROY_CAMP
+            else db_task.target_camp_to_defeat
+        )
+    )
+    if target_camp_item is None:
+        raise TypeError
+    camp_map_info = _spawn_item_to_map_info(
+        target_camp_item.section_name,
+        target_camp_item,
+    )
+    return LagerTarget(db_task.target_str or str(db_task.id), camp_map_info)
+
+
+def _parse_stalker_target(stalker: StalkerSection) -> StalkerTarget:
+    single_spawn_items = SingleStalkerSpawnItem.objects.filter(
+        stalker_section=stalker,
+    )
+    single_spawn_items_ids = single_spawn_items.values_list(
+        "spawn_item_id",
+        flat=True,
+    )
+    respawns = stalker.respawn_set.all()
+    respawns_spawn_items = respawns.values_list("spawn_item_id", flat=True)
+    possible_spawn_items = SpawnItem.objects.filter(
+        id__in=list(single_spawn_items_ids) + list(respawns_spawn_items),
+    )
+    maybe_map_points = [
+        _spawn_item_to_map_info(stalker.section_name, item)
+        for item in possible_spawn_items
+    ]
+    return StalkerTarget(
+        str(stalker),
+        str(stalker),
+        [point for point in maybe_map_points if point is not None],
+    )
 
 
 def _spawn_item_to_map_info(
@@ -346,7 +366,8 @@ def _spawn_item_to_map_info(
         ):
             rm = offset_re.match(location_map_info.bound_rect_raw)
             if rm is None:
-                raise ValueError("Err")
+                msg = "Err"
+                raise ValueError(msg)
             (min_x, min_y, max_x, max_y) = (
                 float(rm.group("min_x")),
                 float(rm.group("min_y")),
@@ -371,7 +392,8 @@ def _spawn_item_to_map_info(
 def parse_item_reward(reward: CyclicQuestItemReward) -> TaskReward:
     item_icon = None
     if reward.item is None:
-        raise ValueError("No item in reward")
+        msg = "No item in reward"
+        raise ValueError(msg)
     if reward.item.inv_icon:
         item_icon = Icon(
             reward.item.inv_icon.url,

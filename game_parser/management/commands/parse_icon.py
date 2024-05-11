@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -42,7 +43,7 @@ class Command(BaseCommand):
         return paths
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         Icon.objects.all().delete()
 
         if not self.TMP_DIR.exists():
@@ -65,6 +66,7 @@ class Command(BaseCommand):
                     )
                     image = Image.open(image_file_path)
             if image is None:
-                raise ValueError(f"No image in {file_path}")
+                msg = f"No image in {file_path}"
+                raise ValueError(msg)
             loader = IconLoader(image)
             loader.load_bulk(root_node)

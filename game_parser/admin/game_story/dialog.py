@@ -1,28 +1,19 @@
-from django.contrib.admin import ModelAdmin, TabularInline, display, register
+from django.contrib.admin import ModelAdmin, display, register
 from django.utils.safestring import mark_safe
 
 from game_parser.admin.utils import links_list
 from game_parser.models import Dialog, ScriptFunction
 from game_parser.models.game_story.dialog import DialogPhrase
+from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
 
-class DialogPhraseInlineAdmin(TabularInline):
+class DialogPhraseInlineAdmin(ReadOnlyNestedTable):
     model = DialogPhrase
-    show_change_link = True
     fields = [
         "local_id",
         "text_id_raw",
         "text",
     ]
-
-    def has_add_permission(self, request, obj):
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
 
 
 @register(Dialog)

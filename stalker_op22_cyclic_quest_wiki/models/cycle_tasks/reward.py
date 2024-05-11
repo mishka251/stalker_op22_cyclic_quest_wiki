@@ -13,14 +13,6 @@ class MoneyRewardManager(models.Manager["MoneyReward"]):
 
 
 class MoneyReward(models.Model):
-    class Meta:
-        unique_together = [
-            ("quest"),
-        ]
-        verbose_name = "Деньги за ЦЗ"
-        verbose_name_plural = "Деньги за ЦЗ"
-
-    objects = MoneyRewardManager()
     money = models.PositiveIntegerField(null=False, verbose_name="Сумма")
 
     quest = models.ForeignKey(
@@ -30,11 +22,20 @@ class MoneyReward(models.Model):
         verbose_name="ЦЗ",
     )
 
+    objects = MoneyRewardManager()
+
+    class Meta:
+        unique_together = [
+            ("quest"),
+        ]
+        verbose_name = "Деньги за ЦЗ"
+        verbose_name_plural = "Деньги за ЦЗ"
+
+    def __str__(self) -> str:
+        return f"{self.money} рублей за квест {self.quest}"
+
     def natural_key(self) -> tuple:
         return (*self.quest.natural_key(),)
-
-    def __str__(self):
-        return f"{self.money} рублей за квест {self.quest}"
 
 
 class ItemRewardManager(models.Manager["ItemReward"]):
@@ -46,14 +47,6 @@ class ItemRewardManager(models.Manager["ItemReward"]):
 
 
 class ItemReward(models.Model):
-    class Meta:
-        unique_together = [
-            ("item", "quest"),
-        ]
-        verbose_name = "Предмет за ЦЗ"
-        verbose_name_plural = "Предметы за ЦЗ"
-
-    objects = ItemRewardManager()
     item = models.ForeignKey(
         "Item",
         null=False,
@@ -74,11 +67,20 @@ class ItemReward(models.Model):
         verbose_name="ЦЗ",
     )
 
+    objects = ItemRewardManager()
+
+    class Meta:
+        unique_together = [
+            ("item", "quest"),
+        ]
+        verbose_name = "Предмет за ЦЗ"
+        verbose_name_plural = "Предметы за ЦЗ"
+
+    def __str__(self) -> str:
+        return f"{self.count} {self.item} за квест {self.quest}"
+
     def natural_key(self) -> tuple:
         return (*self.quest.natural_key(), *self.item.natural_key())
-
-    def __str__(self):
-        return f"{self.count} {self.item} за квест {self.quest}"
 
 
 class QuestRandomRewardManager(models.Manager["QuestRandomReward"]):
@@ -94,14 +96,6 @@ class QuestRandomRewardManager(models.Manager["QuestRandomReward"]):
 
 
 class QuestRandomReward(models.Model):
-    class Meta:
-        unique_together = [
-            ("reward", "quest"),
-        ]
-        verbose_name = "Случайная награда за ЦЗ"
-        verbose_name_plural = "Случайная награда за ЦЗ"
-
-    objects = QuestRandomRewardManager()
     reward = models.ForeignKey(
         "RandomRewardInfo",
         null=False,
@@ -122,11 +116,20 @@ class QuestRandomReward(models.Model):
         verbose_name="ЦЗ",
     )
 
+    objects = QuestRandomRewardManager()
+
+    class Meta:
+        unique_together = [
+            ("reward", "quest"),
+        ]
+        verbose_name = "Случайная награда за ЦЗ"
+        verbose_name_plural = "Случайная награда за ЦЗ"
+
+    def __str__(self) -> str:
+        return f"{self.count} {self.reward} за квест {self.quest}"
+
     def natural_key(self) -> tuple:
         return (*self.quest.natural_key(), *self.reward.natural_key())
-
-    def __str__(self):
-        return f"{self.count} {self.reward} за квест {self.quest}"
 
 
 class RandomRewardInfoManager(models.Manager["RandomRewardInfo"]):
@@ -135,11 +138,6 @@ class RandomRewardInfoManager(models.Manager["RandomRewardInfo"]):
 
 
 class RandomRewardInfo(models.Model):
-    class Meta:
-        verbose_name = "Описание случайной награды"
-        verbose_name_plural = "Описание случайных наград"
-
-    objects = RandomRewardInfoManager()
     use_in_quests: "models.Manager[QuestRandomReward]"
     index = models.IntegerField(null=False, unique=True, verbose_name="Индекс")
     icon = models.ForeignKey(
@@ -161,11 +159,17 @@ class RandomRewardInfo(models.Model):
         verbose_name="Возможные предметы",
     )
 
+    objects = RandomRewardInfoManager()
+
+    class Meta:
+        verbose_name = "Описание случайной награды"
+        verbose_name_plural = "Описание случайных наград"
+
+    def __str__(self) -> str:
+        return self.description.rus or self.description.code
+
     def natural_key(self) -> tuple:
         return (self.index,)
-
-    def __str__(self):
-        return self.description.rus or self.description.code
 
 
 class TreasureRewardManager(models.Manager["TreasureReward"]):
@@ -176,14 +180,6 @@ class TreasureRewardManager(models.Manager["TreasureReward"]):
 
 
 class TreasureReward(models.Model):
-    class Meta:
-        unique_together = [
-            ("quest",),
-        ]
-        verbose_name = "Тайник в награду за ЦЗ"
-        verbose_name_plural = "Тайники в награду за ЦЗ"
-
-    objects = TreasureRewardManager()
 
     quest = models.ForeignKey(
         "CyclicQuest",
@@ -191,12 +187,20 @@ class TreasureReward(models.Model):
         on_delete=models.CASCADE,
         verbose_name="ЦЗ",
     )
+    objects = TreasureRewardManager()
+
+    class Meta:
+        unique_together = [
+            ("quest",),
+        ]
+        verbose_name = "Тайник в награду за ЦЗ"
+        verbose_name_plural = "Тайники в награду за ЦЗ"
+
+    def __str__(self) -> str:
+        return f"Тайник за квест {self.quest}"
 
     def natural_key(self) -> tuple:
         return (*self.quest.natural_key(),)
-
-    def __str__(self):
-        return f"Тайник за квест {self.quest}"
 
 
 __all__ = [

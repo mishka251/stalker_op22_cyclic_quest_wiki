@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.files.images import ImageFile
@@ -35,7 +36,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         CyclicQuest.objects.all().delete()
         QuestRandomReward.objects.all().delete()
 
@@ -58,7 +59,11 @@ class Command(BaseCommand):
                 quest = self._quest_from_dict(quest_name, quest_data)
                 quest.save()
 
-    def _quest_from_dict(self, name: str, data: dict[str, str]) -> CyclicQuest:
+    def _quest_from_dict(  # noqa: C901 PLR0912
+        self,
+        name: str,
+        data: dict[str, str],
+    ) -> CyclicQuest:
         # pylint: disable=too-many-branches
         game_code = name
         giver_code = name[:3]

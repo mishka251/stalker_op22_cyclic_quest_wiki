@@ -26,7 +26,7 @@ class GSCXmlFixer:
         need_add_root_tag = header is None
         with source.open("r", encoding=encoding) as file:
             content = file.read()
-        fixed_content = self._replace_includes(content)
+        fixed_content = self._replace_includes(content, encoding)
         fixed_content = self._fix_broken_comments(fixed_content)
         if need_add_root_tag:
             fixed_content = self._add_root_tag(fixed_content, encoding)
@@ -35,7 +35,7 @@ class GSCXmlFixer:
             tml_file.write(fixed_content)
         return fixed_file_path
 
-    def _get_encoding(self, header, source):
+    def _get_encoding(self, header: str | None, source: Path) -> str:
         encoding = None
         if header:
             encoding = self._get_encoding_from_header(header)
@@ -72,7 +72,8 @@ class GSCXmlFixer:
         detector.close()
         encoding = detector.result["encoding"]
         if not encoding:
-            raise ValueError("Unknown encoding")
+            msg = "Unknown encoding"
+            raise ValueError(msg)
         return encoding
 
     def _ensure_tmp_dir(self) -> None:
@@ -97,13 +98,17 @@ class GSCXmlFixer:
         return re.sub(xml_comment2_re, r"<!-- \g<comment> -->", fixed_content)
 
     def _add_root_tag(self, content: str, encoding: str) -> str:
-        return f'<?xml version="1.0" encoding="{encoding}"?>{content}'
+        return f'<?xml version="1.0" encoding="{encoding}"?>\n{content}'
 
-    def _replace_includes(self, content: str) -> str:
+    def _replace_includes(self, content: str, root_encoding: str) -> str:
         import_regex = re.compile(r'#include "(?P<include_path>.*?)"')
-        return re.sub(import_regex, self._get_included, content)
+        return re.sub(
+            import_regex,
+            lambda s: self._get_included(s, root_encoding),
+            content,
+        )
 
-    def _get_included(self, m: re.Match) -> str:
+    def _get_included(self, m: re.Match, root_encoding: str) -> str:
         include_path = m.groupdict()["include_path"]
         base_path = settings.OP22_GAME_DATA_PATH / "config"
         target_path = base_path / include_path
@@ -111,9 +116,19 @@ class GSCXmlFixer:
         try:
             with target_path.open("r", encoding=encoding) as file:
                 content = file.read()
-                return self._replace_includes(content)
+                fixed_content = self._replace_includes(content, root_encoding)
         except Exception as e:
-            raise FixerError(f"При парсинге {target_path} {encoding=}") from e
+            msg = f"При парсинге {target_path} {encoding=}"
+            raise FixerError(msg) from e
+        try:
+            tmp_file = Path(f"tmp_{target_path.name}.xml")
+            with tmp_file.open("w", encoding=root_encoding) as tml_file:
+                tml_file.write(fixed_content)
+            tmp_file.unlink()
+        except Exception as e:
+            msg = f"При парсинге {target_path} {encoding=}"
+            raise FixerError(msg) from e
+        return f"\n{fixed_content}\n"
 
 
 class FixerError(Exception):

@@ -50,7 +50,7 @@ class Item(PolymorphicModel):
     def natural_key(self) -> tuple:
         return (self.name,)
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.name_translation:
             return self.name_translation.rus
         return self.name

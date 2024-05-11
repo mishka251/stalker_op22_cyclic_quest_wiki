@@ -25,7 +25,8 @@ class QuestGiversView(View):
         for quest_giver in quest_givers:
             npc_profile = quest_giver.get_npc_profile()
             if npc_profile is None:
-                raise ValueError("No npc_profile")
+                msg = "No npc_profile"
+                raise ValueError(msg)
             name_translations = npc_profile.name_translation
             quest_giver_json = {
                 "id": str(quest_giver.id),
@@ -128,7 +129,7 @@ class VendorCyclicQuests(View):
             "reward_item": self._random_reward_item_to_json(item.reward),
         }
 
-    def _random_reward_item_to_json(self, reward: QuestRandomReward):
+    def _random_reward_item_to_json(self, reward: QuestRandomReward) -> dict:
         return {
             "index": reward.index,
             "name": (
@@ -152,7 +153,8 @@ class VendorCyclicQuests(View):
     def _camp_to_dict(self, camp: SpawnItem) -> dict:
         position = self._get_camp_position(camp)
         if camp.location is None:
-            raise ValueError("No camp location")
+            msg = "No camp location"
+            raise ValueError(msg)
         location_info = LocationMapInfo.objects.get(location=camp.location)
         map_offset = self._get_camp_map_offset(location_info)
         map_info = None
@@ -202,7 +204,8 @@ class VendorCyclicQuests(View):
             )
             rm = offset_re.match(location_info.bound_rect_raw)
             if rm is None:
-                raise ValueError("Не удалось распарсить границы локи")
+                msg = "Не удалось распарсить границы локи"
+                raise ValueError(msg)
             (min_x, min_y, max_x, max_y) = (
                 float(rm.group("min_x")),
                 float(rm.group("min_y")),

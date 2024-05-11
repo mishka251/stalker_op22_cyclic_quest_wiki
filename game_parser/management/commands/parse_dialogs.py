@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -29,7 +30,7 @@ class Command(BaseCommand):
         ]
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         Dialog.objects.all().delete()
         DialogPhrase.objects.all().delete()
 

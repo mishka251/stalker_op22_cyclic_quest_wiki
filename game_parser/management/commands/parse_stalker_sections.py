@@ -1,6 +1,7 @@
 import logging
 from collections import defaultdict
 from pathlib import Path
+from typing import Any, cast
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -39,7 +40,7 @@ class Command(BaseCommand):
         ]
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         # pylint: disable=too-many-locals
         print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
@@ -94,8 +95,8 @@ class Command(BaseCommand):
 
     def _get_sections_by_class(
         self,
-        results,
-        grouped_by_cls_dict,
+        results: dict[str, list[str] | dict[str, str]],
+        grouped_by_cls_dict: dict[str, set[str]],
         classes: set[str],
     ) -> tuple[set[str], dict[str, dict]]:
         ammo_keys = set()
@@ -106,4 +107,4 @@ class Command(BaseCommand):
             for ammo_key in ammo_keys
             if ammo_key not in classes
         }
-        return ammo_keys, ammo
+        return ammo_keys, cast(dict[str, dict], ammo)

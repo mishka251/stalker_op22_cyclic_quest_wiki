@@ -1,6 +1,7 @@
 import logging
 from enum import Enum
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -154,7 +155,7 @@ class Command(BaseCommand):
         return self.get_files_from_dir(self.get_root_dir_path())
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
 
         Addon.objects.all().delete()
         Ammo.objects.all().delete()
@@ -333,4 +334,5 @@ class Command(BaseCommand):
         try:
             return model_type_mapping[model_type]()
         except KeyError as ex:
-            raise ValueError(f"UNKNOWN {model_type=}") from ex
+            msg = f"UNKNOWN {model_type=}"
+            raise ValueError(msg) from ex

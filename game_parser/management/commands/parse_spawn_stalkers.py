@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -12,10 +13,10 @@ class Command(BaseCommand):
 
     def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / "spawns" / "all_cs" / "all.ltx"
+        return base_path / "spawns" / "all.ltx"
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         Respawn.objects.all().delete()
         SingleStalkerSpawnItem.objects.all().delete()
 
@@ -63,7 +64,7 @@ class Command(BaseCommand):
         self,
         level_file_name: str,
         section: dict[str, str],
-        path,
+        path: Path,
     ) -> Respawn:
         custom_data = (
             TextLtxParser(path, section["custom_data"])

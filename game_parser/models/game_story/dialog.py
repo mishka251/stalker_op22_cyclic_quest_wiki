@@ -6,10 +6,6 @@ from game_parser.models.translation import Translation
 
 
 class Dialog(models.Model):
-    class Meta:
-        verbose_name = "Диалог"
-        verbose_name_plural = "Диалоги"
-
     game_id = models.CharField(
         max_length=512,
         null=False,
@@ -50,20 +46,15 @@ class Dialog(models.Model):
         verbose_name="функция, инициализирующая диалог",
     )
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Диалог"
+        verbose_name_plural = "Диалоги"
+
+    def __str__(self) -> str:
         return f"Диалог {self.game_id}"
 
 
 class DialogPhrase(models.Model):
-    class Meta:
-        verbose_name = "Фраза диалога"
-        verbose_name_plural = "Фразы диалогов"
-        constraints = [
-            models.UniqueConstraint(
-                fields=["local_id", "dialog"],
-                name="unique_dialog_phrase_by_local_id_and_dialog",
-            ),
-        ]
 
     local_id = models.CharField(max_length=10, verbose_name="id фразы в диалоге")
 
@@ -138,11 +129,21 @@ class DialogPhrase(models.Model):
         verbose_name="Убираемые инфопоршни?",
     )
 
+    class Meta:
+        verbose_name = "Фраза диалога"
+        verbose_name_plural = "Фразы диалогов"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["local_id", "dialog"],
+                name="unique_dialog_phrase_by_local_id_and_dialog",
+            ),
+        ]
+
+    def __str__(self) -> str:
+        return f"Фраза {self.local_id} диалога {self.dialog}"
+
     @property
     def get_text(self) -> str | None:
         if self.text:
             return self.text.rus
         return self.text_id_raw
-
-    def __str__(self):
-        return f"Фраза {self.local_id} диалога {self.dialog}"

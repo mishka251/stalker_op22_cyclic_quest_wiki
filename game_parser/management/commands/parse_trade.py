@@ -2,6 +2,7 @@ import logging
 import re
 from decimal import Decimal
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -33,7 +34,7 @@ class Command(BaseCommand):
         return paths
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         # pylint: disable=too-many-locals
         Trader.objects.all().delete()
         Buy.objects.all().delete()
@@ -72,7 +73,8 @@ class Command(BaseCommand):
                 supply_condition, supply_section_name = self._parse_condition(supply)
 
                 if sell_condition != supply_condition:
-                    raise ValueError(f"{sell_condition=}, {supply_condition=}")
+                    msg = f"{sell_condition=}, {supply_condition=}"
+                    raise ValueError(msg)
                 print(f"\t{sell_section_name=}, {supply_section_name=}")
                 supply_section_raw = results.pop(supply_section_name)
                 if not isinstance(supply_section_raw, dict):
@@ -108,7 +110,11 @@ class Command(BaseCommand):
     ) -> None:
         buy = Buy.objects.create(trader=trader, name=section_name)
         for item_name, item_str in data.items():
-            min_price_str, max_price_str = item_str.split(",")
+            try:
+                min_price_str, max_price_str = item_str.split(",")
+            except Exception as e:
+                msg = f"Кривая строка {item_name} {item_str}"
+                raise ValueError(msg) from e
             min_price = Decimal(min_price_str.strip())
             max_price = Decimal(max_price_str.strip())
             ItemInBuy.objects.create(

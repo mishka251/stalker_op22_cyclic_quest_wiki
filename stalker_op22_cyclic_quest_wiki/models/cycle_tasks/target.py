@@ -54,7 +54,7 @@ class CycleTaskTargetItem(CycleTaskTarget):
         verbose_name="Цель: состояние предмета ",
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         cond_str = self.cond_str or ""
         return f"{self.count or 1} {self.item} {cond_str} для {self.quest}"
 
@@ -79,7 +79,7 @@ class CycleTaskTargetCamp(CycleTaskTarget):
         )
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
 
         communities = (
             ", ".join(str(community) for community in self.communities.all())
@@ -116,7 +116,7 @@ class CycleTaskTargetStalker(CycleTaskTarget):
         )
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Сталкер {self.rank}, {self.community} для {self.quest}"
 
 

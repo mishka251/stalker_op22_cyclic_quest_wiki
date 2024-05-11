@@ -7,9 +7,6 @@ if TYPE_CHECKING:
 
 
 class GameStoryId(models.Model):
-    class Meta:
-        verbose_name = "Связь id с секциями"
-        verbose_name_plural = "Связи id с секциями"
 
     story_id = models.PositiveSmallIntegerField(
         null=False,
@@ -59,7 +56,11 @@ class GameStoryId(models.Model):
         verbose_name="Кастоная секция спавна",
     )
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Связь id с секциями"
+        verbose_name_plural = "Связи id с секциями"
+
+    def __str__(self) -> str:
         return f"{self.story_id}"
 
     def get_stalker_profile(self) -> "StorylineCharacter | None":

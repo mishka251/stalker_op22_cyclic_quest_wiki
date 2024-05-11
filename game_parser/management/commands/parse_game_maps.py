@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.files.images import ImageFile
@@ -25,7 +26,7 @@ class Command(BaseCommand):
         return base_path / "textures"
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         LocationMapInfo.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())

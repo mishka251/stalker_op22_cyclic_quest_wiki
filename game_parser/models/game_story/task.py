@@ -5,9 +5,6 @@ from game_parser.models.translation import Translation
 
 
 class GameTask(models.Model):
-    class Meta:
-        verbose_name = "Сюжетное задание"
-        verbose_name_plural = "Сюжетные задания"
 
     game_id = models.CharField(max_length=256, unique=True, verbose_name="Игровой id")
     title_id_raw = models.CharField(max_length=256, verbose_name="Сырое название")
@@ -20,21 +17,21 @@ class GameTask(models.Model):
     )
     prio = models.IntegerField(null=True)
 
+    class Meta:
+        verbose_name = "Сюжетное задание"
+        verbose_name_plural = "Сюжетные задания"
+
+    def __str__(self) -> str:
+        return self.get_title
+
     @property
     def get_title(self) -> str:
         if self.title:
             return self.title.rus
         return self.title_id_raw
 
-    def __str__(self):
-        return self.get_title
-
 
 class TaskObjective(models.Model):
-    class Meta:
-        verbose_name = "Цель сюжетного задания"
-        verbose_name_plural = "Цели сюжетных заданий"
-
     task = models.ForeignKey(GameTask, on_delete=models.CASCADE, verbose_name="Задание")
     text_id_raw = models.CharField(
         max_length=256,
@@ -145,6 +142,13 @@ class TaskObjective(models.Model):
         verbose_name="Статья",
     )
 
+    class Meta:
+        verbose_name = "Цель сюжетного задания"
+        verbose_name_plural = "Цели сюжетных заданий"
+
+    def __str__(self) -> str:
+        return f"{self.task} - {self.get_text}"
+
     @property
     def get_text(self) -> str | None:
         if self.text:
@@ -154,9 +158,6 @@ class TaskObjective(models.Model):
     @property
     def get_article(self) -> str | None:
         return self.article_id_raw
-
-    def __str__(self):
-        return f"{self.task} - {self.get_text}"
 
 
 class MapLocationType(models.Model):

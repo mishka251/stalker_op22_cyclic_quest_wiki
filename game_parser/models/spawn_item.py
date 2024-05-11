@@ -4,10 +4,6 @@ from game_parser.models.game_story import Community
 
 
 class SpawnItem(models.Model):
-    class Meta:
-        verbose_name = "Секция спавна"
-        verbose_name_plural = "Секции спавна"
-
     section_name = models.CharField(max_length=255, verbose_name="Название секции")
     name = models.CharField(max_length=255, verbose_name="Название")
     position_raw = models.CharField(max_length=300, verbose_name="Координаты(строка)")
@@ -61,15 +57,15 @@ class SpawnItem(models.Model):
         related_name="spawn_items",
     )
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Секция спавна"
+        verbose_name_plural = "Секции спавна"
+
+    def __str__(self) -> str:
         return f"{self.name} ({self.section_name})"
 
 
 class NpcLogicConfig(models.Model):
-    class Meta:
-        verbose_name = "Логики НПС"
-        verbose_name_plural = "Файлы логик НПС"
-
     name = models.CharField(max_length=255, verbose_name="Название файла")
     source_file_name = models.CharField(
         max_length=255,
@@ -89,7 +85,11 @@ class NpcLogicConfig(models.Model):
         verbose_name="Конфиг торговли",
     )
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Логики НПС"
+        verbose_name_plural = "Файлы логик НПС"
+
+    def __str__(self) -> str:
         return f"{self.name} ({self.source_file_name})"
 
 
@@ -132,7 +132,7 @@ class CustomSpawnItem(models.Model):
         verbose_name="Тайник(рюкзак?)",
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} ({self.section_name})"
 
 
@@ -157,7 +157,7 @@ class CampInfo(models.Model):
         verbose_name_plural = "Лагеря НПС/мутантов"
         verbose_name = "Лагерь НПС/мутантов"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.type}, {self.communities_raw}"
 
 
@@ -176,7 +176,7 @@ class StalkerSection(models.Model):
         related_name="+",
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.section_name}, {self.character_profile_str} ({self.community_str}, {self.spec_rank_str})"
 
 
@@ -217,5 +217,5 @@ class SingleStalkerSpawnItem(models.Model):
         on_delete=models.SET_NULL,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Спавн сталкера {self.stalker_section}"

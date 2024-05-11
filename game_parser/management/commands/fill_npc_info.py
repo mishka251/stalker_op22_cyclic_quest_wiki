@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         count = SpawnItem.objects.count()
         for index, spawn_item in enumerate(SpawnItem.objects.all()):
             if spawn_item.character_profile_str:
@@ -30,7 +31,9 @@ class Command(BaseCommand):
                 )
             if spawn_item.custom_data:
                 try:
-                    spawn_item.npc_logic = self.parse_custom_data(spawn_item)
+                    spawn_item.npc_logic = self.parse_custom_data(
+                        spawn_item.custom_data,
+                    )
                 # pylint: disable=broad-exception-caught
                 except Exception:
                     logger.exception(f"{spawn_item.custom_data}")
@@ -47,10 +50,10 @@ class Command(BaseCommand):
             npc_logic.save()
             print(f"{index + 1:_}/{count:_}")
 
-    def parse_custom_data(self, spawn_item) -> NpcLogicConfig | None:
+    def parse_custom_data(self, custom_data: str) -> NpcLogicConfig | None:
         info_parser = TextLtxParser(
             Path(),
-            spawn_item.custom_data,
+            custom_data,
         )
         custom_data_sections = info_parser.get_parsed_blocks()
         logic = custom_data_sections.get("logic")
