@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def get_file_path(self) -> Path:
         base_path = settings.OP22_GAME_DATA_PATH
-        return base_path / "spawns" / "all_cs" / "all.ltx"
+        return base_path / "spawns" / "all.ltx"
 
     @atomic
     def handle(self, *args, **options) -> None:

@@ -108,7 +108,10 @@ class Command(BaseCommand):
     ) -> None:
         buy = Buy.objects.create(trader=trader, name=section_name)
         for item_name, item_str in data.items():
-            min_price_str, max_price_str = item_str.split(",")
+            try:
+                min_price_str, max_price_str = item_str.split(",")
+            except Exception as e:
+                raise ValueError(f"Кривая строка {item_name} {item_str}") from e
             min_price = Decimal(min_price_str.strip())
             max_price = Decimal(max_price_str.strip())
             ItemInBuy.objects.create(

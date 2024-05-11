@@ -11,7 +11,7 @@ from game_parser.models import Icon, QuestRandomReward
 
 class Command(BaseCommand):
     def handle(self, *args, **options) -> None:
-        for reward in QuestRandomReward.objects.all():
+        for reward in QuestRandomReward.objects.filter(icon__isnull=True):
             self._set_reward_icon(reward)
             reward.save()
 
