@@ -1,5 +1,6 @@
 import logging
 import re
+from typing import Any
 
 from django.core.management.base import BaseCommand
 from django.db.models.functions import Lower
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         location_name_re = re.compile(r"alife_(?P<location>.*)\.ltx")
         count = SpawnItem.objects.count()
         for index, item in enumerate(SpawnItem.objects.all()):

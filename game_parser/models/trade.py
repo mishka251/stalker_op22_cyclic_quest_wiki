@@ -11,7 +11,7 @@ class Trader(models.Model):
         verbose_name = "Профиль торговли"
         verbose_name_plural = "Профили торговли"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Профиль торговли {self.game_code} {self.name}"
 
 
@@ -28,7 +28,7 @@ class BaseTrade(models.Model):
     class Meta:
         verbose_name = "Торговля"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} у {self.trader}"
 
 
@@ -80,7 +80,7 @@ class ItemInBuy(ItemInTradeBase):
         verbose_name = "Предмет в покупке"
         verbose_name_plural = "Предметы в покупке"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Продажа {self.item_name} в {self.trade}"
 
 
@@ -116,5 +116,5 @@ class ItemInSell(ItemInTradeBase):
         verbose_name = "Предмет в продаже"
         verbose_name_plural = "Предметы в продаже"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Покупка {self.item_name} в {self.trade}"

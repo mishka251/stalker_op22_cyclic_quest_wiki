@@ -68,7 +68,11 @@ class DialogLoader(BaseModelXmlLoader[Dialog]):
                 self._parse_dialog_phrase(dialog, phrase_node)
 
     # pylint: disable=too-many-branches, too-many-locals
-    def _parse_dialog_phrase(self, dialog, phrase_node):  # noqa: C901 PLR0912
+    def _parse_dialog_phrase(  # noqa: C901 PLR0912
+        self,
+        dialog: Dialog,
+        phrase_node: _Element,
+    ) -> None:
         phrase_id = phrase_node.attrib.pop("id")
         try:
             phrase = DialogPhrase.objects.create(

@@ -19,5 +19,5 @@ class Translation(models.Model):
         verbose_name = "Перевод"
         verbose_name_plural = "Переводы"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.code} {self.rus}"

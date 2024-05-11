@@ -49,7 +49,7 @@ class MapPosition(models.Model):
         verbose_name = "Точка на локации"
         verbose_name_plural = "Точки на локации"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} - {self.x}, {self.y}, {self.z} на локации {self.location}"
 
     def natural_key(self) -> tuple:

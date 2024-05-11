@@ -5,14 +5,14 @@ from typing import Any
 
 import tablib
 from django.conf import settings
-from django.core.management import BaseCommand, CommandError
+from django.core.management import BaseCommand, CommandError, CommandParser
 from import_export.results import Error, Result
 
 from stalker_op22_cyclic_quest_wiki.management.commands.resources import to_export
 
 
 class Command(BaseCommand):
-    def add_arguments(self, parser) -> None:
+    def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--imported_archive",

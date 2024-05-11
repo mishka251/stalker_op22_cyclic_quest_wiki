@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.contrib.contenttypes.models import ContentType
 from django.core.management import BaseCommand
 
@@ -10,13 +12,13 @@ from stalker_op22_cyclic_quest_wiki.models import Translation as WikiTranslation
 
 
 class Command(BaseCommand):
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         print("START")
         self._update_ammo()
         self._update_items()
         print("END")
 
-    def _update_ammo(self):
+    def _update_ammo(self) -> None:
         print("start ammo")
         cnt = ParserAmmo.objects.count()
         for i, ammo in enumerate(ParserAmmo.objects.all()):
@@ -51,7 +53,7 @@ class Command(BaseCommand):
                 print(f"{i}/{cnt}")
         print("end ammo")
 
-    def _update_items(self):
+    def _update_items(self) -> None:
         print("start items")
         cnt = ParserItem.objects.exclude(
             polymorphic_ctype=ContentType.objects.get_for_model(ParserAmmo),

@@ -41,7 +41,7 @@ class Location(models.Model):
         verbose_name = "Локация"
         verbose_name_plural = "Локации"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Локация {self.name_translation} ({self.game_code})"
 
 

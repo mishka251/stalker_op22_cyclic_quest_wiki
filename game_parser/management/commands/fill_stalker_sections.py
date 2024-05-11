@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
@@ -18,7 +19,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         self._fill_stalker_section()
 
         self._fill_single_stalker()
@@ -27,7 +28,7 @@ class Command(BaseCommand):
 
         self._fill_cyclic_quests()
 
-    def _fill_stalker_section(self):
+    def _fill_stalker_section(self) -> None:
         count = StalkerSection.objects.count()
         for index, stalker_section in enumerate(StalkerSection.objects.all()):
             if stalker_section.character_profile_str is None:
@@ -44,7 +45,7 @@ class Command(BaseCommand):
             if index % 100 == 0:
                 print(f"{index + 1}/{count}")
 
-    def _fill_single_stalker(self):
+    def _fill_single_stalker(self) -> None:
         count = SingleStalkerSpawnItem.objects.count()
         for index, stalker_spawn_item in enumerate(
             SingleStalkerSpawnItem.objects.all(),
@@ -61,7 +62,7 @@ class Command(BaseCommand):
             if index % 100 == 0:
                 print(f"{index + 1}/{count}")
 
-    def _fill_respawn(self):
+    def _fill_respawn(self) -> None:
         count = Respawn.objects.count()
         for index, respawn in enumerate(Respawn.objects.all()):
             if not respawn.respawn_section_raw:
@@ -74,7 +75,7 @@ class Command(BaseCommand):
             if index % 100 == 0:
                 print(f"{index + 1}/{count}")
 
-    def _fill_cyclic_quests(self):
+    def _fill_cyclic_quests(self) -> None:
         count = CyclicQuest.objects.count()
         for index, quest in enumerate(CyclicQuest.objects.all()):
             if quest.target_str is None:

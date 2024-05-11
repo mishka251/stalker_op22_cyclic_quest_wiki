@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 from xml.etree.ElementTree import parse
 
 from django.conf import settings
@@ -23,7 +24,7 @@ class Command(BaseCommand):
         return self.get_files_dir_path() / "game_tasks.xml"
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         GameTask.objects.all().delete()
         TaskObjective.objects.all().delete()
 

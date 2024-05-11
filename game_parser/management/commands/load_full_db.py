@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
@@ -66,7 +68,7 @@ class Command(BaseCommand):
     ]
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         for command in self.another_commands:
             print(command)
             call_command(command)

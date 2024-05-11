@@ -34,5 +34,5 @@ class ScriptFunction(models.Model):
 
     rewards: "models.Manager[BaseScriptReward]"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.namespace}.{self.name}"

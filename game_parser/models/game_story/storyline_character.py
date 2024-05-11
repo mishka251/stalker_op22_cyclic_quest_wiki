@@ -35,7 +35,7 @@ class Community(models.Model):
         verbose_name = "Группировка"
         verbose_name_plural = "Группировки"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.translation.rus if self.translation else self.code
 
 
@@ -73,7 +73,7 @@ class Rank(models.Model):
         verbose_name = "Ранг сталкера"
         verbose_name_plural = "Ранги сталкеров"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.translation.rus if self.translation else self.name
 
 
@@ -86,7 +86,7 @@ class Icon(models.Model):
         verbose_name = "Иконка"
         verbose_name_plural = "Иконки"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}"
 
 
@@ -152,5 +152,5 @@ class StorylineCharacter(Character):
             return "Случайное имя"
         return self.name_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"NPC {self.get_name}"

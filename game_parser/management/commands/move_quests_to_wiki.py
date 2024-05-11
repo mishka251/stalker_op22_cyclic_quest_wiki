@@ -1,4 +1,5 @@
 import re
+from typing import Any
 
 from django.core.management import BaseCommand
 
@@ -34,14 +35,14 @@ from stalker_op22_cyclic_quest_wiki.models import TreasureReward as WikiTreasure
 
 
 class Command(BaseCommand):
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         print("START")
         self._update_vendors()
         self._update_random_rewards()
         self._update_quests()
         print("END")
 
-    def _update_vendors(self):
+    def _update_vendors(self) -> None:
         print("start vendors")
         cnt = ParserVendor.objects.count()
         for i, vendor in enumerate(ParserVendor.objects.all()):
@@ -78,7 +79,7 @@ class Command(BaseCommand):
                 print(f"{i}/{cnt}")
         print("end vendors")
 
-    def _update_random_rewards(self):
+    def _update_random_rewards(self) -> None:
         print("start random rewards")
         cnt = ParserRandomReward.objects.count()
         for i, random_reward in enumerate(ParserRandomReward.objects.all()):
@@ -116,7 +117,7 @@ class Command(BaseCommand):
                 print(f"{i}/{cnt}")
         print("end random rewards")
 
-    def _update_quests(self):
+    def _update_quests(self) -> None:
         print("start quests")
         cnt = ParserCyclicQuest.objects.count()
         for i, quest in enumerate(ParserCyclicQuest.objects.all()):

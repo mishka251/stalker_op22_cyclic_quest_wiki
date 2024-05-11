@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -77,7 +78,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         # pylint: disable=too-many-locals
         TrueArtefact.objects.all().delete()
         MonsterEmbrion.objects.all().delete()
@@ -108,7 +109,10 @@ class Command(BaseCommand):
                 if quest_data:
                     logger.warning(f"unused data {quest_data} in {quest_name} {item=}")
 
-    def _get_arts_info(self, results):
+    def _get_arts_info(
+        self,
+        results: dict[str, list[str] | dict],
+    ) -> dict[str, list[str] | dict]:
         blocks: LtxParserResults = {**results}
         block_names = list(blocks.keys())
         keys_to_exclude: set[str] = set()

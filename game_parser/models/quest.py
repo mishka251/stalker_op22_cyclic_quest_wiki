@@ -165,7 +165,7 @@ class CyclicQuest(models.Model):
         verbose_name = "Циклический квест"
         verbose_name_plural = "Циклические квесты"
 
-    def __str__(self):
+    def __str__(self) -> str:
         kind_caption = dict(QuestKinds.choices)[self.type]
         target = self.target_item or self.target_str
         if self.target_count:

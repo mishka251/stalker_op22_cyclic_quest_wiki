@@ -28,7 +28,7 @@ class CycleTaskVendor(models.Model):
         verbose_name = "ID НПС, выдающий циклические задания"
         verbose_name_plural = "ID Выдающих ЦЗ НПС"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.game_story_id}, {self.vendor_id}"
 
     def get_spawn_section(self) -> "SpawnItem | None":

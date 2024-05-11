@@ -22,7 +22,7 @@ class Icon(models.Model):
         verbose_name = "Иконка"
         verbose_name_plural = "Иконки"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}"
 
     def natural_key(self) -> tuple:

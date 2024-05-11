@@ -60,7 +60,7 @@ class GameStoryId(models.Model):
         verbose_name = "Связь id с секциями"
         verbose_name_plural = "Связи id с секциями"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.story_id}"
 
     def get_stalker_profile(self) -> "StorylineCharacter | None":

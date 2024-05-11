@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.files.images import ImageFile
@@ -35,7 +36,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         CyclicQuest.objects.all().delete()
         QuestRandomReward.objects.all().delete()
 

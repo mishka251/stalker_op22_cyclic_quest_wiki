@@ -64,7 +64,7 @@ class Treasure(models.Model):
         verbose_name = "Тайник"
         verbose_name_plural = "Тайники"
 
-    def __str__(self):
+    def __str__(self) -> str:
         treasure_str = ""
         if self.custom_name_translation:
             treasure_str += self.custom_name_translation.rus
@@ -96,5 +96,5 @@ class ItemInTreasure(models.Model):
             ["item", "treasure"],
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.count} {self.item} в {self.treasure}"

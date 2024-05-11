@@ -1,4 +1,5 @@
 import re
+from typing import Any
 
 from django.core.management import BaseCommand
 
@@ -17,7 +18,7 @@ from stalker_op22_cyclic_quest_wiki.models import Translation as WikiTranslation
 
 
 class Command(BaseCommand):
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         print("START")
         self._update_translation()
         self._update_icons()
@@ -26,7 +27,7 @@ class Command(BaseCommand):
         self._update_locations()
         print("END")
 
-    def _update_translation(self):
+    def _update_translation(self) -> None:
         print("start translations")
         cnt = ParserTranslation.objects.count()
         for i, translation in enumerate(ParserTranslation.objects.all()):
@@ -44,7 +45,7 @@ class Command(BaseCommand):
                 print(f"{i}/{cnt}")
         print("end translations")
 
-    def _update_icons(self):
+    def _update_icons(self) -> None:
         print("start icons")
         cnt = ParserIcon.objects.count()
         for i, translation in enumerate(ParserIcon.objects.all()):
@@ -58,7 +59,7 @@ class Command(BaseCommand):
                 print(f"{i}/{cnt}")
         print("end icons")
 
-    def _update_communities(self):
+    def _update_communities(self) -> None:
         print("start communities")
         for translation in ParserCommunity.objects.filter(translation__isnull=False):
             if translation.translation is None:
@@ -73,7 +74,7 @@ class Command(BaseCommand):
             )
         print("end communities")
 
-    def _update_ranks(self):
+    def _update_ranks(self) -> None:
         print("start ranks")
         for translation in ParserRank.objects.filter(translation__isnull=False):
             if translation.translation is None:
@@ -88,7 +89,7 @@ class Command(BaseCommand):
             )
         print("end ranks")
 
-    def _update_locations(self):
+    def _update_locations(self) -> None:
         offset_re = re.compile(
             r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)",
         )

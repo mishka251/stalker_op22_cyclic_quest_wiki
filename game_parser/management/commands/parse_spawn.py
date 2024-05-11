@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -15,7 +16,7 @@ class Command(BaseCommand):
         return base_path / "spawns" / "all.ltx"
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         SpawnItem.objects.all().delete()
 
         parser = LtxParser(self.get_file_path())

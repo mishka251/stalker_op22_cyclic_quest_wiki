@@ -50,7 +50,7 @@ class Dialog(models.Model):
         verbose_name = "Диалог"
         verbose_name_plural = "Диалоги"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Диалог {self.game_id}"
 
 
@@ -139,7 +139,7 @@ class DialogPhrase(models.Model):
             ),
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Фраза {self.local_id} диалога {self.dialog}"
 
     @property

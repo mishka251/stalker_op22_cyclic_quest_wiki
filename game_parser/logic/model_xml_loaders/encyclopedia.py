@@ -110,7 +110,7 @@ class EncyclopediaArticleLoader(BaseModelXmlLoader[EncyclopediaArticle]):
         height: int,
         name: str,
         instance: Icon,
-    ):
+    ) -> Icon:
         box = self._get_item_image_coordinates(x, y, width, height)
         part = image.crop(box)
         tmp_file_name = "tmp.png"

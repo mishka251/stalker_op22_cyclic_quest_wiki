@@ -21,7 +21,7 @@ class GameTask(models.Model):
         verbose_name = "Сюжетное задание"
         verbose_name_plural = "Сюжетные задания"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.get_title
 
     @property
@@ -146,7 +146,7 @@ class TaskObjective(models.Model):
         verbose_name = "Цель сюжетного задания"
         verbose_name_plural = "Цели сюжетных заданий"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.task} - {self.get_text}"
 
     @property

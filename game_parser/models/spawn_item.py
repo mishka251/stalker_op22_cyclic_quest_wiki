@@ -61,7 +61,7 @@ class SpawnItem(models.Model):
         verbose_name = "Секция спавна"
         verbose_name_plural = "Секции спавна"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} ({self.section_name})"
 
 
@@ -89,7 +89,7 @@ class NpcLogicConfig(models.Model):
         verbose_name = "Логики НПС"
         verbose_name_plural = "Файлы логик НПС"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} ({self.source_file_name})"
 
 
@@ -132,7 +132,7 @@ class CustomSpawnItem(models.Model):
         verbose_name="Тайник(рюкзак?)",
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} ({self.section_name})"
 
 
@@ -157,7 +157,7 @@ class CampInfo(models.Model):
         verbose_name_plural = "Лагеря НПС/мутантов"
         verbose_name = "Лагерь НПС/мутантов"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.type}, {self.communities_raw}"
 
 
@@ -176,7 +176,7 @@ class StalkerSection(models.Model):
         related_name="+",
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.section_name}, {self.character_profile_str} ({self.community_str}, {self.spec_rank_str})"
 
 
@@ -217,5 +217,5 @@ class SingleStalkerSpawnItem(models.Model):
         on_delete=models.SET_NULL,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Спавн сталкера {self.stalker_section}"

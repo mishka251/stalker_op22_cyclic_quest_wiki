@@ -23,7 +23,7 @@ class Community(models.Model):
         verbose_name = "Группировка"
         verbose_name_plural = "Группировки"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.translation.rus
 
     def natural_key(self) -> tuple:
@@ -52,7 +52,7 @@ class StalkerRank(models.Model):
         verbose_name = "Ранг сталкера"
         verbose_name_plural = "Ранги сталкеров"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.translation.rus
 
     def natural_key(self) -> tuple:

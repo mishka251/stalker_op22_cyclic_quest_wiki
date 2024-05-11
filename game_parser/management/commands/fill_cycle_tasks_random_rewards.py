@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         count = CyclicQuest.objects.count()
         QuestRandomRewardThrough.objects.all().delete()
         for index, quest in enumerate(CyclicQuest.objects.all()):

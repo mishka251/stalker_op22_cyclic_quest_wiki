@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -23,7 +24,7 @@ class Command(BaseCommand):
         return base_path / "scripts" / "amk" / "amk_mod.script"
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         # pylint: disable=too-many-locals
         Recept.objects.all().delete()
         file_path = self.get_files_dir_path()
@@ -64,10 +65,10 @@ class Command(BaseCommand):
     def save_recept(
         self,
         anom_default_name: str,
-        anom_defaults: str,
+        anom_defaults: dict[str, Any],
         anom_id: str,
-        global_defaults: str,
-        receipt: str,
+        global_defaults: dict[str, Any],
+        receipt: dict[str, Any],
         receipt_condition: str,
     ) -> None:
         print(anom_id, receipt_condition, receipt)
@@ -155,7 +156,13 @@ class Command(BaseCommand):
             )
         recept.components.set(components)
 
-    def _get_value(self, recept, anom_defaults, global_defaults, attr_name):
+    def _get_value(
+        self,
+        recept: dict,
+        anom_defaults: dict,
+        global_defaults: dict,
+        attr_name: str,
+    ) -> Any:
         value = recept[attr_name]
         if value is None:
             value = anom_defaults[attr_name]

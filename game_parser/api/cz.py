@@ -129,7 +129,7 @@ class VendorCyclicQuests(View):
             "reward_item": self._random_reward_item_to_json(item.reward),
         }
 
-    def _random_reward_item_to_json(self, reward: QuestRandomReward):
+    def _random_reward_item_to_json(self, reward: QuestRandomReward) -> dict:
         return {
             "index": reward.index,
             "name": (

@@ -62,7 +62,7 @@ class IconLoader(BaseModelXmlLoader[Icon]):
         height: int,
         name: str,
         instance: Icon,
-    ):
+    ) -> None:
         box = self._get_item_image_coordinates(x, y, width, height)
         part = self.image.crop(box)
         tmp_file_name = Path("tmp.png")

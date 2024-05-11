@@ -31,7 +31,7 @@ class MoneyReward(models.Model):
         verbose_name = "Деньги за ЦЗ"
         verbose_name_plural = "Деньги за ЦЗ"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.money} рублей за квест {self.quest}"
 
     def natural_key(self) -> tuple:
@@ -76,7 +76,7 @@ class ItemReward(models.Model):
         verbose_name = "Предмет за ЦЗ"
         verbose_name_plural = "Предметы за ЦЗ"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.count} {self.item} за квест {self.quest}"
 
     def natural_key(self) -> tuple:
@@ -125,7 +125,7 @@ class QuestRandomReward(models.Model):
         verbose_name = "Случайная награда за ЦЗ"
         verbose_name_plural = "Случайная награда за ЦЗ"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.count} {self.reward} за квест {self.quest}"
 
     def natural_key(self) -> tuple:
@@ -165,7 +165,7 @@ class RandomRewardInfo(models.Model):
         verbose_name = "Описание случайной награды"
         verbose_name_plural = "Описание случайных наград"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.description.rus or self.description.code
 
     def natural_key(self) -> tuple:
@@ -196,7 +196,7 @@ class TreasureReward(models.Model):
         verbose_name = "Тайник в награду за ЦЗ"
         verbose_name_plural = "Тайники в награду за ЦЗ"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Тайник за квест {self.quest}"
 
     def natural_key(self) -> tuple:

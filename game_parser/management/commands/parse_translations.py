@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 from xml.etree import ElementTree
 
 from django.conf import settings
@@ -42,7 +43,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         Translation.objects.all().delete()
 
         for file in self.get_files_path().iterdir():

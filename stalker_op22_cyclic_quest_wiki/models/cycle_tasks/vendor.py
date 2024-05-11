@@ -48,7 +48,7 @@ class CycleTaskVendor(models.Model):
         verbose_name = "Квестодатель"
         verbose_name_plural = "Квестодатели"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name_translation.rus or self.name_translation.code
 
     def natural_key(self) -> tuple:

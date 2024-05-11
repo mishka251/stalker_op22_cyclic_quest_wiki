@@ -15,7 +15,7 @@ class EncyclopediaGroup(models.Model):
         verbose_name = "Группа в энциклопедии"
         verbose_name_plural = "Группы в энциклопедии"
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.name_translation and self.name_translation.rus:
             return self.name_translation.rus
         return self.name

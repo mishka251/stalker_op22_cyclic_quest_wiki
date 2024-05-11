@@ -17,7 +17,7 @@ class AnomalyResource(BaseModelResource):
         CharField("hit_type", "hit_type", required=False),
     ]
 
-    def _apply_data(self, data: dict[str, Any], instance: Anomaly):
+    def _apply_data(self, data: dict[str, Any], instance: Anomaly) -> None:
         super()._apply_data(data, instance)
         instance.article = EncyclopediaArticle.objects.filter(
             game_id=instance.section_name,

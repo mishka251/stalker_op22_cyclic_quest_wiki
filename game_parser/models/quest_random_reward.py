@@ -46,7 +46,7 @@ class QuestRandomReward(models.Model):
         verbose_name = "Случайная награда за квест"
         verbose_name_plural = "Случайные награды за квесты"
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.name_translation:
             return self.name_translation.rus
         if self.caption:

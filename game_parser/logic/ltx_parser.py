@@ -24,7 +24,7 @@ class BaseLtxParser:
     def __init__(
         self,
         file_path: Path,
-        lines_generator,
+        lines_generator: Iterable[str],
         known_extends: KnownExtendsType | None = None,
     ):
         self._path = file_path

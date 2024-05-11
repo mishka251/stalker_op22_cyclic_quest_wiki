@@ -47,6 +47,6 @@ class Recept(models.Model):
             ("anomaly_id", "condition_raw"),
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         components = ", ".join(map(str, self.components.all()))
         return f"{self.cel} из {self.anomaly_id}, {self.anomaly_name}. Из {components}"

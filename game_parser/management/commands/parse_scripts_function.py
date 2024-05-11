@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 
 def log_parse_error(func: Callable[[Any, Any], None]) -> Callable[[Any, Any], None]:
-    def wrapper(self, node) -> None:
+    def wrapper(self: Any, node: Any) -> None:
         try:
             func(self, node)
         except Exception:
@@ -61,13 +61,21 @@ class SpawnDto:
     target: str | None = None
 
 
+@dataclasses.dataclass
+class NestedCallsResultDto:
+    items: list[ItemRewardDto]
+    money: list[list[str]]
+    nested: list[str]
+    spawn: list[SpawnDto]
+
+
 class NestedCallsVisitor(ASTVisitor):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self._money_rewards = []
-        self._item_rewards = []
-        self._nested_calls = []
-        self._spawn_rewards = []
+        self._money_rewards: list[list[str]] = []
+        self._item_rewards: list[ItemRewardDto] = []
+        self._nested_calls: list[str] = []
+        self._spawn_rewards: list[SpawnDto] = []
 
     @log_parse_error
     def visit_Call(self, node: Call) -> None:  # noqa: N802
@@ -87,7 +95,7 @@ class NestedCallsVisitor(ASTVisitor):
                 self._item_rewards.append(ItemRewardDto(name, 1))
             elif len(node.args) == 2:  # noqa: PLR2004
                 name = self._parse_value(node.args[0])
-                count = self._parse_value(node.args[1])
+                count = int(self._parse_value(node.args[1]))
                 self._item_rewards.append(ItemRewardDto(name, count))
             else:
                 msg = f"Unknown got {to_lua_source(node)}"
@@ -99,7 +107,7 @@ class NestedCallsVisitor(ASTVisitor):
         else:
             self._nested_calls.append(to_lua_source(node.func))
 
-    def _handle_create(self, node):
+    def _handle_create(self, node: Call) -> None:
         if len(node.args) == 4:  # noqa: PLR2004
             name = self._parse_value(node.args[0])
             xyz = node.args[1]
@@ -115,8 +123,8 @@ class NestedCallsVisitor(ASTVisitor):
                     x,
                     y,
                     z,
-                    level_vertex,
-                    game_vertex_id,
+                    int(level_vertex),
+                    int(game_vertex_id),
                     to_lua_source(node),
                     xyz_raw,
                 ),
@@ -129,9 +137,9 @@ class NestedCallsVisitor(ASTVisitor):
             y = None
             z = None
             if isinstance(xyz, Call) and len(xyz.args) == 3:  # noqa: PLR2004
-                x = self._parse_value(xyz.args[0])
-                y = self._parse_value(xyz.args[1])
-                z = self._parse_value(xyz.args[2])
+                x = float(self._parse_value(xyz.args[0]))
+                y = float(self._parse_value(xyz.args[1]))
+                z = float(self._parse_value(xyz.args[2]))
             level_vertex = self._parse_value(node.args[2])
             game_vertex_id = self._parse_value(node.args[3])
             target_id = self._parse_value(node.args[4])
@@ -141,8 +149,8 @@ class NestedCallsVisitor(ASTVisitor):
                     x,
                     y,
                     z,
-                    level_vertex,
-                    game_vertex_id,
+                    int(level_vertex),
+                    int(game_vertex_id),
                     to_lua_source(node),
                     xyz_raw,
                     target_id,
@@ -154,7 +162,7 @@ class NestedCallsVisitor(ASTVisitor):
             msg = f"Unknown create {to_lua_source(node)}"
             raise NotImplementedError(msg)
 
-    def _parse_value(self, arg):  # noqa: PLR0911
+    def _parse_value(self, arg: Any) -> str:  # noqa: PLR0911
         # pylint: disable=too-many-return-statements
         if isinstance(arg, Number):
             return arg.n
@@ -177,19 +185,19 @@ class NestedCallsVisitor(ASTVisitor):
         msg = f"{arg.__class__} is not implemented"
         raise NotImplementedError(msg)
 
-    def get_results(self) -> dict:
-        return {
-            "items": self._item_rewards,
-            "money": self._money_rewards,
-            "spawn": self._spawn_rewards,
-            "nested": self._nested_calls,
-        }
+    def get_results(self) -> NestedCallsResultDto:
+        return NestedCallsResultDto(
+            items=self._item_rewards,
+            money=self._money_rewards,
+            spawn=self._spawn_rewards,
+            nested=self._nested_calls,
+        )
 
 
 class FunctionsVisitor(ASTVisitor):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self._function_rewards = {}
+        self._function_rewards: dict[str, NestedCallsResultDto] = {}
 
     @log_parse_error
     def visit_Function(self, node: Function) -> None:  # noqa: N802
@@ -198,7 +206,7 @@ class FunctionsVisitor(ASTVisitor):
         nested_visitor.visit(node)
         self._function_rewards[current_function_name] = nested_visitor.get_results()
 
-    def rewards(self) -> dict:
+    def rewards(self) -> dict[str, NestedCallsResultDto]:
         return self._function_rewards
 
 
@@ -222,7 +230,7 @@ class Command(BaseCommand):
         return path_.replace("\\", ".")
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         # pylint: disable=too-many-locals, too-many-statements, too-many-branches, too-many-return-statements
         MoneyReward.objects.all().delete()
         ItemReward.objects.all().delete()
@@ -263,21 +271,24 @@ class Command(BaseCommand):
                         )
                     functions_by_aliases[alias] = func
 
-                func.raw_nested_function = ";".join(reward["nested"])
+                func.raw_nested_function = ";".join(reward.nested)
                 func.save()
 
-                for money in reward["money"]:
+                for money in reward.money:
                     self._save_money_reward(func, money)
 
-                for item in reward["items"]:
+                for item in reward.items:
                     self._save_item_reward(func, item)
 
-                for item in reward["spawn"]:
-                    self._save_spawn_reward(func, item)
+                for spawn_reward in reward.spawn:
+                    self._save_spawn_reward(func, spawn_reward)
 
         self._save_nested_calls(functions_by_aliases)
 
-    def _save_nested_calls(self, functions_by_aliases):
+    def _save_nested_calls(
+        self,
+        functions_by_aliases: dict[str, ScriptFunction],
+    ) -> None:
         for func in ScriptFunction.objects.all():
             if func.raw_nested_function is None:
                 raise TypeError
@@ -294,7 +305,7 @@ class Command(BaseCommand):
                 logger.warning(f"Set nested functions {not_found=}")
             func.nested_function.set(nested_functions)
 
-    def _save_money_reward(self, func, money):
+    def _save_money_reward(self, func: ScriptFunction, money: list[str]) -> None:
         raw_value = money[0]
         value = None
         try:
@@ -307,7 +318,7 @@ class Command(BaseCommand):
             count=value,
         )
 
-    def _save_spawn_reward(self, func, item):
+    def _save_spawn_reward(self, func: ScriptFunction, item: SpawnDto) -> None:
         level_vertex = None
         try:
             level_vertex = int(item.level_vertex)
@@ -333,7 +344,7 @@ class Command(BaseCommand):
             raw_target=item.target,
         )
 
-    def _save_item_reward(self, func, item):
+    def _save_item_reward(self, func: ScriptFunction, item: ItemRewardDto) -> None:
         item_name = item.item_name
         items_count_str = item.count
         items_count = None
@@ -348,7 +359,11 @@ class Command(BaseCommand):
             count=items_count,
         )
 
-    def _create_function_aliases(self, function_name, file_namespace) -> list[str]:
+    def _create_function_aliases(
+        self,
+        function_name: str,
+        file_namespace: str,
+    ) -> list[str]:
         name = function_name
         names = [name]
         namespace_parts = list(reversed(file_namespace.split(".")))

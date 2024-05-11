@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from django.core.files.images import ImageFile
@@ -10,7 +11,7 @@ from game_parser.models import Icon, QuestRandomReward
 
 
 class Command(BaseCommand):
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         for reward in QuestRandomReward.objects.filter(icon__isnull=True):
             self._set_reward_icon(reward)
             reward.save()

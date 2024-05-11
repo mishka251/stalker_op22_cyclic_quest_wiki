@@ -30,7 +30,7 @@ class InventoryBox(models.Model):
         verbose_name = "Тайник"
         verbose_name_plural = "Тайники"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Тайник {self.section_name}"
 
 
@@ -57,5 +57,5 @@ class ItemInTreasureBox(models.Model):
             ["item", "box"],
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.count} {self.item} в {self.box}"

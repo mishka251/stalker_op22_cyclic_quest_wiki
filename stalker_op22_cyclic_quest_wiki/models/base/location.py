@@ -29,7 +29,7 @@ class Location(models.Model):
         verbose_name = "Локация"
         verbose_name_plural = "Локации"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name_translation.rus if self.name_translation else self.name
 
     def natural_key(self) -> tuple:
@@ -55,7 +55,7 @@ class LocationMapInfo(models.Model):
         verbose_name = "Карта локации"
         verbose_name_plural = "Карты локации"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Карта {self.location_set.first()}"
 
     def natural_key(self) -> tuple:

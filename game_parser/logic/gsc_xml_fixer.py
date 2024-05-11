@@ -35,7 +35,7 @@ class GSCXmlFixer:
             tml_file.write(fixed_content)
         return fixed_file_path
 
-    def _get_encoding(self, header, source):
+    def _get_encoding(self, header: str | None, source: Path) -> str:
         encoding = None
         if header:
             encoding = self._get_encoding_from_header(header)

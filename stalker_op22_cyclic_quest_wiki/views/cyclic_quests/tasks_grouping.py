@@ -344,7 +344,10 @@ def _get_target_item_icon(target_item: Item) -> IconData | None:
     return item_icon
 
 
-def _parse_camp_target(db_task, target_camp):
+def _parse_camp_target(
+    db_task: CyclicQuest,
+    target_camp: CycleTaskTargetCamp,
+) -> LagerTarget:
     camp_map_info = _spawn_item_to_map_info(
         target_camp.map_position,
         f"{db_task.game_code}_target_camp",
@@ -352,7 +355,10 @@ def _parse_camp_target(db_task, target_camp):
     return LagerTarget(camp_map_info)
 
 
-def _parse_stalker_target(db_task, stalker):
+def _parse_stalker_target(
+    db_task: CyclicQuest,
+    stalker: CycleTaskTargetStalker,
+) -> StalkerTarget:
     possible_spawn_items = stalker.map_positions.all()
     maybe_map_points = [
         _spawn_item_to_map_info(item, f"{db_task.game_code}_stalker_{i}")

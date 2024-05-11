@@ -24,7 +24,7 @@ class InventoryBoxResource(BaseModelResource):
         CharField("visual", "visual_str", required=False),
     ]
 
-    def _apply_data(self, data: dict[str, Any], instance: InventoryBox):
+    def _apply_data(self, data: dict[str, Any], instance: InventoryBox) -> None:
         super()._apply_data(data, instance)
         try:
             treasure_content = self._load_content(instance.source_file_name)
@@ -35,7 +35,7 @@ class InventoryBoxResource(BaseModelResource):
         )
         instance.items_raw = raw_items_str
 
-    def _save_instance(self, instance):
+    def _save_instance(self, instance: InventoryBox) -> None:
         super()._save_instance(instance)
         try:
             treasure_content = self._load_content(instance.source_file_name)

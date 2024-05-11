@@ -39,5 +39,5 @@ class InfoPortion(models.Model):
         verbose_name = "Инфопоршень"
         verbose_name_plural = "Инфопоршни"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.game_id

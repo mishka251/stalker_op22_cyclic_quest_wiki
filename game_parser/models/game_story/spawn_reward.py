@@ -56,7 +56,7 @@ class SpawnReward(BaseScriptReward):
             return str(self.item)
         return self.raw_maybe_item
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Спавн {self.get_item} в {self.spawn_target}"
 
     @property

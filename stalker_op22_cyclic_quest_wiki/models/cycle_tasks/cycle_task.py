@@ -88,7 +88,7 @@ class CyclicQuest(models.Model):
 
     target: "PolymorphicManager[CycleTaskTarget]"
 
-    def __str__(self):
+    def __str__(self) -> str:
         type_caption = QuestKinds.get_by_value(self.type).label
         return f"{type_caption}({self.prior}) для {self.vendor}"
 

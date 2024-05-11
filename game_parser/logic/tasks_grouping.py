@@ -1,5 +1,6 @@
 import dataclasses
 import re
+from collections.abc import Iterable
 from itertools import groupby
 from typing import NamedTuple
 
@@ -11,6 +12,7 @@ from game_parser.models import (
     Silencer,
     SingleStalkerSpawnItem,
     SpawnItem,
+    StalkerSection,
     StorylineCharacter,
     Weapon,
 )
@@ -155,7 +157,10 @@ def collect_info() -> list[CharacterQuests]:
     return result
 
 
-def collect_vendor_tasks(_vendor_tasks, vendor: StorylineCharacter) -> CharacterQuests:
+def collect_vendor_tasks(
+    _vendor_tasks: Iterable[CyclicQuest],
+    vendor: StorylineCharacter,
+) -> CharacterQuests:
     vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
     vendor_id = vendor.game_id
     vendor_name = (
@@ -247,7 +252,7 @@ def parse_target(db_task: CyclicQuest) -> QuestTarget:
     raise NotImplementedError
 
 
-def _parse_item_target(db_task: CyclicQuest):
+def _parse_item_target(db_task: CyclicQuest) -> QuestTarget:
     if db_task.target_item is None:
         raise ValueError
     target_item = db_task.target_item.get_real_instance()
@@ -321,7 +326,7 @@ def _parse_camp_target(
     return LagerTarget(db_task.target_str or str(db_task.id), camp_map_info)
 
 
-def _parse_stalker_target(stalker):
+def _parse_stalker_target(stalker: StalkerSection) -> StalkerTarget:
     single_spawn_items = SingleStalkerSpawnItem.objects.filter(
         stalker_section=stalker,
     )
