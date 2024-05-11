@@ -2,10 +2,6 @@ from django.db import models
 
 
 class Monster(models.Model):
-    class Meta:
-        verbose_name = "Мутант"
-        verbose_name_plural = "Мутанты"
-
     section_name = models.CharField(max_length=255, null=False, unique=True)
     short_name = models.CharField(max_length=255, null=True)
 
@@ -38,6 +34,10 @@ class Monster(models.Model):
         null=True,
         related_name="+",
     )
+
+    class Meta:
+        verbose_name = "Мутант"
+        verbose_name_plural = "Мутанты"
 
     def __str__(self) -> str:
         name = self.name_translation.rus if self.name_translation else None

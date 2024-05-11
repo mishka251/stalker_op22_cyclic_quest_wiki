@@ -72,7 +72,8 @@ class Command(BaseCommand):
                 supply_condition, supply_section_name = self._parse_condition(supply)
 
                 if sell_condition != supply_condition:
-                    raise ValueError(f"{sell_condition=}, {supply_condition=}")
+                    msg = f"{sell_condition=}, {supply_condition=}"
+                    raise ValueError(msg)
                 print(f"\t{sell_section_name=}, {supply_section_name=}")
                 supply_section_raw = results.pop(supply_section_name)
                 if not isinstance(supply_section_raw, dict):
@@ -111,7 +112,8 @@ class Command(BaseCommand):
             try:
                 min_price_str, max_price_str = item_str.split(",")
             except Exception as e:
-                raise ValueError(f"Кривая строка {item_name} {item_str}") from e
+                msg = f"Кривая строка {item_name} {item_str}"
+                raise ValueError(msg) from e
             min_price = Decimal(min_price_str.strip())
             max_price = Decimal(max_price_str.strip())
             ItemInBuy.objects.create(

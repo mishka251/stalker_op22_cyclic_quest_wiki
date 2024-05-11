@@ -7,11 +7,7 @@ class IconManager(models.Manager["Icon"]):
 
 
 class Icon(models.Model):
-    class Meta:
-        verbose_name = "Иконка"
-        verbose_name_plural = "Иконки"
 
-    objects = IconManager()
     name = models.CharField(
         max_length=512,
         null=False,
@@ -20,11 +16,17 @@ class Icon(models.Model):
     )
     icon = models.ImageField(null=False, verbose_name="Иконка")
 
-    def natural_key(self) -> tuple:
-        return (self.name,)
+    objects = IconManager()
+
+    class Meta:
+        verbose_name = "Иконка"
+        verbose_name_plural = "Иконки"
 
     def __str__(self):
         return f"{self.name}"
+
+    def natural_key(self) -> tuple:
+        return (self.name,)
 
 
 __all__ = [

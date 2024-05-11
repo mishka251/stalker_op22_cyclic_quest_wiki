@@ -19,9 +19,6 @@ class QuestKinds(models.TextChoices):
 
 
 class CyclicQuest(models.Model):
-    class Meta:
-        verbose_name = "Циклический квест"
-        verbose_name_plural = "Циклические квесты"
 
     type = models.CharField(
         choices=QuestKinds.choices,
@@ -164,10 +161,9 @@ class CyclicQuest(models.Model):
         verbose_name="Сталкер цель",
     )
 
-    @property
-    def get_vendor_character(self) -> "StorylineCharacter | None":
-        vendor = self.vendor
-        return vendor.get_npc_profile() if vendor else None
+    class Meta:
+        verbose_name = "Циклический квест"
+        verbose_name_plural = "Циклические квесты"
 
     def __str__(self):
         kind_caption = dict(QuestKinds.choices)[self.type]
@@ -176,16 +172,13 @@ class CyclicQuest(models.Model):
             target = f"{self.target_count} {target}"
         return f"{kind_caption} {target} для {self.get_vendor_character}"
 
+    @property
+    def get_vendor_character(self) -> "StorylineCharacter | None":
+        vendor = self.vendor
+        return vendor.get_npc_profile() if vendor else None
+
 
 class CyclicQuestItemReward(models.Model):
-    class Meta:
-        unique_together = [
-            ("item", "quest"),
-            ("raw_item", "quest"),
-        ]
-        verbose_name = "Предмет в награду за ЦЗ"
-        verbose_name_plural = "Предметы в наградах за ЦЗ"
-
     item = models.ForeignKey(
         BaseItem,
         null=True,
@@ -203,18 +196,19 @@ class CyclicQuestItemReward(models.Model):
     )
     count = models.IntegerField(default=1, null=False)
 
+    class Meta:
+        unique_together = [
+            ("item", "quest"),
+            ("raw_item", "quest"),
+        ]
+        verbose_name = "Предмет в награду за ЦЗ"
+        verbose_name_plural = "Предметы в наградах за ЦЗ"
+
     def __str__(self) -> str:
         return f"{self.item} x {self.count} за {self.quest}"
 
 
 class QuestRandomRewardThrough(models.Model):
-    class Meta:
-        verbose_name_plural = "Связи Цз и случайной награды"
-        verbose_name = "Рандомная награда в ЦЗ"
-        unique_together = [
-            ("reward", "quest"),
-        ]
-
     quest = models.ForeignKey(
         CyclicQuest,
         on_delete=models.CASCADE,
@@ -230,6 +224,13 @@ class QuestRandomRewardThrough(models.Model):
         related_name="quests",
     )
     count = models.IntegerField(default=1, null=False, verbose_name="Кол-во")
+
+    class Meta:
+        verbose_name_plural = "Связи Цз и случайной награды"
+        verbose_name = "Рандомная награда в ЦЗ"
+        unique_together = [
+            ("reward", "quest"),
+        ]
 
     def __str__(self) -> str:
         return f"Случайная награда {self.reward} x {self.count} за квест {self.quest}"

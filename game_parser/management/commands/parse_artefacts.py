@@ -97,26 +97,7 @@ class Command(BaseCommand):
             results = parser.get_parsed_blocks()
             if not isinstance(results, dict):
                 raise TypeError
-            blocks: LtxParserResults = {**results}
-            block_names = list(blocks.keys())
-            keys_to_exclude: set[str] = set()
-            for block_name in block_names:
-                block = blocks[block_name]
-                if not isinstance(block, dict):
-                    raise TypeError
-                if "hit_absorbation_sect" in block:
-                    hit_absorbation_sect_block_name: str = block.pop(
-                        "hit_absorbation_sect",
-                    )
-                    hit_absorbation_sect = blocks[hit_absorbation_sect_block_name]
-                    if not isinstance(hit_absorbation_sect, dict):
-                        raise TypeError
-                    block |= hit_absorbation_sect
-                    keys_to_exclude |= {hit_absorbation_sect_block_name}
-            for key_to_exclude in keys_to_exclude:
-                blocks.pop(key_to_exclude)
-
-            blocks = {k: v for k, v in blocks.items() if not self._should_exclude(k)}
+            blocks = self._get_arts_info(results)
 
             for quest_name, quest_data in blocks.items():
                 print(quest_name)
@@ -126,6 +107,27 @@ class Command(BaseCommand):
                 item = resource.create_instance_from_data(quest_name, quest_data)
                 if quest_data:
                     logger.warning(f"unused data {quest_data} in {quest_name} {item=}")
+
+    def _get_arts_info(self, results):
+        blocks: LtxParserResults = {**results}
+        block_names = list(blocks.keys())
+        keys_to_exclude: set[str] = set()
+        for block_name in block_names:
+            block = blocks[block_name]
+            if not isinstance(block, dict):
+                raise TypeError
+            if "hit_absorbation_sect" in block:
+                hit_absorbation_sect_block_name: str = block.pop(
+                    "hit_absorbation_sect",
+                )
+                hit_absorbation_sect = blocks[hit_absorbation_sect_block_name]
+                if not isinstance(hit_absorbation_sect, dict):
+                    raise TypeError
+                block |= hit_absorbation_sect
+                keys_to_exclude |= {hit_absorbation_sect_block_name}
+        for key_to_exclude in keys_to_exclude:
+            blocks.pop(key_to_exclude)
+        return {k: v for k, v in blocks.items() if not self._should_exclude(k)}
 
     def _get_resource(self, block_data: dict) -> BaseItemResource:
         if block_data.get("cocoon", "false") == "true":

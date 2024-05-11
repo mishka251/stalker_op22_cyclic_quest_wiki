@@ -7,11 +7,7 @@ class LocationManager(models.Manager["Location"]):
 
 
 class Location(models.Model):
-    class Meta:
-        verbose_name = "Локация"
-        verbose_name_plural = "Локации"
 
-    objects = LocationManager()
     name = models.CharField(max_length=255, unique=True, null=False)
     name_translation = models.ForeignKey(
         "Translation",
@@ -27,11 +23,17 @@ class Location(models.Model):
         verbose_name="Карта локации",
     )
 
-    def natural_key(self) -> tuple:
-        return (self.name,)
+    objects = LocationManager()
+
+    class Meta:
+        verbose_name = "Локация"
+        verbose_name_plural = "Локации"
 
     def __str__(self):
         return self.name_translation.rus if self.name_translation else self.name
+
+    def natural_key(self) -> tuple:
+        return (self.name,)
 
 
 class LocationMapInfoManager(models.Manager["LocationMapInfo"]):
@@ -40,11 +42,6 @@ class LocationMapInfoManager(models.Manager["LocationMapInfo"]):
 
 
 class LocationMapInfo(models.Model):
-    class Meta:
-        verbose_name = "Карта локации"
-        verbose_name_plural = "Карты локации"
-
-    objects = LocationMapInfoManager()
     location_name = models.CharField(max_length=255, unique=True, null=False)
     map_image = models.ImageField(null=False, verbose_name="Карта")
     min_x = models.FloatField(null=False)
@@ -52,11 +49,17 @@ class LocationMapInfo(models.Model):
     min_y = models.FloatField(null=False)
     max_y = models.FloatField(null=False)
 
-    def natural_key(self) -> tuple:
-        return (self.location_name,)
+    objects = LocationMapInfoManager()
+
+    class Meta:
+        verbose_name = "Карта локации"
+        verbose_name_plural = "Карты локации"
 
     def __str__(self):
         return f"Карта {self.location_set.first()}"
+
+    def natural_key(self) -> tuple:
+        return (self.location_name,)
 
 
 __all__ = [

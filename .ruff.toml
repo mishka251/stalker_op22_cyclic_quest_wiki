@@ -8,6 +8,7 @@ exclude = [
     ".hg",
     ".ipynb_checkpoints",
     ".mypy_cache",
+    ".idea",
     ".nox",
     ".pants.d",
     ".pyenv",
@@ -54,6 +55,7 @@ ignore = [
     "ANN102",
     "ANN202",
     "ANN204",
+    "ANN401", # tmp
 
     "D100",
     "D101",
@@ -75,21 +77,15 @@ ignore = [
 
 
     "T201", # tmp
-    "EM101", # tmp
+     # tmp
     "RUF012", # tmp
-    "DJ012", # tmp
+     # tmp
     "INP001", # tmp
     "E501", # tmp
-    "ANN401", # tmp
     "SLF001", # tmp
     "S308", # tmp
-    "C901", # tmp
-    "PLR0912", # tmp
-    "PLR0915", # tmp
-    "PLR0911", # tmp
     "F405", # tmp
     "ARG001", # tmp
-    "S105", # tmp
     "PLR0913", # tmp
     "C413", # tmp
     "BLE001", # tmp
@@ -102,14 +98,13 @@ ignore = [
 
     "RUF003",
     "RUF001",
-    "TRY003",
     "ARG002", # ???
     "DJ001", # ???
-    "EM102", # ???
+
     "G004", # ???
     "F403", # ???
     "F401", # ???
-    "EXE001", # ???
+    # "EXE001", # ???
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
@@ -120,6 +115,8 @@ fixable = [
     "W292",
     "I001",
     "COM819",
+    "EM101",
+    "EM102",
 ]
 unfixable = []
 

@@ -65,6 +65,7 @@ class Command(BaseCommand):
                     )
                     image = Image.open(image_file_path)
             if image is None:
-                raise ValueError(f"No image in {file_path}")
+                msg = f"No image in {file_path}"
+                raise ValueError(msg)
             loader = IconLoader(image)
             loader.load_bulk(root_node)

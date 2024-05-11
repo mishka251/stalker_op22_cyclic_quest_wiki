@@ -2,10 +2,6 @@ from django.db import models
 
 
 class QuestRandomReward(models.Model):
-    class Meta:
-        verbose_name = "Случайная награда за квест"
-        verbose_name_plural = "Случайные награды за квесты"
-
     index = models.PositiveSmallIntegerField(
         null=True,
         verbose_name="Индекс",
@@ -45,6 +41,10 @@ class QuestRandomReward(models.Model):
         verbose_name="Иконка",
         related_name="+",
     )
+
+    class Meta:
+        verbose_name = "Случайная награда за квест"
+        verbose_name_plural = "Случайные награды за квесты"
 
     def __str__(self):
         if self.name_translation:

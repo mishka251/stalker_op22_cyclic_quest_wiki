@@ -8,10 +8,6 @@ if TYPE_CHECKING:
 
 
 class ScriptFunction(models.Model):
-    class Meta:
-        verbose_name = "Функция из скриптов"
-
-    rewards: "models.Manager[BaseScriptReward]"
     name = models.CharField(max_length=512, null=False, verbose_name="Название")
     namespace = models.CharField(
         max_length=512,
@@ -32,6 +28,11 @@ class ScriptFunction(models.Model):
     )
 
     raw_nested_function = models.TextField(null=True)
+
+    class Meta:
+        verbose_name = "Функция из скриптов"
+
+    rewards: "models.Manager[BaseScriptReward]"
 
     def __str__(self):
         return f"{self.namespace}.{self.name}"

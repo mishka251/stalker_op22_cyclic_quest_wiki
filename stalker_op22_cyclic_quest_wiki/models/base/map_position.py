@@ -12,13 +12,7 @@ class MapPositionManager(models.Manager["MapPosition"]):
 
 
 class MapPosition(models.Model):
-    class Meta:
-        verbose_name = "Точка на локации"
-        verbose_name_plural = "Точки на локации"
-
     camps_in_position: "models.Manager[CycleTaskTargetCamp]"
-    objects = MapPositionManager()
-
     name = models.CharField(
         max_length=255,
         verbose_name="Название",
@@ -49,6 +43,11 @@ class MapPosition(models.Model):
         blank=False,
         verbose_name="Локация",
     )
+    objects = MapPositionManager()
+
+    class Meta:
+        verbose_name = "Точка на локации"
+        verbose_name_plural = "Точки на локации"
 
     def __str__(self):
         return f"{self.name} - {self.x}, {self.y}, {self.z} на локации {self.location}"

@@ -5,9 +5,6 @@ from game_parser.models.game_story.task import GameTask
 
 
 class InfoPortion(models.Model):
-    class Meta:
-        verbose_name = "Инфопоршень"
-        verbose_name_plural = "Инфопоршни"
 
     game_id = models.CharField(
         max_length=512,
@@ -37,6 +34,10 @@ class InfoPortion(models.Model):
         related_name="starts_infoportions",
         verbose_name="Функции,запускаемые инфопоршнем",
     )
+
+    class Meta:
+        verbose_name = "Инфопоршень"
+        verbose_name_plural = "Инфопоршни"
 
     def __str__(self):
         return self.game_id

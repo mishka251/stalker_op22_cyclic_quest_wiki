@@ -2,9 +2,6 @@ from django.db import models
 
 
 class Translation(models.Model):
-    class Meta:
-        verbose_name = "Перевод"
-        verbose_name_plural = "Переводы"
 
     code = models.CharField(
         max_length=128,
@@ -17,6 +14,10 @@ class Translation(models.Model):
     ukr = models.TextField(verbose_name="Украинский", null=False)
     pln = models.TextField(verbose_name="Польский", null=False)
     fra = models.TextField(verbose_name="Французский", null=False)
+
+    class Meta:
+        verbose_name = "Перевод"
+        verbose_name_plural = "Переводы"
 
     def __str__(self):
         return f"{self.code} {self.rus}"

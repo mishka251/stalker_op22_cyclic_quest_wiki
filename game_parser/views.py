@@ -38,7 +38,8 @@ class EscapeMap(TemplateView):
             raise ValueError
         rm = offset_re.match(location_info.bound_rect_raw)
         if rm is None:
-            raise ValueError("не распарсились границы локи")
+            msg = "не распарсились границы локи"
+            raise ValueError(msg)
         (min_x, min_y, max_x, max_y) = (
             float(rm.group("min_x")),
             float(rm.group("min_y")),
@@ -112,7 +113,8 @@ class VendorQuestsList(TemplateView):
         try:
             vendor = CycleTaskVendor.objects.get(id=vendor_id)
         except Exception as ex:
-            raise Http404("Incorrect vendor ID") from ex
+            msg = "Incorrect vendor ID"
+            raise Http404(msg) from ex
         vendor_tasks = CyclicQuest.objects.filter(vendor=vendor)
         vendor_profile = vendor.get_npc_profile()
         if vendor_profile is None:

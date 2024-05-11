@@ -2,22 +2,20 @@ from django.db import models
 
 
 class Trader(models.Model):
-    class Meta:
-        verbose_name = "Профиль торговли"
-        verbose_name_plural = "Профили торговли"
 
     game_code = models.CharField(null=False, max_length=255, unique=True)
     name = models.CharField(null=True, max_length=255)
     source_file = models.CharField(null=True, max_length=255)
+
+    class Meta:
+        verbose_name = "Профиль торговли"
+        verbose_name_plural = "Профили торговли"
 
     def __str__(self):
         return f"Профиль торговли {self.game_code} {self.name}"
 
 
 class BaseTrade(models.Model):
-    class Meta:
-        verbose_name = "Торговля"
-
     trader = models.ForeignKey(
         Trader,
         on_delete=models.SET_NULL,
@@ -26,6 +24,9 @@ class BaseTrade(models.Model):
     )
     name = models.CharField(max_length=120, verbose_name="Название секции")
     condition = models.CharField(max_length=250, verbose_name="Условие", null=True)
+
+    class Meta:
+        verbose_name = "Торговля"
 
     def __str__(self):
         return f"{self.name} у {self.trader}"
@@ -55,10 +56,6 @@ class ItemInTradeBase(models.Model):
 
 
 class ItemInBuy(ItemInTradeBase):
-    class Meta:
-        verbose_name = "Предмет в покупке"
-        verbose_name_plural = "Предметы в покупке"
-
     trade = models.ForeignKey(
         Buy,
         on_delete=models.CASCADE,
@@ -79,15 +76,15 @@ class ItemInBuy(ItemInTradeBase):
         verbose_name="Множитель цены(до)",
     )
 
+    class Meta:
+        verbose_name = "Предмет в покупке"
+        verbose_name_plural = "Предметы в покупке"
+
     def __str__(self):
         return f"Продажа {self.item_name} в {self.trade}"
 
 
 class ItemInSell(ItemInTradeBase):
-    class Meta:
-        verbose_name = "Предмет в продаже"
-        verbose_name_plural = "Предметы в продаже"
-
     trade = models.ForeignKey(
         Sell,
         on_delete=models.CASCADE,
@@ -114,6 +111,10 @@ class ItemInSell(ItemInTradeBase):
         null=False,
         verbose_name="Множитель цены(до)",
     )
+
+    class Meta:
+        verbose_name = "Предмет в продаже"
+        verbose_name_plural = "Предметы в продаже"
 
     def __str__(self):
         return f"Покупка {self.item_name} в {self.trade}"

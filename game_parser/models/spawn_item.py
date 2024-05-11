@@ -4,10 +4,6 @@ from game_parser.models.game_story import Community
 
 
 class SpawnItem(models.Model):
-    class Meta:
-        verbose_name = "Секция спавна"
-        verbose_name_plural = "Секции спавна"
-
     section_name = models.CharField(max_length=255, verbose_name="Название секции")
     name = models.CharField(max_length=255, verbose_name="Название")
     position_raw = models.CharField(max_length=300, verbose_name="Координаты(строка)")
@@ -61,15 +57,15 @@ class SpawnItem(models.Model):
         related_name="spawn_items",
     )
 
+    class Meta:
+        verbose_name = "Секция спавна"
+        verbose_name_plural = "Секции спавна"
+
     def __str__(self):
         return f"{self.name} ({self.section_name})"
 
 
 class NpcLogicConfig(models.Model):
-    class Meta:
-        verbose_name = "Логики НПС"
-        verbose_name_plural = "Файлы логик НПС"
-
     name = models.CharField(max_length=255, verbose_name="Название файла")
     source_file_name = models.CharField(
         max_length=255,
@@ -88,6 +84,10 @@ class NpcLogicConfig(models.Model):
         null=True,
         verbose_name="Конфиг торговли",
     )
+
+    class Meta:
+        verbose_name = "Логики НПС"
+        verbose_name_plural = "Файлы логик НПС"
 
     def __str__(self):
         return f"{self.name} ({self.source_file_name})"

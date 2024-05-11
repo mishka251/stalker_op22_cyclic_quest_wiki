@@ -116,7 +116,8 @@ class BaseModelResource(Generic[TModel]):
         try:
             return self._create_instance_from_data(section_name, data)
         except Exception as ex:
-            raise type(ex)(f"Ошибка при парсинге {section_name}") from ex
+            msg = f"Ошибка при парсинге {section_name}"
+            raise type(ex)(msg) from ex
 
     def _create_instance_from_data(
         self,

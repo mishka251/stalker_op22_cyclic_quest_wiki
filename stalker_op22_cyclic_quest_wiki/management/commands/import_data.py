@@ -6,7 +6,7 @@ from typing import Any
 import tablib
 from django.conf import settings
 from django.core.management import BaseCommand, CommandError
-from import_export.results import Error
+from import_export.results import Error, Result
 
 from stalker_op22_cyclic_quest_wiki.management.commands.resources import to_export
 
@@ -37,18 +37,9 @@ class Command(BaseCommand):
                 dataset = tablib.Dataset().load(file.read(), format="csv")
             result = resource.import_data(dataset)
             if result.has_errors():
-                print("ERROR")
-                if result.base_errors:
-                    print("base_errors")
-                    for error in result.base_errors:
-                        self._print_error(error)
-                if result.row_errors():
-                    print("row_errors")
-                    for row_num, row_errors in result.row_errors():
-                        print(row_num)
-                        for error in row_errors:
-                            self._print_error(error)
-                raise CommandError("Импорт сломался")
+                self._print_import_error(result)
+                msg = "Импорт сломался"
+                raise CommandError(msg)
             print(f"end {model_info.model_cls.__name__} OK")
 
         print("Start import icons")
@@ -75,6 +66,19 @@ class Command(BaseCommand):
                 shutil.copyfile(map_path, media_dir / map_path.name)
         print("End import maps")
         shutil.rmtree(tmp_dir)
+
+    def _print_import_error(self, result: Result) -> None:
+        print("ERROR")
+        if result.base_errors:
+            print("base_errors")
+            for error in result.base_errors:
+                self._print_error(error)
+        if result.row_errors():
+            print("row_errors")
+            for row_num, row_errors in result.row_errors():
+                print(row_num)
+                for error in row_errors:
+                    self._print_error(error)
 
     def _print_error(self, error: Error) -> None:
         print(f"{error.error} {error.row}\n{error.traceback}")

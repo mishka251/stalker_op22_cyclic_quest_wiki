@@ -72,7 +72,8 @@ class GSCXmlFixer:
         detector.close()
         encoding = detector.result["encoding"]
         if not encoding:
-            raise ValueError("Unknown encoding")
+            msg = "Unknown encoding"
+            raise ValueError(msg)
         return encoding
 
     def _ensure_tmp_dir(self) -> None:
@@ -117,14 +118,16 @@ class GSCXmlFixer:
                 content = file.read()
                 fixed_content = self._replace_includes(content, root_encoding)
         except Exception as e:
-            raise FixerError(f"При парсинге {target_path} {encoding=}") from e
+            msg = f"При парсинге {target_path} {encoding=}"
+            raise FixerError(msg) from e
         try:
             tmp_file = Path(f"tmp_{target_path.name}.xml")
             with tmp_file.open("w", encoding=root_encoding) as tml_file:
                 tml_file.write(fixed_content)
             tmp_file.unlink()
         except Exception as e:
-            raise FixerError(f"При парсинге {target_path} {encoding=}") from e
+            msg = f"При парсинге {target_path} {encoding=}"
+            raise FixerError(msg) from e
         return f"\n{fixed_content}\n"
 
 

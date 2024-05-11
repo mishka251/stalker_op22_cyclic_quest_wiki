@@ -34,7 +34,10 @@ class BaseLtxParser:
     def get_parsed_blocks(self) -> LtxParserResults:
         return self._parsed_blocks
 
-    def _parse(self, lines_generator: Iterable[str]) -> None:
+    def _parse(  # noqa: C901 PLR0912 PLR0915
+        self,
+        lines_generator: Iterable[str],
+    ) -> None:
         #  pylint: disable=too-many-locals, too-many-branches, too-many-statements
         self._parsed_blocks = {}
         raw_blocks: dict[str, Any] = {}
@@ -72,7 +75,8 @@ class BaseLtxParser:
                 raise TypeError
             if line.endswith(MULTILINE_BLOCK_START):
                 if current_multiline_block is not None:
-                    raise ValueError("Nested multiline block")
+                    msg = "Nested multiline block"
+                    raise ValueError(msg)
                 current_multiline_block = line
                 continue
             if current_multiline_block:
@@ -109,7 +113,8 @@ class BaseLtxParser:
         if rm := pattern.match(line):
             file_path = rm.groupdict()["file_path"]
         else:
-            raise ValueError("incorrect include")
+            msg = "incorrect include"
+            raise ValueError(msg)
         current_dir = self._path.parent
         file_path = current_dir / file_path
 
@@ -138,12 +143,14 @@ class BaseLtxParser:
                 if isinstance(maybe_base, dict):
                     merged_bases |= maybe_base
                 else:
-                    raise ValueError(f"Base {base} is list")
+                    msg = f"Base {base} is list"
+                    raise ValueError(msg)
             elif base in self._known_extends:
                 merged_bases |= self._known_extends[base]
             else:
+                msg = f"Unknown {base=} in file={self._path}. {merged_bases=}"
                 raise ValueError(
-                    f"Unknown {base=} in file={self._path}. {merged_bases=}",
+                    msg,
                 )
 
         return merged_bases

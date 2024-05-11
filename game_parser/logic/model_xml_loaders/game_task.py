@@ -17,13 +17,18 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
             elif child_node.tag == "objective":
                 self._parse_task_objective(task, child_node)
             else:
+                msg = f"Unexpected game task child {child_node.tag} in {task_id}"
                 raise ValueError(
-                    f"Unexpected game task child {child_node.tag} in {task_id}",
+                    msg,
                 )
         task.save()
         return task
 
-    def _parse_task_objective(self, task: GameTask, objective_node: _Element) -> None:
+    def _parse_task_objective(  # noqa: C901 PLR0912
+        self,
+        task: GameTask,
+        objective_node: _Element,
+    ) -> None:
         # pylint: disable=too-many-locals, too-many-branches
         text = None
         icon = None
@@ -75,8 +80,9 @@ class GameTaskLoader(BaseModelXmlLoader[GameTask]):
             elif child_node.tag == "function_call_fail":
                 print("Skip function_call_fail")
             else:
+                msg = f"Unexpected objective child {child_node.tag} in {task.game_id}"
                 raise ValueError(
-                    f"Unexpected objective child {child_node.tag} in {task.game_id}",
+                    msg,
                 )
         objective = TaskObjective.objects.create(
             task=task,

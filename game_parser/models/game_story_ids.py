@@ -7,9 +7,6 @@ if TYPE_CHECKING:
 
 
 class GameStoryId(models.Model):
-    class Meta:
-        verbose_name = "Связь id с секциями"
-        verbose_name_plural = "Связи id с секциями"
 
     story_id = models.PositiveSmallIntegerField(
         null=False,
@@ -58,6 +55,10 @@ class GameStoryId(models.Model):
         blank=True,
         verbose_name="Кастоная секция спавна",
     )
+
+    class Meta:
+        verbose_name = "Связь id с секциями"
+        verbose_name_plural = "Связи id с секциями"
 
     def __str__(self):
         return f"{self.story_id}"

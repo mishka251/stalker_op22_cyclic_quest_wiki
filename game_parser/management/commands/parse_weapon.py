@@ -333,4 +333,5 @@ class Command(BaseCommand):
         try:
             return model_type_mapping[model_type]()
         except KeyError as ex:
-            raise ValueError(f"UNKNOWN {model_type=}") from ex
+            msg = f"UNKNOWN {model_type=}"
+            raise ValueError(msg) from ex

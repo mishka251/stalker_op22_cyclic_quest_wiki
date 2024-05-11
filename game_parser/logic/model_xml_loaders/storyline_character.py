@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class StorylineCharacterLoader(BaseModelXmlLoader[StorylineCharacter]):
     expected_tag = "specific_character"
 
-    def _load(
+    def _load(  # noqa: C901 PLR0912 PLR0915
         self,
         character_node: _Element,
         comments: list[str],

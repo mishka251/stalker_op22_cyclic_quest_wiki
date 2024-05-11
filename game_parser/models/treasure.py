@@ -5,9 +5,6 @@ from game_parser.models.translation import Translation
 
 
 class Treasure(models.Model):
-    class Meta:
-        verbose_name = "Тайник"
-        verbose_name_plural = "Тайники"
 
     target = models.CharField(
         null=False,
@@ -63,6 +60,10 @@ class Treasure(models.Model):
         related_name="treasures",
     )
 
+    class Meta:
+        verbose_name = "Тайник"
+        verbose_name_plural = "Тайники"
+
     def __str__(self):
         treasure_str = ""
         if self.custom_name_translation:
@@ -72,13 +73,6 @@ class Treasure(models.Model):
 
 
 class ItemInTreasure(models.Model):
-    class Meta:
-        verbose_name = "Предмет в тайнике"
-        verbose_name_plural = "Предметы в тайниках"
-        unique_together = [
-            ["item", "treasure"],
-        ]
-
     item = models.ForeignKey(
         BaseItem,
         null=False,
@@ -94,6 +88,13 @@ class ItemInTreasure(models.Model):
         related_name="items",
     )
     count = models.PositiveIntegerField(verbose_name="Кол-во предметов", default=1)
+
+    class Meta:
+        verbose_name = "Предмет в тайнике"
+        verbose_name_plural = "Предметы в тайниках"
+        unique_together = [
+            ["item", "treasure"],
+        ]
 
     def __str__(self):
         return f"{self.count} {self.item} в {self.treasure}"

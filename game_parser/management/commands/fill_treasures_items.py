@@ -23,8 +23,9 @@ class Command(BaseCommand):
                 if item_name_or_count.isdigit():
                     count = int(item_name_or_count)
                     if prev_item_name is None:
+                        msg = f"{count=}, {prev_item_name=}, {treasure.items_str=}"
                         raise ValueError(
-                            f"{count=}, {prev_item_name=}, {treasure.items_str=}",
+                            msg,
                         )
                     try:
                         item = BaseItem.objects.get(name=prev_item_name)

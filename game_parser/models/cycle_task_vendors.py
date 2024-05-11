@@ -7,10 +7,6 @@ if TYPE_CHECKING:
 
 
 class CycleTaskVendor(models.Model):
-    class Meta:
-        verbose_name = "ID НПС, выдающий циклические задания"
-        verbose_name_plural = "ID Выдающих ЦЗ НПС"
-
     game_story_id_raw = models.PositiveSmallIntegerField(
         null=False,
         verbose_name="game id",
@@ -27,6 +23,10 @@ class CycleTaskVendor(models.Model):
         on_delete=models.SET_NULL,
         unique=True,
     )
+
+    class Meta:
+        verbose_name = "ID НПС, выдающий циклические задания"
+        verbose_name_plural = "ID Выдающих ЦЗ НПС"
 
     def __str__(self):
         return f"{self.game_story_id}, {self.vendor_id}"

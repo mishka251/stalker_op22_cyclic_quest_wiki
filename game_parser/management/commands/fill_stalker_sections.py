@@ -19,6 +19,15 @@ class Command(BaseCommand):
 
     @atomic
     def handle(self, *args, **options) -> None:
+        self._fill_stalker_section()
+
+        self._fill_single_stalker()
+
+        self._fill_respawn()
+
+        self._fill_cyclic_quests()
+
+    def _fill_stalker_section(self):
         count = StalkerSection.objects.count()
         for index, stalker_section in enumerate(StalkerSection.objects.all()):
             if stalker_section.character_profile_str is None:
@@ -33,8 +42,9 @@ class Command(BaseCommand):
             )
             stalker_section.save()
             if index % 100 == 0:
-                print(f"{index+1}/{count}")
+                print(f"{index + 1}/{count}")
 
+    def _fill_single_stalker(self):
         count = SingleStalkerSpawnItem.objects.count()
         for index, stalker_spawn_item in enumerate(
             SingleStalkerSpawnItem.objects.all(),
@@ -51,6 +61,7 @@ class Command(BaseCommand):
             if index % 100 == 0:
                 print(f"{index + 1}/{count}")
 
+    def _fill_respawn(self):
         count = Respawn.objects.count()
         for index, respawn in enumerate(Respawn.objects.all()):
             if not respawn.respawn_section_raw:
@@ -63,6 +74,7 @@ class Command(BaseCommand):
             if index % 100 == 0:
                 print(f"{index + 1}/{count}")
 
+    def _fill_cyclic_quests(self):
         count = CyclicQuest.objects.count()
         for index, quest in enumerate(CyclicQuest.objects.all()):
             if quest.target_str is None:

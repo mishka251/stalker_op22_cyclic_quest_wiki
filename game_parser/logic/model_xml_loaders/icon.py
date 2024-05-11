@@ -19,7 +19,8 @@ class IconLoader(BaseModelXmlLoader[Icon]):
 
     def _load(self, texture_node: _Element, comments: list[str]) -> Icon:
         if texture_node.tag != "texture":
-            raise ValueError(f"Unexpected node {texture_node.tag}")
+            msg = f"Unexpected node {texture_node.tag}"
+            raise ValueError(msg)
 
         texture_id = texture_node.attrib.pop("id")
         if not isinstance(texture_id, str):

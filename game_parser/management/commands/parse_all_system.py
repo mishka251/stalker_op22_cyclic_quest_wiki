@@ -213,7 +213,7 @@ class Command(BaseCommand):
     }
 
     @atomic
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args, **options) -> None:  # noqa: C901 PLR0915
         # pylint: disable=too-many-statements, too-many-locals
         print("Start cleaning")
         base_path = settings.OP22_GAME_DATA_PATH
@@ -629,7 +629,8 @@ class Command(BaseCommand):
                     )
                     image = Image.open(image_file_path)
             if image is None:
-                raise ValueError(f"No image in {file}")
+                msg = f"No image in {file}"
+                raise ValueError(msg)
             loader = IconLoader(image)
             loader.load_bulk(root_node)
             print(f"\tfinish {file}")
