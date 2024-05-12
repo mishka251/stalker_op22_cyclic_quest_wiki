@@ -1,4 +1,7 @@
 {% extends "wiki/base.html" %}
+{% block title %}
+    Где нужен {{ where_find_info.caption }}
+{% endblock title %}
 {% block main %}
     <div>
         <div>
@@ -21,7 +24,9 @@
                     Нужно {{ quest.count }} штук
                 </div>
                 <div>
-                    Состояние {{ quest.condition }}
+                    {% if quest.condition %}
+                        Состояние {{ quest.condition }}
+                    {% endif %}
                 </div>
                 <div>
                     <img src="{{ quest.vendor.icon.url }}"
