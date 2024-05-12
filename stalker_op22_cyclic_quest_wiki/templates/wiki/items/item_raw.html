@@ -1,3 +1,4 @@
+{% load %}
 <tr>
     <td>
         {{ item.name_translation.rus }} ({{ item.name }})
@@ -9,10 +10,10 @@
              alt="{{ item.name }}">
     </td>
     <td>
-        <span class="mx-3"><a href=""> Где найти?</a></span>
+        <span class="mx-3"><a href="{% url "where_find_item" item.id %}"> Где найти?</a></span>
     </td>
     <td>
-        <span class="mx-3"><a href=""> Где нужен?</a></span>
+        <span class="mx-3"><a href="{% url "where_item_needed" item.id %}"> Где нужен?</a></span>
     </td>
     <td>
         <span class="mx-3"> <a href=""> Кому выгоднее продать</a></span>
