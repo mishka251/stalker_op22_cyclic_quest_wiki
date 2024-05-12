@@ -17,6 +17,7 @@ class ItemRewardResource(resources.ModelResource):
         use_natural_foreign_keys = True
         import_id_fields = ["quest", "item"]
         exclude = {"id", "polymorphic_ctype"}
+        use_bulk = True
 
 
 class MoneyRewardResource(resources.ModelResource):
@@ -25,6 +26,7 @@ class MoneyRewardResource(resources.ModelResource):
         use_natural_foreign_keys = True
         import_id_fields = ["quest"]
         exclude = {"id", "polymorphic_ctype"}
+        use_bulk = True
 
 
 class QuestRandomRewardResource(resources.ModelResource):
@@ -33,6 +35,7 @@ class QuestRandomRewardResource(resources.ModelResource):
         use_natural_foreign_keys = True
         import_id_fields = ["quest", "reward"]
         exclude = {"id", "polymorphic_ctype"}
+        use_bulk = True
 
 
 class RandomRewardInfoResource(resources.ModelResource):
