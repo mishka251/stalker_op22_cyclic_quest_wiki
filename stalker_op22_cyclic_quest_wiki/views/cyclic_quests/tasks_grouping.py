@@ -2,7 +2,6 @@ import dataclasses
 import re
 from functools import lru_cache
 from itertools import groupby
-from typing import NamedTuple
 
 from stalker_op22_cyclic_quest_wiki.models import (
     Ammo,
@@ -18,6 +17,7 @@ from stalker_op22_cyclic_quest_wiki.models import (
     MapPosition,
 )
 from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import QuestKinds
+from stalker_op22_cyclic_quest_wiki.utils.condition import ItemCondition
 
 position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
 offset_re = re.compile(
@@ -65,14 +65,9 @@ class QuestItemTarget(QuestTarget):
     items_count: int
 
 
-class ItemState(NamedTuple):
-    min: float
-    max: float
-
-
 @dataclasses.dataclass
 class QuestItemWithStateTarget(QuestItemTarget):
-    state: ItemState
+    state: ItemCondition
 
 
 @dataclasses.dataclass
@@ -313,9 +308,9 @@ def _parse_target_item(
     if target_cond_str:
         if "," in target_cond_str:
             min_str, max_str = target_cond_str.split(",")
-            state = ItemState(float(min_str.strip()), float(max_str.strip()))
+            state = ItemCondition(float(min_str.strip()), float(max_str.strip()))
         else:
-            state = ItemState(float(target_cond_str.strip()), 100)
+            state = ItemCondition(float(target_cond_str.strip()), 100)
         return QuestItemWithStateTarget(
             item=item_info,
             items_count=target_count,

@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from stalker_op22_cyclic_quest_wiki.models import CycleTaskTargetItem, Item
+from stalker_op22_cyclic_quest_wiki.utils.condition import ItemCondition
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -31,7 +32,7 @@ class TargetInQuestInfo:
     prior: int
     caption: str
     count: int
-    condition: str | None
+    condition: ItemCondition | None
 
 
 @dataclasses.dataclass
@@ -73,12 +74,20 @@ def _quest_to_dict(quest_target: CycleTaskTargetItem) -> TargetInQuestInfo:
         quests_url=reverse("vendor_tasks", args=(vendor.id,)),
         icon=vendor_icon,
     )
+    condition = None
+    target_cond_str = quest_target.cond_str
+    if target_cond_str:
+        if "," in target_cond_str:
+            min_str, max_str = target_cond_str.split(",")
+            condition = ItemCondition(float(min_str.strip()), float(max_str.strip()))
+        else:
+            condition = ItemCondition(float(target_cond_str.strip()), 100)
     return TargetInQuestInfo(
         vendor_info,
         quest_target.quest.prior,
         str(quest_target.quest),
         count=quest_target.count or 1,
-        condition=quest_target.cond_str,
+        condition=condition,
     )
 
 

@@ -1,0 +1,36 @@
+<div class="min-width-500px d-flex flex-column">
+    <div class="text-center">
+        {% if target_cond_str %}
+            {{ target_cond_str }}
+        {% endif %}
+    </div>
+    <div class="progress">
+        <div class="progress-bar  bg-error"
+             role="progressbar"
+             style="width: {{ before_width }}%"
+             aria-valuenow="{{ condition.min }}"
+             aria-valuemin="0"
+             aria-valuemax="100">
+        </div>
+        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated d-flex flex-row justify-content-between small"
+             role="progressbar"
+             style="width: {{ target_width }}%"
+             aria-valuenow="{{ condition.max }}"
+             aria-valuemin="0"
+             aria-valuemax="100">
+            {% if after_width > 0 %}
+                <span>{{ condition.min }}%</span>
+                <span>{{ condition.max }}%</span>
+            {% else %}
+                <span>{{ condition.min }}% +</span>
+            {% endif %}
+        </div>
+        <div class="progress-bar  bg-error"
+             role="progressbar"
+             style="width: {{ after_width }}%"
+             aria-valuenow="100"
+             aria-valuemin="0"
+             aria-valuemax="100">
+        </div>
+    </div>
+</div>
