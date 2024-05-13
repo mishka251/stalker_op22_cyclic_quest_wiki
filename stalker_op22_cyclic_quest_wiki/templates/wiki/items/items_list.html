@@ -1,0 +1,61 @@
+{% extends "wiki/base.html" %}
+{% block title %}
+    Поиск предметов
+{% endblock title %}
+{% block main %}
+    <form method="get">
+        {{ search_form }}
+    </form>
+    <div class="d-flex flex-column">
+        <div>
+            Пагинация
+        </div>
+        <form method="get">
+            {# хак для простого сохоранения поиска при изменеии страниц #}
+            <div class="d-none">
+                {{ search_form }}
+            </div>
+            <div class="d-flex flex-row">
+                {% if page_obj.number > 1 %}
+                    <input type="submit"
+                           value="{{ page_obj.number|add:-1 }}"
+                           name="page">
+                {% endif %}
+                <div class="mx-3">
+                    {{ page_obj }}
+                </div>
+                {% if page_obj.number < paginator.num_pages %}
+                    <input type="submit"
+                           value="{{ page_obj.number|add:1 }}"
+                           name="page">
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Предмет
+                </th>
+                <th>
+                    Иконка
+                </th>
+                <th>
+                    Где найти?
+                </th>
+                <th>
+                    Где нужен?
+                </th>
+                <th>
+                    Кому продать?
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                {% include "wiki/items/item_raw.html" with item=item %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock main %}
