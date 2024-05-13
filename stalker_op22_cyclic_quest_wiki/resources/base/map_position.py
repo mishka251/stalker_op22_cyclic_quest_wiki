@@ -9,6 +9,7 @@ class MapPositionResource(resources.ModelResource):
         use_natural_foreign_keys = True
         import_id_fields = ["spawn_id"]
         exclude = {"id"}
+        use_bulk = True
 
 
 __all__ = [

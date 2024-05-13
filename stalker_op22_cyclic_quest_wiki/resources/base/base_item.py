@@ -11,6 +11,7 @@ class ItemResource(resources.ModelResource):
         use_natural_foreign_keys = True
         import_id_fields = ["name"]
         exclude = {"id", "polymorphic_ctype"}
+        use_bulk = True
 
     def get_queryset(self) -> QuerySet[Item]:
         qs = super().get_queryset()
