@@ -1,7 +1,16 @@
 {% extends "wiki/base.html" %}
+{% load condition %}
 {% block title %}
     Где нужен {{ where_find_info.caption }}
 {% endblock title %}
+{% block extrahead %}
+    {{ block.super }}
+    <style>
+        .min-width-500px {
+            min-width: 500px;
+        }
+    </style>
+{% endblock extrahead %}
 {% block main %}
     <div>
         <div>
@@ -25,7 +34,7 @@
                 </div>
                 <div>
                     {% if quest.condition %}
-                        Состояние {{ quest.condition }}
+                        {% render_condition quest.condition %}
                     {% endif %}
                 </div>
                 <div>
