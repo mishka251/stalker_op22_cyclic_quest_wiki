@@ -1,5 +1,6 @@
 from django.contrib.admin import ModelAdmin, display, register
 
+from game_parser.admin.utils import SpawnItemMapRenderer
 from game_parser.models import CycleTaskVendor
 
 
@@ -17,6 +18,7 @@ class CycleTaskVendorAdmin(ModelAdmin):
         "game_story_id",
         "get_spawn_section",
         "get_npc_profile",
+        "map",
     )
 
     autocomplete_fields = [
@@ -36,3 +38,11 @@ class CycleTaskVendorAdmin(ModelAdmin):
         if not npc_profile:
             return None
         return str(npc_profile)
+
+    @display(description="Карта")
+    def map(self, obj: CycleTaskVendor) -> str | None:
+        spawn_item = obj.get_spawn_item()
+        if not spawn_item:
+            return None
+        renderer = SpawnItemMapRenderer(spawn_item)
+        return renderer.render()

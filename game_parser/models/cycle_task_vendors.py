@@ -54,3 +54,6 @@ class CycleTaskVendor(models.Model):
             self._get_spawn_section_npc_profile()
             or self._get_game_story_character_profile()
         )
+
+    def get_spawn_item(self) -> "SpawnItem | None":
+        return self.get_spawn_section()

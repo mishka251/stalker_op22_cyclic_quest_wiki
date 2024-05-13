@@ -65,6 +65,7 @@ class Command(BaseCommand):
         "fill_treasures_items",
         "fill_treasures_translations",
         "fill_vendors_for_cycle_tasks",
+        "fill_location_maps",
     ]
 
     @atomic
