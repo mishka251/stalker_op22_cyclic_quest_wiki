@@ -1,6 +1,11 @@
+from typing import TYPE_CHECKING
+
 from django.db import models
 
 from game_parser.models.game_story import Community
+
+if TYPE_CHECKING:
+    from game_parser.models import SpawnReward
 
 
 class SpawnItem(models.Model):
@@ -131,6 +136,8 @@ class CustomSpawnItem(models.Model):
         null=True,
         verbose_name="Тайник(рюкзак?)",
     )
+
+    spawn_rewards: "models.Manager[SpawnReward]"
 
     def __str__(self) -> str:
         return f"{self.name} ({self.section_name})"

@@ -5,6 +5,7 @@ from .cycle_task_vendors import *
 from .encyclopedia import *
 from .game_story import *
 from .game_story_ids import *
+from .game_vertex import *
 from .items import *
 from .location import *
 from .monster import *

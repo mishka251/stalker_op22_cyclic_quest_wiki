@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from django.db import models
 
 if TYPE_CHECKING:
-    from game_parser.models import SpawnItem, StorylineCharacter
+    from game_parser.models import SpawnItem, SpawnReward, StorylineCharacter
 
 
 class CycleTaskVendor(models.Model):
@@ -57,3 +57,26 @@ class CycleTaskVendor(models.Model):
 
     def get_spawn_item(self) -> "SpawnItem | None":
         return self.get_spawn_section()
+
+    def _get_spawn_rewards_from_game_story_id(self) -> "list[SpawnReward]":
+        game_story_id = self.game_story_id
+        if not game_story_id:
+            return []
+        spawn_section_custom = game_story_id.spawn_section_custom
+        if not spawn_section_custom:
+            return []
+        return list(spawn_section_custom.spawn_rewards.all())
+
+    def _get_npc_spawn_rewards(self) -> "list[SpawnReward]":
+        npc_profile = self.get_npc_profile()
+        if not npc_profile:
+            return []
+        result = []
+        for custom_spawn_item in npc_profile.customspawnitem_set.all():
+            result.extend(list(custom_spawn_item.spawn_rewards.all()))
+        return result
+
+    def get_spawn_rewards(self) -> "list[SpawnReward]":
+        return (
+            self._get_spawn_rewards_from_game_story_id() + self._get_npc_spawn_rewards()
+        )

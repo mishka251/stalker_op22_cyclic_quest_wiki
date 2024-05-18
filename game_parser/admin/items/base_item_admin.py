@@ -212,8 +212,6 @@ class BaseItemAdmin(ModelAdmin):
         "description_translation",
     ]
 
-    change_form_template = "admin/game_parser/spawnitem/change_form.html"
-
     @display(description="Название", ordering="name_translation__rus")
     def name_translation_rus(self, obj: BaseItem) -> str | None:
         if obj.name_translation:

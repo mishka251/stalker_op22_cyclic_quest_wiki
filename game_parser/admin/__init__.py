@@ -4,6 +4,7 @@ from .cycle_tasks_vendors import CycleTaskVendorAdmin
 from .encyclopedia import EncyclopediaArticleAdmin, EncyclopediaGroupAdmin
 from .game_story import *
 from .game_story_ids import GameStoryIdAdmin
+from .game_vertex import GameVertexAdmin
 from .items import *
 from .locations import LocationAdmin, LocationMapInfoAdmin
 from .monster import MonsterAdmin

@@ -85,7 +85,8 @@ repos:
         types: [python]
         args: [
             --config-file=mypy.ini,
-            --scripts-are-modules
+            --scripts-are-modules,
+            --no-incremental
         ]
 
       - id: ruff

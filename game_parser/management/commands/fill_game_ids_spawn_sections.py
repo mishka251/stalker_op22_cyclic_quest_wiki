@@ -20,4 +20,5 @@ class Command(BaseCommand):
                 or SpawnItem.objects.filter(spawn_story_id=item.story_id).first()
             )
             item.save()
-            print(f"{index+1}/{count}")
+            if index % 50 == 0:
+                print(f"{index+1}/{count}")

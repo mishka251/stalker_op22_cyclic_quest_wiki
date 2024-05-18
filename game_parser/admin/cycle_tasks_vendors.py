@@ -1,6 +1,7 @@
 from django.contrib.admin import ModelAdmin, display, register
+from django.utils.safestring import mark_safe
 
-from game_parser.admin.utils import SpawnItemMapRenderer
+from game_parser.admin.utils import SpawnItemMapRenderer, SpawnRewardMapRenderer
 from game_parser.models import CycleTaskVendor
 
 
@@ -42,7 +43,23 @@ class CycleTaskVendorAdmin(ModelAdmin):
     @display(description="Карта")
     def map(self, obj: CycleTaskVendor) -> str | None:
         spawn_item = obj.get_spawn_item()
-        if not spawn_item:
-            return None
-        renderer = SpawnItemMapRenderer(spawn_item)
-        return renderer.render()
+        rendered_maps = []
+        if spawn_item is not None:
+            renderer = SpawnItemMapRenderer(spawn_item)
+            rendered_map = renderer.render()
+            if rendered_map:
+                rendered_maps.append(rendered_map)
+
+        rewards = obj.get_spawn_rewards()
+
+        maybe_rendered_maps = [
+            SpawnRewardMapRenderer(spawn_reward).render() for spawn_reward in rewards
+        ]
+        rendered_maps.extend(
+            rendered_map
+            for rendered_map in maybe_rendered_maps
+            if rendered_map is not None
+        )
+        if rendered_maps:
+            return mark_safe("\n\n".join(rendered_maps))
+        return None
