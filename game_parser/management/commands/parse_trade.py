@@ -47,7 +47,10 @@ class Command(BaseCommand):
             parser = LtxParser(file)
             results = parser.get_parsed_blocks()
             trader_name = file.name[:-4]
-            trader = Trader.objects.create(game_code=trader_name)
+            trader = Trader.objects.create(
+                game_code=trader_name,
+                source_file=file.name,
+            )
 
             main_block_name = "trader"
             main_block = results.pop(main_block_name)
