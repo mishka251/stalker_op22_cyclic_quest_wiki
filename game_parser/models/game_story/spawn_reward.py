@@ -44,6 +44,22 @@ class SpawnReward(BaseScriptReward):
         null=True,
     )  # спавн сложнее, сохраним всю строку
 
+    custom_spawn_section = models.ForeignKey(
+        "CustomSpawnItem",
+        verbose_name="Кастомная секция спавна",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="spawn_rewards",
+    )
+
+    game_vertex_obj = models.ForeignKey(
+        "GameVertex",
+        verbose_name="Узел графа игры. Нужен для связи с локацией",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="spawn_rewards",
+    )
+
     @property
     def get_coords(self) -> Any:
         if self.x and self.y and self.z:

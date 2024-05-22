@@ -9,16 +9,16 @@ class MapPositionAdmin(ModelAdmin):
         "location",
     ]
     search_fields = [
-        "name",
-        "spawn_id",
-        "story_id",
-        "spawn_story_id",
+        "location",
+        "x",
+        "y",
+        "z",
     ]
 
     list_display = [
         "__str__",
-        "name",
-        "spawn_id",
-        "story_id",
-        "spawn_story_id",
+        "location",
+        "x",
+        "y",
+        "z",
     ]

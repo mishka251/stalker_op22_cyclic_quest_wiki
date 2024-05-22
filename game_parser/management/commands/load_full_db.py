@@ -27,6 +27,7 @@ class Command(BaseCommand):
         "parse_stalker_sections",
         "parse_trade",
         "parse_treasures",
+        "parse_game_vertexes",
         # fill
         "fill_ammo_links",
         "fill_characters_dialogs",
@@ -65,6 +66,10 @@ class Command(BaseCommand):
         "fill_treasures_items",
         "fill_treasures_translations",
         "fill_vendors_for_cycle_tasks",
+        "fill_location_maps",
+        "fill_spawn_reward_custom_items",
+        "fill_spawn_reward_vertexes",
+        "fill_spawn_reward_coordinates",
     ]
 
     @atomic

@@ -8,6 +8,7 @@ from game_parser.models import (
     Respawn,
     SingleStalkerSpawnItem,
     SpawnItem,
+    SpawnReward,
     StalkerSection,
 )
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
@@ -84,6 +85,10 @@ class NpcLogicConfigAdmin(ModelAdmin):
     ]
 
 
+class SpawnRewardInline(ReadOnlyNestedTable):
+    model = SpawnReward
+
+
 @register(CustomSpawnItem)
 class CustomSpawnItemAdmin(ModelAdmin):
     autocomplete_fields = [
@@ -105,6 +110,10 @@ class CustomSpawnItemAdmin(ModelAdmin):
 
     list_filter = [
         "section_name",
+    ]
+
+    inlines = [
+        SpawnRewardInline,
     ]
 
 

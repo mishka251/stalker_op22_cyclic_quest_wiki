@@ -1,7 +1,14 @@
 from django.contrib.admin import ModelAdmin, display, register
 from django.utils.safestring import mark_safe
 
-from game_parser.models import Community, GameStoryId, Rank
+from game_parser.models import (
+    Community,
+    CustomSpawnItem,
+    GameStoryId,
+    Rank,
+    SpawnItem,
+    StalkerSection,
+)
 from game_parser.models.game_story import Icon, StorylineCharacter
 from game_parser.utils.admin_utils.readonly_nested_table import ReadOnlyNestedTable
 
@@ -51,6 +58,18 @@ class RandAdmin(ModelAdmin):
     ]
 
 
+class SpawnItemInlineAdmin(ReadOnlyNestedTable):
+    model = SpawnItem
+
+
+class CustomSpawnItemInlineAdmin(ReadOnlyNestedTable):
+    model = CustomSpawnItem
+
+
+class StalkerSectionInlineAdmin(ReadOnlyNestedTable):
+    model = StalkerSection
+
+
 @register(StorylineCharacter)
 class StorylineCharacterAdmin(ModelAdmin):
     list_display = (
@@ -69,6 +88,9 @@ class StorylineCharacterAdmin(ModelAdmin):
     inlines = [
         DialogInlineAdmin,
         GameStoryIdAdmin,
+        SpawnItemInlineAdmin,
+        CustomSpawnItemInlineAdmin,
+        StalkerSectionInlineAdmin,
     ]
 
     @display(description="Имя")

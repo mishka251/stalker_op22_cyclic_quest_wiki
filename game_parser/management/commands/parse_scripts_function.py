@@ -44,7 +44,8 @@ def log_parse_error(func: Callable[[Any, Any], None]) -> Callable[[Any, Any], No
 @dataclasses.dataclass
 class ItemRewardDto:
     item_name: str
-    count: int
+    count: int | None = None
+    count_raw: str | None = None
 
 
 @dataclasses.dataclass
@@ -54,8 +55,10 @@ class SpawnDto:
     x: float | None
     y: float | None
     z: float | None
-    level_vertex: int
-    game_vertex_id: int
+    level_vertex_raw: str
+    level_vertex: int | None
+    game_vertex_id_raw: str
+    game_vertex_id: int | None
     raw: str
     xyz_raw: str
     target: str | None = None
@@ -92,11 +95,17 @@ class NestedCallsVisitor(ASTVisitor):
         if func_name == "got":
             if len(node.args) == 1:
                 name = self._parse_value(node.args[0])
-                self._item_rewards.append(ItemRewardDto(name, 1))
+                self._item_rewards.append(ItemRewardDto(name, 1, count_raw="1"))
             elif len(node.args) == 2:  # noqa: PLR2004
                 name = self._parse_value(node.args[0])
-                count = int(self._parse_value(node.args[1]))
-                self._item_rewards.append(ItemRewardDto(name, count))
+                count_raw = self._parse_value(node.args[1])
+                try:
+                    count = int(count_raw)
+                except ValueError:
+                    count = None
+                self._item_rewards.append(
+                    ItemRewardDto(name, count=count, count_raw=count_raw),
+                )
             else:
                 msg = f"Unknown got {to_lua_source(node)}"
                 raise NotImplementedError(msg)
@@ -104,8 +113,14 @@ class NestedCallsVisitor(ASTVisitor):
             self._money_rewards.append([self._parse_value(arg) for arg in node.args])
         elif func_name == "create":
             self._handle_create(node)
+
+        elif func_name in {"spawn_item", "amk.spawn_item"}:
+            self._handle_amk_spawn(node)
         else:
             self._nested_calls.append(to_lua_source(node.func))
+
+    def _handle_amk_spawn(self, node: Call) -> None:
+        self._handle_create(node)
 
     def _handle_create(self, node: Call) -> None:
         if len(node.args) == 4:  # noqa: PLR2004
@@ -115,18 +130,22 @@ class NestedCallsVisitor(ASTVisitor):
             x = None
             y = None
             z = None
-            level_vertex = self._parse_value(node.args[2])
-            game_vertex_id = self._parse_value(node.args[3])
+            level_vertex_raw = self._parse_value(node.args[2])
+            game_vertex_id_raw = self._parse_value(node.args[3])
+            level_vertex = self._try_parse_int(level_vertex_raw)
+            game_vertex_id = self._try_parse_int(game_vertex_id_raw)
             self._spawn_rewards.append(
                 SpawnDto(
                     name,
                     x,
                     y,
                     z,
-                    int(level_vertex),
-                    int(game_vertex_id),
-                    to_lua_source(node),
-                    xyz_raw,
+                    level_vertex_raw=level_vertex_raw,
+                    level_vertex=level_vertex,
+                    game_vertex_id_raw=game_vertex_id_raw,
+                    game_vertex_id=game_vertex_id,
+                    raw=to_lua_source(node),
+                    xyz_raw=xyz_raw,
                 ),
             )
         elif len(node.args) == 5:  # noqa: PLR2004
@@ -140,20 +159,24 @@ class NestedCallsVisitor(ASTVisitor):
                 x = float(self._parse_value(xyz.args[0]))
                 y = float(self._parse_value(xyz.args[1]))
                 z = float(self._parse_value(xyz.args[2]))
-            level_vertex = self._parse_value(node.args[2])
-            game_vertex_id = self._parse_value(node.args[3])
+            level_vertex_raw = self._parse_value(node.args[2])
+            game_vertex_id_raw = self._parse_value(node.args[3])
             target_id = self._parse_value(node.args[4])
+            level_vertex = self._try_parse_int(level_vertex_raw)
+            game_vertex_id = self._try_parse_int(game_vertex_id_raw)
             self._spawn_rewards.append(
                 SpawnDto(
                     name,
                     x,
                     y,
                     z,
-                    int(level_vertex),
-                    int(game_vertex_id),
-                    to_lua_source(node),
-                    xyz_raw,
-                    target_id,
+                    level_vertex_raw=level_vertex_raw,
+                    level_vertex=level_vertex,
+                    game_vertex_id_raw=game_vertex_id_raw,
+                    game_vertex_id=game_vertex_id,
+                    raw=to_lua_source(node),
+                    xyz_raw=xyz_raw,
+                    target=target_id,
                 ),
             )
         elif len(node.args) == 1:
@@ -161,6 +184,13 @@ class NestedCallsVisitor(ASTVisitor):
         else:
             msg = f"Unknown create {to_lua_source(node)}"
             raise NotImplementedError(msg)
+
+    def _try_parse_int(self, maybe_int_str: str) -> int | None:
+        try:
+            level_vertex = int(maybe_int_str)
+        except ValueError:
+            level_vertex = None
+        return level_vertex
 
     def _parse_value(self, arg: Any) -> str:  # noqa: PLR0911
         # pylint: disable=too-many-return-statements
@@ -282,7 +312,6 @@ class Command(BaseCommand):
 
                 for spawn_reward in reward.spawn:
                     self._save_spawn_reward(func, spawn_reward)
-
         self._save_nested_calls(functions_by_aliases)
 
     def _save_nested_calls(
@@ -319,44 +348,28 @@ class Command(BaseCommand):
         )
 
     def _save_spawn_reward(self, func: ScriptFunction, item: SpawnDto) -> None:
-        level_vertex = None
-        try:
-            level_vertex = int(item.level_vertex)
-        except (TypeError, ValueError, decimal.InvalidOperation):
-            logger.warning(f"int parsing error {item.level_vertex=}")
-        game_vertex_id = None
-        try:
-            game_vertex_id = int(item.game_vertex_id)
-        except (TypeError, ValueError, decimal.InvalidOperation):
-            logger.warning(f"int parsing error {item.game_vertex_id=}")
         SpawnReward.objects.create(
             function=func,
             x=item.x,
             y=item.y,
             z=item.z,
             raw_maybe_item=item.item_or_npc_name,
-            raw_level_vertex=item.level_vertex,
-            raw_game_vertex_id=item.game_vertex_id,
+            raw_level_vertex=item.level_vertex_raw,
+            raw_game_vertex_id=item.game_vertex_id_raw,
             raw_call=item.raw,
             xyz_raw=item.xyz_raw,
-            level_vertex=level_vertex,
-            game_vertex_id=game_vertex_id,
+            level_vertex=item.level_vertex,
+            game_vertex_id=item.game_vertex_id,
             raw_target=item.target,
         )
 
     def _save_item_reward(self, func: ScriptFunction, item: ItemRewardDto) -> None:
         item_name = item.item_name
-        items_count_str = item.count
-        items_count = None
-        try:
-            items_count = int(items_count_str)
-        except (TypeError, ValueError, decimal.InvalidOperation):
-            logger.warning(f"int parsing error {items_count_str=}")
         ItemReward.objects.create(
             function=func,
-            raw_count=items_count_str,
+            raw_count=item.count_raw,
             raw_item=item_name,
-            count=items_count,
+            count=item.count,
         )
 
     def _create_function_aliases(

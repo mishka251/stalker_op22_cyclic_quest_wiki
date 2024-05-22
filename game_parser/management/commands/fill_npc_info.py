@@ -41,13 +41,15 @@ class Command(BaseCommand):
             spawn_item.save()
             print(f"{index+1:_}/{count:_}")
 
-        count = NpcLogicConfig.objects.count()
-        for index, npc_logic in enumerate(NpcLogicConfig.objects.all()):
+        count = NpcLogicConfig.objects.filter(trade_file_name__isnull=False).count()
+        for index, npc_logic in enumerate(
+            NpcLogicConfig.objects.filter(trade_file_name__isnull=False),
+        ):
             if npc_logic.trade_file_name:
                 npc_logic.trade_config = Trader.objects.filter(
-                    source_file=npc_logic.trade_file_name,
+                    source_file=Path(npc_logic.trade_file_name).name,
                 ).first()
-            npc_logic.save()
+                npc_logic.save()
             print(f"{index + 1:_}/{count:_}")
 
     def parse_custom_data(self, custom_data: str) -> NpcLogicConfig | None:

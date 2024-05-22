@@ -1,6 +1,7 @@
 from django.db import models
 
 from stalker_op22_cyclic_quest_wiki.models.base.icon import Icon
+from stalker_op22_cyclic_quest_wiki.models.base.map_position import MapPosition
 from stalker_op22_cyclic_quest_wiki.models.base.translation import Translation
 
 
@@ -41,7 +42,13 @@ class CycleTaskVendor(models.Model):
         verbose_name="Фото НПС",
         related_name="+",
     )
-
+    position = models.ForeignKey(
+        MapPosition,
+        null=True,
+        on_delete=models.PROTECT,
+        verbose_name="Где обитает",
+        related_name="+",
+    )
     objects = CyclicQuestManager()
 
     class Meta:
