@@ -8,7 +8,7 @@ from game_parser.models import CyclicQuest as ParserCyclicQuest
 from game_parser.models import Outfit as ParserOutfit
 from game_parser.models import QuestRandomReward as ParserRandomReward
 from game_parser.models import Silencer as ParserSilencer
-from game_parser.models import SingleStalkerSpawnItem, SpawnItem
+from game_parser.models import SingleStalkerSpawnItem, SpawnItem, SpawnReward
 from game_parser.models import Weapon as ParserWeapon
 from game_parser.models.quest import QuestKinds as ParserQuestKinds
 from stalker_op22_cyclic_quest_wiki.models import Community as WikiCommunity
@@ -66,6 +66,16 @@ class Command(BaseCommand):
                 if profile.icon
                 else None
             )
+            spawn_item = vendor.get_spawn_item()
+            map_position = None
+            if spawn_item is not None:
+                map_position = self._spawn_item_to_map_position(spawn_item)
+            else:
+                spawn_rewards = vendor.get_spawn_rewards()
+                for reward in spawn_rewards:
+                    maybe_map_position = self._spawn_reward_to_map_position(reward)
+                    if maybe_map_position is not None:
+                        map_position = maybe_map_position
             WikiVendor.objects.update_or_create(
                 local_id=vendor.vendor_id,
                 section_name=tmp.section_name,
@@ -73,6 +83,7 @@ class Command(BaseCommand):
                 defaults={
                     "name_translation": name_translation,
                     "icon": icon,
+                    "position": map_position,
                 },
             )
             if i % 100 == 0:
@@ -239,7 +250,6 @@ class Command(BaseCommand):
             communities_raw = [
                 s.strip() for s in (target_camp.communities_raw or "").split(",")
             ]
-            print(communities_raw)
             communities = [
                 WikiCommunity.objects.filter(name=community).first()
                 for community in communities_raw
@@ -302,16 +312,27 @@ class Command(BaseCommand):
             msg = "Не удалось распарсить координаты"
             raise ValueError(msg)
         (x, y, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
-        return WikiMapPosition.objects.update_or_create(
-            spawn_id=spawn_item.spawn_id,
-            story_id=spawn_item.story_id,
-            spawn_story_id=spawn_item.spawn_story_id,
-            defaults={
-                "name": spawn_item.name,
-                "x": x,
-                "y": y,
-                "z": z,
-                "game_vertex_id": spawn_item.game_vertex_id,
-                "location": location,
-            },
+        return WikiMapPosition.objects.get_or_create(
+            x=x,
+            y=y,
+            z=z,
+            location=location,
+        )[0]
+
+    def _spawn_reward_to_map_position(
+        self,
+        spawn_reward: SpawnReward,
+    ) -> WikiMapPosition | None:
+        game_vertex_obj = spawn_reward.game_vertex_obj
+        if game_vertex_obj is None:
+            return None
+        location = game_vertex_obj.location
+        if location is None:
+            return None
+        wiki_location = WikiLocation.objects.get(name=location.name)
+        return WikiMapPosition.objects.get_or_create(
+            x=spawn_reward.x,
+            y=spawn_reward.y,
+            z=spawn_reward.z,
+            location=wiki_location,
         )[0]
