@@ -1,7 +1,7 @@
 from django.db import models
 
-from stalker_op22_cyclic_quest_wiki.models import MapPosition
 from stalker_op22_cyclic_quest_wiki.models.base.icon import Icon
+from stalker_op22_cyclic_quest_wiki.models.base.map_position import MapPosition
 from stalker_op22_cyclic_quest_wiki.models.base.translation import Translation
 
 
