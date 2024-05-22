@@ -346,6 +346,7 @@ def _parse_camp_target(
     camp_map_info = _spawn_item_to_map_info(
         target_camp.map_position,
         f"{db_task.game_code}_target_camp",
+        str(target_camp),
     )
     return LagerTarget(camp_map_info)
 
@@ -356,7 +357,7 @@ def _parse_stalker_target(
 ) -> StalkerTarget:
     possible_spawn_items = stalker.map_positions.all()
     maybe_map_points = [
-        _spawn_item_to_map_info(item, f"{db_task.game_code}_stalker_{i}")
+        _spawn_item_to_map_info(item, f"{db_task.game_code}_stalker_{i}", "")
         for i, item in enumerate(possible_spawn_items)
     ]
     return StalkerTarget(
@@ -370,6 +371,7 @@ def _parse_stalker_target(
 def _spawn_item_to_map_info(
     target_camp: MapPosition,
     unique_map_id: str,
+    info_str: str,
 ) -> MapPointInfo | None:
     map_info = target_camp.location.map_info
     if map_info:
@@ -380,7 +382,7 @@ def _spawn_item_to_map_info(
             y_level_offset=-(map_info.max_y + map_info.min_y),
             item=MapPointItem(
                 position=(target_camp.x, target_camp.z),
-                info_str=str(target_camp.spawn_id),
+                info_str=info_str,
             ),
         )
     return None
