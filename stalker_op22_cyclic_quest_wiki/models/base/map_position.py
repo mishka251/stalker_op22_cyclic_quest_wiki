@@ -11,13 +11,9 @@ if TYPE_CHECKING:
 class MapPositionManager(models.Manager["MapPosition"]):
     def get_by_natural_key(
         self,
-        x: float,
-        y: float,
-        z: float,
-        location_name: str,
+        name: str,
     ) -> "MapPosition":
-        location = Location.objects.get_by_natural_key(location_name)
-        return self.get(x=x, y=y, z=z, location=location)
+        return self.get(name=name)
 
 
 class MapPosition(models.Model):
@@ -25,6 +21,12 @@ class MapPosition(models.Model):
     x = models.FloatField(null=False)
     y = models.FloatField(null=False)
     z = models.FloatField(null=False)
+    name = models.CharField(
+        max_length=255,
+        verbose_name="Название",
+        unique=False,
+        null=False,
+    )
     location = models.ForeignKey(
         Location,
         on_delete=models.PROTECT,
@@ -45,10 +47,10 @@ class MapPosition(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f"{self.x}, {self.y}, {self.z} на локации {self.location}"
+        return f"{self.name} - {self.x}, {self.y}, {self.z} на локации {self.location}"
 
     def natural_key(self) -> tuple:
-        return (self.x, self.y, self.z, *self.location.natural_key())
+        return (self.name,)
 
 
 __all__ = [

@@ -312,11 +312,12 @@ class Command(BaseCommand):
             msg = "Не удалось распарсить координаты"
             raise ValueError(msg)
         (x, y, z) = float(rm.group("x")), float(rm.group("y")), float(rm.group("z"))
-        return WikiMapPosition.objects.get_or_create(
+        return WikiMapPosition.objects.update_or_create(
             x=x,
             y=y,
             z=z,
             location=location,
+            defaults={"name": str(spawn_item.spawn_id)},
         )[0]
 
     def _spawn_reward_to_map_position(
@@ -330,9 +331,11 @@ class Command(BaseCommand):
         if location is None:
             return None
         wiki_location = WikiLocation.objects.get(name=location.name)
-        return WikiMapPosition.objects.get_or_create(
+        position_name = f"{spawn_reward.raw_maybe_item}_in_{spawn_reward.function}"
+        return WikiMapPosition.objects.update_or_create(
             x=spawn_reward.x,
             y=spawn_reward.y,
             z=spawn_reward.z,
             location=wiki_location,
+            defaults={"name": position_name},
         )[0]
