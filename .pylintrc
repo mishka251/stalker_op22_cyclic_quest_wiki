@@ -441,6 +441,7 @@ disable=
     logging-fstring-interpolation,
     invalid-name,
     too-many-ancestors,
+    new-db-field-with-default,
 
 
 # Enable the message, report, category or checker with the given id(s). You can

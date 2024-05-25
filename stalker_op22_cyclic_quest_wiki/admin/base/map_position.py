@@ -17,6 +17,7 @@ class MapPositionAdmin(ModelAdmin):
 
     list_display = [
         "__str__",
+        "name",
         "location",
         "x",
         "y",

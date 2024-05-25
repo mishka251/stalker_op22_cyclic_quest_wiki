@@ -7,7 +7,7 @@ class MapPositionResource(resources.ModelResource):
     class Meta:
         model = MapPosition
         use_natural_foreign_keys = True
-        import_id_fields = ["spawn_id"]
+        import_id_fields = ["name"]
         exclude = {"id"}
         use_bulk = True
 
