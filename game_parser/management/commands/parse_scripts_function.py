@@ -322,10 +322,10 @@ class Command(BaseCommand):
             if func.raw_nested_function is None:
                 raise TypeError
             nested_func_names = func.raw_nested_function.split(";")
-            nested_functions_: "list[ScriptFunction | None]" = [
+            nested_functions_: list[ScriptFunction | None] = [
                 functions_by_aliases.get(func_name) for func_name in nested_func_names
             ]
-            nested_functions: "list[ScriptFunction]" = [
+            nested_functions: list[ScriptFunction] = [
                 f for f in nested_functions_ if f is not None
             ]
             if len(nested_func_names) != len(nested_functions):

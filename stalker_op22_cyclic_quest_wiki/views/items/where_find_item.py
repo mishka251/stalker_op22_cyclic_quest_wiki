@@ -42,7 +42,7 @@ class ItemUsageInfo:
 
 
 def get_item_usages(item: Item) -> ItemUsageInfo:
-    reward_in_quests: "QuerySet[ItemReward]" = item.use_in_quest_rewards.all()
+    reward_in_quests: QuerySet[ItemReward] = item.use_in_quest_rewards.all()
     cyclic_quests_info = [
         _quest_to_dict(quest_reward) for quest_reward in reward_in_quests
     ]
