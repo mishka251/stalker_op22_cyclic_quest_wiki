@@ -30,6 +30,7 @@ class TaskVendorsList(TemplateView):
             .annotate(
                 chain_exists=Exists(quests_subquery.filter(type=QuestKinds.CHAIN)),
             )
+            .order_by("name_translation__rus")
         )
         return {
             "vendors": [self._vendor_to_dict(vendor) for vendor in vendors],
