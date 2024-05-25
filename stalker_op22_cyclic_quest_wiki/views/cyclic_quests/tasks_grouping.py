@@ -360,7 +360,11 @@ def parse_target(
     }
 
     stalker_types = {QuestKinds.KILL_STALKER}
-    target = targets_cache[db_task.id]
+    try:
+        target = targets_cache[db_task.id]
+    except KeyError as ex:
+        msg = f"Нет цели для задания {db_task}"
+        raise CycleTaskTarget.DoesNotExist(msg) from ex
     if db_task.type in stalker_types:
         if not isinstance(target, CycleTaskTargetStalker):
             raise ValueError
