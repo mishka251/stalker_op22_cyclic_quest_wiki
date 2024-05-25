@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 
 from stalker_op22_cyclic_quest_wiki.views.cyclic_quests.vendor_quests import (
     VendorQuestsList,
@@ -14,6 +14,7 @@ from stalker_op22_cyclic_quest_wiki.views.items.where_item_needed import (
 )
 
 urlpatterns = [
+    path("api/", include("stalker_op22_cyclic_quest_wiki.views.api.urls")),
     path("task_vendors/", TaskVendorsList.as_view(), name="task_vendors"),
     path(
         "task_vendors/<int:vendor_id>/quests/",

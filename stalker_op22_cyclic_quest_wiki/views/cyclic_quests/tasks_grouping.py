@@ -31,12 +31,26 @@ class IconData:
     width: int
     height: int
 
+    def to_json(self) -> dict:
+        return {
+            "url": self.url,
+            "width": self.width,
+            "height": self.height,
+        }
+
 
 @dataclasses.dataclass
 class ItemInfo:
     item_id: str
     item_label: str
     icon: IconData | None
+
+    def to_json(self) -> dict:
+        return {
+            "item_id": self.item_id,
+            "item_label": self.item_label,
+            "icon": self.icon.to_json() if self.icon is not None else None,
+        }
 
 
 @dataclasses.dataclass
@@ -53,10 +67,20 @@ class MapPointInfo:
     item: MapPointItem
     y_level_offset: float
 
+    def to_json(self) -> dict:
+        return {
+            "image_url": self.image_url,
+            "bounds": list(self.bounds),
+            "y_level_offset": self.y_level_offset,
+            "position": self.item.position,
+            "caption": self.item.info_str,
+        }
+
 
 @dataclasses.dataclass
 class QuestTarget:
-    pass
+    def to_json(self) -> dict:
+        raise NotImplementedError
 
 
 @dataclasses.dataclass
@@ -64,20 +88,47 @@ class QuestItemTarget(QuestTarget):
     item: ItemInfo
     items_count: int
 
+    def to_json(self) -> dict:
+        return {
+            "_type": "item",
+            "item": self.item.to_json(),
+            "items_count": self.items_count,
+            "state": None,
+        }
+
 
 @dataclasses.dataclass
 class QuestItemWithStateTarget(QuestItemTarget):
     state: ItemCondition
+
+    def to_json(self) -> dict:
+        return {
+            **super().to_json(),
+            "state": self.state.to_json(),
+        }
 
 
 @dataclasses.dataclass
 class AmmoTarget(QuestItemTarget):
     ammo_count: int
 
+    def to_json(self) -> dict:
+        return {
+            **super().to_json(),
+            "_type": "ammo",
+            "ammo_count": self.ammo_count,
+        }
+
 
 @dataclasses.dataclass
 class LagerTarget(QuestTarget):
     map_info: MapPointInfo | None = None
+
+    def to_json(self) -> dict:
+        return {
+            "_type": "camp",
+            "position": self.map_info.to_json() if self.map_info is not None else None,
+        }
 
 
 @dataclasses.dataclass
@@ -87,10 +138,20 @@ class StalkerTarget(QuestTarget):
     rank: str
     community: str
 
+    def to_json(self) -> dict:
+        return {
+            "_type": "stalker",
+            "stalker_str": self.stalker_str,
+            "rank": self.rank,
+            "community": self.community,
+            "possible_points": [point.to_json() for point in self.possible_points],
+        }
+
 
 @dataclasses.dataclass
 class TaskReward:
-    pass
+    def to_json(self) -> dict:
+        raise NotImplementedError
 
 
 @lru_cache
@@ -119,21 +180,40 @@ class TaskMoneyReward(TaskReward):
     def icon(self) -> IconData | None:
         return get_money_icon()
 
+    def to_json(self) -> dict:
+        return {
+            "_type": "money",
+            "count": self.count,
+            "icon": self.icon.to_json() if self.icon is not None else None,
+        }
+
 
 @dataclasses.dataclass
 class TaskItemReward(TaskReward):
     item: ItemInfo
     items_count: int
 
+    def to_json(self) -> dict:
+        return {
+            "_type": "item",
+            "count": self.items_count,
+            "item": self.item.to_json(),
+        }
+
 
 @dataclasses.dataclass
 class TreasureReward(TaskReward):
-
     reward_name = "Тайник"
 
     @property
     def icon(self) -> IconData | None:
         return get_treasure_icon()
+
+    def to_json(self) -> dict:
+        return {
+            "_type": "treasure",
+            "icon": self.icon.to_json() if self.icon else None,
+        }
 
 
 @dataclasses.dataclass
@@ -142,10 +222,25 @@ class TaskRandomReward(TaskReward):
     reward_name: str
     icon: IconData | None
 
+    def to_json(self) -> dict:
+        return {
+            "_type": "random",
+            "count": self.count,
+            "reward_name": self.reward_name,
+            "icon": self.icon.to_json() if self.icon else None,
+        }
+
 
 @dataclasses.dataclass
 class TaskAmmoReward(TaskItemReward):
     ammo_count: int
+
+    def to_json(self) -> dict:
+        return {
+            **super().to_json(),
+            "_type": "ammo",
+            "ammo_count": self.ammo_count,
+        }
 
 
 @dataclasses.dataclass
@@ -265,7 +360,11 @@ def parse_target(
     }
 
     stalker_types = {QuestKinds.KILL_STALKER}
-    target = targets_cache[db_task.id]
+    try:
+        target = targets_cache[db_task.id]
+    except KeyError as ex:
+        msg = f"Нет цели для задания {db_task}"
+        raise CycleTaskTarget.DoesNotExist(msg) from ex
     if db_task.type in stalker_types:
         if not isinstance(target, CycleTaskTargetStalker):
             raise ValueError

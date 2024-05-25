@@ -21,9 +21,9 @@ class TaskVendorsList(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> dict:
         quests_subquery = CyclicQuest.objects.filter(vendor_id=OuterRef("pk"))
-        vendors: (
-            "QuerySet[WithAnnotations[CycleTaskVendor, CycleTaskVendorAnnotatedFields]]"
-        ) = (
+        vendors: QuerySet[
+            WithAnnotations[CycleTaskVendor, CycleTaskVendorAnnotatedFields]
+        ] = (
             CycleTaskVendor.objects.all()
             .select_related("icon", "name_translation")
             .annotate(quests_count=Count("quests"))
