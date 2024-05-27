@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
     "polymorphic",
+    "corsheaders",
     "stalker_op22_cyclic_quest_wiki",
 ]
 
@@ -57,6 +58,7 @@ if DEBUG:
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -208,6 +210,12 @@ if OP22_GAME_DATA := os.getenv("OP22_GAME_DATA_PATH"):
     OP22_GAME_DATA_PATH = Path(OP22_GAME_DATA)
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+CORS_ALLOWED_ORIGINS = [
+    "https://stalker-op22-cyclic-quest-wiki.ru",
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+]
 
 if SENTRY_DSN := os.getenv("SENTRY_DSN"):
     sentry_sdk.init(
