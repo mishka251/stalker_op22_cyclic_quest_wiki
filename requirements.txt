@@ -14,3 +14,4 @@ dj-database-url
 psycopg2==2.9.9
 sentry-sdk[django]
 python-dotenv
+django-cors-headers==4.3.1
