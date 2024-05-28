@@ -3,7 +3,7 @@ from django.http.response import Http404, HttpResponse, JsonResponse
 from django.views.generic import View
 
 from stalker_op22_cyclic_quest_wiki.models import CycleTaskVendor, CyclicQuest
-from stalker_op22_cyclic_quest_wiki.views.cyclic_quests.tasks_grouping import (
+from stalker_op22_cyclic_quest_wiki.services.tasks.tasks_grouping import (
     Quest,
     QuestTarget,
     TaskReward,

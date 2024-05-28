@@ -4,29 +4,17 @@ from typing import TYPE_CHECKING
 from django.urls import reverse
 
 from stalker_op22_cyclic_quest_wiki.models import CycleTaskTargetItem, Item
-from stalker_op22_cyclic_quest_wiki.utils.condition import ItemCondition
+from stalker_op22_cyclic_quest_wiki.services.base.condition import ItemCondition
+from stalker_op22_cyclic_quest_wiki.services.base.icon import IconData
+from stalker_op22_cyclic_quest_wiki.services.base.translation import TranslationData
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
 
 
 @dataclasses.dataclass
-class IconData:
-    url: str
-    width: int
-    height: int
-
-    def to_json(self) -> dict:
-        return {
-            "url": self.url,
-            "width": self.width,
-            "height": self.height,
-        }
-
-
-@dataclasses.dataclass
 class CyclicQuestVendorInfo:
-    name: str
+    name: TranslationData
     code: str
     quests_url: str
     icon: IconData
@@ -62,7 +50,7 @@ class TargetInQuestInfo:
 class ItemUsageInfo:
     icon: IconData
     name: str
-    caption: str
+    caption: TranslationData
     cyclic_quests: list[TargetInQuestInfo]
 
     def to_json(self) -> dict:
@@ -79,28 +67,24 @@ def get_item_usages(item: Item) -> ItemUsageInfo:
     cyclic_quests_info = [
         _quest_to_dict(quest_reward) for quest_reward in reward_in_quests
     ]
-    icon_info = IconData(
-        item.icon.icon.url,
-        item.icon.icon.width,
-        item.icon.icon.height,
+    icon_info = IconData.from_icon(
+        item.icon,
     )
     return ItemUsageInfo(
         icon_info,
         item.name,
-        item.name_translation.rus,
+        TranslationData.from_translation(item.name_translation),
         cyclic_quests_info,
     )
 
 
 def _quest_to_dict(quest_target: CycleTaskTargetItem) -> TargetInQuestInfo:
     vendor = quest_target.quest.vendor
-    vendor_icon = IconData(
-        vendor.icon.icon.url,
-        vendor.icon.icon.width,
-        vendor.icon.icon.height,
+    vendor_icon = IconData.from_icon(
+        vendor.icon,
     )
     vendor_info = CyclicQuestVendorInfo(
-        name=vendor.name_translation.rus,
+        name=TranslationData.from_translation(vendor.name_translation),
         code=vendor.section_name,
         quests_url=reverse("vendor_tasks", args=(vendor.id,)),
         icon=vendor_icon,

@@ -1,11 +1,11 @@
 {% extends "wiki/base.html" %}
 {% block title %}
-    Где найти {{ where_find_info.caption }}
+    Где найти {{ where_find_info.caption.rus }}
 {% endblock title %}
 {% block main %}
     <div>
         <div>
-            {{ where_find_info.caption }} ({{ where_find_info.name }})
+            {{ where_find_info.caption.rus }} ({{ where_find_info.name }})
         </div>
         <div>
             <img src="{{ where_find_info.icon.url }}"

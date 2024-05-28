@@ -2,7 +2,7 @@ from django.http import Http404
 from django.views.generic import TemplateView
 
 from stalker_op22_cyclic_quest_wiki.models import CycleTaskVendor, CyclicQuest
-from stalker_op22_cyclic_quest_wiki.views.cyclic_quests.tasks_grouping import (
+from stalker_op22_cyclic_quest_wiki.services.tasks.tasks_grouping import (
     collect_vendor_tasks,
 )
 

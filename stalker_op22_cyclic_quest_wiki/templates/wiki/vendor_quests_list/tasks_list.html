@@ -1,7 +1,7 @@
 {% extends "wiki/base.html" %}
 {% load tasks %}
 {% block title %}
-    Циклические задания у {{ vendor }}
+    Циклические задания у {{ vendor_task_info.character_name.rus }}
 {% endblock title %}
 {% block extrahead %}
     <style>
@@ -54,7 +54,7 @@
                  class="vendor-tasks border-bottom border-4 mb-3">
                 <div class="vendor d-flex flex-row">
                     <h2>
-                        {{ vendor_task_info.character_name }}({{ vendor_task_info.character_id }})
+                        {{ vendor_task_info.character_name.rus }}({{ vendor_task_info.character_id }})
                     </h2>
                 </div>
                 <div class="tasks">
@@ -97,7 +97,7 @@
                 <ul class="nav nav-pills w-100">
                     <li class="nav-item nav-vendor w-100">
                         <a class="nav-link"
-                           href="#vendor-{{ vendor_task_info.character_id }}">{{ vendor_task_info.character_name }}({{ vendor_task_info.character_id }})</a>
+                           href="#vendor-{{ vendor_task_info.character_id }}">{{ vendor_task_info.character_name.rus }}({{ vendor_task_info.character_id }})</a>
                         <ul class="nav-vendor-kinds nav nav-pills ps-3">
                             {% for quest_kind, quest_groups in vendor_task_info.quest_group_by_type.items %}
                                 <li class="nav-item w-100">
