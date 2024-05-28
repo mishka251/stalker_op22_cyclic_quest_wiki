@@ -21,10 +21,10 @@ jobs:
       attestations: write
     steps:
       - name: set env var nginx
-        run: echo "NGINX_IMAGE_TAG=mishka251/stalker_op22_cyclic_quest_wiki-nginx:${{ vars.GITHUB_REF_NAME }}">>"$GITHUB_ENV"
+        run: echo "NGINX_IMAGE_TAG=mishka251/stalker_op22_cyclic_quest_wiki-nginx:$GITHUB_REF_NAME">>"$GITHUB_ENV"
 
       - name: set env var django
-        run: echo "DJANGO_IMAGE_TAG=mishka251/stalker_op22_cyclic_quest_wiki-django:${{ vars.GITHUB_REF_NAME }}">>"$GITHUB_ENV"
+        run: echo "DJANGO_IMAGE_TAG=mishka251/stalker_op22_cyclic_quest_wiki-django:$GITHUB_REF_NAME">>"$GITHUB_ENV"
 
       - name: Check out the repo
         uses: actions/checkout@v4
