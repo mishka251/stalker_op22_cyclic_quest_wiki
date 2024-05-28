@@ -58,13 +58,15 @@ jobs:
   check_migrations_in_image_image:
     name: Проверка миграций в docker образе
     runs-on: ubuntu-latest
+    needs: push_to_registry
 
     steps:
-      docker run --env DEBUG=False ${{DJANGO_IMAGE_TAG}} python manage.py makemigrations --check
+      - run: docker run --env DEBUG=False ${{DJANGO_IMAGE_TAG}} python manage.py makemigrations --check
 
   test_in_image_image:
     name: Тесты в docker образе
     runs-on: ubuntu-latest
+    needs: push_to_registry
 
     steps:
-      docker run --env DEBUG=False ${{DJANGO_IMAGE_TAG}} python manage.py test
+      - run: docker run --env DEBUG=False ${{DJANGO_IMAGE_TAG}} python manage.py test
