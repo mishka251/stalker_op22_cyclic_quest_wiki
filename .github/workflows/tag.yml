@@ -9,8 +9,7 @@ env:
   DJANGO_SETTINGS_MODULE: stalker_op22_cyclic_quest_wiki_proj.settings
   DEBUG: "False"
   SECRET_KEY: "CiSeCretKeySuperStrong"
-  NGINX_IMAGE_TAG: "mishka251/stalker_op22_cyclic_quest_wiki-nginx:${{ vars.GITHUB_REF_NAME }}"
-  DJANGO_IMAGE_TAG: "mishka251/stalker_op22_cyclic_quest_wiki-django:${{ vars.GITHUB_REF_NAME }}"
+
 
 jobs:
   push_to_registry:
@@ -21,6 +20,12 @@ jobs:
       contents: read
       attestations: write
     steps:
+      - name: set env var nginx
+        run: echo "NGINX_IMAGE_TAG=mishka251/stalker_op22_cyclic_quest_wiki-nginx:${{ vars.GITHUB_REF_NAME }}">>"$GITHUB_ENV"
+
+      - name: set env var django
+        run: echo "DJANGO_IMAGE_TAG=mishka251/stalker_op22_cyclic_quest_wiki-django:${{ vars.GITHUB_REF_NAME }}">>"$GITHUB_ENV"
+
       - name: Check out the repo
         uses: actions/checkout@v4
         with:
@@ -28,6 +33,7 @@ jobs:
       - run: echo "GITHUB_REF_NAME $GITHUB_REF_NAME"
       - run: echo "NGINX_IMAGE_TAG $NGINX_IMAGE_TAG"
       - run: echo "DJANGO_IMAGE_TAG $DJANGO_IMAGE_TAG"
+      - run: echo "vars.DJANGO_IMAGE_TAG ${{ vars.DJANGO_IMAGE_TAG}}"
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
         with:
