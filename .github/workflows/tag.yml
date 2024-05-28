@@ -25,7 +25,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-
+      - run: echo "GITHUB_REF_NAME $GITHUB_REF_NAME"
+      - run: echo "NGINX_IMAGE_TAG $NGINX_IMAGE_TAG"
+      - run: echo "DJANGO_IMAGE_TAG $DJANGO_IMAGE_TAG"
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
         with:
@@ -44,7 +46,7 @@ jobs:
           context: .
           file: ./deploy/django/Dockerfile
           push: true
-          tags: $DJANGO_IMAGE_TAG
+          tags: ${{ vars.DJANGO_IMAGE_TAG }}
 
 
       - name: Build and push Docker image for nginx
@@ -53,7 +55,7 @@ jobs:
           context: .
           file: ./deploy/nginx/Dockerfile
           push: true
-          tags: $NGINX_IMAGE_TAG
+          tags: ${{ vars.NGINX_IMAGE_TAG }}
 
   check_migrations_in_image_image:
     name: Проверка миграций в docker образе
@@ -61,7 +63,7 @@ jobs:
     needs: push_to_registry
 
     steps:
-      - run: docker run --env DEBUG=False DJANGO_IMAGE_TAG python manage.py makemigrations --check
+      - run: docker run --env DEBUG=False $DJANGO_IMAGE_TAG python manage.py makemigrations --check
 
   test_in_image_image:
     name: Тесты в docker образе
@@ -69,4 +71,4 @@ jobs:
     needs: push_to_registry
 
     steps:
-      - run: docker run --env DEBUG=False DJANGO_IMAGE_TAG python manage.py test
+      - run: docker run --env DEBUG=False $DJANGO_IMAGE_TAG python manage.py test
