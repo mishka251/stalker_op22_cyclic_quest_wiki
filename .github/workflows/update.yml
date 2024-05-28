@@ -1,9 +1,10 @@
 name: Проверка кода при обновлении
 
 on:
-  - push:
-      branches: [main]
-  - pull_request
+  pull_request:
+  push:
+    branches:
+      - main
 
 env:
   DJANGO_SETTINGS_MODULE: stalker_op22_cyclic_quest_wiki_proj.settings
