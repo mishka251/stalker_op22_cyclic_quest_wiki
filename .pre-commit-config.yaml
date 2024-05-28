@@ -100,17 +100,17 @@ repos:
         additional_dependencies: []
         minimum_pre_commit_version: "2.9.2"
 
-#      - id: pylint
-#        name: pylint
-#        entry: pylint
-#        language: system
-#        types: [python]
-#        args:
-#          [
-#            "-rn", # Only display messages
-#            "-sn", # Don't display the score
-#            "--rcfile=.pylintrc", # Link to your config file
-#          ]
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
+        args:
+          [
+            "-rn", # Only display messages
+            "-sn", # Don't display the score
+            "--rcfile=.pylintrc", # Link to your config file
+          ]
 
       - id: djlint-django
         name: djLint linting for Django
