@@ -76,7 +76,7 @@ class ItemUsageInfo:
             "name": self.name,
             "caption": self.caption.to_json(),
             "cyclic_quests": [quest.to_json() for quest in self.cyclic_quests],
-            "random_reward": [quest.to_json() for quest in self.random_reward],
+            "random_reward": [reward.to_json() for reward in self.random_reward],
         }
 
 
