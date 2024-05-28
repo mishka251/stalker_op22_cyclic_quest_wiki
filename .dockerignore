@@ -24,3 +24,5 @@ media
 web/static/CACHE
 stats
 Dockerfile
+stalker_op22_cyclic_quest_wiki_proj/.env
+stalker_op22_cyclic_quest_wiki_proj/.env.template

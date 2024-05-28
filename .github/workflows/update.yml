@@ -1,0 +1,88 @@
+name: Проверка кода при обновлении
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+env:
+  DJANGO_SETTINGS_MODULE: stalker_op22_cyclic_quest_wiki_proj.settings
+  DEBUG: "True"
+  SECRET_KEY: "CiSeCretKey"
+
+
+jobs:
+  check_codestyle_pre_commit:
+    name: "Проверка кода линтерами через pre-commit и pylint"
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.12]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements-dev.txt
+    - name: run pre commit linters
+      run : |
+        pre-commit run --all-files
+    - name: run pylint
+      run : |
+        pylint game_parser stalker_op22_cyclic_quest_wiki stalker_op22_cyclic_quest_wiki_proj
+
+  check_migrations:
+    name: "Проверка корректности миграций django"
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [ 3.12 ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+      - name: Run check
+        run: |
+          python manage.py makemigrations --check
+
+
+  test_django:
+    name: "Тесты django"
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.12]
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        lfs: true
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements-dev.txt
+    - name: Run Tests
+      run: |
+        python manage.py test
