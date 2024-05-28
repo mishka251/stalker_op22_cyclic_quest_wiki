@@ -1,7 +1,7 @@
 {% extends "wiki/base.html" %}
 {% load condition %}
 {% block title %}
-    Где нужен {{ where_find_info.caption }}
+    Где нужен {{ where_find_info.caption.rus }}
 {% endblock title %}
 {% block extrahead %}
     {{ block.super }}
@@ -14,7 +14,7 @@
 {% block main %}
     <div>
         <div>
-            {{ where_find_info.caption }} ({{ where_find_info.name }})
+            {{ where_find_info.caption.rus }} ({{ where_find_info.name }})
         </div>
         <div>
             <img src="{{ where_find_info.icon.url }}"

@@ -1,5 +1,4 @@
 import dataclasses
-import re
 from functools import lru_cache
 from itertools import groupby
 
@@ -17,63 +16,26 @@ from stalker_op22_cyclic_quest_wiki.models import (
     MapPosition,
 )
 from stalker_op22_cyclic_quest_wiki.models.cycle_tasks.cycle_task import QuestKinds
-from stalker_op22_cyclic_quest_wiki.utils.condition import ItemCondition
-
-position_re = re.compile(r"\s*(?P<x>.*),\s*(?P<y>.*),\s*(?P<z>.*)")
-offset_re = re.compile(
-    r"\s*(?P<min_x>.*),\s*(?P<min_y>.*),\s*(?P<max_x>.*),\s*(?P<max_y>.*)",
+from stalker_op22_cyclic_quest_wiki.services.base.condition import ItemCondition
+from stalker_op22_cyclic_quest_wiki.services.base.icon import IconData
+from stalker_op22_cyclic_quest_wiki.services.base.map_point import (
+    MapPointInfo,
+    MapPointItem,
 )
-
-
-@dataclasses.dataclass
-class IconData:
-    url: str
-    width: int
-    height: int
-
-    def to_json(self) -> dict:
-        return {
-            "url": self.url,
-            "width": self.width,
-            "height": self.height,
-        }
+from stalker_op22_cyclic_quest_wiki.services.base.translation import TranslationData
 
 
 @dataclasses.dataclass
 class ItemInfo:
     item_id: str
-    item_label: str
+    item_label: TranslationData
     icon: IconData | None
 
     def to_json(self) -> dict:
         return {
             "item_id": self.item_id,
-            "item_label": self.item_label,
+            "item_label": self.item_label.to_json(),
             "icon": self.icon.to_json() if self.icon is not None else None,
-        }
-
-
-@dataclasses.dataclass
-class MapPointItem:
-    position: tuple[float, float]
-    info_str: str
-
-
-@dataclasses.dataclass
-class MapPointInfo:
-    unique_map_id: str
-    image_url: str
-    bounds: tuple[float, float, float, float]
-    item: MapPointItem
-    y_level_offset: float
-
-    def to_json(self) -> dict:
-        return {
-            "image_url": self.image_url,
-            "bounds": list(self.bounds),
-            "y_level_offset": self.y_level_offset,
-            "position": self.item.position,
-            "caption": self.item.info_str,
         }
 
 
@@ -158,7 +120,7 @@ class TaskReward:
 def get_money_icon() -> IconData | None:
     try:
         icon = Icon.objects.get(name="icon_for_item_money_loot")
-        return IconData(icon.icon.url, icon.icon.width, icon.icon.height)
+        return IconData.from_icon(icon)
     except Icon.DoesNotExist:
         return None
 
@@ -167,7 +129,7 @@ def get_money_icon() -> IconData | None:
 def get_treasure_icon() -> IconData | None:
     try:
         icon = Icon.objects.get(name="icon_for_item_treasure_item")
-        return IconData(icon.icon.url, icon.icon.width, icon.icon.height)
+        return IconData.from_icon(icon)
     except Icon.DoesNotExist:
         return None
 
@@ -219,14 +181,14 @@ class TreasureReward(TaskReward):
 @dataclasses.dataclass
 class TaskRandomReward(TaskReward):
     count: int
-    reward_name: str
+    reward_name: TranslationData
     icon: IconData | None
 
     def to_json(self) -> dict:
         return {
             "_type": "random",
             "count": self.count,
-            "reward_name": self.reward_name,
+            "reward_name": self.reward_name.to_json(),
             "icon": self.icon.to_json() if self.icon else None,
         }
 
@@ -247,7 +209,7 @@ class TaskAmmoReward(TaskItemReward):
 class Quest:
     target: QuestTarget
     rewards: list[TaskReward]
-    text: str | None
+    text: TranslationData | None
 
 
 QuestGroupByPriority = dict[int, list[Quest]]
@@ -256,7 +218,7 @@ QuestGroupByPriority = dict[int, list[Quest]]
 @dataclasses.dataclass
 class CharacterQuests:
     character_id: int
-    character_name: str
+    character_name: TranslationData
     quest_group_by_type: dict[QuestKinds, QuestGroupByPriority]
 
 
@@ -267,7 +229,7 @@ def collect_vendor_tasks(
     vendor_tasks = list(sorted(_vendor_tasks, key=lambda task: task.type))
     vendor_id = vendor.game_story_id
 
-    vendor_name = vendor.name_translation.rus
+    vendor_name = TranslationData.from_translation(vendor.name_translation)
     quest_group_by_type = {}
     targets_cache = create_targets_cache(vendor_tasks)
 
@@ -330,16 +292,21 @@ def parse_task(
         rewards.append(TreasureReward())  # noqa: PERF401
 
     for random_reward in db_task.questrandomreward_set.all():
-        icon_ = random_reward.reward.icon.icon
-        icon = IconData(icon_.url, icon_.width, icon_.height)
+        icon = IconData.from_icon(random_reward.reward.icon)
         reward = TaskRandomReward(
             count=random_reward.count,
-            reward_name=random_reward.reward.description.rus,
+            reward_name=TranslationData.from_translation(
+                random_reward.reward.description,
+            ),
             icon=icon,
         )
         rewards.append(reward)
 
-    return Quest(target, rewards, db_task.text.rus if db_task.text else None)
+    return Quest(
+        target,
+        rewards,
+        TranslationData.from_translation(db_task.text) if db_task.text else None,
+    )
 
 
 def parse_target(
@@ -396,11 +363,7 @@ def _parse_target_item(
 
     item_info = ItemInfo(
         item_id=target_item.name,
-        item_label=(
-            target_item.name_translation.rus
-            if target_item.name_translation
-            else target_item.inv_name
-        ),
+        item_label=(TranslationData.from_translation(target_item.name_translation)),
         icon=item_icon,
     )
 
@@ -430,10 +393,8 @@ def _parse_target_item(
 def _get_target_item_icon(target_item: Item) -> IconData | None:
     item_icon = None
     if target_item.icon:
-        item_icon = IconData(
-            target_item.icon.icon.url,
-            target_item.icon.icon.width,
-            target_item.icon.icon.height,
+        item_icon = IconData.from_icon(
+            target_item.icon,
         )
     return item_icon
 
@@ -490,18 +451,12 @@ def _spawn_item_to_map_info(
 def parse_item_reward(reward: ItemReward) -> TaskReward:
     item_icon = None
     if reward.item.icon:
-        item_icon = IconData(
-            reward.item.icon.icon.url,
-            reward.item.icon.icon.width,
-            reward.item.icon.icon.height,
+        item_icon = IconData.from_icon(
+            reward.item.icon,
         )
     item_info = ItemInfo(
         item_id=reward.item.name,
-        item_label=(
-            reward.item.name_translation.rus
-            if reward.item.name_translation
-            else reward.item.inv_name
-        ),
+        item_label=(TranslationData.from_translation(reward.item.name_translation)),
         icon=item_icon,
     )
     if isinstance(reward.item, Ammo):

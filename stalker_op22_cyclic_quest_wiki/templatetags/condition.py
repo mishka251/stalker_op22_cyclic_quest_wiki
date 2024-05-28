@@ -1,7 +1,7 @@
 from django.template import Library
 from django.template.loader import render_to_string
 
-from stalker_op22_cyclic_quest_wiki.utils.condition import ItemCondition
+from stalker_op22_cyclic_quest_wiki.services.base.condition import ItemCondition
 
 BROKEN_MAX_STATE = 50
 

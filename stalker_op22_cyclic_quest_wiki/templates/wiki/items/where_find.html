@@ -1,11 +1,11 @@
 {% extends "wiki/base.html" %}
 {% block title %}
-    Где найти {{ where_find_info.caption }}
+    Где найти {{ where_find_info.caption.rus }}
 {% endblock title %}
 {% block main %}
     <div>
         <div>
-            {{ where_find_info.caption }} ({{ where_find_info.name }})
+            {{ where_find_info.caption.rus }} ({{ where_find_info.name }})
         </div>
         <div>
             <img src="{{ where_find_info.icon.url }}"
@@ -16,7 +16,9 @@
     </div>
     <div>
         <div>
-            Получение в ЦЗ
+            <h3>
+                Получение в ЦЗ
+            </h3>
         </div>
         {% for quest in where_find_info.cyclic_quests %}
             <div class="d-flex flex-row my-2">
@@ -32,6 +34,38 @@
                 <div>
                     <a href="{{ quest.vendor.quests_url }}">{{ quest.caption }}</a>
                 </div>
+            </div>
+        {% endfor %}
+        <h3>
+            Получение в случайных наградах
+        </h3>
+        {% for random_reward in where_find_info.random_reward %}
+            <div class="d-flex flex-column my-2">
+                <div>
+                    <h3>
+                        Случайная награда {{ random_reward.caption.rus }}
+                    </h3>
+                    <img src="{{ random_reward.icon.url }}"
+                         width="{{ random_reward.icon.width }}"
+                         height="{{ random_reward.icon.height }}"
+                         alt="{{ random_reward.caption.rus }}">
+                </div>
+                {% for quest in random_reward.cyclic_quests %}
+                    <div class="d-flex flex-row my-2">
+                        <div>
+                            Получение {{ quest.count }} штук
+                        </div>
+                        <div>
+                            <img src="{{ quest.vendor.icon.url }}"
+                                 width="{{ quest.vendor.icon.width }}"
+                                 height="{{ quest.vendor.icon.height }}"
+                                 alt="{{ where_find_info.name }}">
+                        </div>
+                        <div>
+                            <a href="{{ quest.vendor.quests_url }}">{{ quest.caption }}</a>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         {% endfor %}
     </div>
