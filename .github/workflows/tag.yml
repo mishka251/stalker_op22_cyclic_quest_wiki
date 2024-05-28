@@ -52,7 +52,7 @@ jobs:
           context: .
           file: ./deploy/django/Dockerfile
           push: true
-          tags: ${{ vars.DJANGO_IMAGE_TAG }}
+          tags: ${{ env.DJANGO_IMAGE_TAG }}
 
 
       - name: Build and push Docker image for nginx
@@ -61,7 +61,7 @@ jobs:
           context: .
           file: ./deploy/nginx/Dockerfile
           push: true
-          tags: ${{ vars.NGINX_IMAGE_TAG }}
+          tags: ${{ env.NGINX_IMAGE_TAG }}
 
   check_migrations_in_image_image:
     name: Проверка миграций в docker образе
